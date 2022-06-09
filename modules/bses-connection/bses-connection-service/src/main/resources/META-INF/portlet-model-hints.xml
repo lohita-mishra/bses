@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.bses.connection2.model.ConnectionDocument">
+		<field name="uuid" type="String" />
+		<field name="connectionDocumentId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="connectionRequestId" type="long" />
+		<field name="documentType" type="String" />
+		<field name="documentName" type="String" />
+		<field name="documentPath" type="String" />
+		<field name="transfered" type="String" />
+	</model>
+	<model name="com.bses.connection2.model.ConnectionRequest">
+		<field name="uuid" type="String" />
+		<field name="connectionRequestId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="requestNo" type="String" />
+		<field name="mobileNo" type="String" />
+		<field name="emailId" type="String" />
+		<field name="requestDate" type="Date" />
+		<field name="consumerType" type="String" />
+		<field name="title" type="String" />
+		<field name="firstName" type="String" />
+		<field name="middleName" type="String" />
+		<field name="lastName" type="String" />
+		<field name="sonDaughterWife" type="String" />
+		<field name="fatherOrHusbandName" type="String" />
+		<field name="firmName" type="String" />
+		<field name="signatoryName" type="String" />
+		<field name="signatoryDesignation" type="String" />
+		<field name="organizationType" type="String" />
+		<field name="incorporationDate" type="Date" />
+		<field name="gstIn" type="String" />
+		<field name="panNo" type="String" />
+		<field name="locality" type="String" />
+		<field name="district" type="String" />
+		<field name="houseNo" type="String" />
+		<field name="floor" type="String" />
+		<field name="buildingName" type="String" />
+		<field name="street" type="String" />
+		<field name="colonyArea" type="String" />
+		<field name="landmark" type="String" />
+		<field name="landmarkDetails" type="String" />
+		<field name="pinCode" type="String" />
+		<field name="connectionType" type="String" />
+		<field name="tariffCategory" type="String" />
+		<field name="loadKva" type="float" />
+		<field name="loadKw" type="float" />
+		<field name="areaType" type="String" />
+		<field name="premisesType" type="String" />
+		<field name="upicAvailable" type="boolean" />
+		<field name="upic" type="String" />
+		<field name="wiringTest" type="boolean" />
+		<field name="wiringCertificate" type="String" />
+		<field name="elcbInstalled" type="boolean" />
+		<field name="elcbDocument" type="String" />
+		<field name="stiltParking" type="boolean" />
+		<field name="height15Mtr" type="boolean" />
+		<field name="height17Mtr" type="boolean" />
+		<field name="fcc" type="boolean" />
+		<field name="fccCertificate" type="String" />
+		<field name="lift" type="boolean" />
+		<field name="liftCertificate" type="String" />
+		<field name="agriConsumer" type="boolean" />
+		<field name="hasBdoCertificate" type="boolean" />
+		<field name="bdoCertificate" type="String" />
+		<field name="eServiceOnMail" type="boolean" />
+		<field name="eServiceMailId" type="String" />
+		<field name="applicantPhoto" type="String" />
+		<field name="applicantSignature" type="long" />
+		<field name="idProofType" type="String" />
+		<field name="idProofNo" type="String" />
+		<field name="idProofDocument" type="String" />
+		<field name="ownershipProofType" type="String" />
+		<field name="ownershipProofDocument" type="String" />
+		<field name="selfDeclaration" type="boolean" />
+		<field name="selfDeclarationTime" type="Date" />
+		<field name="bpNumber" type="String" />
+		<field name="orderNo" type="String" />
+		<field name="documentUploaded" type="String" />
+		<field name="sapOrderGenerated" type="String" />
+	</model>
+	<model name="com.bses.connection2.model.LocalityDivision">
+		<field name="uuid" type="String" />
+		<field name="localityDivisionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="localityName" type="String" />
+		<field name="divisionCode" type="String" />
+		<field name="divisionName" type="String" />
+		<field name="complaintCenter" type="String" />
+	</model>
+	<model name="com.bses.connection2.model.OTP">
+		<field name="uuid" type="String" />
+		<field name="otpId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="otp" type="String" />
+		<field name="mobileNo" type="String" />
+		<field name="emailId" type="String" />
+		<field name="expiryTime" type="Date" />
+	</model>
+</model-hints>
