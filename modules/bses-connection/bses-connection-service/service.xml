@@ -168,7 +168,7 @@
 
 		<!-- Finder methods -->
 
-		<finder name="MobileNo" return-type="Collection">
+		<finder name="MobileNo" return-type="OTP">
 			<finder-column name="mobileNo" />
 		</finder>
 		

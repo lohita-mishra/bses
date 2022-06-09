@@ -14,6 +14,8 @@
 
 package com.bses.connection2.service;
 
+import com.bses.connection2.model.OTP;
+
 /**
  * Provides the remote service utility for OTP. This utility wraps
  * <code>com.bses.connection2.service.impl.OTPServiceImpl</code> and is an
@@ -33,14 +35,25 @@ public class OTPServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.bses.connection2.service.impl.OTPServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static OTP generateOtp(String mobileNo, String email) {
+		return getService().generateOtp(mobileNo, email);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static OTP resendOtp(String mobileNo, String email) {
+		return getService().resendOtp(mobileNo, email);
+	}
+
+	public static String validateOtp(String mobileNo, String otpNumber) {
+		return getService().validateOtp(mobileNo, otpNumber);
 	}
 
 	public static OTPService getService() {

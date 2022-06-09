@@ -199,6 +199,10 @@ public interface OTPLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public OTP fetchOTPByUuidAndGroupId(String uuid, long groupId);
 
+	public OTP findByMobileNo(String mobileNo);
+
+	public OTP generateOtp(String mobileNo, String email);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -293,6 +297,8 @@ public interface OTPLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	public OTP resendOtp(String mobileNo, String email);
+
 	/**
 	 * Updates the otp in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -305,5 +311,7 @@ public interface OTPLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public OTP updateOTP(OTP otp);
+
+	public String validateOtp(String mobileNo, String otpNumber);
 
 }

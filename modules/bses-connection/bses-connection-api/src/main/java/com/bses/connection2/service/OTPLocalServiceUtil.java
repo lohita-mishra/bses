@@ -200,6 +200,14 @@ public class OTPLocalServiceUtil {
 		return getService().fetchOTPByUuidAndGroupId(uuid, groupId);
 	}
 
+	public static OTP findByMobileNo(String mobileNo) {
+		return getService().findByMobileNo(mobileNo);
+	}
+
+	public static OTP generateOtp(String mobileNo, String email) {
+		return getService().generateOtp(mobileNo, email);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -319,6 +327,10 @@ public class OTPLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static OTP resendOtp(String mobileNo, String email) {
+		return getService().resendOtp(mobileNo, email);
+	}
+
 	/**
 	 * Updates the otp in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -331,6 +343,10 @@ public class OTPLocalServiceUtil {
 	 */
 	public static OTP updateOTP(OTP otp) {
 		return getService().updateOTP(otp);
+	}
+
+	public static String validateOtp(String mobileNo, String otpNumber) {
+		return getService().validateOtp(mobileNo, otpNumber);
 	}
 
 	public static OTPLocalService getService() {

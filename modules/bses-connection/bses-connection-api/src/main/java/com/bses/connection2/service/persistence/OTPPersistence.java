@@ -393,138 +393,38 @@ public interface OTPPersistence extends BasePersistence<OTP> {
 	public int countByUuid_C(String uuid, long companyId);
 
 	/**
-	 * Returns all the otps where mobileNo = &#63;.
+	 * Returns the otp where mobileNo = &#63; or throws a <code>NoSuchOTPException</code> if it could not be found.
 	 *
 	 * @param mobileNo the mobile no
-	 * @return the matching otps
+	 * @return the matching otp
+	 * @throws NoSuchOTPException if a matching otp could not be found
 	 */
-	public java.util.List<OTP> findByMobileNo(String mobileNo);
+	public OTP findByMobileNo(String mobileNo) throws NoSuchOTPException;
 
 	/**
-	 * Returns a range of all the otps where mobileNo = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>OTPModelImpl</code>.
-	 * </p>
+	 * Returns the otp where mobileNo = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param mobileNo the mobile no
-	 * @param start the lower bound of the range of otps
-	 * @param end the upper bound of the range of otps (not inclusive)
-	 * @return the range of matching otps
+	 * @return the matching otp, or <code>null</code> if a matching otp could not be found
 	 */
-	public java.util.List<OTP> findByMobileNo(
-		String mobileNo, int start, int end);
+	public OTP fetchByMobileNo(String mobileNo);
 
 	/**
-	 * Returns an ordered range of all the otps where mobileNo = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>OTPModelImpl</code>.
-	 * </p>
+	 * Returns the otp where mobileNo = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param mobileNo the mobile no
-	 * @param start the lower bound of the range of otps
-	 * @param end the upper bound of the range of otps (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching otps
-	 */
-	public java.util.List<OTP> findByMobileNo(
-		String mobileNo, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<OTP>
-			orderByComparator);
-
-	/**
-	 * Returns an ordered range of all the otps where mobileNo = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>OTPModelImpl</code>.
-	 * </p>
-	 *
-	 * @param mobileNo the mobile no
-	 * @param start the lower bound of the range of otps
-	 * @param end the upper bound of the range of otps (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching otps
+	 * @return the matching otp, or <code>null</code> if a matching otp could not be found
 	 */
-	public java.util.List<OTP> findByMobileNo(
-		String mobileNo, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<OTP> orderByComparator,
-		boolean useFinderCache);
+	public OTP fetchByMobileNo(String mobileNo, boolean useFinderCache);
 
 	/**
-	 * Returns the first otp in the ordered set where mobileNo = &#63;.
+	 * Removes the otp where mobileNo = &#63; from the database.
 	 *
 	 * @param mobileNo the mobile no
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching otp
-	 * @throws NoSuchOTPException if a matching otp could not be found
+	 * @return the otp that was removed
 	 */
-	public OTP findByMobileNo_First(
-			String mobileNo,
-			com.liferay.portal.kernel.util.OrderByComparator<OTP>
-				orderByComparator)
-		throws NoSuchOTPException;
-
-	/**
-	 * Returns the first otp in the ordered set where mobileNo = &#63;.
-	 *
-	 * @param mobileNo the mobile no
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching otp, or <code>null</code> if a matching otp could not be found
-	 */
-	public OTP fetchByMobileNo_First(
-		String mobileNo,
-		com.liferay.portal.kernel.util.OrderByComparator<OTP>
-			orderByComparator);
-
-	/**
-	 * Returns the last otp in the ordered set where mobileNo = &#63;.
-	 *
-	 * @param mobileNo the mobile no
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching otp
-	 * @throws NoSuchOTPException if a matching otp could not be found
-	 */
-	public OTP findByMobileNo_Last(
-			String mobileNo,
-			com.liferay.portal.kernel.util.OrderByComparator<OTP>
-				orderByComparator)
-		throws NoSuchOTPException;
-
-	/**
-	 * Returns the last otp in the ordered set where mobileNo = &#63;.
-	 *
-	 * @param mobileNo the mobile no
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching otp, or <code>null</code> if a matching otp could not be found
-	 */
-	public OTP fetchByMobileNo_Last(
-		String mobileNo,
-		com.liferay.portal.kernel.util.OrderByComparator<OTP>
-			orderByComparator);
-
-	/**
-	 * Returns the otps before and after the current otp in the ordered set where mobileNo = &#63;.
-	 *
-	 * @param otpId the primary key of the current otp
-	 * @param mobileNo the mobile no
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next otp
-	 * @throws NoSuchOTPException if a otp with the primary key could not be found
-	 */
-	public OTP[] findByMobileNo_PrevAndNext(
-			long otpId, String mobileNo,
-			com.liferay.portal.kernel.util.OrderByComparator<OTP>
-				orderByComparator)
-		throws NoSuchOTPException;
-
-	/**
-	 * Removes all the otps where mobileNo = &#63; from the database.
-	 *
-	 * @param mobileNo the mobile no
-	 */
-	public void removeByMobileNo(String mobileNo);
+	public OTP removeByMobileNo(String mobileNo) throws NoSuchOTPException;
 
 	/**
 	 * Returns the number of otps where mobileNo = &#63;.

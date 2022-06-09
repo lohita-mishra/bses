@@ -213,6 +213,18 @@ public class OTPLocalServiceWrapper
 	}
 
 	@Override
+	public com.bses.connection2.model.OTP findByMobileNo(String mobileNo) {
+		return _otpLocalService.findByMobileNo(mobileNo);
+	}
+
+	@Override
+	public com.bses.connection2.model.OTP generateOtp(
+		String mobileNo, String email) {
+
+		return _otpLocalService.generateOtp(mobileNo, email);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -350,6 +362,13 @@ public class OTPLocalServiceWrapper
 		return _otpLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public com.bses.connection2.model.OTP resendOtp(
+		String mobileNo, String email) {
+
+		return _otpLocalService.resendOtp(mobileNo, email);
+	}
+
 	/**
 	 * Updates the otp in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -365,6 +384,11 @@ public class OTPLocalServiceWrapper
 		com.bses.connection2.model.OTP otp) {
 
 		return _otpLocalService.updateOTP(otp);
+	}
+
+	@Override
+	public String validateOtp(String mobileNo, String otpNumber) {
+		return _otpLocalService.validateOtp(mobileNo, otpNumber);
 	}
 
 	@Override

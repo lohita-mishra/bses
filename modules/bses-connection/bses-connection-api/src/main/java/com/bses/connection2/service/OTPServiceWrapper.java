@@ -30,6 +30,13 @@ public class OTPServiceWrapper
 		_otpService = otpService;
 	}
 
+	@Override
+	public com.bses.connection2.model.OTP generateOtp(
+		String mobileNo, String email) {
+
+		return _otpService.generateOtp(mobileNo, email);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -38,6 +45,18 @@ public class OTPServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _otpService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.bses.connection2.model.OTP resendOtp(
+		String mobileNo, String email) {
+
+		return _otpService.resendOtp(mobileNo, email);
+	}
+
+	@Override
+	public String validateOtp(String mobileNo, String otpNumber) {
+		return _otpService.validateOtp(mobileNo, otpNumber);
 	}
 
 	@Override

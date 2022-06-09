@@ -14,9 +14,16 @@
 
 package com.bses.connection2.service.http;
 
+import com.bses.connection2.service.OTPServiceUtil;
+
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>com.bses.connection2.service.OTPServiceUtil</code> service
+ * <code>OTPServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -54,4 +61,57 @@ package com.bses.connection2.service.http;
  * @generated
  */
 public class OTPServiceSoap {
+
+	public static com.bses.connection2.model.OTPSoap generateOtp(
+			String mobileNo, String email)
+		throws RemoteException {
+
+		try {
+			com.bses.connection2.model.OTP returnValue =
+				OTPServiceUtil.generateOtp(mobileNo, email);
+
+			return com.bses.connection2.model.OTPSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String validateOtp(String mobileNo, String otpNumber)
+		throws RemoteException {
+
+		try {
+			String returnValue = OTPServiceUtil.validateOtp(
+				mobileNo, otpNumber);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.bses.connection2.model.OTPSoap resendOtp(
+			String mobileNo, String email)
+		throws RemoteException {
+
+		try {
+			com.bses.connection2.model.OTP returnValue =
+				OTPServiceUtil.resendOtp(mobileNo, email);
+
+			return com.bses.connection2.model.OTPSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(OTPServiceSoap.class);
+
 }

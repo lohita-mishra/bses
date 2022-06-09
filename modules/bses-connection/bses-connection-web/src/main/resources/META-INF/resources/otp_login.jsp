@@ -57,6 +57,14 @@
 											<aui:validator name="minLength" errorMessage="Please enter 7 digit's valid OTP!" >7</aui:validator>
 											<aui:validator name="maxLength" errorMessage="Please enter 7 digit's valid OTP!" >7</aui:validator>
 										</aui:input>
+										<p id="wrontotp"
+												class="far fa-paper-plane fa-fw text-danger">
+												<span>Invalid OTP.</span>
+											</p>
+											<p id="expireotp"
+												class="far fa-paper-plane fa-fw text-danger">
+												<span>OTP Expired.</span>
+											</p>
 									</div>
 								</div>
 							</div>
@@ -109,19 +117,9 @@
 $(document).ready(function(){
 	$("#<portlet:namespace/>mobileNo").focus();
 	$("#<portlet:namespace/>validateOtpForm").hide();
-	$("#<portlet:namespace/>generateOtp").click(function(){
-		if(!validateForm("<portlet:namespace/>generateOtpForm")){
-			return;
-		}
-		$("#<portlet:namespace/>generateOtpForm").hide();
-		
-		$("#<portlet:namespace/>validateOtpForm").show();
-	})
-	
-	$("#<portlet:namespace/>validateOtp").click(function(){
-		$('#connectionTypeModal').modal('show'); 
-	})
-	
+	$("#wrontotp").hide();
+	$("#expireotp").hide();
+
 	$("#<portlet:namespace/>applyOnlineLink").click(function(){
 		$('#connectionTypeModal').modal('hide'); 
 		window.location.href="<%=applyOnlineURL.toString()%>&<portlet:namespace/>mobileNo="+$("#<portlet:namespace/>mobileNo").val()+"&<portlet:namespace/>emailId="+$("#<portlet:namespace/>emailId").val();
@@ -149,4 +147,94 @@ function validateForm(formId){
 	}
     return true;
 }
+
+$('#<portlet:namespace />generateOtp').click(function() {
+		generateOtp();
+	});
+	
+$('#<portlet:namespace />validateOtp').click(function() {
+		validateOtp();
+	});
+	
+$('#<portlet:namespace />resendOtp').click(function() {
+		reGenerateOtp();
+	});
+function generateOtp(){
+alert("test1");
+	let mobNo = $('#<portlet:namespace />mobileNo').val();
+	var emailId = $('#<portlet:namespace />emailId').val();
+	console.log(mobNo+"--------------"+emailId);
+	if(!mobNo==""){
+	Liferay.Service(
+  '/bsesconn.otp/generate-otp',
+  {
+    mobileNo: mobNo,
+    email: emailId
+  },
+  function(obj) {
+    
+    if(obj != null){
+    	console.log("obj----"+obj)
+    	$("#<portlet:namespace/>generateOtpForm").hide();
+		
+		$("#<portlet:namespace/>validateOtpForm").show();
+    	
+$('#counter').runCounter({
+    start: 30,
+    end: 0,
+    duration: 30000
+});
+    	}
+  });
+ }
+}
+	
+
+function validateOtp(){
+
+	 let mobileNo = $('#<portlet:namespace />mobileNo').val();
+	var otpNumber = $('#<portlet:namespace />otp').val();
+	console.log(mobileNo+"--------------"+otpNumber);
+	Liferay.Service(
+  '/bsesconn.otp/validate-otp',
+  {
+    mobileNo: mobileNo,
+    otpNumber: otpNumber
+  },
+  function(obj) {
+    console.log(obj);
+    if(obj=="valid"){
+   		$('#connectionTypeModal').modal('show'); 
+   }
+   else if(obj=="invalid"){
+    	$("#wrontotp").show();
+    }
+    else{
+    		$("#expireotp").show();
+    }
+  }
+);
+}
+
+function reGenerateOtp(){
+
+	let mobNo = $('#<portlet:namespace />mobileNo').val();
+	var emailId = $('#<portlet:namespace />emailId').val();
+	console.log(mobNo+"--------------"+emailId);
+	if(!mobNo==""){
+	Liferay.Service(
+  '/bsesconn.otp/resend-otp',
+  {
+    mobileNo: mobNo,
+    email: emailId
+  },
+  function(obj) {
+    console.log(obj);
+  }
+);
+ }
+}
+	
 </aui:script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.runCounter.js"></script>

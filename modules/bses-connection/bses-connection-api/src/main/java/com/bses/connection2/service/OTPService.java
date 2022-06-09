@@ -16,6 +16,8 @@ package com.bses.connection2.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.bses.connection2.model.OTP;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
@@ -55,6 +57,7 @@ public interface OTPService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.bses.connection2.service.impl.OTPServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the otp remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link OTPServiceUtil} if injection and service tracking are not available.
 	 */
+	public OTP generateOtp(String mobileNo, String email);
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -62,5 +65,9 @@ public interface OTPService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	public OTP resendOtp(String mobileNo, String email);
+
+	public String validateOtp(String mobileNo, String otpNumber);
 
 }

@@ -14,6 +14,7 @@
 
 package com.bses.connection2.service.impl;
 
+import com.bses.connection2.model.OTP;
 import com.bses.connection2.service.base.OTPServiceBaseImpl;
 
 /**
@@ -31,9 +32,19 @@ import com.bses.connection2.service.base.OTPServiceBaseImpl;
  * @see com.bses.connection2.service.OTPServiceUtil
  */
 public class OTPServiceImpl extends OTPServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link com.bses.connection2.service.OTPServiceUtil} to access the otp remote service.
-	 */
+	
+	public OTP generateOtp(String mobileNo, String email) {
+
+		return otpLocalService.generateOtp(mobileNo, email);
+	}
+
+	public String validateOtp(String mobileNo, String otpNumber) {
+
+		return otpLocalService.validateOtp(mobileNo, otpNumber);
+	}
+
+	public OTP resendOtp(String mobileNo, String email) {
+
+		return otpLocalService.resendOtp(mobileNo, email);
+	}
 }

@@ -14,7 +14,23 @@
 
 package com.bses.connection2.service.impl;
 
+import com.bses.connection2.exception.NoSuchOTPException;
+import com.bses.connection2.model.OTP;
 import com.bses.connection2.service.base.OTPLocalServiceBaseImpl;
+import com.bses.connection2.util.SMSUtil;
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.Validator;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
+
 
 /**
  * The implementation of the otp local service.
@@ -31,9 +47,112 @@ import com.bses.connection2.service.base.OTPLocalServiceBaseImpl;
  * @see com.bses.connection2.service.OTPLocalServiceUtil
  */
 public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link com.bses.connection2.service.OTPLocalServiceUtil} to access the otp local service.
-	 */
+
+	private static final Log log = LogFactoryUtil.getLog(OTPLocalServiceImpl.class);
+
+	public OTP generateOtp(String mobileNo, String email) {
+
+		System.out.println("OTPLocalServiceImpl:generateOTP");
+		User user = null;
+		OTP otp = null;
+
+		String otpNumber = String.valueOf(generateOTP());
+		String smsBody = "Your One Time Password for New Connection is " + otpNumber
+				+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
+		try {
+
+			user = UserLocalServiceUtil.getUser(PrincipalThreadLocal.getUserId());
+			if (user != null) {
+				otp = otpLocalService.findByMobileNo(mobileNo);
+			}
+
+			if (Validator.isNull(otp)) {
+				otp = otpLocalService.createOTP(CounterLocalServiceUtil.increment(OTP.class.getName()));
+				otp.setUserName(user.getScreenName());
+			}
+
+			otp.setMobileNo(mobileNo);
+			otp.setEmailId(email);
+			otp.setOtp(otpNumber);
+			otp.setExpiryTime(addSeconds(new Date(), 100));
+			SMSUtil.sendSMS(mobileNo, smsBody);
+			otpLocalService.updateOTP(otp);
+
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
+		return otp;
+
+	}
+
+	public String validateOtp(String mobileNo, String otpNumber) {
+
+		String message = "";
+		System.out.println("mobile no...." + mobileNo);
+		try {
+			OTP otpConnection = otpPersistence.findByMobileNo(mobileNo);
+
+			long currentTime = Calendar.getInstance().getTimeInMillis();
+			long expiryTime = otpConnection.getExpiryTime().getTime();
+			if (currentTime <= expiryTime) {
+				if (otpConnection.getOtp().equals(otpNumber)) {
+					otpLocalService.updateOTP(otpConnection);
+					message = "valid";
+				} else {
+					message = "invalid";
+				}
+			} else {
+				message = "expire";
+			}
+		} catch (Exception e) {
+			log.error(e);
+			message = "invalid";
+		}
+
+		System.out.println("-------------Validate otp------" + message);
+		return message;
+	}
+
+	public OTP resendOtp(String mobileNo, String email) {
+		User user = null;
+		OTP otp = null;
+		String otpNumber = String.valueOf(generateOTP());
+		String smsBody = "Your One Time Password for New Connection is " + otpNumber
+				+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
+
+		otp = otpLocalService.findByMobileNo(mobileNo);
+		otp.setOtp(otpNumber);
+		otp.setExpiryTime(addSeconds(new Date(), 100));
+		SMSUtil.sendSMS(mobileNo, smsBody);
+		otpLocalService.updateOTP(otp);
+
+		return otp;
+
+	}
+
+	public static Date addSeconds(Date date, Integer seconds) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.SECOND, seconds);
+		return cal.getTime();
+	}
+
+	private static long generateOTP() {
+		Random random = new Random();
+		return random.nextInt(9000000) + 1000000;
+	}
+
+	
+	public OTP findByMobileNo(String mobileNo) {
+
+		try {
+			return otpPersistence.findByMobileNo(mobileNo);
+		} catch (NoSuchOTPException e) {
+
+			e.printStackTrace();
+			return null;
+		}
+	}
+	 
 }
