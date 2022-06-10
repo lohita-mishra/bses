@@ -64,7 +64,7 @@ String folder="/Users/arjun/Documents/tools/liferay7/liferay-dxp-7.0.10.17-sp17/
 			</div>
 			<div class="col-md-4" id="elcbuploaddiv">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
-					<liferay-util:param name="elementName" value="elcbDocuemnt" />
+					<liferay-util:param name="elementName" value="elcbDocument" />
 					<liferay-util:param name="placeFolder" value="Upload ELCB document" />
 					<liferay-util:param name="folder" value="<%=folder%>" />
 				</liferay-util:include>
