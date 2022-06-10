@@ -1,5 +1,5 @@
 Bundle-Name: bses-connection-web
-Bundle-SymbolicName: BsesConnection
+Bundle-SymbolicName: bses-connection-web
 Bundle-Version: 1.0.0
 Import-Package: *; version="0";resolution:=optional
 -includeresource:lib/commons-lang3-3.9.jar=commons-lang3-3.9.jar
