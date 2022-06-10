@@ -65,6 +65,7 @@ public class ConnectionRequestServiceImpl extends ConnectionRequestServiceBaseIm
 	}*/
 	@AccessControlled(guestAccessEnabled=true)
 	public String updateConnectionRequest(long connectionRequestId, Map<String, String> params, String sectionPrefix) {
+		System.out.println("updateConnectionRequest - "+connectionRequestId);
 		LOGGER.info("connectionRequestId : "+connectionRequestId);
 		LOGGER.info(params);
 		LOGGER.info("sectionPrefix : "+sectionPrefix);

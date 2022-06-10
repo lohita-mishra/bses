@@ -254,12 +254,22 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	}
 
 	private void setAttributes(ConnectionRequest obj, Map<String, String> params, String attrPrefix) {
+		
 		ResourceBundle bundle = null;
 		try {
-			bundle = ResourceBundle.getBundle("META-INF/config/field-mapping.properties", Locale.getDefault(),
+			bundle = ResourceBundle.getBundle("META-INF/config/field-mapping", Locale.getDefault(),
 					getClassLoader());
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
+		}
+		
+		if (bundle == null) {
+			try {
+				bundle = ResourceBundle.getBundle("META-INF/config/field-mapping.properties", Locale.getDefault(),
+						getClassLoader());
+			} catch (Exception ex) {
+				LOGGER.error(ex);
+			}
 		}
 
 		if (bundle == null) {

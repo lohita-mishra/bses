@@ -52,11 +52,11 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 
 	public OTP generateOtp(String mobileNo, String email) {
 
-		System.out.println("OTPLocalServiceImpl:generateOTP");
+		System.out.println("1.OTPLocalServiceImpl:generateOTP");
 		User user = null;
 		OTP otp = null;
 
-		String otpNumber = String.valueOf(generateOTP());
+		String otpNumber = "111111";//String.valueOf(generateOTP());
 		String smsBody = "Your One Time Password for New Connection is " + otpNumber
 				+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
 		try {
@@ -75,7 +75,7 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 			otp.setEmailId(email);
 			otp.setOtp(otpNumber);
 			otp.setExpiryTime(addSeconds(new Date(), 100));
-			SMSUtil.sendSMS(mobileNo, smsBody);
+			//SMSUtil.sendSMS(mobileNo, smsBody);
 			otpLocalService.updateOTP(otp);
 
 		} catch (PortalException e) {
