@@ -604,6 +604,7 @@
 	    var formDataJson = $("#"+formId).serializeFormJSON();
 	    console.log(formId +" submitted ...........");
 	    console.log(formDataJson);
+	    formDataJson['namespace']='<portlet:namespace/>';
 	    
 	    submitFormDataJson(formDataJson, sectionPrefix, funcOnSaveSuccess, funcOnSaveFailure);
 	}
