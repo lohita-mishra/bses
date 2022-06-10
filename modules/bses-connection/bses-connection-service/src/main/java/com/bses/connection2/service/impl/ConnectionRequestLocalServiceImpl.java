@@ -201,13 +201,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	}
 	
 	private ConnectionRequest toConnectionRequest(ConnectionRequest source) {
-		ResourceBundle bundle = null;
-		try {
-			bundle = ResourceBundle.getBundle("META-INF/config/field-mapping.properties", Locale.getDefault(),
-					getClassLoader());
-		} catch (Exception ex) {
-			LOGGER.error(ex);
-		}
+		ResourceBundle bundle = getResourceBundle();
 
 		if (bundle == null) {
 			LOGGER.error("Error: Bundle is null..");
@@ -255,23 +249,8 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 	private void setAttributes(ConnectionRequest obj, Map<String, String> params, String attrPrefix) {
 		
-		ResourceBundle bundle = null;
-		try {
-			bundle = ResourceBundle.getBundle("META-INF/config/field-mapping", Locale.getDefault(),
-					getClassLoader());
-		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage());
-		}
+		ResourceBundle bundle =getResourceBundle();
 		
-		if (bundle == null) {
-			try {
-				bundle = ResourceBundle.getBundle("META-INF/config/field-mapping.properties", Locale.getDefault(),
-						getClassLoader());
-			} catch (Exception ex) {
-				LOGGER.error(ex);
-			}
-		}
-
 		if (bundle == null) {
 			LOGGER.error("Error: Bundle is null..");
 			return;
@@ -298,6 +277,27 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			}
 			setAttribute(obj, targetKey, entry.getValue());
 		}
+	}
+
+	private ResourceBundle getResourceBundle() {
+		ResourceBundle bundle =null;
+		try {
+			bundle = ResourceBundle.getBundle("META-INF/config/field-mapping", Locale.getDefault(),
+					getClassLoader());
+		} catch (Exception ex) {
+			LOGGER.error(ex.getMessage());
+		}
+		
+		if (bundle == null) {
+			try {
+				bundle = ResourceBundle.getBundle("META-INF/config/field-mapping.properties", Locale.getDefault(),
+						getClassLoader());
+			} catch (Exception ex) {
+				LOGGER.error(ex);
+			}
+		}
+
+		return bundle;
 	}
 
 	/*
