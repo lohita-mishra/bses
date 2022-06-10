@@ -257,13 +257,17 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		}
 
 		String namespace = params.get("namespace");
+		System.out.println("Namespace ---"+namespace);
 		// String formName=params.get("formName");
 		for (Map.Entry<String, String> entry : params.entrySet()) {
 			String sourceKey = entry.getKey();
-			if (sourceKey.contains(namespace + ".")) {
-				sourceKey = sourceKey.substring((namespace + ".").length());
+			
+			System.out.println("source key ..."+sourceKey);
+			if (sourceKey.contains(namespace)) {
+				sourceKey = sourceKey.substring((namespace).length());
 			}
 			//sourceKey = attrPrefix + "." + sourceKey;
+			System.out.println("source key updated ..."+sourceKey);
 			String targetKey = bundle.getString(attrPrefix + "." + sourceKey);
 			LOGGER.error("Processing sourceKey=[" + sourceKey + "], targetKey=[" + targetKey + "] and value=["
 					+ entry.getValue() + "]");
