@@ -78,7 +78,7 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 					<aui:input class="form-check-input" type="radio" name="sonDaughterWife" label="Wife Of" value="W" checked="<%=StringUtils.equalsIgnoreCase(requestEntity.getSonDaughterWife(),"W")%>"/>
 				</div>
 				
-				 <aui:input type="text" class="form-control" name="fatherOrHusdbandName" label="" placeholder="Father or Husband's Name" value="<%=requestEntity.getFatherOrHusbandName() %>">
+				 <aui:input type="text" class="form-control" name="fatherOrHusbandName" label="" placeholder="Father or Husband's Name" value="<%=requestEntity.getFatherOrHusbandName() %>">
 				 	<aui:validator name="required">
 		                function() {
 		                	return AUI.$('#<portlet:namespace />consumerType').val()=="Individual";

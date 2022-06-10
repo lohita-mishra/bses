@@ -180,10 +180,13 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			String sectionPrefix) {
 		try {
 			ConnectionRequest connectionRequest=getConnectionRequest(connectionRequestId);
+			System.out.println("setattribute begin");
 			setAttributes(connectionRequest, params, sectionPrefix);
+			System.out.println("setattribute end ");
 			connectionRequestPersistence.update(connectionRequest);
 			return "success";
 		} catch (Exception e) {
+			System.out.println("exception ");
 			LOGGER.info(e);
 		}
 		return "failure";
@@ -268,8 +271,16 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			}
 			//sourceKey = attrPrefix + "." + sourceKey;
 			System.out.println("source key updated ..."+sourceKey);
-			String targetKey = bundle.getString(attrPrefix + "." + sourceKey);
-			LOGGER.error("Processing sourceKey=[" + sourceKey + "], targetKey=[" + targetKey + "] and value=["
+			
+			String targetKey =null;
+			try{
+				targetKey = bundle.getString(attrPrefix + "." + sourceKey);
+				
+			}catch(Exception e) {
+					
+				LOGGER.error(e.getMessage());
+			}
+			LOGGER.info("Processing sourceKey=[" + sourceKey + "], targetKey=[" + targetKey + "] and value=["
 					+ entry.getValue() + "]");
 			
 			if (StringUtils.isBlank(targetKey)) {

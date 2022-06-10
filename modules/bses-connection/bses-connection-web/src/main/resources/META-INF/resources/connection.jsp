@@ -117,7 +117,7 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 
 			<div class="form-group col-md-6" id="upicnodiv">
 				<%--<label>Unique Property Identification Code (UPIC Number)<span class="text-danger">*</span></label>--%>
-				<aui:input type="text" class="form-control" name="upic" label="connection-upic" value="<%=requestEntity.getUpic()%>"/>
+				<aui:input type="text" class="form-control" name="upicNo" label="connection-upic" value="<%=requestEntity.getUpic()%>"/>
 			</div>
 		</div>
 	</div>
