@@ -4,7 +4,7 @@
 Calendar calendar=Calendar.getInstance();
 String folder="/Users/arjun/Documents/tools/liferay7/liferay-dxp-7.0.10.17-sp17/bses/application/newconnection_docs/"+calendar.get(Calendar.YEAR)+"/"+(calendar.get(Calendar.MONTH)+1)+"/RQ005";
 %>
-<aui:form cssClass="custom-form form-auto-save" role="form" name="checklistForm">
+<aui:form cssClass="custom-form form-auto-save" role="form" name="checklistForm" id="checklistForm" section-attr="checklist" >
 	<div class="container-fluid bg-white shadow p-5 my-3">
 		<div class="row">
 			<div class="col-md-12">

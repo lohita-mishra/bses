@@ -54,7 +54,7 @@
 		</div>
 	</div>
 </div>
-<form role="form" class="CustomForm" id="checklistForm">
+<form role="form" cssClass="custom-form form-auto-save" id="declarationForm" name="declarationForm" section-attr="declaration">
 	<div class="container-fluid">
 		<div class="row my-3">
 			<div class="col-md-12">

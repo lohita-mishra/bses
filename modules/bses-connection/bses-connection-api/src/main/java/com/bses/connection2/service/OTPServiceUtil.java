@@ -39,6 +39,10 @@ public class OTPServiceUtil {
 		return getService().generateOtp(mobileNo, email);
 	}
 
+	public static String generateOtpForCaNumber(String caNumber) {
+		return getService().generateOtpForCaNumber(caNumber);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

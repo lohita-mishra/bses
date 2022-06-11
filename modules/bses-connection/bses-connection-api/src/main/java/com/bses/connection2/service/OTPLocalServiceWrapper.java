@@ -225,6 +225,11 @@ public class OTPLocalServiceWrapper
 	}
 
 	@Override
+	public String generateOtpForCaNumber(String caNumber) {
+		return _otpLocalService.generateOtpForCaNumber(caNumber);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

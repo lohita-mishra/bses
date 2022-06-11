@@ -3,8 +3,12 @@
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
 <%@ include file="/init.jsp"%>
+<%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
+<%@page import="com.liferay.counter.kernel.service.CounterLocalServiceUtil"%>
+<%@page import="com.bses.connection2.service.ConnectionRequestLocalServiceUtil"%>
 <%
-ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
+String mobileNo=ParamUtil.getString(request, "caNumber", "");
+ ConnectionRequest requestEntity=ConnectionRequestLocalServiceUtil.getConnectionRequestByMobileNoAndRequestNo(mobileNo, "R-TMP-1654931483518");
 %>
 <portlet:actionURL name="saveForm" var="saveFormActionURL">
 	<portlet:param name="formAction" value="saveConsumer" />

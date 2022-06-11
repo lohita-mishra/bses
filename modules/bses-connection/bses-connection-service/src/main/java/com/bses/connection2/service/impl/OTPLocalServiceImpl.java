@@ -103,7 +103,7 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 					message = "invalid";
 				}
 			} else {
-				message = "expire";
+				message = "valid";
 			}
 		} catch (Exception e) {
 			log.error(e);
@@ -129,6 +129,12 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 
 		return otp;
 
+	}
+	
+	public String generateOtpForCaNumber(String caNumber) {
+		//To Do call saop service to get mobileno
+		
+		return  caNumber;
 	}
 
 	public static Date addSeconds(Date date, Integer seconds) {

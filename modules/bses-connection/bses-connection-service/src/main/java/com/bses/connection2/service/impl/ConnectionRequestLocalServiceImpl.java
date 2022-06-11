@@ -171,7 +171,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			connectionRequestPersistence.update(connectionRequest);
 			return "success";
 		} catch (Exception e) {
-			LOGGER.info(e);
+			LOGGER.error(e.getMessage());
 		}
 		return "failure";
 	}
@@ -187,7 +187,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			return "success";
 		} catch (Exception e) {
 			System.out.println("exception ");
-			LOGGER.info(e);
+			LOGGER.error(e.getMessage());
 		}
 		return "failure";
 	}
@@ -308,7 +308,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 				bundle = ResourceBundle.getBundle("META-INF/config/field-mapping.properties", Locale.getDefault(),
 						getClassLoader());
 			} catch (Exception ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			}
 		}
 
@@ -331,7 +331,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			methodSet.invoke(obj, value);
 		} catch (Exception e) {
 			LOGGER.error("Error in setAttribute for [ConnectionRequest." + name + "] to value [" + value + "]");
-			LOGGER.error(e);
+			
 		}
 	}
 
@@ -350,7 +350,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			return methodGet.invoke(obj);
 		} catch (Exception e) {
 			LOGGER.error("Error in getAttribute for [ConnectionRequest." + name + "]");
-			LOGGER.error(e);
+			
 		}
 		return null;
 	}
@@ -359,7 +359,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		try {
 			return clazz.getMethod("set" + StringUtils.capitalize(name), paramTypes);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return null;
 	}
@@ -368,7 +368,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		try {
 			return clazz.getMethod("get" + StringUtils.capitalize(name));
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return null;
 	}

@@ -208,6 +208,10 @@ public class OTPLocalServiceUtil {
 		return getService().generateOtp(mobileNo, email);
 	}
 
+	public static String generateOtpForCaNumber(String caNumber) {
+		return getService().generateOtpForCaNumber(caNumber);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

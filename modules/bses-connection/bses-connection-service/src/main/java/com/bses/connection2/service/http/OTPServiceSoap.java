@@ -112,6 +112,22 @@ public class OTPServiceSoap {
 		}
 	}
 
+	public static String generateOtpForCaNumber(String caNumber)
+		throws RemoteException {
+
+		try {
+			String returnValue = OTPServiceUtil.generateOtpForCaNumber(
+				caNumber);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(OTPServiceSoap.class);
 
 }

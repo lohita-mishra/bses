@@ -37,6 +37,11 @@ public class OTPServiceWrapper
 		return _otpService.generateOtp(mobileNo, email);
 	}
 
+	@Override
+	public String generateOtpForCaNumber(String caNumber) {
+		return _otpService.generateOtpForCaNumber(caNumber);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

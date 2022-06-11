@@ -10,7 +10,7 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 	<portlet:param name="formAction" value="saveConnection" />
 </portlet:actionURL>
 
-<aui:form role="form" class="CustomForm" id="connectionForm" section-attr="connection">
+<aui:form role="form" cssClass="custom-form form-auto-save" name ="connectionForm" id="connectionForm" section-attr="connection">
 	<div class="container-fluid bg-white shadow p-5 my-3">
 		<div class="row">
 			<div class="col-md-12">

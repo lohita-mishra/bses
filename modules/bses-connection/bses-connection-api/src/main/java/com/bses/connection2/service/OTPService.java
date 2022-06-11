@@ -59,6 +59,8 @@ public interface OTPService extends BaseService {
 	 */
 	public OTP generateOtp(String mobileNo, String email);
 
+	public String generateOtpForCaNumber(String caNumber);
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

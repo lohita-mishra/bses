@@ -147,6 +147,38 @@ public class OTPServiceHttp {
 		}
 	}
 
+	public static String generateOtpForCaNumber(
+		HttpPrincipal httpPrincipal, String caNumber) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				OTPServiceUtil.class, "generateOtpForCaNumber",
+				_generateOtpForCaNumberParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, caNumber);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (String)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(OTPServiceHttp.class);
 
 	private static final Class<?>[] _generateOtpParameterTypes0 = new Class[] {
@@ -158,5 +190,7 @@ public class OTPServiceHttp {
 	private static final Class<?>[] _resendOtpParameterTypes2 = new Class[] {
 		String.class, String.class
 	};
+	private static final Class<?>[] _generateOtpForCaNumberParameterTypes3 =
+		new Class[] {String.class};
 
 }

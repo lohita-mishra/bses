@@ -47,4 +47,9 @@ public class OTPServiceImpl extends OTPServiceBaseImpl {
 
 		return otpLocalService.resendOtp(mobileNo, email);
 	}
+	
+	public String generateOtpForCaNumber(String caNumber) {
+		
+		return otpLocalService.generateOtpForCaNumber(caNumber);
+	}
 }

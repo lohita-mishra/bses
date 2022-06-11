@@ -20,7 +20,7 @@
 	<portlet:param name="formAction" value="saveAddress" />
 </portlet:actionURL>
 
-<aui:form cssClass="custom-form form-auto-save" role="form" name="addressForm" section-attr="address">
+<aui:form cssClass="custom-form form-auto-save" role="form" name="addressForm" id="addressForm" section-attr="address">
 	<div class="container-fluid bg-white shadow p-5 my-3">
 		<div class="row">
 			<div class="col-md-12">
