@@ -1,0 +1,38 @@
+<%@page import="javax.portlet.PortletSession"%>
+<%@page import="javax.portlet.PortletSessionUtil"%>
+<%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
+<%@page import="com.bses.connection2.model.ConnectionRequest"%>
+<%@page import="java.util.List"%>
+<%@ include file="/init.jsp"%>
+<%
+//PortletSession portletSession = renderRequest.getPortletSession();
+String newConnectionMode=(String)portletSession.getAttribute("newConnectionMode");
+
+if(newConnectionMode==null){
+	
+%>
+<liferay-util:include page="/new_connection_option.jsp" servletContext="<%=application%>">
+	
+</liferay-util:include>
+<%
+}else if(newConnectionMode.equals("online")){
+	
+	String mobileNo=(String)portletSession.getAttribute("mobileNo");
+	String emailId=(String)portletSession.getAttribute( "emailId");
+%>
+<liferay-util:include page="/apply_online.jsp" servletContext="<%=application%>">
+	<liferay-util:param name="mobileNo" value="<%=mobileNo%>" />
+	<liferay-util:param name="emailId" value="<%=emailId%>" />
+</liferay-util:include>
+<%
+}else{
+	String mobileNo=(String)portletSession.getAttribute("mobileNo");
+	String emailId=(String)portletSession.getAttribute( "emailId");
+%>
+<liferay-util:include page="/new_appointment.jsp" servletContext="<%=application%>">
+	<liferay-util:param name="mobileNo" value="<%=mobileNo%>" />
+	<liferay-util:param name="emailId" value="<%=emailId%>" />
+</liferay-util:include>
+<%
+}
+%>
