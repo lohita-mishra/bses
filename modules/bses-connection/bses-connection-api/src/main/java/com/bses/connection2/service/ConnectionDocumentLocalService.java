@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import java.io.File;
 import java.io.Serializable;
 
 import java.util.List;
@@ -220,6 +221,15 @@ public interface ConnectionDocumentLocalService
 	public ConnectionDocument getConnectionDocument(long connectionDocumentId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ConnectionDocument> getConnectionDocumentByConnectionRequestId(
+		long connectionRequestId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ConnectionDocument
+		getConnectionDocumentByConnectionRequestIdAndDocumentType(
+			long connectionRequestId, String documentType);
+
 	/**
 	 * Returns the connection document matching the UUID and group.
 	 *
@@ -316,5 +326,11 @@ public interface ConnectionDocumentLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public ConnectionDocument updateConnectionDocument(
 		ConnectionDocument connectionDocument);
+
+	public ConnectionDocument updateConnectionDocument(
+			long connectionDocumentId, long connectionRequestId,
+			String documentType, String documentName, String documentPath,
+			File file)
+		throws PortalException;
 
 }

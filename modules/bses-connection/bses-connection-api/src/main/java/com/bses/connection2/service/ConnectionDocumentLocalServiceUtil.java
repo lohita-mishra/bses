@@ -234,6 +234,22 @@ public class ConnectionDocumentLocalServiceUtil {
 		return getService().getConnectionDocument(connectionDocumentId);
 	}
 
+	public static List<ConnectionDocument>
+		getConnectionDocumentByConnectionRequestId(long connectionRequestId) {
+
+		return getService().getConnectionDocumentByConnectionRequestId(
+			connectionRequestId);
+	}
+
+	public static ConnectionDocument
+		getConnectionDocumentByConnectionRequestIdAndDocumentType(
+			long connectionRequestId, String documentType) {
+
+		return getService().
+			getConnectionDocumentByConnectionRequestIdAndDocumentType(
+				connectionRequestId, documentType);
+	}
+
 	/**
 	 * Returns the connection document matching the UUID and group.
 	 *
@@ -356,6 +372,17 @@ public class ConnectionDocumentLocalServiceUtil {
 		ConnectionDocument connectionDocument) {
 
 		return getService().updateConnectionDocument(connectionDocument);
+	}
+
+	public static ConnectionDocument updateConnectionDocument(
+			long connectionDocumentId, long connectionRequestId,
+			String documentType, String documentName, String documentPath,
+			java.io.File file)
+		throws PortalException {
+
+		return getService().updateConnectionDocument(
+			connectionDocumentId, connectionRequestId, documentType,
+			documentName, documentPath, file);
 	}
 
 	public static ConnectionDocumentLocalService getService() {

@@ -253,6 +253,24 @@ public class ConnectionDocumentLocalServiceWrapper
 			connectionDocumentId);
 	}
 
+	@Override
+	public java.util.List<com.bses.connection2.model.ConnectionDocument>
+		getConnectionDocumentByConnectionRequestId(long connectionRequestId) {
+
+		return _connectionDocumentLocalService.
+			getConnectionDocumentByConnectionRequestId(connectionRequestId);
+	}
+
+	@Override
+	public com.bses.connection2.model.ConnectionDocument
+		getConnectionDocumentByConnectionRequestIdAndDocumentType(
+			long connectionRequestId, String documentType) {
+
+		return _connectionDocumentLocalService.
+			getConnectionDocumentByConnectionRequestIdAndDocumentType(
+				connectionRequestId, documentType);
+	}
+
 	/**
 	 * Returns the connection document matching the UUID and group.
 	 *
@@ -393,6 +411,19 @@ public class ConnectionDocumentLocalServiceWrapper
 
 		return _connectionDocumentLocalService.updateConnectionDocument(
 			connectionDocument);
+	}
+
+	@Override
+	public com.bses.connection2.model.ConnectionDocument
+			updateConnectionDocument(
+				long connectionDocumentId, long connectionRequestId,
+				String documentType, String documentName, String documentPath,
+				java.io.File file)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _connectionDocumentLocalService.updateConnectionDocument(
+			connectionDocumentId, connectionRequestId, documentType,
+			documentName, documentPath, file);
 	}
 
 	@Override

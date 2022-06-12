@@ -486,7 +486,7 @@
 		autoSave();
 	}
 	
-	function uploadFile(folder, fileElement, uploadProgressBar, callback){
+	function uploadFile(connectionRequestId, connectionDocumentId, documentType, documentName, fileElement, uploadProgressBar, callback){
 		
 		var fileSelected=readFileUrl(fileElement);
 		
@@ -502,12 +502,13 @@
 			uploadProgressBar.startProgress();
 		}
 		
-		addFileEntryWithFile(folder, description, fileSelected, callback);
+		addFileEntryWithFile(connectionRequestId, connectionDocumentId, documentType, documentName, fileSelected, callback);
 			//callback(fileElement, response);
 		//});
 		
 		return fileSelected;
 	}
+
 	function readFileUrl(fileElement) {
 		
 		if(!$(fileElement) || !$(fileElement).prop('files') || $(fileElement).prop('files').length<1){
@@ -522,7 +523,8 @@
 			return null;
 		}
 	}
-	function addFileEntryWithFile(folder, description, file, callback){
+	
+	function addFileEntryWithFile(connectionRequestId, connectionDocumentId, documentType, documentName, file, callback){
 		var form = new FormData();
 		form.append("file", file, file.name);
 		//form.append("repositoryId", repositoryId);
@@ -532,8 +534,14 @@
 		form.append("name", file.name);
 		form.append("mimeType", file.type);
 		form.append("title", file.name);
-		form.append("description", description);
-		form.append("changeLog", "Uploaded file");
+		form.append("connectionRequestId", connectionRequestId);
+		form.append("connectionDocumentId", connectionDocumentId);
+		form.append("documentType", documentType);
+		form.append("documentName", documentName);
+		form.append("description", documentName);
+		form.append("changeLog", "Uploaded "+documentName+" on "+(new Date()));
+		
+		
 		//form.append("p_auth", Liferay.authToken);
 		
 		console.log(form);
@@ -555,6 +563,7 @@
 			callback(JSON.parse(response));
 		});
 	}
+	
 	(function ($)
 	{
 	    $.fn.serializeFormJSON = function () {

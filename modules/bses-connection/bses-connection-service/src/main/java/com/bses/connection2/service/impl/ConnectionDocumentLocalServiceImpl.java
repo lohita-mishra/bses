@@ -14,7 +14,22 @@
 
 package com.bses.connection2.service.impl;
 
+import com.bses.connection2.exception.NoSuchConnectionDocumentException;
+import com.bses.connection2.model.ConnectionDocument;
+import com.bses.connection2.model.ConnectionRequest;
+import com.bses.connection2.service.ConnectionRequestLocalServiceUtil;
 import com.bses.connection2.service.base.ConnectionDocumentLocalServiceBaseImpl;
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * The implementation of the connection document local service.
@@ -37,4 +52,62 @@ public class ConnectionDocumentLocalServiceImpl
 	 *
 	 * Never reference this class directly. Always use {@link com.bses.connection2.service.ConnectionDocumentLocalServiceUtil} to access the connection document local service.
 	 */
+	private static final Log LOGGER = LogFactoryUtil.getLog(ConnectionRequestLocalServiceImpl.class);
+
+	public List<ConnectionDocument> getConnectionDocumentByConnectionRequestId(long connectionRequestId){
+		return connectionDocumentPersistence.findByConnectionRequestId(connectionRequestId);
+	}
+	
+	public ConnectionDocument getConnectionDocumentByConnectionRequestIdAndDocumentType(long connectionRequestId, String documentType){
+		try {
+			return connectionDocumentPersistence.findByConnectionRequestIdAndDocumentType(connectionRequestId, documentType);
+		} catch (NoSuchConnectionDocumentException e) {
+			LOGGER.error(e);
+		}
+		return null;
+	}
+	
+	public ConnectionDocument updateConnectionDocument(long connectionDocumentId, long connectionRequestId, String documentType, String documentName, String documentPath, File file) throws PortalException{
+		
+		ConnectionRequest connectionRequest=null;
+		ConnectionDocument connectionDocument=null;
+		
+		connectionRequest=ConnectionRequestLocalServiceUtil.getConnectionRequest(connectionRequestId);
+		
+		try {
+			if(connectionDocumentId>0) {
+				connectionDocument=connectionDocumentPersistence.findByPrimaryKey(connectionDocumentId);
+			}else {
+				connectionDocument=connectionDocumentPersistence.create(CounterLocalServiceUtil.increment(ConnectionDocument.class.getName()));
+			}
+		} catch (NoSuchConnectionDocumentException e) {
+			LOGGER.error(e);
+			throw new PortalException(e);
+		}
+		
+		Calendar calendar=Calendar.getInstance();
+		String path=PropsUtil.get("connection.document.base.path");
+		path=path+File.separatorChar+calendar.get(Calendar.YEAR)+File.separatorChar+(calendar.get(Calendar.MONTH)+1)+File.separatorChar+connectionRequest.getRequestNo();
+		
+		File folder=new File(path);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		try {
+			FileUtil.copyFile(file, new File(folder, file.getName()));
+		} catch (IOException e) {
+			LOGGER.error(e);
+			throw new PortalException(e);
+		}
+		
+		if(connectionDocument!=null) {
+			connectionDocument.setConnectionRequestId(connectionRequestId);
+			connectionDocument.setDocumentName(documentName);
+			connectionDocument.setDocumentType(documentType);
+			connectionDocument.setDocumentPath(documentPath);
+			connectionDocumentPersistence.update(connectionDocument);
+		}
+		return connectionDocument;
+	}
 }

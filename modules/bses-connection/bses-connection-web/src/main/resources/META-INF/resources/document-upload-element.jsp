@@ -1,3 +1,6 @@
+<%@page import="com.bses.connection2.model.ConnectionRequest"%>
+<%@page import="com.bses.connection2.service.ConnectionDocumentLocalServiceUtil"%>
+<%@page import="com.bses.connection2.model.ConnectionDocument"%>
 <%@page import="com.liferay.portal.kernel.util.StringPool"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="java.net.URLEncoder"%>
@@ -31,74 +34,31 @@ String elementName=ParamUtil.getString(request, "elementName");
 String fileTypes=ParamUtil.getString(request, "fileTypes");
 String placeHolder=ParamUtil.getString(request, "placeHolder");
 String savedValue=ParamUtil.getString(request, elementName);
-String folder=ParamUtil.getString(request, "folder");
+String documentType=ParamUtil.getString(request, "documentType");
+String documentName=ParamUtil.getString(request, "documentName");
 
-if(StringUtils.isNotBlank(folder) && StringUtils.indexOf(folder,"/")>=0 && !StringUtils.equals(folder, StringPool.FORWARD_SLASH)){
-	String[] folderNames=folder.split("/");
-	
-	for(String folderName:folderNames){
-		//LOGGER.info("Searching folder for : "+folderName +" under parentID : "+folderId);
-		DLFolder dlFolder=null;
-		try{
-			dlFolder=DLFolderLocalServiceUtil.getFolder(groupId, folderId, folderName);
-		}catch(Exception e){
-			try{
-				dlFolder=DLFolderLocalServiceUtil.addFolder(PrincipalThreadLocal.getUserId(), groupId, repositoryId, false, folderId, folderName, folderName, false, serviceContext);
-			}catch(Exception e1){}
-		}
-		if(dlFolder!=null){
-			folderId=dlFolder.getFolderId();
-		}
-	}
+long connectionDocumentId=0;
+ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
+long connectionRequestId=requestEntity.getConnectionRequestId();
+
+try{
+	ConnectionDocument connectionDocument=ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestIdAndDocumentType(requestEntity.getConnectionRequestId(), "Polution Certificate");
+	connectionDocumentId=connectionDocument.getConnectionDocumentId();
+}catch(Exception e){
+	LOGGER.error(e);
 }
-
-//LOGGER.info("Final folderID : "+folderId);
 
 String progressBarId = elementName.concat("_progressbar");
 
 String hiddenStyle="";
-
-if(StringUtils.isNotEmpty(savedValue)){
-	try{
-		DLFileEntry fileEntry=DLFileEntryLocalServiceUtil.getDLFileEntry(Long.parseLong(savedValue));
-		String filePath="/documents/"+fileEntry.getRepositoryId()+"/"+fileEntry.getFolderId()+"/"+URLEncoder.encode(fileEntry.getFileName());
-		hiddenStyle="style=\"display:none;\"";
-		String iconClass="fa-file-o";
-		String mimeType=fileEntry.getMimeType();
-		if(mimeType.equalsIgnoreCase("application/pdf")){
-			iconClass="fa-file-pdf-o";
-		}else if(mimeType.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.wordprocessingml.document")){	
-			iconClass="fa-file-word-o";
-		}else if(mimeType.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")){	
-			iconClass="fa-file-excel-o";
-		}else if(mimeType.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.presentation")){	
-			iconClass="fa-file-powerpoint-o";
-		}else if(mimeType.startsWith("image/")){
-			iconClass="fa-file-image-o";
-		}else if(mimeType.equalsIgnoreCase("video/")){
-			iconClass="fa-file-video-o";
-		}else if(mimeType.equalsIgnoreCase("audio/")){
-			iconClass="fa-file-audio-o";
-		}else if(mimeType.endsWith("/zip") || mimeType.endsWith("/x-7z-compressed") || mimeType.endsWith("/x-tar")  || mimeType.endsWith("/vnd.rar")  || mimeType.endsWith("/gzip")  || mimeType.endsWith("/java-archive")){
-			iconClass="fa-file-archive-o";
-		}
-%>
-			
-		<span id="<%=elementName%>_fileViewContainer" style="display:block;">
-			<span style="font-style: italic;"><i class="fa <%=iconClass%> mr-1" aria-hidden="true"></i><%=fileEntry.getTitle()%></span>
-			<a href="<%=filePath %>" target="_blank">
-			<%--<i class="fa fa-download ml-1" aria-hidden="true"></i>--%><i class="icon-download-alt"></i></a>
-			<a onclick="<%=elementName%>_clearFile();" style="color:red;"><%--i class="fa fa-times ml-1" aria-hidden="true"></i--%><i class="icon-remove"></i> </a>
-		</span>
-<%
-	}catch(Exception exc){}
-}
-
 String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\"":"");
-
 %>
 <div class="input-group" id="<%=elementName%>_container" <%=hiddenStyle%>>
 	<input type="hidden" name="<portlet:namespace/><%=elementName%>" id="<portlet:namespace/><%=elementName%>" value="<%=savedValue%>"/>
+	<input type="hidden" name="<portlet:namespace/><%=elementName%>_connectionDocumentId" id="<portlet:namespace/><%=elementName%>_connectionDocumentId" value="<%=connectionDocumentId%>"/>
+	<input type="hidden" name="<portlet:namespace/><%=elementName%>_documentType" id="<portlet:namespace/><%=elementName%>_documentType" value="<%=documentType%>"/>
+	<input type="hidden" name="<portlet:namespace/><%=elementName%>_documentName" id="<portlet:namespace/><%=elementName%>_documentName" value="<%=documentName%>"/>
+	
 <%--	<input type="file" name="<portlet:namespace/><%=namePrefix+"_file"%>" id="<portlet:namespace/><%=elementName+"_file"%>">--%>
 	<input type="file" name="<portlet:namespace/><%=elementName+"_file"%>" id="<portlet:namespace/><%=elementName%>_file" style="width:0px;" <%=acceptTypes%>> 
 
@@ -127,7 +87,8 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	});--%>
 	
 	$('#<portlet:namespace/><%=elementName%>_file').on('change', function(event) {
-		uploadFile('<%=folder%>', $('#<portlet:namespace/><%=elementName%>_file'), <%=progressBarId%>, <portlet:namespace /><%=elementName%>_uploadFileOnSuccess);
+		uploadFile('<%=connectionRequestId%>', '<%=connectionDocumentId%>', '<%=documentType%>', $('#<portlet:namespace/><%=elementName%>_documentName').val(), 
+				$('#<portlet:namespace/><%=elementName%>_file'), <%=progressBarId%>, <portlet:namespace /><%=elementName%>_uploadFileOnSuccess);
 	});
 	
 	$('#<portlet:namespace /><%=elementName%>_clearBtn').on('click', function(event) {

@@ -16,7 +16,6 @@ package com.bses.connection2.service.impl;
 
 import com.bses.connection2.helper.DigitalSevaKendraServiceHelper;
 import com.bses.connection2.model.ConnectionRequest;
-import com.bses.connection2.service.ConnectionRequestLocalServiceUtil;
 import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
