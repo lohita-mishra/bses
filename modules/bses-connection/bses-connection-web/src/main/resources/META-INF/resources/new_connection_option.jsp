@@ -1,11 +1,8 @@
 <%@ include file="/init.jsp"%>
 
-<portlet:renderURL var="applyOnlineURLOld">
-	<portlet:param name="mvcPath" value="/apply_online.jsp" />
-</portlet:renderURL>
-
 <portlet:actionURL name="newConnectionApplyOnlineView" var="applyOnlineURL" />
 
+<portlet:actionURL name="newConnectionApplyAppointmentView" var="applyAppointmentURL" />
 
 <style>
 .modal {
@@ -31,8 +28,8 @@
 					load > 45 KW.
 				</div>
 				<div class="text-danger text-center my-5">
-					<a href="new_appointment.jsp" class="btn btn-primary mx-2">Request for Appointment</a> 
-					<a href="<%=applyOnlineURL.toString() %>" class="btn btn-danger" id="<portlet:namespace/>applyOnlineLink">Apply Online</a>
+					<button  onclick="applyAppointment();" class="btn btn-primary mx-2">Request for Appointment</a> 
+					<button  onclick="applyOnline();" class="btn btn-danger" id="<portlet:namespace/>applyOnlineLink">Apply Online</button>
 				</div>
 			</div>
 		</div>
@@ -45,5 +42,16 @@ $(document).ready(function(){
 	$('#connectionTypeModal').modal('show'); 
 });
 
+
 </aui:script>
+<<script >
+function applyOnline(){
+	window.location.href="<%=applyOnlineURL.toString()%>";
+}
+function applyAppointment(){
+	window.location.href="<%=applyAppointmentURL.toString()%>";
+}
+
+</script>
+
 
