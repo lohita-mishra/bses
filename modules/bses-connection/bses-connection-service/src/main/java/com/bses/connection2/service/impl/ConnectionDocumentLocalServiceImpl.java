@@ -23,11 +23,9 @@ import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -67,7 +65,7 @@ public class ConnectionDocumentLocalServiceImpl
 		return null;
 	}
 	
-	public ConnectionDocument updateConnectionDocument(long connectionDocumentId, long connectionRequestId, String documentType, String documentName, String documentPath, File file) throws PortalException{
+	public ConnectionDocument updateConnectionDocument(long connectionDocumentId, long connectionRequestId, String documentType, String documentName, File file) throws PortalException{
 		
 		ConnectionRequest connectionRequest=null;
 		ConnectionDocument connectionDocument=null;
@@ -86,26 +84,26 @@ public class ConnectionDocumentLocalServiceImpl
 		}
 		
 		Calendar calendar=Calendar.getInstance();
-		String path=PropsUtil.get("connection.document.base.path");
-		path=path+File.separatorChar+calendar.get(Calendar.YEAR)+File.separatorChar+(calendar.get(Calendar.MONTH)+1)+File.separatorChar+connectionRequest.getRequestNo();
+		String basePath=PropsUtil.get("connection.document.base.path");
+		String path=basePath+File.separatorChar+calendar.get(Calendar.YEAR)+File.separatorChar+(calendar.get(Calendar.MONTH)+1)+File.separatorChar+connectionRequest.getRequestNo();
 		
 		File folder=new File(path);
 		if(!folder.exists()) {
 			folder.mkdirs();
 		}
 		
-		try {
-			FileUtil.copyFile(file, new File(folder, file.getName()));
-		} catch (IOException e) {
-			LOGGER.error(e);
-			throw new PortalException(e);
+		File dest=new File(folder, file.getName());
+		if(file.renameTo(dest)) {
+			LOGGER.info(file.getAbsolutePath() +" was moved to "+dest.getAbsolutePath());
+		}else {
+			LOGGER.info(file.getAbsolutePath() +" could not be moved to "+dest.getAbsolutePath());
 		}
 		
 		if(connectionDocument!=null) {
 			connectionDocument.setConnectionRequestId(connectionRequestId);
 			connectionDocument.setDocumentName(documentName);
 			connectionDocument.setDocumentType(documentType);
-			connectionDocument.setDocumentPath(documentPath);
+			connectionDocument.setDocumentPath(dest.getAbsolutePath());
 			connectionDocumentPersistence.update(connectionDocument);
 		}
 		return connectionDocument;

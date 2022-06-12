@@ -1,6 +1,11 @@
 package com.bses.connection2.web.portlet;
 
+import com.bses.connection2.model.ConnectionDocument;
+import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
 import com.bses.connection2.web.constants.BsesConnectionPortletKeys;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -157,20 +162,31 @@ public class BsesConnectionPortlet extends MVCPortlet {
      	//String fileElementName=uploadRequest.getParameter(resourceResponse.getNamespace()+"elementName");
      	//String filePath=uploadRequest.getParameter(fileElementName+"_path");
      	File sourceFile=uploadRequest.getFile("file");
-     	String folder=uploadRequest.getParameter("folder");
-     	String name=uploadRequest.getParameter("name");
-     	
-     	LOGGER.info("Source File: "+sourceFile.getAbsolutePath()+ " -- "+sourceFile.length());
-     	File folderPath=new File(folder);
-     	if(!folderPath.exists()) {
-     		folderPath.mkdirs();
-     	}
-     	File destFile=new File(folderPath, name);
-     	sourceFile.renameTo(destFile);
-     	LOGGER.info("Dest File: "+destFile.getAbsolutePath()+" -- "+destFile.length());
-     	PrintWriter pw=resourceResponse.getWriter();
-     	pw.write("{\"status\":\"success\","
-     			+ "\"uploadPath\":\""+destFile.getAbsolutePath()+"\"}");
+        long connectionRequestId=ParamUtil.getLong(uploadRequest, "connectionRequestId",0);
+        long connectionDocumentId=ParamUtil.getLong(uploadRequest, "connectionDocumenetId",0);
+        String documentType=ParamUtil.getString(uploadRequest, "documentType");
+        String documentName=ParamUtil.getString(uploadRequest, "documentName");
+
+        ConnectionDocument connectionDocument=null;
+        String message=documentName+" was updated successfully";
+        String status="success";
+        
+		try {
+			connectionDocument = ConnectionDocumentLocalServiceUtil.updateConnectionDocument(connectionDocumentId, connectionRequestId, documentType, documentName, sourceFile);
+		} catch (PortalException e) {
+			message=documentName+" could not be updated. Error: "+e.getMessage();
+			status="failure";
+		}
+		JSONObject result=JSONFactoryUtil.createJSONObject();
+		result.put("status", status);
+		result.put("message", message);
+		if(connectionDocument!=null) {
+			result.put("connectionDocumentId", connectionDocument.getConnectionDocumentId());
+			result.put("documentPath", connectionDocument.getDocumentPath());
+		}
+
+		PrintWriter pw=resourceResponse.getWriter();
+     	pw.write(result.toJSONString());
      	pw.flush();
      	pw.close();
 	}

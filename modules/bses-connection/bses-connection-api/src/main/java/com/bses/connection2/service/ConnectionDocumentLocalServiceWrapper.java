@@ -417,13 +417,12 @@ public class ConnectionDocumentLocalServiceWrapper
 	public com.bses.connection2.model.ConnectionDocument
 			updateConnectionDocument(
 				long connectionDocumentId, long connectionRequestId,
-				String documentType, String documentName, String documentPath,
-				java.io.File file)
+				String documentType, String documentName, java.io.File file)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _connectionDocumentLocalService.updateConnectionDocument(
 			connectionDocumentId, connectionRequestId, documentType,
-			documentName, documentPath, file);
+			documentName, file);
 	}
 
 	@Override
