@@ -89,7 +89,7 @@
 </div>
 <script>
 	var portletNamespace="<portlet:namespace/>";
-	
+	var autoSaveFlag =true;
 	$(document).ready(function() {
 		//$('[data-toggle="tooltip"]').tooltip();
 		documentOnload();
@@ -575,9 +575,18 @@
 	    };
 	})(jQuery);
 	
-	function validateForm(formId){
-	    var liferayForm = Liferay.Form.get('#'+formId);
 	
+	function funcOnSaveSuccess(obj){
+		console.log(obj);
+	}
+	
+	function funcOnSaveFailure(){
+		console.log(obj);
+	}
+	
+	function validateForm(formId){
+		var liferayForm = Liferay.Form.get(formId);
+		//var liferayForm = Liferay.Form.get('#'+formId);
 	    if (liferayForm) {
 	        var validator = liferayForm.formValidator;
 	        
@@ -596,8 +605,106 @@
     	}
 	    return true;
 	}
+		
+	function handleSubmitBtnClick(){
+		$("#<portlet:namespace/>submitBtn").click(function() {
+			console.log("submitBtn clicked");
+			submitForms();
+		});
+	}
 	
-	function submitForm(formId, sectionPrefix, validate){
+	function submitForms(validate){
+		console.log("Calling saveForms");
+		var forms = [];
+		var  validForms = true;
+		$(".custom-form").each(function( index, item ) {
+			  if(!validateForm($(item).attr('id'))){
+				  validForms = false;
+			   }
+			
+			forms.push(item);
+		});
+		if(validForms){
+			autoSaveFlag = false;
+			submitFormDetails(forms,0);
+		}else{
+			alert("Please enter valid details...");
+		}
+		
+	}
+	
+	function submitFormDetails(forms, currentIndex){
+		if(currentIndex <forms.length){
+			var formItem =forms[currentIndex];
+			var formId = $(formItem).attr('id');
+			var sectionPrefixVal =  $(formItem).attr('section-attr');
+			var formDataJson = $("#"+formId).serializeFormJSON();
+			formDataJson['namespace']='<portlet:namespace/>';
+			
+			 AUI().use('aui-base', function(A){
+			        Liferay.Service(
+			            '/bsesconn.connectionrequest/update-connection-request', //call your service here
+			            {
+			            	connectionRequestId:<%=connectionRequestId%>,
+			                params: formDataJson,
+			                sectionPrefix:sectionPrefixVal
+			            },
+			            function(obj) {
+			                try{
+			                	submitFormDetails(forms,currentIndex+1);
+			                }catch(e){}
+			            }
+			        );
+			    });	
+		}else{
+			handleSubmitSuccess();
+		}
+	}
+	
+	function handleSubmitSuccess(){
+		alert("New connection request submitted");
+		//submitSoap();
+	}
+
+	function submitSoap(){
+		AUI().use('aui-base', function(A){
+	        Liferay.Service(
+	            '/bsesconn.connectionrequest/submit-connection-request-to-soap', //call your service here
+	            {
+	            	connectionRequestId:<%=connectionRequestId%>
+	            },
+	            function(obj) {
+	                try{
+	                	if(obj=="success"){
+	                		
+	                	}
+	                    //onSuccess(obj);
+	                }catch(e){}
+	            }
+	        );
+	    });	
+	}
+	
+	//************ Auto Save ****************
+	function autoSave(){
+		setInterval(function () {
+			if(autoSaveFlag){
+				console.log("Auto save is called...");
+				initAutoSaveForms(false);
+			}
+		}, 10000);
+	}
+	
+	function initAutoSaveForms(validate){
+		console.log("Calling saveForms");
+		$(".custom-form").each(function( index, item ) {
+			console.log("Before submitting : "+index);
+			console.log("Submitting "+$(item).attr('id'));
+			autoSaveForm($(item).attr('id'), $(item).attr('section-attr'), validate);
+		});
+	}
+	
+	function autoSaveForm(formId, sectionPrefix, validate){
 	    if(validate && !validateForm(formId)){
 	        return;
 	    }
@@ -626,52 +733,7 @@
 	        );
 	    });	
 	}
-	
-	function autoSave(){
-		setInterval(function () {
-			console.log("Auto save is called...");
-			submitForm(false);
-		}, 10000);
-	}
-	
-	function saveForms(validate){
-		console.log("Calling saveForms");
-		$(".custom-form").each(function( index, item ) {
-			console.log("Before submitting : "+index);
-			console.log("Submitting "+$(item).attr('id'));
-			submitForm($(item).attr('id'), $(item).attr('section-attr'), validate);
-		});
-	}
-	function handleSubmitBtnClick(){
-		$("#<portlet:namespace/>submitBtn").click(function() {
-			console.log("submitBtn clicked");
-			saveForms(true);
-			submitSoap();
-		});
-	}
-	function funcOnSaveSuccess(obj){
-		console.log(obj);
-	}
-	
-	function funcOnSaveFailure(){
-		console.log(obj);
-	}
-	function submitSoap(){
-		AUI().use('aui-base', function(A){
-	        Liferay.Service(
-	            '/bsesconn.connectionrequest/submit-connection-request-to-soap', //call your service here
-	            {
-	            	connectionRequestId:<%=connectionRequestId%>
-	            },
-	            function(obj) {
-	                try{
-	                	if(obj=="success"){
-	                		
-	                	}
-	                    //onSuccess(obj);
-	                }catch(e){}
-	            }
-	        );
-	    });	
-	}
+
+	//************ Auto Save End****************
+
 </script>
