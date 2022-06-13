@@ -30,7 +30,6 @@ import javax.portlet.ResourceResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
-
 /**
  * @author arjun
  */
@@ -58,10 +57,12 @@ import org.osgi.service.component.annotations.Component;
 public class BsesConnectionPortlet extends MVCPortlet {
 	private static final Log LOGGER=LogFactoryUtil.getLog(BsesConnectionPortlet.class.getName());
 	
+
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)	throws IOException, PortletException {
-		String viewMode = "NEW_CONNECTION";
-		
+//		String viewMode = "NEW_CONNECTION";
+		String viewMode = renderRequest.getPreferences().getValue("viewMode", " ");
+		LOGGER.info("viewMode : "+viewMode);
 		switch(viewMode){    
 			case "NEW_CONNECTION":    
 				 handleNewComnnectionView(renderRequest,renderResponse);
@@ -76,7 +77,8 @@ public class BsesConnectionPortlet extends MVCPortlet {
 				 handleLoadChangeView(renderRequest,renderResponse);  
 				 break;  //optional     
 			default:     
-				include(viewTemplate, renderRequest, renderResponse); 
+				// include(viewTemplate, renderRequest, renderResponse); 
+				include("/invalid_config.jsp", renderRequest, renderResponse);
 		}    
 	}	
 	
