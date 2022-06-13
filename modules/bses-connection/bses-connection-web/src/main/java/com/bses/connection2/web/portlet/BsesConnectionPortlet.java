@@ -3,6 +3,9 @@ package com.bses.connection2.web.portlet;
 import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
 import com.bses.connection2.web.constants.BsesConnectionPortletKeys;
+import com.bses.sap.connector.services.SapConnctorServiceApi;
+import com.bses.sap.model.DssISUCADisplayRequest;
+import com.bses.sap.model.DssISUCADisplayResponse;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -13,6 +16,8 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +35,7 @@ import javax.portlet.ResourceResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author arjun
@@ -58,9 +64,25 @@ import org.osgi.service.component.annotations.Component;
 public class BsesConnectionPortlet extends MVCPortlet {
 	private static final Log LOGGER=LogFactoryUtil.getLog(BsesConnectionPortlet.class.getName());
 	
+	@Reference
+	private SapConnctorServiceApi sapServiceApi;
+	
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)	throws IOException, PortletException {
-		String viewMode = "NEW_CONNECTION";
+		String viewMode = "NAME_CHANGE"; //"NEW_CONNECTION";
+		
+		try {
+			DssISUCADisplayRequest request = new DssISUCADisplayRequest();
+			String caNumber= generateTwelveDigitCANo("103012062");
+			System.out.println("caNumber - "+caNumber);
+			
+			request.setCaNumber(caNumber);
+			DssISUCADisplayResponse res= this.sapServiceApi.getDssISUCADisplay(request);
+			System.out.println(res.getBpNumber());
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			
+		}
 		
 		switch(viewMode){    
 			case "NEW_CONNECTION":    
@@ -118,9 +140,9 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	private void handleNameChangeView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		String view = "/name_change_view.jsp";
 		PortletSession session = renderRequest.getPortletSession();
-		String loginId=(String) session.getAttribute("NEW_CONNECTION_LOGIN_ID");
+		String loginId=(String) session.getAttribute("NAME_CHANGE_LOGIN_ID");
 		if(StringUtils.isBlank(loginId)) {
-			view = "/mobile_login.jsp";
+			view = "/ca_number_login.jsp";
 		}
 		include(view, renderRequest, renderResponse);
 		
@@ -151,6 +173,19 @@ public class BsesConnectionPortlet extends MVCPortlet {
 		
 		session.setAttribute("mobileNo", mobileNo);
 		session.setAttribute("email", email);
+
+		SessionMessages.add(request, PortalUtil.getPortletId(request) + SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
+	}
+	
+	public void caNumberLogin(ActionRequest request, ActionResponse response) {
+		System.out.println("BsesConnectionPortlet:caNumberLogin");
+		String caNumber = ParamUtil.getString(request, "caNumber");
+		String mobileNo = ParamUtil.getString(request, "mobileNo");
+		
+		PortletSession session = request.getPortletSession();
+		
+		session.setAttribute("mobileNo", mobileNo);
+		session.setAttribute("caNumber", caNumber);
 
 		SessionMessages.add(request, PortalUtil.getPortletId(request) + SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
 	}
@@ -189,5 +224,13 @@ public class BsesConnectionPortlet extends MVCPortlet {
      	pw.write(result.toJSONString());
      	pw.flush();
      	pw.close();
+	}
+	public String generateTwelveDigitCANo(String accNo) {
+		String formattedNumber = StringPool.BLANK;
+		if (Validator.isNotNull(accNo)) {
+			formattedNumber = String.format("%012d", Long.valueOf(accNo));
+			//log.debug("Formatted account number from  getValidAccountNumber method ::::::::  " + formattedNumber);
+		}
+		return formattedNumber;
 	}
 }
