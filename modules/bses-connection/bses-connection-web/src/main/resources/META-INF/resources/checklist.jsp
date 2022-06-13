@@ -312,9 +312,23 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 		</div>
 	</div>
 </aui:form>
+<%--
 <script>
 $(document).ready(function(){
-	
+	var formDataJson={};
+	formDataJson['<portlet:namespace/>wiringTest']=$("input[name=<portlet:namespace/>wiringTest]").val();
+	formDataJson['<portlet:namespace/>elcbInstalled']=$("input[name=<portlet:namespace/>elcbInstalled]").val();
+	formDataJson['<portlet:namespace/>stiltParking']=$("input[name=<portlet:namespace/>stiltParking]").val();
+	formDataJson['<portlet:namespace/>height15Mtr']=$("input[name=<portlet:namespace/>height15Mtr]").val();
+	formDataJson['<portlet:namespace/>height17Mtr']=$("input[name=<portlet:namespace/>height17Mtr]").val();
+	formDataJson['<portlet:namespace/>fcc']=$("input[name=<portlet:namespace/>fcc]").val();
+	formDataJson['<portlet:namespace/>lift']=$("input[name=<portlet:namespace/>lift]").val();
+	formDataJson['<portlet:namespace/>hasBdoCertificate']=$("input[name=<portlet:namespace/>hasBdoCertificate]").val();
+	formDataJson['<portlet:namespace/>hasDpccLicense']=$("input[name=<portlet:namespace/>hasDpccLicense]").val();
+	formDataJson['<portlet:namespace/>hasPollutionCertificate']=$("input[name=<portlet:namespace/>hasPollutionCertificate]").val();
+	formDataJson['<portlet:namespace/>eServiceOnMail']=$("input[name=<portlet:namespace/>eServiceOnMail]").val();
+	formDataJson['<portlet:namespace/>eServiceMailId']=$("input[name=<portlet:namespace/>eServiceMailId]").val();
 });
 
 </script>
+ --%>

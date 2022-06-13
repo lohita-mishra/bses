@@ -168,8 +168,6 @@
          <div class="md-form d-flex justify-content-center ">
         	 <button class="btn btn-default">Submit</button>
     	 </div>
-    	 
-		
 		</div>
 
       </div>
@@ -739,20 +737,21 @@ window.onclick = function(event) {
 		console.log("Calling saveForms");
 		var forms = [];
 		var  validForms = true;
-		$(".custom-form").each(function( index, item ) {
+		$(".form-auto-save").each(function( index, item ) {
 			  if(!validateForm($(item).attr('id'))){
 				  validForms = false;
 			   }
 			
 			forms.push(item);
 		});
+		
 		if(validForms){
 			autoSaveFlag = false;
 			submitFormDetails(forms,0);
+			saveChecklistForm();
 		}else{
 			alert("Please enter valid details...");
 		}
-		
 	}
 	
 	function submitFormDetails(forms, currentIndex){
@@ -783,6 +782,36 @@ window.onclick = function(event) {
 		}
 	}
 	
+	function saveChecklistForm(){
+		var formDataJson={};
+		formDataJson['<portlet:namespace/>wiringTest']=$("input[name=<portlet:namespace/>wiringTest]").val();
+		formDataJson['<portlet:namespace/>elcbInstalled']=$("input[name=<portlet:namespace/>elcbInstalled]").val();
+		formDataJson['<portlet:namespace/>stiltParking']=$("input[name=<portlet:namespace/>stiltParking]").val();
+		formDataJson['<portlet:namespace/>height15Mtr']=$("input[name=<portlet:namespace/>height15Mtr]").val();
+		formDataJson['<portlet:namespace/>height17Mtr']=$("input[name=<portlet:namespace/>height17Mtr]").val();
+		formDataJson['<portlet:namespace/>fcc']=$("input[name=<portlet:namespace/>fcc]").val();
+		formDataJson['<portlet:namespace/>lift']=$("input[name=<portlet:namespace/>lift]").val();
+		formDataJson['<portlet:namespace/>hasBdoCertificate']=$("input[name=<portlet:namespace/>hasBdoCertificate]").val();
+		formDataJson['<portlet:namespace/>hasDpccLicense']=$("input[name=<portlet:namespace/>hasDpccLicense]").val();
+		formDataJson['<portlet:namespace/>hasPollutionCertificate']=$("input[name=<portlet:namespace/>hasPollutionCertificate]").val();
+		formDataJson['<portlet:namespace/>eServiceOnMail']=$("input[name=<portlet:namespace/>eServiceOnMail]").val();
+		formDataJson['<portlet:namespace/>eServiceMailId']=$("input[name=<portlet:namespace/>eServiceMailId]").val();
+		formDataJson['namespace']='<portlet:namespace/>';
+		
+		AUI().use('aui-base', function(A){
+	        Liferay.Service(
+	            '/bsesconn.connectionrequest/update-connection-request', //call your service here
+	            {
+	            	connectionRequestId:<%=connectionRequestId%>,
+	                params: formDataJson,
+	                sectionPrefix:'checklist'
+	            },
+	            function(obj) {
+	                console.log(obj);
+	            }
+	        );
+	    });	
+	}
 	function handleSubmitSuccess(){
 		alert("New connection request submitted");
 		//submitSoap();
@@ -822,12 +851,16 @@ window.onclick = function(event) {
 		
 		var timeout=0;
 		$(".form-auto-save").each(function( index, item ) {
-			console.log("Before submitting : "+index);
+			//console.log("Before submitting : "+index);
 			console.log("Submitting "+$(item).attr('id') +" after "+timeout+" milli-seconds.");
 			setTimeout(function (){
 				autoSaveForm($(item).attr('id'), $(item).attr('section-attr'), validate);
 			}, timeout); 
 			timeout+=2000;
+		}, timeout);
+		
+		setTimeout(function (){
+			saveChecklistForm();
 		});
 	}
 	

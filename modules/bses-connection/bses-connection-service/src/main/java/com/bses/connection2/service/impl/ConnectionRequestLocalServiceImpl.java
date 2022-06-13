@@ -69,18 +69,18 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	private static final String PREFIX_CONNECTION = "connection";
 	private static final String PREFIX_CHECKLIST = "checklist";
 	private static final String PREFIX_DOCUMENT = "document";
-	
+
 	public static final String FORM_EMAIL_ID = "bsesnoreply@relianceada.com";
 	public static final String SUBJECT = "OTP for New Connection";
-	
-	
-	//@Reference
-	//private DigitalSevaKendraServiceHelper digitalSevaKendraServiceHelper;
+
+	// @Reference
+	// private DigitalSevaKendraServiceHelper digitalSevaKendraServiceHelper;
 
 	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId) {
 		String requestNo = "R-TMP-" + new Date().getTime();
-		LOGGER.info(mobileNo+" - "+emailId+" - "+requestNo);
-		ConnectionRequest connectionRequest = connectionRequestPersistence.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
+		LOGGER.info(mobileNo + " - " + emailId + " - " + requestNo);
+		ConnectionRequest connectionRequest = connectionRequestPersistence
+				.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
 		connectionRequest.setMobileNo(mobileNo);
 		connectionRequest.setEmailId(emailId);
 		connectionRequest.setRequestNo(requestNo);
@@ -93,13 +93,13 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		return updateConnectionRequest(requestNo, params, PREFIX_CONSUMER);
 		// return dssNewConnRequest;
 	}
-	
+
 	public String updateConsumerDetails(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_CONSUMER);
 		// return dssNewConnRequest;
 	}
-	
+
 	public String updateAddress(String requestNo, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(requestNo, params, PREFIX_ADDRESS);
@@ -110,7 +110,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_ADDRESS);
 		// return dssNewConnRequest;
 	}
-	
+
 	public String updateConnection(String requestNo, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(requestNo, params, PREFIX_CONNECTION);
@@ -121,17 +121,18 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_CONNECTION);
 		// return dssNewConnRequest;
 	}
+
 	public String updateChecklistDocuments(String requestNo, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(requestNo, params, PREFIX_CHECKLIST);
 	}
-	
+
 	public String updateChecklistDocuments(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_CHECKLIST);
 		// return dssNewConnRequest;
 	}
-	
+
 	public String updateImportantDocuments(String requestNo, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(requestNo, params, PREFIX_DOCUMENT);
@@ -142,7 +143,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_DOCUMENT);
 		// return dssNewConnRequest;
 	}
-	
+
 	public ConnectionRequest getConnectionRequest(String requestNo) {
 		try {
 			return connectionRequestPersistence.findByRequestNo(requestNo).get(0);
@@ -164,7 +165,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public List<ConnectionRequest> getConnectionRequestsByMobileNo(String mobileNo) {
 		List<ConnectionRequest> connectionRequests = new ArrayList();
 		try {
-			connectionRequests=connectionRequestPersistence.findByMobileNo(mobileNo);
+			connectionRequests = connectionRequestPersistence.findByMobileNo(mobileNo);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -174,7 +175,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 	public String updateConnectionRequest(String requestNo, Map<String, String> params, String sectionPrefix) {
 		try {
-			ConnectionRequest connectionRequest=getConnectionRequest(requestNo);
+			ConnectionRequest connectionRequest = getConnectionRequest(requestNo);
 			setAttributes(connectionRequest, params, sectionPrefix);
 			connectionRequestPersistence.update(connectionRequest);
 			return "success";
@@ -184,10 +185,9 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		return "failure";
 	}
 
-	public String updateConnectionRequest(long connectionRequestId, Map<String, String> params,
-			String sectionPrefix) {
+	public String updateConnectionRequest(long connectionRequestId, Map<String, String> params, String sectionPrefix) {
 		try {
-			ConnectionRequest connectionRequest=getConnectionRequest(connectionRequestId);
+			ConnectionRequest connectionRequest = getConnectionRequest(connectionRequestId);
 			System.out.println("setattribute begin");
 			setAttributes(connectionRequest, params, sectionPrefix);
 			System.out.println("setattribute end ");
@@ -199,10 +199,11 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		}
 		return "failure";
 	}
-	
+
 	public String submitConnectionRequestToSoap(long connectionRequestId) {
 		try {
-			//ConnectionRequest connectionRequest= connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
+			// ConnectionRequest connectionRequest=
+			// connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
 			DigitalSevaKendraServiceHelper.addNewConnectionRequestDetailSoapCall(connectionRequestId);
 			return "success";
 		} catch (Exception e) {
@@ -210,7 +211,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		}
 		return "failure";
 	}
-	
+
 	private ConnectionRequest toConnectionRequest(ConnectionRequest source) {
 		ResourceBundle bundle = getResourceBundle();
 
@@ -218,7 +219,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			LOGGER.error("Error: Bundle is null..");
 			return null;
 		}
-		
+
 		ConnectionRequest target = connectionRequestPersistence.create(0);
 		Enumeration<String> enumBundle = bundle.getKeys();
 		// String formName=params.get("formName");
@@ -259,43 +260,43 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	}
 
 	private void setAttributes(ConnectionRequest obj, Map<String, String> params, String attrPrefix) {
-		
-		ResourceBundle bundle =getResourceBundle();
-		
+
+		ResourceBundle bundle = getResourceBundle();
+
 		if (bundle == null) {
 			LOGGER.error("Error: Bundle is null..");
 			return;
 		}
 
 		String namespace = params.get("namespace");
-		System.out.println("Namespace ---"+namespace);
+		System.out.println("Namespace ---" + namespace);
 		// String formName=params.get("formName");
 		for (Map.Entry<String, String> entry : params.entrySet()) {
 			String sourceKey = entry.getKey();
-			
-			System.out.println("source key ..."+sourceKey);
+
+			System.out.println("source key ..." + sourceKey);
 			if (sourceKey.contains(namespace)) {
 				sourceKey = sourceKey.substring((namespace).length());
 			}
-			//sourceKey = attrPrefix + "." + sourceKey;
-			System.out.println("source key updated ..."+sourceKey);
-			
-			String targetKey =null;
-			try{
+			// sourceKey = attrPrefix + "." + sourceKey;
+			System.out.println("source key updated ..." + sourceKey);
+
+			String targetKey = null;
+			try {
 				targetKey = bundle.getString(attrPrefix + "." + sourceKey);
-				
-			}catch(Exception e) {
-					
+
+			} catch (Exception e) {
+
 				LOGGER.error(e.getMessage());
 			}
 			LOGGER.info("Processing sourceKey=[" + sourceKey + "], targetKey=[" + targetKey + "] and value=["
 					+ entry.getValue() + "]");
-			
+
 			if (StringUtils.isBlank(targetKey)) {
-				if(StringUtils.isBlank(entry.getValue())) {
+				if (StringUtils.isBlank(entry.getValue())) {
 					continue;
-				}else {
-					targetKey=sourceKey;
+				} else {
+					targetKey = sourceKey;
 				}
 			}
 			setAttribute(obj, targetKey, entry.getValue());
@@ -303,14 +304,13 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	}
 
 	private ResourceBundle getResourceBundle() {
-		ResourceBundle bundle =null;
+		ResourceBundle bundle = null;
 		try {
-			bundle = ResourceBundle.getBundle("META-INF/config/field-mapping", Locale.getDefault(),
-					getClassLoader());
+			bundle = ResourceBundle.getBundle("META-INF/config/field-mapping", Locale.getDefault(), getClassLoader());
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}
-		
+
 		return bundle;
 	}
 
@@ -330,7 +330,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			methodSet.invoke(obj, value);
 		} catch (Exception e) {
 			LOGGER.error("Error in setAttribute for [ConnectionRequest." + name + "] to value [" + value + "]");
-			
+
 		}
 	}
 
@@ -349,7 +349,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			return methodGet.invoke(obj);
 		} catch (Exception e) {
 			LOGGER.error("Error in getAttribute for [ConnectionRequest." + name + "]");
-			
+
 		}
 		return null;
 	}
@@ -371,42 +371,41 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		}
 		return null;
 	}
-	
+
 	public boolean getEmailAndSendOTPNEW(String emailId, ThemeDisplay themeDisplay) {
 		String siteName = "";
 		try {
 			siteName = themeDisplay.getScopeGroupName();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 		String otp = "";
 		boolean showOTP = false;
 		boolean ismailSent = false;
-				if (showOTP) {
-						StringBuffer body = new StringBuffer();
+		if (showOTP) {
+			StringBuffer body = new StringBuffer();
 
-						body.append("<p>Dear Customer, </p>");
-						body.append("<p>Your One Time Password for New Connection is "+otp+". Do not share this OTP to anyone for security reasons. BRPL shall not be responsible for any misuse</p>");
-						body.append("<br/>");
-						body.append("<br/>");
-						body.append("<p>Thanks & Regards</p>");
-						body.append("<p>BSES Power Limited.</p>");
+			body.append("<p>Dear Customer, </p>");
+			body.append("<p>Your One Time Password for New Connection is " + otp
+					+ ". Do not share this OTP to anyone for security reasons. BRPL shall not be responsible for any misuse</p>");
+			body.append("<br/>");
+			body.append("<br/>");
+			body.append("<p>Thanks & Regards</p>");
+			body.append("<p>BSES Power Limited.</p>");
 
-						String mailBody = body.toString();
-						ismailSent = sendEmail(FORM_EMAIL_ID, emailId, SUBJECT, mailBody); 
-						//ismailSent = true;
-						//_log.info("emailId--------"+emailId);
-						if (ismailSent == true) {
-							return true;
-						}
-					}
-			return false;
+			String mailBody = body.toString();
+			ismailSent = sendEmail(FORM_EMAIL_ID, emailId, SUBJECT, mailBody);
+			// ismailSent = true;
+			// _log.info("emailId--------"+emailId);
+			if (ismailSent == true) {
+				return true;
+			}
+		}
+		return false;
 	}
-	
 
 	private boolean sendEmail(String from, String to, String subject, String body) {
-		
-		
+
 		MailMessage mailMessage = new MailMessage();
 		try {
 			mailMessage.setTo(new InternetAddress(to));
@@ -414,13 +413,13 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			mailMessage.setSubject(subject);
 			mailMessage.setBody(body);
 			mailMessage.setHTMLFormat(true);
-			//File Attachement
-		    
-			 MailServiceUtil.sendEmail(mailMessage);	
-			
-			 return true;
+			// File Attachement
+
+			MailServiceUtil.sendEmail(mailMessage);
+
+			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 		return false;
 	}
