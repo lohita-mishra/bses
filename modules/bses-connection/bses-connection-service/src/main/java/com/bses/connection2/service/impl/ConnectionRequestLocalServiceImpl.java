@@ -302,15 +302,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			LOGGER.error(ex.getMessage());
 		}
 		
-		if (bundle == null) {
-			try {
-				bundle = ResourceBundle.getBundle("META-INF/config/field-mapping.properties", Locale.getDefault(),
-						getClassLoader());
-			} catch (Exception ex) {
-				LOGGER.error(ex.getMessage());
-			}
-		}
-
 		return bundle;
 	}
 

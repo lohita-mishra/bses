@@ -87,6 +87,7 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	});--%>
 	
 	$('#<portlet:namespace/><%=elementName%>_file').on('change', function(event) {
+		console.log('Uploading for '+'<%=connectionRequestId%>, <%=connectionDocumentId%> , <%=documentType%>' + $('#<portlet:namespace/><%=elementName%>_documentName').val());
 		uploadFile('<%=connectionRequestId%>', '<%=connectionDocumentId%>', '<%=documentType%>', $('#<portlet:namespace/><%=elementName%>_documentName').val(), 
 				$('#<portlet:namespace/><%=elementName%>_file'), <%=progressBarId%>, <portlet:namespace /><%=elementName%>_uploadFileOnSuccess);
 	});

@@ -43,6 +43,7 @@ public class ConnectionRequestSoap implements Serializable {
 		soapModel.setMobileNo(model.getMobileNo());
 		soapModel.setEmailId(model.getEmailId());
 		soapModel.setRequestDate(model.getRequestDate());
+		soapModel.setRequestType(model.getRequestType());
 		soapModel.setConsumerType(model.getConsumerType());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setFirstName(model.getFirstName());
@@ -89,6 +90,10 @@ public class ConnectionRequestSoap implements Serializable {
 		soapModel.setAgriConsumer(model.isAgriConsumer());
 		soapModel.setHasBdoCertificate(model.isHasBdoCertificate());
 		soapModel.setBdoCertificate(model.getBdoCertificate());
+		soapModel.setHasDpccCertificate(model.isHasDpccCertificate());
+		soapModel.setDpccCertificate(model.getDpccCertificate());
+		soapModel.setHasPollutionCertificate(model.isHasPollutionCertificate());
+		soapModel.setPollutionCertificate(model.getPollutionCertificate());
 		soapModel.setEServiceOnMail(model.isEServiceOnMail());
 		soapModel.setEServiceMailId(model.getEServiceMailId());
 		soapModel.setApplicantPhoto(model.getApplicantPhoto());
@@ -259,6 +264,14 @@ public class ConnectionRequestSoap implements Serializable {
 
 	public void setRequestDate(Date requestDate) {
 		_requestDate = requestDate;
+	}
+
+	public String getRequestType() {
+		return _requestType;
+	}
+
+	public void setRequestType(String requestType) {
+		_requestType = requestType;
 	}
 
 	public String getConsumerType() {
@@ -669,6 +682,46 @@ public class ConnectionRequestSoap implements Serializable {
 		_bdoCertificate = bdoCertificate;
 	}
 
+	public boolean getHasDpccCertificate() {
+		return _hasDpccCertificate;
+	}
+
+	public boolean isHasDpccCertificate() {
+		return _hasDpccCertificate;
+	}
+
+	public void setHasDpccCertificate(boolean hasDpccCertificate) {
+		_hasDpccCertificate = hasDpccCertificate;
+	}
+
+	public String getDpccCertificate() {
+		return _dpccCertificate;
+	}
+
+	public void setDpccCertificate(String dpccCertificate) {
+		_dpccCertificate = dpccCertificate;
+	}
+
+	public boolean getHasPollutionCertificate() {
+		return _hasPollutionCertificate;
+	}
+
+	public boolean isHasPollutionCertificate() {
+		return _hasPollutionCertificate;
+	}
+
+	public void setHasPollutionCertificate(boolean hasPollutionCertificate) {
+		_hasPollutionCertificate = hasPollutionCertificate;
+	}
+
+	public String getPollutionCertificate() {
+		return _pollutionCertificate;
+	}
+
+	public void setPollutionCertificate(String pollutionCertificate) {
+		_pollutionCertificate = pollutionCertificate;
+	}
+
 	public boolean getEServiceOnMail() {
 		return _eServiceOnMail;
 	}
@@ -809,6 +862,7 @@ public class ConnectionRequestSoap implements Serializable {
 	private String _mobileNo;
 	private String _emailId;
 	private Date _requestDate;
+	private String _requestType;
 	private String _consumerType;
 	private String _title;
 	private String _firstName;
@@ -855,6 +909,10 @@ public class ConnectionRequestSoap implements Serializable {
 	private boolean _agriConsumer;
 	private boolean _hasBdoCertificate;
 	private String _bdoCertificate;
+	private boolean _hasDpccCertificate;
+	private String _dpccCertificate;
+	private boolean _hasPollutionCertificate;
+	private String _pollutionCertificate;
 	private boolean _eServiceOnMail;
 	private String _eServiceMailId;
 	private String _applicantPhoto;

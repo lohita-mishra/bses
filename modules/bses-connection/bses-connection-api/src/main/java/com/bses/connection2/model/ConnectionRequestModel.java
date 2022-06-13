@@ -269,6 +269,21 @@ public interface ConnectionRequestModel
 	public void setRequestDate(Date requestDate);
 
 	/**
+	 * Returns the request type of this connection request.
+	 *
+	 * @return the request type of this connection request
+	 */
+	@AutoEscape
+	public String getRequestType();
+
+	/**
+	 * Sets the request type of this connection request.
+	 *
+	 * @param requestType the request type of this connection request
+	 */
+	public void setRequestType(String requestType);
+
+	/**
 	 * Returns the consumer type of this connection request.
 	 *
 	 * @return the consumer type of this connection request
@@ -1014,6 +1029,78 @@ public interface ConnectionRequestModel
 	 * @param bdoCertificate the bdo certificate of this connection request
 	 */
 	public void setBdoCertificate(String bdoCertificate);
+
+	/**
+	 * Returns the has dpcc certificate of this connection request.
+	 *
+	 * @return the has dpcc certificate of this connection request
+	 */
+	public boolean getHasDpccCertificate();
+
+	/**
+	 * Returns <code>true</code> if this connection request is has dpcc certificate.
+	 *
+	 * @return <code>true</code> if this connection request is has dpcc certificate; <code>false</code> otherwise
+	 */
+	public boolean isHasDpccCertificate();
+
+	/**
+	 * Sets whether this connection request is has dpcc certificate.
+	 *
+	 * @param hasDpccCertificate the has dpcc certificate of this connection request
+	 */
+	public void setHasDpccCertificate(boolean hasDpccCertificate);
+
+	/**
+	 * Returns the dpcc certificate of this connection request.
+	 *
+	 * @return the dpcc certificate of this connection request
+	 */
+	@AutoEscape
+	public String getDpccCertificate();
+
+	/**
+	 * Sets the dpcc certificate of this connection request.
+	 *
+	 * @param dpccCertificate the dpcc certificate of this connection request
+	 */
+	public void setDpccCertificate(String dpccCertificate);
+
+	/**
+	 * Returns the has pollution certificate of this connection request.
+	 *
+	 * @return the has pollution certificate of this connection request
+	 */
+	public boolean getHasPollutionCertificate();
+
+	/**
+	 * Returns <code>true</code> if this connection request is has pollution certificate.
+	 *
+	 * @return <code>true</code> if this connection request is has pollution certificate; <code>false</code> otherwise
+	 */
+	public boolean isHasPollutionCertificate();
+
+	/**
+	 * Sets whether this connection request is has pollution certificate.
+	 *
+	 * @param hasPollutionCertificate the has pollution certificate of this connection request
+	 */
+	public void setHasPollutionCertificate(boolean hasPollutionCertificate);
+
+	/**
+	 * Returns the pollution certificate of this connection request.
+	 *
+	 * @return the pollution certificate of this connection request
+	 */
+	@AutoEscape
+	public String getPollutionCertificate();
+
+	/**
+	 * Sets the pollution certificate of this connection request.
+	 *
+	 * @param pollutionCertificate the pollution certificate of this connection request
+	 */
+	public void setPollutionCertificate(String pollutionCertificate);
 
 	/**
 	 * Returns the e service on mail of this connection request.
