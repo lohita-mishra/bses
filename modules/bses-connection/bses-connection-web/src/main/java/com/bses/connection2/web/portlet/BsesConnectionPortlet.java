@@ -62,24 +62,39 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)	throws IOException, PortletException {
 //		String viewMode = "NEW_CONNECTION";
 		String viewMode = renderRequest.getPreferences().getValue("viewMode", " ");
+		
 		LOGGER.info("viewMode : "+viewMode);
+		/*
+		 * switch(viewMode){ case "NEW_CONNECTION":
+		 * handleNewComnnectionView(renderRequest,renderResponse); break; //optional
+		 * case "NAME_CHANGE": handleNameChangeView(renderRequest,renderResponse);
+		 * break; //optional case "addressChange":
+		 * handleAddressChangeView(renderRequest,renderResponse); break; //optional case
+		 * "loadChange": handleLoadChangeView(renderRequest,renderResponse); break;
+		 * //optional default: // include(viewTemplate, renderRequest, renderResponse);
+		 * include("/invalid_config.jsp", renderRequest, renderResponse); }
+		 */
+		
 		switch(viewMode){    
-			case "NEW_CONNECTION":    
-				 handleNewComnnectionView(renderRequest,renderResponse);
-				 break;  //optional  
-			case "NAME_CHANGE":    
-				 handleNameChangeView(renderRequest,renderResponse); 
-				 break;  //optional  
-			case "addressChange":    
-				 handleAddressChangeView(renderRequest,renderResponse); 
-				 break;  //optional    
-			case "loadChange":    
-				 handleLoadChangeView(renderRequest,renderResponse);  
-				 break;  //optional     
-			default:     
-				// include(viewTemplate, renderRequest, renderResponse); 
-				include("/invalid_config.jsp", renderRequest, renderResponse);
-		}    
+		case "U01":    
+			 handleNewComnnectionView(renderRequest,renderResponse);
+			 break;  //optional  
+		case "U02":    
+			 handleNameChangeView(renderRequest,renderResponse); 
+			 break;  //optional  
+		case "U07":    
+			 handleAddressChangeView(renderRequest,renderResponse); 
+			 break;  //optional    
+		case "U03":    
+			 handleLoadChangeView(renderRequest,renderResponse);  
+			 break;  //optional
+		case "U04":    
+			 handleLoadChangeView(renderRequest,renderResponse);  
+			 break;  //optional
+		default:     
+			// include(viewTemplate, renderRequest, renderResponse); 
+			include("/invalid_config.jsp", renderRequest, renderResponse);
+	}    
 	}	
 	
 	private void handleNewComnnectionView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
