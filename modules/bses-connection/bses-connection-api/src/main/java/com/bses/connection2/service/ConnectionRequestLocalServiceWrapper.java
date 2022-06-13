@@ -368,6 +368,15 @@ public class ConnectionRequestLocalServiceWrapper
 	}
 
 	@Override
+	public boolean getEmailAndSendOTPNEW(
+		String emailId,
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay) {
+
+		return _connectionRequestLocalService.getEmailAndSendOTPNEW(
+			emailId, themeDisplay);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext

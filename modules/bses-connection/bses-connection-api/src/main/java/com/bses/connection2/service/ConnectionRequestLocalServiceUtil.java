@@ -332,6 +332,13 @@ public class ConnectionRequestLocalServiceUtil {
 		return getService().getConnectionRequestsCount();
 	}
 
+	public static boolean getEmailAndSendOTPNEW(
+		String emailId,
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay) {
+
+		return getService().getEmailAndSendOTPNEW(emailId, themeDisplay);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext

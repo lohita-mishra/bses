@@ -43,6 +43,44 @@
 		font-size: 1.5rem !important;
 		font-weight: bold;
 	}
+	
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1; 
+  padding-top: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
 </style>
 <portlet:resourceURL var="fileUploadURL" id="fileUpload">
 </portlet:resourceURL>
@@ -104,7 +142,58 @@
 		</liferay-util:include>
 	</div>
 </div>
+
+<div id="emailModal" class="modal h-60">
+ <div class="modal-content">
+    <div class="modal-header text-center">
+        <h4 class="modal-title w-70 h-70 font-weight-bold">Verify Email</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+    <!--   <div class="modal-body ">
+     -->
+      <div class="modal-body align-items-center justify-content-center shadow px-4 py-3 rounded" style="min-height: 200px;">
+		
+         <div class="md-form">
+        <label data-error="wrong" data-success="right" for="defaultForm-email">Email</label>
+          <input type="email" id="emailId" class="form-control validate">
+         </div>
+
+        <div class="md-form ">
+         <label data-error="wrong" data-success="right" for="defaultForm-pass">OTP</label>
+         <input type="number" id="otp" class="form-control validate">
+        </div>
+         <div class="md-form d-flex justify-content-center ">
+        	 <button class="btn btn-default">Submit</button>
+    	 </div>
+    	 
+		
+		</div>
+
+      </div>
+      <!-- <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-default">Submit</button>
+     </div> -->
+   </div>
+</div>
+
+
 <script>
+
+var emodal = document.getElementById("emailModal");
+var modelClose = document.getElementsByClassName("close")[0];
+
+modelClose.onclick = function() {
+	emodal.style.display = "none";
+	}
+window.onclick = function(event) {
+	  if (event.target == modal) {
+		  emodal.style.display = "none";
+	  }
+	}
+
 	var portletNamespace="<portlet:namespace/>";
 	var autoSaveFlag = <%=autoSaveFlag%>;
 	$(document).ready(function() {
@@ -635,6 +724,13 @@
 	function handleSubmitBtnClick(){
 		$("#<portlet:namespace/>submitBtn").click(function() {
 			console.log("submitBtn clicked");
+			
+			var emailId = $("#<portlet:namespace/>eServiceMailId").val();	
+			if(emailId != "")
+			{
+				emodal.style.display = "block";
+				$('#emailId').val(emailId);
+			}
 			submitForms();
 		});
 	}

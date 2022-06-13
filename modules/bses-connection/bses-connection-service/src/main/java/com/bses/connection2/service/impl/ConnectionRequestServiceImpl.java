@@ -19,6 +19,7 @@ import com.bses.connection2.service.base.ConnectionRequestServiceBaseImpl;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import java.util.List;
 import java.util.Map;
@@ -112,5 +113,9 @@ public class ConnectionRequestServiceImpl extends ConnectionRequestServiceBaseIm
 
 	public List<ConnectionRequest> getConnectionRequestsByMobileNo(String mobileNo) {
 		return connectionRequestLocalService.getConnectionRequestsByMobileNo(mobileNo);
+	}
+	
+	private boolean getEmailAndSendOTPNEW(String emailId, ThemeDisplay themeDisplay) {
+		return true;
 	}
 }

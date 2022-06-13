@@ -6,6 +6,7 @@ dependencies {
 	compileOnly project(":modules:bses-connection:bses-connection-api")
 	//compileOnly project(":modules:bses-new-connection-services:bses-new-connection-services-api")
 	compileOnly group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+	compile group: 'javax.mail', name: 'mail', version: '1.4'
 	
 }
 

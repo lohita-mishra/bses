@@ -18,8 +18,11 @@ import com.bses.connection2.helper.DigitalSevaKendraServiceHelper;
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.mail.kernel.model.MailMessage;
+import com.liferay.mail.kernel.service.MailServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -29,6 +32,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -64,6 +69,10 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	private static final String PREFIX_CONNECTION = "connection";
 	private static final String PREFIX_CHECKLIST = "checklist";
 	private static final String PREFIX_DOCUMENT = "document";
+	
+	public static final String FORM_EMAIL_ID = "bsesnoreply@relianceada.com";
+	public static final String SUBJECT = "OTP for New Connection";
+	
 	
 	//@Reference
 	//private DigitalSevaKendraServiceHelper digitalSevaKendraServiceHelper;
@@ -362,4 +371,58 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		}
 		return null;
 	}
+	
+	public boolean getEmailAndSendOTPNEW(String emailId, ThemeDisplay themeDisplay) {
+		String siteName = "";
+		try {
+			siteName = themeDisplay.getScopeGroupName();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String otp = "";
+		boolean showOTP = false;
+		boolean ismailSent = false;
+				if (showOTP) {
+						StringBuffer body = new StringBuffer();
+
+						body.append("<p>Dear Customer, </p>");
+						body.append("<p>Your One Time Password for New Connection is "+otp+". Do not share this OTP to anyone for security reasons. BRPL shall not be responsible for any misuse</p>");
+						body.append("<br/>");
+						body.append("<br/>");
+						body.append("<p>Thanks & Regards</p>");
+						body.append("<p>BSES Power Limited.</p>");
+
+						String mailBody = body.toString();
+						ismailSent = sendEmail(FORM_EMAIL_ID, emailId, SUBJECT, mailBody); 
+						//ismailSent = true;
+						//_log.info("emailId--------"+emailId);
+						if (ismailSent == true) {
+							return true;
+						}
+					}
+			return false;
+	}
+	
+
+	private boolean sendEmail(String from, String to, String subject, String body) {
+		
+		
+		MailMessage mailMessage = new MailMessage();
+		try {
+			mailMessage.setTo(new InternetAddress(to));
+			mailMessage.setFrom(new InternetAddress(from));
+			mailMessage.setSubject(subject);
+			mailMessage.setBody(body);
+			mailMessage.setHTMLFormat(true);
+			//File Attachement
+		    
+			 MailServiceUtil.sendEmail(mailMessage);	
+			
+			 return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
