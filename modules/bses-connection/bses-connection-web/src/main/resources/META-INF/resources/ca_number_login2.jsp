@@ -1,6 +1,8 @@
 <%@ include file="/init.jsp"%>
 
-<portlet:actionURL name="caNumberLogin" var="caNumberLoginURL" />
+<portlet:renderURL var="nameChangeURL">
+	<portlet:param name="mvcPath" value="/consumer_name.jsp" />
+</portlet:renderURL>
 
 <style>
 .modal {
@@ -12,7 +14,7 @@
 		<div class="col-md-5">
 			<div class="card m-3 p-5">
 				<div class="card-body bg-dagner">
-					<aui:form role="form" action="<%=caNumberLoginURL.toString()%>" class="" name="generateOtpForm">
+					<aui:form role="form" class="" name="generateOtpForm">
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-md-12">
@@ -23,7 +25,6 @@
 											<aui:validator name="minLength" errorMessage="Please enter 12 digit's valid mobile number!">12</aui:validator>
 											<aui:validator name="maxLength" errorMessage="Please enter 12 digit's valid mobile number!">12</aui:validator>
 										</aui:input>
-										<aui:input  type="hidden" name="mobileNo" ></aui:input>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -129,6 +130,7 @@ $('#<portlet:namespace />resendOtp').click(function() {
 		reGenerateOtp();
 	});
 function generateOtpforCaNumber(){
+alert("test1");
 	let caNumber = $('#<portlet:namespace />caNumber').val();
 	console.log(caNumber+"--------------");
 	if(!caNumber==""){
@@ -141,12 +143,13 @@ function generateOtpforCaNumber(){
     console.log(obj);
     if(obj != null){
     	mobileNo = obj;
-    	$("#<portlet:namespace/>mobileNo").val(mobileNo);
+    	 console.log("mobile no..."+mobileNo);
+    	console.log("obj----"+obj)
     	$("#<portlet:namespace/>generateOtpForm").hide();
 		
 		$("#<portlet:namespace/>validateOtpForm").show();
     
-    }
+    	}
   });
  }
 }
@@ -165,8 +168,7 @@ function validateOtp(){
     console.log(obj);
     if(obj=="valid"){
    		console.log(obj);
-   		var detailsForm = $("#<portlet:namespace/>generateOtpForm");
-   		detailsForm.submit();
+   		window.location.href="<%=nameChangeURL.toString() %>&<portlet:namespace/>caNumber="+$("#<portlet:namespace/>caNumber").val();
    }
    else if(obj=="invalid"){
     	$("#wrontotp").show();
