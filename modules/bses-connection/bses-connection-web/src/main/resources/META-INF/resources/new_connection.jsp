@@ -143,55 +143,10 @@
 	</div>
 </div>
 
-<div id="emailModal" class="modal h-60">
- <div class="modal-content">
-    <div class="modal-header text-center">
-        <h4 class="modal-title w-70 h-70 font-weight-bold">Verify Email</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      
-    <!--   <div class="modal-body ">
-     -->
-      <div class="modal-body align-items-center justify-content-center shadow px-4 py-3 rounded" style="min-height: 200px;">
-		
-         <div class="md-form">
-        <label data-error="wrong" data-success="right" for="defaultForm-email">Email</label>
-          <input type="email" id="emailId" class="form-control validate">
-         </div>
 
-        <div class="md-form ">
-         <label data-error="wrong" data-success="right" for="defaultForm-pass">OTP</label>
-         <input type="number" id="otp" class="form-control validate">
-        </div>
-         <div class="md-form d-flex justify-content-center ">
-        	 <button class="btn btn-default">Submit</button>
-    	 </div>
-		</div>
-
-      </div>
-      <!-- <div class="modal-footer d-flex justify-content-center">
-        <button class="btn btn-default">Submit</button>
-     </div> -->
-   </div>
-</div>
 
 
 <script>
-
-var emodal = document.getElementById("emailModal");
-var modelClose = document.getElementsByClassName("close")[0];
-
-modelClose.onclick = function() {
-	emodal.style.display = "none";
-	}
-window.onclick = function(event) {
-	  if (event.target == modal) {
-		  emodal.style.display = "none";
-	  }
-	}
-
 	var portletNamespace="<portlet:namespace/>";
 	var autoSaveFlag = <%=autoSaveFlag%>;
 	$(document).ready(function() {
@@ -723,12 +678,6 @@ window.onclick = function(event) {
 		$("#<portlet:namespace/>submitBtn").click(function() {
 			console.log("submitBtn clicked");
 			
-			var emailId = $("#<portlet:namespace/>eServiceMailId").val();	
-			if(emailId != "")
-			{
-				emodal.style.display = "block";
-				$('#emailId').val(emailId);
-			}
 			submitForms();
 		});
 	}
