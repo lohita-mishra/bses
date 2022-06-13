@@ -27,6 +27,7 @@
 		<column name="mobileNo" type="String" />
 		<column name="emailId" type="String" />
 		<column name="requestDate" type="Date" />
+		<column name="requestType" type="String" />
 		
 		<!-- Consumer Information -->
 		<column name="consumerType" type="String" />
@@ -82,6 +83,11 @@
 		<column name="agriConsumer" type="boolean" />
 		<column name="hasBdoCertificate" type="boolean" />
 		<column name="bdoCertificate" type="String" />
+		<column name="hasDpccCertificate" type="boolean" />
+		<column name="dpccCertificate" type="String" />
+		<column name="hasPollutionCertificate" type="boolean" />
+		<column name="pollutionCertificate" type="String" />
+		
 		<column name="eServiceOnMail" type="boolean" />
 		<column name="eServiceMailId" type="String" />
 		

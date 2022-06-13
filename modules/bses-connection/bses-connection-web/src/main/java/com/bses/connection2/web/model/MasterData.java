@@ -9,6 +9,9 @@ public class MasterData {
 	static final Map<String, String> titles=new LinkedHashMap<>();
 	static final Map<String, String> tariffCategories=new LinkedHashMap<>();
 	static final Map<String, String> premisesTypes=new LinkedHashMap<>();
+	static final Map<String, String> idProofTypes=new LinkedHashMap<>();
+	static final Map<String, String> ownershipProofTypes=new LinkedHashMap<>();
+	
 	
 	public static Map<String, String> getFloors(){
 		if(floors.isEmpty()) {
@@ -64,6 +67,23 @@ public class MasterData {
 			premisesTypes.put("3", "Others");
 		}
 		return premisesTypes;
+	}
+	
+	public static Map<String, String> getIDProofTypes(){
+		if(idProofTypes.isEmpty()) {
+			idProofTypes.put("Passport", "Owned");
+			idProofTypes.put("Aadhaar Card", "Aadhaar Card");
+			idProofTypes.put("PAN Card", "PAN Card");
+			idProofTypes.put("Driving License", "Driving License");
+		}
+		return idProofTypes;
+	}
+	
+	public static Map<String, String> getOwnershipProofTypes(){
+		if(ownershipProofTypes.isEmpty()) {
+			ownershipProofTypes.put("Title Deed", "Certified Copy of Title Deed");
+		}
+		return ownershipProofTypes;
 	}
 	
 	public enum ConsumerTypes{

@@ -38,6 +38,7 @@
 		<property name="mobileNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="emailId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="requestDate" type="org.hibernate.type.TimestampType" />
+		<property name="requestType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="consumerType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="firstName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -84,6 +85,10 @@
 		<property name="agriConsumer" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="hasBdoCertificate" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="bdoCertificate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="hasDpccCertificate" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="dpccCertificate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="hasPollutionCertificate" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="pollutionCertificate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.CamelCasePropertyAccessor" name="eServiceOnMail" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.CamelCasePropertyAccessor" name="eServiceMailId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="applicantPhoto" type="com.liferay.portal.dao.orm.hibernate.StringType" />

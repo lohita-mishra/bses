@@ -68,6 +68,7 @@ public class ConnectionRequestWrapper
 		attributes.put("mobileNo", getMobileNo());
 		attributes.put("emailId", getEmailId());
 		attributes.put("requestDate", getRequestDate());
+		attributes.put("requestType", getRequestType());
 		attributes.put("consumerType", getConsumerType());
 		attributes.put("title", getTitle());
 		attributes.put("firstName", getFirstName());
@@ -114,6 +115,10 @@ public class ConnectionRequestWrapper
 		attributes.put("agriConsumer", isAgriConsumer());
 		attributes.put("hasBdoCertificate", isHasBdoCertificate());
 		attributes.put("bdoCertificate", getBdoCertificate());
+		attributes.put("hasDpccCertificate", isHasDpccCertificate());
+		attributes.put("dpccCertificate", getDpccCertificate());
+		attributes.put("hasPollutionCertificate", isHasPollutionCertificate());
+		attributes.put("pollutionCertificate", getPollutionCertificate());
 		attributes.put("eServiceOnMail", isEServiceOnMail());
 		attributes.put("eServiceMailId", getEServiceMailId());
 		attributes.put("applicantPhoto", getApplicantPhoto());
@@ -205,6 +210,12 @@ public class ConnectionRequestWrapper
 
 		if (requestDate != null) {
 			setRequestDate(requestDate);
+		}
+
+		String requestType = (String)attributes.get("requestType");
+
+		if (requestType != null) {
+			setRequestType(requestType);
 		}
 
 		String consumerType = (String)attributes.get("consumerType");
@@ -486,6 +497,33 @@ public class ConnectionRequestWrapper
 			setBdoCertificate(bdoCertificate);
 		}
 
+		Boolean hasDpccCertificate = (Boolean)attributes.get(
+			"hasDpccCertificate");
+
+		if (hasDpccCertificate != null) {
+			setHasDpccCertificate(hasDpccCertificate);
+		}
+
+		String dpccCertificate = (String)attributes.get("dpccCertificate");
+
+		if (dpccCertificate != null) {
+			setDpccCertificate(dpccCertificate);
+		}
+
+		Boolean hasPollutionCertificate = (Boolean)attributes.get(
+			"hasPollutionCertificate");
+
+		if (hasPollutionCertificate != null) {
+			setHasPollutionCertificate(hasPollutionCertificate);
+		}
+
+		String pollutionCertificate = (String)attributes.get(
+			"pollutionCertificate");
+
+		if (pollutionCertificate != null) {
+			setPollutionCertificate(pollutionCertificate);
+		}
+
 		Boolean eServiceOnMail = (Boolean)attributes.get("eServiceOnMail");
 
 		if (eServiceOnMail != null) {
@@ -741,6 +779,16 @@ public class ConnectionRequestWrapper
 	}
 
 	/**
+	 * Returns the dpcc certificate of this connection request.
+	 *
+	 * @return the dpcc certificate of this connection request
+	 */
+	@Override
+	public String getDpccCertificate() {
+		return _connectionRequest.getDpccCertificate();
+	}
+
+	/**
 	 * Returns the elcb document of this connection request.
 	 *
 	 * @return the elcb document of this connection request
@@ -883,6 +931,26 @@ public class ConnectionRequestWrapper
 	@Override
 	public boolean getHasBdoCertificate() {
 		return _connectionRequest.getHasBdoCertificate();
+	}
+
+	/**
+	 * Returns the has dpcc certificate of this connection request.
+	 *
+	 * @return the has dpcc certificate of this connection request
+	 */
+	@Override
+	public boolean getHasDpccCertificate() {
+		return _connectionRequest.getHasDpccCertificate();
+	}
+
+	/**
+	 * Returns the has pollution certificate of this connection request.
+	 *
+	 * @return the has pollution certificate of this connection request
+	 */
+	@Override
+	public boolean getHasPollutionCertificate() {
+		return _connectionRequest.getHasPollutionCertificate();
 	}
 
 	/**
@@ -1126,6 +1194,16 @@ public class ConnectionRequestWrapper
 	}
 
 	/**
+	 * Returns the pollution certificate of this connection request.
+	 *
+	 * @return the pollution certificate of this connection request
+	 */
+	@Override
+	public String getPollutionCertificate() {
+		return _connectionRequest.getPollutionCertificate();
+	}
+
+	/**
 	 * Returns the premises type of this connection request.
 	 *
 	 * @return the premises type of this connection request
@@ -1168,6 +1246,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public String getRequestNo() {
 		return _connectionRequest.getRequestNo();
+	}
+
+	/**
+	 * Returns the request type of this connection request.
+	 *
+	 * @return the request type of this connection request
+	 */
+	@Override
+	public String getRequestType() {
+		return _connectionRequest.getRequestType();
 	}
 
 	/**
@@ -1416,6 +1504,26 @@ public class ConnectionRequestWrapper
 	}
 
 	/**
+	 * Returns <code>true</code> if this connection request is has dpcc certificate.
+	 *
+	 * @return <code>true</code> if this connection request is has dpcc certificate; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isHasDpccCertificate() {
+		return _connectionRequest.isHasDpccCertificate();
+	}
+
+	/**
+	 * Returns <code>true</code> if this connection request is has pollution certificate.
+	 *
+	 * @return <code>true</code> if this connection request is has pollution certificate; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isHasPollutionCertificate() {
+		return _connectionRequest.isHasPollutionCertificate();
+	}
+
+	/**
 	 * Returns <code>true</code> if this connection request is height15 mtr.
 	 *
 	 * @return <code>true</code> if this connection request is height15 mtr; <code>false</code> otherwise
@@ -1651,6 +1759,16 @@ public class ConnectionRequestWrapper
 	}
 
 	/**
+	 * Sets the dpcc certificate of this connection request.
+	 *
+	 * @param dpccCertificate the dpcc certificate of this connection request
+	 */
+	@Override
+	public void setDpccCertificate(String dpccCertificate) {
+		_connectionRequest.setDpccCertificate(dpccCertificate);
+	}
+
+	/**
 	 * Sets the elcb document of this connection request.
 	 *
 	 * @param elcbDocument the elcb document of this connection request
@@ -1805,6 +1923,26 @@ public class ConnectionRequestWrapper
 	@Override
 	public void setHasBdoCertificate(boolean hasBdoCertificate) {
 		_connectionRequest.setHasBdoCertificate(hasBdoCertificate);
+	}
+
+	/**
+	 * Sets whether this connection request is has dpcc certificate.
+	 *
+	 * @param hasDpccCertificate the has dpcc certificate of this connection request
+	 */
+	@Override
+	public void setHasDpccCertificate(boolean hasDpccCertificate) {
+		_connectionRequest.setHasDpccCertificate(hasDpccCertificate);
+	}
+
+	/**
+	 * Sets whether this connection request is has pollution certificate.
+	 *
+	 * @param hasPollutionCertificate the has pollution certificate of this connection request
+	 */
+	@Override
+	public void setHasPollutionCertificate(boolean hasPollutionCertificate) {
+		_connectionRequest.setHasPollutionCertificate(hasPollutionCertificate);
 	}
 
 	/**
@@ -2053,6 +2191,16 @@ public class ConnectionRequestWrapper
 	}
 
 	/**
+	 * Sets the pollution certificate of this connection request.
+	 *
+	 * @param pollutionCertificate the pollution certificate of this connection request
+	 */
+	@Override
+	public void setPollutionCertificate(String pollutionCertificate) {
+		_connectionRequest.setPollutionCertificate(pollutionCertificate);
+	}
+
+	/**
 	 * Sets the premises type of this connection request.
 	 *
 	 * @param premisesType the premises type of this connection request
@@ -2095,6 +2243,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public void setRequestNo(String requestNo) {
 		_connectionRequest.setRequestNo(requestNo);
+	}
+
+	/**
+	 * Sets the request type of this connection request.
+	 *
+	 * @param requestType the request type of this connection request
+	 */
+	@Override
+	public void setRequestType(String requestType) {
+		_connectionRequest.setRequestType(requestType);
 	}
 
 	/**

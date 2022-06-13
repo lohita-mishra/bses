@@ -65,7 +65,7 @@ public class ConnectionRequestCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(147);
+		StringBundler sb = new StringBundler(157);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -91,6 +91,8 @@ public class ConnectionRequestCacheModel
 		sb.append(emailId);
 		sb.append(", requestDate=");
 		sb.append(requestDate);
+		sb.append(", requestType=");
+		sb.append(requestType);
 		sb.append(", consumerType=");
 		sb.append(consumerType);
 		sb.append(", title=");
@@ -183,6 +185,14 @@ public class ConnectionRequestCacheModel
 		sb.append(hasBdoCertificate);
 		sb.append(", bdoCertificate=");
 		sb.append(bdoCertificate);
+		sb.append(", hasDpccCertificate=");
+		sb.append(hasDpccCertificate);
+		sb.append(", dpccCertificate=");
+		sb.append(dpccCertificate);
+		sb.append(", hasPollutionCertificate=");
+		sb.append(hasPollutionCertificate);
+		sb.append(", pollutionCertificate=");
+		sb.append(pollutionCertificate);
 		sb.append(", eServiceOnMail=");
 		sb.append(eServiceOnMail);
 		sb.append(", eServiceMailId=");
@@ -282,6 +292,13 @@ public class ConnectionRequestCacheModel
 		}
 		else {
 			connectionRequestImpl.setRequestDate(new Date(requestDate));
+		}
+
+		if (requestType == null) {
+			connectionRequestImpl.setRequestType("");
+		}
+		else {
+			connectionRequestImpl.setRequestType(requestType);
 		}
 
 		if (consumerType == null) {
@@ -542,6 +559,25 @@ public class ConnectionRequestCacheModel
 			connectionRequestImpl.setBdoCertificate(bdoCertificate);
 		}
 
+		connectionRequestImpl.setHasDpccCertificate(hasDpccCertificate);
+
+		if (dpccCertificate == null) {
+			connectionRequestImpl.setDpccCertificate("");
+		}
+		else {
+			connectionRequestImpl.setDpccCertificate(dpccCertificate);
+		}
+
+		connectionRequestImpl.setHasPollutionCertificate(
+			hasPollutionCertificate);
+
+		if (pollutionCertificate == null) {
+			connectionRequestImpl.setPollutionCertificate("");
+		}
+		else {
+			connectionRequestImpl.setPollutionCertificate(pollutionCertificate);
+		}
+
 		connectionRequestImpl.setEServiceOnMail(eServiceOnMail);
 
 		if (eServiceMailId == null) {
@@ -657,6 +693,7 @@ public class ConnectionRequestCacheModel
 		mobileNo = objectInput.readUTF();
 		emailId = objectInput.readUTF();
 		requestDate = objectInput.readLong();
+		requestType = objectInput.readUTF();
 		consumerType = objectInput.readUTF();
 		title = objectInput.readUTF();
 		firstName = objectInput.readUTF();
@@ -715,6 +752,12 @@ public class ConnectionRequestCacheModel
 
 		hasBdoCertificate = objectInput.readBoolean();
 		bdoCertificate = objectInput.readUTF();
+
+		hasDpccCertificate = objectInput.readBoolean();
+		dpccCertificate = objectInput.readUTF();
+
+		hasPollutionCertificate = objectInput.readBoolean();
+		pollutionCertificate = objectInput.readUTF();
 
 		eServiceOnMail = objectInput.readBoolean();
 		eServiceMailId = objectInput.readUTF();
@@ -784,6 +827,13 @@ public class ConnectionRequestCacheModel
 		}
 
 		objectOutput.writeLong(requestDate);
+
+		if (requestType == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(requestType);
+		}
 
 		if (consumerType == null) {
 			objectOutput.writeUTF("");
@@ -1042,6 +1092,24 @@ public class ConnectionRequestCacheModel
 			objectOutput.writeUTF(bdoCertificate);
 		}
 
+		objectOutput.writeBoolean(hasDpccCertificate);
+
+		if (dpccCertificate == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(dpccCertificate);
+		}
+
+		objectOutput.writeBoolean(hasPollutionCertificate);
+
+		if (pollutionCertificate == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(pollutionCertificate);
+		}
+
 		objectOutput.writeBoolean(eServiceOnMail);
 
 		if (eServiceMailId == null) {
@@ -1139,6 +1207,7 @@ public class ConnectionRequestCacheModel
 	public String mobileNo;
 	public String emailId;
 	public long requestDate;
+	public String requestType;
 	public String consumerType;
 	public String title;
 	public String firstName;
@@ -1185,6 +1254,10 @@ public class ConnectionRequestCacheModel
 	public boolean agriConsumer;
 	public boolean hasBdoCertificate;
 	public String bdoCertificate;
+	public boolean hasDpccCertificate;
+	public String dpccCertificate;
+	public boolean hasPollutionCertificate;
+	public String pollutionCertificate;
 	public boolean eServiceOnMail;
 	public String eServiceMailId;
 	public String applicantPhoto;

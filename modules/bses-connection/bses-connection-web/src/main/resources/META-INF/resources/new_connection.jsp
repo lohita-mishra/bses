@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.kernel.util.PropsUtil"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@page import="com.liferay.counter.kernel.service.CounterLocalServiceUtil"%>
 <%@page import="com.bses.connection2.service.ConnectionRequestLocalServiceUtil"%>
@@ -47,6 +48,9 @@
 </portlet:resourceURL>
 <%
 	long connectionRequestId=ParamUtil.getLong(request, "connectionRequestId", 0);
+	if(connectionRequestId==0 && session.getAttribute(ConnectionRequest.class.getName()+"#id")!=null){
+		connectionRequestId=(Long)session.getAttribute(ConnectionRequest.class.getName()+"#id");
+	}
 	String mobileNo=ParamUtil.getString(request, "mobileNo", "");
 	String emailId=ParamUtil.getString(request, "emailId", "");
 	
@@ -60,6 +64,18 @@
 	}
 	
 	request.setAttribute(ConnectionRequest.class.getName(), requestEntity);
+	session.setAttribute(ConnectionRequest.class.getName()+"#id", requestEntity.getConnectionRequestId());
+	
+	String autoSaveFlag = PropsUtil.get("connection.request.auto.save");
+	
+	if(autoSaveFlag!=null){
+		try{
+			autoSaveFlag=String.valueOf(Boolean.parseBoolean(autoSaveFlag));
+		}catch(Exception e){}
+	}else{
+		autoSaveFlag="true";
+	}
+	//autoSaveFlag="false";
 %>
 <div class="card card-primary bg-light mb-2">
 	<div class="card-header">
@@ -77,10 +93,11 @@
 		
 		<liferay-util:include page="/checklist.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
+
 		<liferay-util:include page="/documents.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
 		<liferay-util:include page="/declaration.jsp" servletContext="<%=application%>">
-		</liferay-util:include>
+		</liferay-util:include>		
 	</div>
 	<div class="card-footer">
 		<liferay-util:include page="/actions.jsp" servletContext="<%=application%>">
@@ -89,7 +106,7 @@
 </div>
 <script>
 	var portletNamespace="<portlet:namespace/>";
-	var autoSaveFlag =true;
+	var autoSaveFlag = <%=autoSaveFlag%>;
 	$(document).ready(function() {
 		//$('[data-toggle="tooltip"]').tooltip();
 		documentOnload();
@@ -529,7 +546,7 @@
 		form.append("file", file, file.name);
 		//form.append("repositoryId", repositoryId);
 		//form.append("folderId", folderId);
-		form.append("folder", folder);
+		//form.append("folder", folder);
 		
 		form.append("name", file.name);
 		form.append("mimeType", file.type);
@@ -701,15 +718,20 @@
 				console.log("Auto save is called...");
 				initAutoSaveForms(false);
 			}
-		}, 10000);
+		}, 15000);
 	}
 	
 	function initAutoSaveForms(validate){
 		console.log("Calling saveForms");
-		$(".custom-form").each(function( index, item ) {
+		
+		var timeout=0;
+		$(".form-auto-save").each(function( index, item ) {
 			console.log("Before submitting : "+index);
-			console.log("Submitting "+$(item).attr('id'));
-			autoSaveForm($(item).attr('id'), $(item).attr('section-attr'), validate);
+			console.log("Submitting "+$(item).attr('id') +" after "+timeout+" milli-seconds.");
+			setTimeout(function (){
+				autoSaveForm($(item).attr('id'), $(item).attr('section-attr'), validate);
+			}, timeout); 
+			timeout+=2000;
 		});
 	}
 	

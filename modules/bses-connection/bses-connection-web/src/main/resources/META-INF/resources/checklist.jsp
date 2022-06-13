@@ -8,9 +8,10 @@ long connectionDocumentId=0;
 //Calendar calendar=Calendar.getInstance();
 ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
 long connectionRequestId=requestEntity.getConnectionRequestId();
+
 //String folder="/Users/arjun/Documents/tools/liferay7/liferay-dxp-7.0.10.17-sp17/bses/application/newconnection_docs/"+calendar.get(Calendar.YEAR)+"/"+(calendar.get(Calendar.MONTH)+1)+"/RQ005";
 %>
-<aui:form cssClass="custom-form form-auto-save" role="form" name="checklistForm" id="checklistForm" section-attr="checklist" >
+<aui:form cssClass="custom-form" role="form" name="checklistForm" id="checklistForm" section-attr="checklist" >
 	<div class="container-fluid bg-white shadow p-5 my-3">
 		<div class="row">
 			<div class="col-md-12">
@@ -29,12 +30,13 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 				</p>
 			</div>
 			<div class="col-sm-2">
+			
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="wiringTest" label="Yes" value="1" checked="true" /> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" name="wiringTest" label="Yes" value="1" checked="<%=requestEntity.getWiringTest()%>" /> <%--<label class="form-check-label font-weight-bold">
 						Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="wiringTest" label="No" value="0" /> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
+					<aui:input class="form-check-input" type="radio" name="wiringTest" label="No" value="0" checked="<%=!requestEntity.getWiringTest()%>"/> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
 				</div>
 			</div>
 			<div class="col-md-4" id="wiringuploaddiv">
@@ -61,11 +63,11 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="elcbInstalled" value="1" checked="true" label="Yes"/> <%--<label class="form-check-label font-weight-bold"> Yes
+					<aui:input class="form-check-input" type="radio" name="elcbInstalled" value="1" label="Yes" checked="<%=requestEntity.getElcbInstalled() %>"  /> <%--<label class="form-check-label font-weight-bold"> Yes
 					</label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="elcbInstalled" value="0" label="No" /> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
+					<aui:input class="form-check-input" type="radio" name="elcbInstalled" value="0" label="No" checked="<%=!requestEntity.getElcbInstalled() %>"/> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
 				</div>
 			</div>
 			<div class="col-md-4" id="elcbuploaddiv">
@@ -85,11 +87,11 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</label>
 			<div class="col-sm-6">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="stiltParking" value="1" label="Yes" /> <%--<label class="form-check-label font-weight-bold"> Yes
+					<aui:input class="form-check-input" type="radio" name="stiltParking" value="1" label="Yes" checked="<%=requestEntity.getStiltParking() %>"/> <%--<label class="form-check-label font-weight-bold"> Yes
 					</label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="stiltParking" value="0" label="No" checked="true" /> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" name="stiltParking" value="0" label="No" checked="<%=!requestEntity.getStiltParking() %>" /> <%--<label class="form-check-label font-weight-bold">
 						No </label>--%>
 				</div>
 			</div>
@@ -102,11 +104,11 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</label>
 			<div class="col-sm-6">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="height15Mtr" value="1" checked="true" label="Yes" /> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" name="height15Mtr" value="1" label="Yes" checked="<%=requestEntity.getHeight15Mtr() %>"/> <%--<label class="form-check-label font-weight-bold">
 						Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="height15Mtr" value="0" label="No" /> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
+					<aui:input class="form-check-input" type="radio" name="height15Mtr" value="0" label="No" checked="<%=!requestEntity.getHeight15Mtr() %>"/> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
 				</div>
 
 			</div>
@@ -119,11 +121,11 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</label>
 			<div class="col-sm-6">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="height17Mtr" value="1" checked="true" label="Yes" /> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" name="height17Mtr" value="1" label="Yes" checked="<%=requestEntity.getHeight15Mtr() %>"/> <%--<label class="form-check-label font-weight-bold">
 						Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="height17Mtr" value="0" label="No" /> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
+					<aui:input class="form-check-input" type="radio" name="height17Mtr" value="0" label="No" checked="<%=!requestEntity.getHeight15Mtr() %>"/> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
 				</div>
 
 			</div>
@@ -141,11 +143,11 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="fcc" value="1" checked="true" label="Yes" /> <%--<label class="form-check-label font-weight-bold"> Yes
+					<aui:input class="form-check-input" type="radio" name="fcc" value="1" label="Yes" checked="<%=requestEntity.getFcc() %>" /> <%--<label class="form-check-label font-weight-bold"> Yes
 					</label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="fcc" value="0" label="No" /> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
+					<aui:input class="form-check-input" type="radio" name="fcc" value="0" label="No" checked="<%=!requestEntity.getFcc() %>" /> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
 				</div>
 				<p></p>
 			</div>
@@ -172,10 +174,10 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="lift" value="1" label="Yes" /> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
+					<aui:input class="form-check-input" type="radio" name="lift" value="1" label="Yes" checked="<%=requestEntity.getLift() %>" /> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="lift" value="0" checked="true" label="No" /> <%--<label class="form-check-label font-weight-bold"> No
+					<aui:input class="form-check-input" type="radio" name="lift" value="0" label="No" checked="<%=!requestEntity.getLift() %>"/> <%--<label class="form-check-label font-weight-bold"> No
 					</label>--%>
 				</div>
 
@@ -204,10 +206,10 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="hasBdoCertificate" value="1" label="Yes" /> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
+					<aui:input class="form-check-input" type="radio" name="hasBdoCertificate" value="1" label="Yes" checked="<%=requestEntity.getHasBdoCertificate() %>"/> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="hasBdoCertificate" value="0" checked="true" label="No" /> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" name="hasBdoCertificate" value="0" label="No" checked="<%=!requestEntity.getHasBdoCertificate() %>"/> <%--<label class="form-check-label font-weight-bold">
 						No </label>--%>
 				</div>
 
@@ -237,16 +239,16 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="dpccLicense" value="1" label="Yes"/> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
+					<aui:input class="form-check-input" type="radio" name="hasDpccLicense" value="1" label="Yes" checked="<%=requestEntity.getHasDpccCertificate()%>"/> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="dpccLicense" value="0" checked="true" label="No" /> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" name="hasDpccLicense" value="0" checked="true" label="No"  checked="<%=!requestEntity.getHasDpccCertificate()%>"/> <%--<label class="form-check-label font-weight-bold">
 						No </label>--%>
 				</div>
 			</div>
 			<div class="col-md-4" id="licenseuploaddiv">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
-					<liferay-util:param name="elementName" value="dpccLicenseCertificate" />
+					<liferay-util:param name="elementName" value="dpccLicense" />
 					<liferay-util:param name="documentType" value="DPCC License" />
 					<liferay-util:param name="documentName" value="DPCC License" />
 				</liferay-util:include>			
@@ -267,18 +269,18 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="polutionFree" value="1" label="Yes" /> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
+					<aui:input class="form-check-input" type="radio" name="hasPollutionCertificate" value="1" label="Yes" checked="<%=requestEntity.getHasPollutionCertificate()%>" /> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="polutionFree" value="0" checked="true" label="No" /> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" name="hasPollutionCertificate" value="0" label="No" checked="<%=!requestEntity.getHasPollutionCertificate()%>" /> <%--<label class="form-check-label font-weight-bold">
 						No </label>--%>
 				</div>
 			</div>
 			<div class="col-md-4" id="polutionuploaddiv">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
-					<liferay-util:param name="elementName" value="polutionCertificate" />
-					<liferay-util:param name="documentType" value="Polution Certificate" />
-					<liferay-util:param name="documentName" value="Polution Certificate" />
+					<liferay-util:param name="elementName" value="pollutionCertificate" />
+					<liferay-util:param name="documentType" value="Pollution Certificate" />
+					<liferay-util:param name="documentName" value="Pollution Certificate" />
 				</liferay-util:include>
 				
 				<%--<label class="font-weight-bold">Upload Certificate from BDO <span class="text-danger">*</span>
@@ -295,18 +297,24 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</label>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" value="1" checked ="true" name="eServiceOnMail" label="Yes" /> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" value="1" name="eServiceOnMail" label="Yes" checked="<%=requestEntity.getEServiceOnMail()%>" /> <%--<label class="form-check-label font-weight-bold">
 						Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" value="0" name="eServiceOnMail" label="No" /> <%--<label class="form-check-label font-weight-bold"> No
+					<aui:input class="form-check-input" type="radio" value="0" name="eServiceOnMail" label="No" checked="<%=!requestEntity.getEServiceOnMail()%>"/> <%--<label class="form-check-label font-weight-bold"> No
 					</label>--%>
 				</div>
 			</div>
 			<div class="col-sm-4" id="emailservicediv">
 				<%--<label for="inputEmail3" class="font-weight-bold">Enter your Email ID<span class="text-danger">*</span></label>--%> <aui:input type="email"
-					class="form-control" placeholder="Enter your email Id" style="font-size: small !important; line-height: 1 !important;" name="eServiceMailId" label="checklist-eservice-email"/>
+					class="form-control" placeholder="Enter your email Id" style="font-size: small !important; line-height: 1 !important;" name="eServiceMailId" label="checklist-eservice-email" value="<%=requestEntity.getEServiceMailId()%>"/>
 			</div>
 		</div>
 	</div>
 </aui:form>
+<script>
+$(document).ready(function(){
+	
+});
+
+</script>
