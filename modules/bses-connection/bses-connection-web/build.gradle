@@ -7,4 +7,5 @@ dependencies {
 	compileOnly group: "org.osgi", name: "osgi.cmpn", version: "6.0.0"
 	compileOnly group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 	compile project(":modules:bses-connection:bses-connection-api")
+	compileOnly project(":modules:bses-sap-service-connector")
 }
