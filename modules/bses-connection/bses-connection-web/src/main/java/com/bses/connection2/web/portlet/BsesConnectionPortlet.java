@@ -4,8 +4,6 @@ import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
 import com.bses.connection2.web.constants.BsesConnectionPortletKeys;
 import com.bses.sap.connector.services.SapConnctorServiceApi;
-import com.bses.sap.model.DssISUCADisplayRequest;
-import com.bses.sap.model.DssISUCADisplayResponse;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -69,21 +67,7 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)	throws IOException, PortletException {
-		//String viewMode = "NAME_CHANGE"; //"NEW_CONNECTION";
-String viewMode = renderRequest.getPreferences().getValue("viewMode", " ");
-				
-		try {
-			DssISUCADisplayRequest request = new DssISUCADisplayRequest();
-			String caNumber= generateTwelveDigitCANo("103012062");
-			System.out.println("caNumber - "+caNumber);
-			
-			request.setCaNumber(caNumber);
-			DssISUCADisplayResponse res= this.sapServiceApi.getDssISUCADisplay(request);
-			System.out.println(res.getBpNumber());
-		}catch(Exception ex) {
-			ex.printStackTrace();
-			
-		}
+		String viewMode = renderRequest.getPreferences().getValue("viewMode", " ");
 		
 		switch(viewMode){    
 		case "U01":    

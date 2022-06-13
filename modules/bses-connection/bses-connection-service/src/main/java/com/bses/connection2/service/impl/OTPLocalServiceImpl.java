@@ -132,7 +132,20 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 	}
 	
 	public String generateOtpForCaNumber(String caNumber) {
-		//To Do call saop service to get mobileno
+		/*		
+		try {
+			DssISUCADisplayRequest request = new DssISUCADisplayRequest();
+			String caNumber= generateTwelveDigitCANo("103012062"); //103012062
+			System.out.println("caNumber - "+caNumber);
+			
+			request.setCaNumber(caNumber);
+			DssISUCADisplayResponse res= this.sapServiceApi.getDssISUCADisplay2(request);
+			//System.out.println(res.getBpNumber());
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			
+		}
+		*/
 		
 		return  caNumber;
 	}

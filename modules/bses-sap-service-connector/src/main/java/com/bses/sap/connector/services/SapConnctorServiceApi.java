@@ -122,6 +122,7 @@ public interface SapConnctorServiceApi {
 	DemandOnlineBillPdfResponse getDemandNoteOnlinePDF(DemandOnlineBillPdfResquest orderNumber);
 	
 	DssISUCADisplayResponse getDssISUCADisplay(DssISUCADisplayRequest request);
+	DssISUCADisplayResponse getDssISUCADisplay2(DssISUCADisplayRequest request);
 	
 	//add Z_BAPI_ZDSS_WEB_LINK services
 	DssWebLinkResponse addZ_BAPI_ZDSS_WEB_LINK(DssWebLinkRequest request);

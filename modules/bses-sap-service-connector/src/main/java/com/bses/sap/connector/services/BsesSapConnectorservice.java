@@ -12,6 +12,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -24,6 +25,7 @@ import javax.xml.rpc.ServiceException;
 
 import org.apache.axis.message.MessageElement;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.tempuri.ZBAPI_CNT_APP_DETAIL_MOBResponseZBAPI_CNT_APP_DETAIL_MOBResult;
@@ -144,6 +146,7 @@ import com.bses.sap.ws.Z_BAPI_DSS_ISU_CA_DISPLAYResponseZ_BAPI_DSS_ISU_CA_DISPLA
 import com.bses.sap.ws.Z_BAPI_ZDSS_WEB_LINKResponseZ_BAPI_ZDSS_WEB_LINKResult;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -2502,28 +2505,13 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 	}
 
 	public DssISUCADisplayResponse getDssISUCADisplay(DssISUCADisplayRequest request) {
-		WebServiceSoap	webServiceSoap1 = null;
-		try {
-			WebServiceLocator webServiceLocator = new WebServiceLocator();
-			
-			WebGISServiceLocator webGISServiceLocator = new WebGISServiceLocator();
-			Service1Locator service1Locator = new Service1Locator();
-	
-			webServiceLocator.setWebServiceSoapEndpointAddress("http://125.22.84.50:7850/delhiv21/ISUService.asmx");
-			
-			webServiceSoap1 = webServiceLocator.getWebServiceSoap();
-		} catch (ServiceException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-
 		
 		DssISUCADisplayResponse dssISUCADisplayResponse = null;
 
 		Z_BAPI_DSS_ISU_CA_DISPLAYResponseZ_BAPI_DSS_ISU_CA_DISPLAYResult response = null;
 
 		try {
-			response = webServiceSoap1.z_BAPI_DSS_ISU_CA_DISPLAY(request.getCaNumber(), null);
+			response = webServiceSoap.z_BAPI_DSS_ISU_CA_DISPLAY(request.getCaNumber(), null);
 		} catch (RemoteException e1) {
 			LOG.error("Error occured getDssISUCADisplay while getting response ::> " + e1);
 		}
@@ -2583,7 +2571,7 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 		xmlString = xmlString.replace("<BAPI_RESULT>", "").replace("</BAPI_RESULT>", "");
 
 		xmlString = xmlString.replace(BsesSapConnectorServiceConstant.DIFFR_END_TAG, StringPool.BLANK);
-
+		
 		InputStream wsResponse = new ByteArrayInputStream(xmlString.getBytes());
 		try {
 			/*
@@ -3833,5 +3821,104 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 	 * 
 	 * } }else{ finalString = xmlString; } return finalString; }
 	 */
+	
+	
+	public DssISUCADisplayResponse getDssISUCADisplay2(DssISUCADisplayRequest request) {
+		String xmlString = "";
+		StringBuilder reqXML = new StringBuilder();
+		reqXML.append(
+		"<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema/\" 	xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">")
+		.append("<soap:Body>")
+		
+		.append("<Z_BAPI_DSS_ISU_CA_DISPLAY xmlns=\"http://tempuri.org/\">")
+		.append("<CA_NUMBER>").append(request.getCaNumber()).append("</CA_NUMBER>")
+		.append("</Z_BAPI_DSS_ISU_CA_DISPLAY>")
+		
+		.append("</soap:Body>")
+		.append("</soap:Envelope>");
+			
+		String requestXML = reqXML.toString();
+		String resXML = callService(requestXML,"http://125.22.84.50:7850/delhiv2/ISUService.asmx","http://tempuri.org/Z_BAPI_DSS_ISU_CA_DISPLAY");
+	
+		//System.out.println("*****************************Get***********************************");
+		//System.out.println(resXML);
+		//System.out.println("*************************************************************");
+			// getting response while passing xmlString
+			//dssISUCADisplayResponse = getDssISUCADisplay(xmlString);
+		try {
+			xmlString = substringBetween(xmlString, "</xs:schema>", "</Z_BAPI_DSS_ISU_CA_DISPLAYResult>");
+		} catch (Exception e) {
+			System.out.println("Exception occured while fetching data from 1 st time");
+		}
+		
+		DssISUCADisplayResponse resObj = getDssISUCADisplay(xmlString); //getDssResponseAfterParser(xmlString);
+		
+		//System.out.println("resObj.getCaNumber() - "+resObj.getCaNumber() +" name -"+resObj.getMobileNo());
+		
+		return resObj;
+	}
+	
+	private String callService(String requestXML,String serviceURL, String actionURL) {
+		String xmlString = null;
+		String responseString = StringPool.BLANK;
+		StringBuffer outputSb = new StringBuffer();
+		
+		String wsURL=serviceURL;
+		String SOAPAction=actionURL;
+		
+		if (Validator.isNotNull(wsURL)) {
+			Date startDate = new Date();
+			InputStreamReader isr = null;
+			try {
+				URL url = new URL(wsURL);
+				URLConnection connection = url.openConnection();
+				HttpURLConnection httpConn = (HttpURLConnection) connection;
+				ByteArrayOutputStream bout = new ByteArrayOutputStream();
+				byte[] buffer = new byte[requestXML.length()];
+				buffer = requestXML.getBytes();
+				bout.write(buffer);
+				byte[] b = bout.toByteArray();
+
+				httpConn.setRequestProperty("Content-Length", String.valueOf(b.length));
+				httpConn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+				httpConn.setRequestProperty("SOAPAction", SOAPAction);
+				httpConn.setRequestMethod("GET");
+				httpConn.setDoOutput(true);
+				httpConn.setDoInput(true);
+				
+				OutputStream out = httpConn.getOutputStream();
+
+				// Write the content of the request to the outputstream of the HTTP Connection.
+				out.write(b);
+				out.close();
+				// Ready with sending the request.
+				isr = new InputStreamReader(httpConn.getInputStream());
+				BufferedReader in = new BufferedReader(isr);
+				while ((responseString = in.readLine()) != null) {
+					outputSb.append(responseString);
+				}
+			
+			} catch (Exception e) {
+				System.out.println("Error occured while calling ZBAPI_CS_ORD_STAT with JAVA API : " + e);
+			} finally {
+				if (Validator.isNotNull(isr)) {
+					try {
+						isr.close();
+					} catch (IOException e) {
+						e.printStackTrace();;
+					}
+				}
+			}
+		}
+/*
+		try {
+			xmlString = substringBetween(outputSb.toString(), "<E_Service_Order>", "</E_Service_Order>");
+		} catch (Exception e) {
+			System.out.println("Exception occured while fetching data from 1 st time");
+		}
+		*/
+		xmlString = outputSb.toString();
+		return xmlString;
+	}
 
 }
