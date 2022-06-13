@@ -23,8 +23,11 @@ import com.liferay.mail.kernel.service.MailServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.PropsUtil;
 
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -72,7 +75,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 	public static final String FORM_EMAIL_ID = "bsesnoreply@relianceada.com";
 	public static final String SUBJECT = "OTP for New Connection";
-
+	public static DateFormat dateFormat=null;
 	// @Reference
 	// private DigitalSevaKendraServiceHelper digitalSevaKendraServiceHelper;
 
@@ -273,8 +276,13 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		// String formName=params.get("formName");
 		for (Map.Entry<String, String> entry : params.entrySet()) {
 			String sourceKey = entry.getKey();
-
+			
+			if("namespace".equalsIgnoreCase(sourceKey)) {
+				continue;
+			}
+			
 			System.out.println("source key ..." + sourceKey);
+
 			if (sourceKey.contains(namespace)) {
 				sourceKey = sourceKey.substring((namespace).length());
 			}
@@ -324,11 +332,25 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	 */
 
 	private void setAttribute(ConnectionRequest obj, String name, String value) {
-		Method methodSet = null;
 		try {
-			methodSet = getSetterMethod(ConnectionRequest.class, name, new Class[] { String.class });
-			methodSet.invoke(obj, value);
+			LOGGER.info("SettingAttribute  - "+value+" - for "+name);
+			Method methodGet = getGetterMethod(ConnectionRequest.class, StringUtils.trim(name));
+			LOGGER.info(methodGet.getReturnType()+" - "+value+" - for "+name);
+			Method methodSet = getSetterMethod(ConnectionRequest.class, StringUtils.trim(name), new Class[] { methodGet.getReturnType() });
+			if(methodGet.getReturnType()==String.class) {
+				methodSet.invoke(obj, value);
+			}else if(methodGet.getReturnType()==int.class) {
+				methodSet.invoke(obj, Integer.parseInt(value));
+			}else if(methodGet.getReturnType()==long.class) {
+				methodSet.invoke(obj, Long.parseLong(value));
+			}else if(methodGet.getReturnType()==boolean.class) {
+				boolean boolValue="1".equals(value)|| "y".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value);
+				methodSet.invoke(obj, boolValue);
+			}else if(methodGet.getReturnType()==Date.class) {
+				methodSet.invoke(obj, dateFormat.parse(value));
+			}
 		} catch (Exception e) {
+			//LOGGER.error(e);
 			LOGGER.error("Error in setAttribute for [ConnectionRequest." + name + "] to value [" + value + "]");
 
 		}
@@ -423,5 +445,10 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		}
 		return false;
 	}
-
+	private static DateFormat getDateFormat() {
+		if(dateFormat==null) {
+			dateFormat=new SimpleDateFormat(PropsUtil.get("source.date.format"));
+		}
+		return dateFormat;
+	}
 }

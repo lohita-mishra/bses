@@ -50,7 +50,7 @@ public class ConnectionDocumentLocalServiceImpl
 	 *
 	 * Never reference this class directly. Always use {@link com.bses.connection2.service.ConnectionDocumentLocalServiceUtil} to access the connection document local service.
 	 */
-	private static final Log LOGGER = LogFactoryUtil.getLog(ConnectionRequestLocalServiceImpl.class);
+	private static final Log LOGGER = LogFactoryUtil.getLog(ConnectionDocumentLocalServiceImpl.class);
 
 	public List<ConnectionDocument> getConnectionDocumentByConnectionRequestId(long connectionRequestId){
 		return connectionDocumentPersistence.findByConnectionRequestId(connectionRequestId);

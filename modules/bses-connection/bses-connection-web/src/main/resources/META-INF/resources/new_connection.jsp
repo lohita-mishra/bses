@@ -741,7 +741,7 @@
 		formDataJson['<portlet:namespace/>fcc']=$("input[name=<portlet:namespace/>fcc]").val();
 		formDataJson['<portlet:namespace/>lift']=$("input[name=<portlet:namespace/>lift]").val();
 		formDataJson['<portlet:namespace/>hasBdoCertificate']=$("input[name=<portlet:namespace/>hasBdoCertificate]").val();
-		formDataJson['<portlet:namespace/>hasDpccLicense']=$("input[name=<portlet:namespace/>hasDpccLicense]").val();
+		formDataJson['<portlet:namespace/>hasDpccCertificate']=$("input[name=<portlet:namespace/>hasDpccCertificate]").val();
 		formDataJson['<portlet:namespace/>hasPollutionCertificate']=$("input[name=<portlet:namespace/>hasPollutionCertificate]").val();
 		formDataJson['<portlet:namespace/>eServiceOnMail']=$("input[name=<portlet:namespace/>eServiceOnMail]").val();
 		formDataJson['<portlet:namespace/>eServiceMailId']=$("input[name=<portlet:namespace/>eServiceMailId]").val();

@@ -239,10 +239,10 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="hasDpccLicense" value="1" label="Yes" checked="<%=requestEntity.getHasDpccCertificate()%>"/> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
+					<aui:input class="form-check-input" type="radio" name="hasDpccCertificate" value="1" label="Yes" checked="<%=requestEntity.getHasDpccCertificate()%>"/> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="hasDpccLicense" value="0" checked="true" label="No"  checked="<%=!requestEntity.getHasDpccCertificate()%>"/> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" name="hasDpccCertificate" value="0" label="No"  checked="<%=!requestEntity.getHasDpccCertificate()%>"/> <%--<label class="form-check-label font-weight-bold">
 						No </label>--%>
 				</div>
 			</div>
@@ -253,7 +253,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="documentName" value="DPCC License" />
 				</liferay-util:include>			
 				<%--<label class="font-weight-bold">Upload the DPCC License Certificate<span class="text-danger">*</span>
-				</label>--%> <aui:input type="file" style="border:0px; padding:0;" name="dpccLicenseCertificate" label="checklist-dpcc-license-certificate" />
+				</label> <aui:input type="file" style="border:0px; padding:0;" name="dpccLicenseCertificate" label="checklist-dpcc-license-certificate" />--%>
 			</div>
 		</div>
 

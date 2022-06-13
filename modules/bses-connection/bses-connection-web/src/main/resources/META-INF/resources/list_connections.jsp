@@ -14,8 +14,23 @@
 	<portlet:param name="mobileNo" value="<%=mobileNo%>" />
 	<portlet:param name="emailId" value="<%=emailId%>" />
 </portlet:renderURL>
+
+<portlet:renderURL var="editConnectionURL">
+	<portlet:param name="mvcPath" value="/new_connection.jsp" />
+	<portlet:param name="mobileNo" value="<%=mobileNo%>" />
+	<portlet:param name="emailId" value="<%=emailId%>" />
+</portlet:renderURL>
+
+<portlet:renderURL var="deleteConnectionURL">
+	<portlet:param name="mvcPath" value="/delete_connection.jsp" />
+	<portlet:param name="mobileNo" value="<%=mobileNo%>" />
+	<portlet:param name="emailId" value="<%=emailId%>" />
+</portlet:renderURL>
 <%
 	List<ConnectionRequest> connectionRequestList=(List)request.getAttribute(ConnectionRequest.class.getName()+"#list");
+	if(connectionRequestList==null){
+		connectionRequestList=ConnectionRequestLocalServiceUtil.getConnectionRequestsByMobileNo(mobileNo);
+	}
 %>
 <div class="card card-primary bg-light mb-2">
 	<div class="card-header">
@@ -37,8 +52,8 @@
 	<div class="card-body">
 		<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12">
-				<liferay-ui:message key="list-connection-existing-connection-alert" /><a href="#" class="btn btn-link btn-primary" id="<portlet:namespace/>applyOnlineBtn" value="New Connection">New Connection</a>
+			<div class="col-md-12 text-center">
+				<liferay-ui:message key="list-connection-existing-connection-alert" />&gt;&gt;<a href="#" class="btn-primary text-white p-2 ml-3" id="<portlet:namespace/>applyOnlineBtn" value="New Connection">New Connection</a>
 			</div>
 		</div>
 		</div>
@@ -63,11 +78,11 @@
 %>				
 					<tr>
 						<td class="d-flex align-items-center"><span class="text-primary"> <a href=""><%=r.getRequestNo() %></a></span> <span class="btn-group ml-2">
-								<button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit" value="Edit">
+								<button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="tooltip" data-placement="top" title="Edit" value="Edit" data-attr="<%=r.getConnectionRequestId()%>">
 									<%--<i class="fas fa-pencil-alt fa-sm text-primary"></i> --%>
 									Edit
 								</button>
-								<button type="button" class="btn btn-danger btn-sm ml-1" data-placement="top" data-toggle="tooltip" title="Delete" value="Delete">
+								<button type="button" class="btn btn-danger btn-sm delete-btn ml-1 " data-placement="top" data-toggle="tooltip" title="Delete" value="Delete" data-attr="<%=r.getConnectionRequestId()%>">
 									<%--<i class="far fa-trash-alt fa-sm text-danger"></i>--%>
 									Delete
 								</button>
@@ -89,11 +104,28 @@
 		</div>
 	</div>
 </div>
+<%--
+<div id="delete-confirmation-div">
+	<div>
+		DIVContent Is Rendered In The AUI Modal Popup.
+	</div>
+</div>
+ --%>
 <script>
 	$(document).ready(function() {
 		//$('[data-toggle="tooltip"]').tooltip();
 		$("#<portlet:namespace/>applyOnlineBtn").click(function(){
 			window.location.href='<%=newConnectionURL.toString()%>';	
-		})
+		});
+		
+		$(".edit-btn").click(function(){
+			window.location.href='<%=editConnectionURL.toString()%>&<portlet:namespace/>connectionRequestId='+$(this).attr("data-attr");
+		});
+		
+		$(".delete-btn").click(function(){
+			if(confirm("Are you sure to delete the request?")){
+				window.location.href='<%=deleteConnectionURL.toString()%>&<portlet:namespace/>connectionRequestId='+$(this).attr("data-attr");
+			}
+		});
 	});
 </script>
