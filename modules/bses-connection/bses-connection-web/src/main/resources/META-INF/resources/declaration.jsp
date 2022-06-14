@@ -514,7 +514,6 @@ var locality;
 var district;
 var cityPostalCode;
 
-alert("test");
 
 if($("#<portlet:namespace/>nameOfAuthorizedSignatory")){
 	$("#<portlet:namespace/>nameOfAuthorizedSignatory").keyup(function(){  
