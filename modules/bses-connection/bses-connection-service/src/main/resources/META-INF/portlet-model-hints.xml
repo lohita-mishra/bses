@@ -30,6 +30,8 @@
 		<field name="emailId" type="String" />
 		<field name="requestDate" type="Date" />
 		<field name="requestType" type="String" />
+		<field name="requestStatus" type="String" />
+		<field name="requestMode" type="String" />
 		<field name="consumerType" type="String" />
 		<field name="title" type="String" />
 		<field name="firstName" type="String" />
@@ -82,6 +84,7 @@
 		<field name="pollutionCertificate" type="String" />
 		<field name="eServiceOnMail" type="boolean" />
 		<field name="eServiceMailId" type="String" />
+		<field name="eServiceMailValidated" type="boolean" />
 		<field name="applicantPhoto" type="String" />
 		<field name="applicantSignature" type="long" />
 		<field name="idProofType" type="String" />

@@ -44,6 +44,8 @@ public class ConnectionRequestSoap implements Serializable {
 		soapModel.setEmailId(model.getEmailId());
 		soapModel.setRequestDate(model.getRequestDate());
 		soapModel.setRequestType(model.getRequestType());
+		soapModel.setRequestStatus(model.getRequestStatus());
+		soapModel.setRequestMode(model.getRequestMode());
 		soapModel.setConsumerType(model.getConsumerType());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setFirstName(model.getFirstName());
@@ -96,6 +98,7 @@ public class ConnectionRequestSoap implements Serializable {
 		soapModel.setPollutionCertificate(model.getPollutionCertificate());
 		soapModel.setEServiceOnMail(model.isEServiceOnMail());
 		soapModel.setEServiceMailId(model.getEServiceMailId());
+		soapModel.setEServiceMailValidated(model.isEServiceMailValidated());
 		soapModel.setApplicantPhoto(model.getApplicantPhoto());
 		soapModel.setApplicantSignature(model.getApplicantSignature());
 		soapModel.setIdProofType(model.getIdProofType());
@@ -272,6 +275,22 @@ public class ConnectionRequestSoap implements Serializable {
 
 	public void setRequestType(String requestType) {
 		_requestType = requestType;
+	}
+
+	public String getRequestStatus() {
+		return _requestStatus;
+	}
+
+	public void setRequestStatus(String requestStatus) {
+		_requestStatus = requestStatus;
+	}
+
+	public String getRequestMode() {
+		return _requestMode;
+	}
+
+	public void setRequestMode(String requestMode) {
+		_requestMode = requestMode;
 	}
 
 	public String getConsumerType() {
@@ -742,6 +761,18 @@ public class ConnectionRequestSoap implements Serializable {
 		_eServiceMailId = eServiceMailId;
 	}
 
+	public boolean getEServiceMailValidated() {
+		return _eServiceMailValidated;
+	}
+
+	public boolean isEServiceMailValidated() {
+		return _eServiceMailValidated;
+	}
+
+	public void setEServiceMailValidated(boolean eServiceMailValidated) {
+		_eServiceMailValidated = eServiceMailValidated;
+	}
+
 	public String getApplicantPhoto() {
 		return _applicantPhoto;
 	}
@@ -863,6 +894,8 @@ public class ConnectionRequestSoap implements Serializable {
 	private String _emailId;
 	private Date _requestDate;
 	private String _requestType;
+	private String _requestStatus;
+	private String _requestMode;
 	private String _consumerType;
 	private String _title;
 	private String _firstName;
@@ -915,6 +948,7 @@ public class ConnectionRequestSoap implements Serializable {
 	private String _pollutionCertificate;
 	private boolean _eServiceOnMail;
 	private String _eServiceMailId;
+	private boolean _eServiceMailValidated;
 	private String _applicantPhoto;
 	private long _applicantSignature;
 	private String _idProofType;

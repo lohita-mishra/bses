@@ -14,9 +14,13 @@
 
 package com.bses.connection2.service.impl;
 
+import com.bses.connection2.exception.NoSuchConnectionRequestException;
 import com.bses.connection2.helper.DigitalSevaKendraServiceHelper;
+import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.model.ConnectionRequest;
+import com.bses.connection2.service.ConnectionDocumentLocalService;
 import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
+import com.bses.connection2.util.RequestTypeModeStatus;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailServiceUtil;
@@ -29,6 +33,7 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -39,6 +44,7 @@ import java.util.ResourceBundle;
 import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang3.StringUtils;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The implementation of the connection request local service.
@@ -76,8 +82,10 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public static final String FORM_EMAIL_ID = "bsesnoreply@relianceada.com";
 	public static final String SUBJECT = "OTP for New Connection";
 	public static DateFormat dateFormat=null;
-	// @Reference
-	// private DigitalSevaKendraServiceHelper digitalSevaKendraServiceHelper;
+	public static final int RETENTION_DAYS=5;
+	
+	@Reference
+	private ConnectionDocumentLocalService connectionDocumentLocalService;
 
 	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId) {
 		String requestNo = "R-TMP-" + new Date().getTime();
@@ -87,20 +95,36 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		connectionRequest.setMobileNo(mobileNo);
 		connectionRequest.setEmailId(emailId);
 		connectionRequest.setRequestNo(requestNo);
+		connectionRequest.setRequestType(RequestTypeModeStatus.TYPE_NEW_CONNECTION);
+		connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_DRAFT);
 		connectionRequestPersistence.update(connectionRequest);
 		return connectionRequest;
 	}
+	
+	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId, String requestType, String requestMode) {
+		String requestNo = "R-TMP-" + new Date().getTime();
+		LOGGER.info(mobileNo + " - " + emailId + " - " + requestNo);
+		ConnectionRequest connectionRequest = connectionRequestPersistence
+				.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
+		connectionRequest.setMobileNo(mobileNo);
+		connectionRequest.setEmailId(emailId);
+		connectionRequest.setRequestNo(requestNo);
+		connectionRequest.setRequestType(requestType);
+		connectionRequest.setRequestMode(requestMode);
+		connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_DRAFT);
+		connectionRequestPersistence.update(connectionRequest);
+		return connectionRequest;
+	}
+	
 
 	public String updateConsumerDetails(String requestNo, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(requestNo, params, PREFIX_CONSUMER);
-		// return dssNewConnRequest;
 	}
 
 	public String updateConsumerDetails(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_CONSUMER);
-		// return dssNewConnRequest;
 	}
 
 	public String updateAddress(String requestNo, Map<String, String> params) {
@@ -111,7 +135,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateAddress(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_ADDRESS);
-		// return dssNewConnRequest;
 	}
 
 	public String updateConnection(String requestNo, Map<String, String> params) {
@@ -122,7 +145,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateConnection(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_CONNECTION);
-		// return dssNewConnRequest;
 	}
 
 	public String updateChecklistDocuments(String requestNo, Map<String, String> params) {
@@ -133,7 +155,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateChecklistDocuments(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_CHECKLIST);
-		// return dssNewConnRequest;
 	}
 
 	public String updateImportantDocuments(String requestNo, Map<String, String> params) {
@@ -144,7 +165,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateImportantDocuments(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_DOCUMENT);
-		// return dssNewConnRequest;
 	}
 
 	public ConnectionRequest getConnectionRequest(String requestNo) {
@@ -191,13 +211,10 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateConnectionRequest(long connectionRequestId, Map<String, String> params, String sectionPrefix) {
 		try {
 			ConnectionRequest connectionRequest = getConnectionRequest(connectionRequestId);
-			System.out.println("setattribute begin");
 			setAttributes(connectionRequest, params, sectionPrefix);
-			System.out.println("setattribute end ");
 			connectionRequestPersistence.update(connectionRequest);
 			return "success";
 		} catch (Exception e) {
-			System.out.println("exception ");
 			LOGGER.error(e.getMessage());
 		}
 		return "failure";
@@ -205,10 +222,16 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 	public String submitConnectionRequestToSoap(long connectionRequestId) {
 		try {
-			// ConnectionRequest connectionRequest=
-			// connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
-			DigitalSevaKendraServiceHelper.addNewConnectionRequestDetailSoapCall(connectionRequestId);
-			return "success";
+			ConnectionRequest connectionRequest=
+			connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
+			String serviceOrder=DigitalSevaKendraServiceHelper.addNewConnectionRequestDetailSoapCall(connectionRequest);
+			if(StringUtils.isNotEmpty(serviceOrder)) {
+				connectionRequest.setOrderNo(serviceOrder);
+				connectionRequest.setSapOrderGenerated("Y");
+				connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_ORDER_GENERATED);
+				connectionRequestPersistence.update(connectionRequest);
+				return "success";
+			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -229,7 +252,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		while (enumBundle.hasMoreElements()) {
 			String prefix = "";
 			String key = enumBundle.nextElement();
-			;
 
 			if (key.startsWith(PREFIX_CONSUMER + ".")) {
 				prefix = PREFIX_CONSUMER;
@@ -367,7 +389,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	private Object getAttribute(ConnectionRequest obj, String name) {
 		Method methodGet = null;
 		try {
-			methodGet = getGetterMethod(ConnectionRequest.class, name);
+			methodGet = getGetterMethod(ConnectionRequest.class, StringUtils.trim(name));
 			return methodGet.invoke(obj);
 		} catch (Exception e) {
 			LOGGER.error("Error in getAttribute for [ConnectionRequest." + name + "]");
@@ -378,7 +400,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 	private Method getSetterMethod(Class clazz, String name, Class[] paramTypes) {
 		try {
-			return clazz.getMethod("set" + StringUtils.capitalize(name), paramTypes);
+			return clazz.getMethod("set" + StringUtils.capitalize(StringUtils.trim(name)), paramTypes);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -387,7 +409,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 	private Method getGetterMethod(Class clazz, String name) {
 		try {
-			return clazz.getMethod("get" + StringUtils.capitalize(name));
+			return clazz.getMethod("get" + StringUtils.capitalize(StringUtils.trim(name)));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -445,10 +467,46 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		}
 		return false;
 	}
-	private static DateFormat getDateFormat() {
+	private static DateFormat getSourceDateFormat() {
 		if(dateFormat==null) {
 			dateFormat=new SimpleDateFormat(PropsUtil.get("source.date.format"));
 		}
 		return dateFormat;
+	}
+	
+	public ConnectionRequest deleteByConnectionRequestId(long connectionRequestId) throws NoSuchConnectionRequestException {
+		ConnectionRequest connectionRequest=connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
+		deleteConnectionRequestAndDocuments(connectionRequest);
+		return connectionRequest;
+	}
+	
+	private boolean deleteConnectionRequestAndDocuments(ConnectionRequest connectionRequest) {
+		List<ConnectionDocument> documents=connectionDocumentLocalService.getConnectionDocumentByConnectionRequestId(connectionRequest.getConnectionRequestId());
+		for(ConnectionDocument d:documents) {
+			connectionDocumentLocalService.deleteConnectionDocument(d);
+		}
+		connectionRequestPersistence.remove(connectionRequest);
+		return true;
+	}
+	
+	public int deleteStaleConnectionRequests(String mobileNo) {
+		int retentionDays=RETENTION_DAYS;
+		try {
+			retentionDays=Integer.parseInt(PropsUtil.get("draft.connection.request.retention").trim());
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		long retentionMills=retentionDays*24*60*60*1000;
+		Calendar today=Calendar.getInstance();
+		
+		int deleted=0;
+		List<ConnectionRequest> connectionRequests=connectionRequestPersistence.findByMobileNo(mobileNo);
+		for(ConnectionRequest connectionRequest:connectionRequests) {
+			if(today.getTimeInMillis()-connectionRequest.getModifiedDate().getTime()>=retentionMills) {
+				deleteConnectionRequestAndDocuments(connectionRequest);
+				deleted++;
+			}
+		}
+		return deleted;
 	}
 }

@@ -1078,6 +1078,202 @@ public class ConnectionRequestUtil {
 	}
 
 	/**
+	 * Returns all the connection requests where mobileNo = &#63; and requestStatus = &#63;.
+	 *
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 * @return the matching connection requests
+	 */
+	public static List<ConnectionRequest> findByMobileNoAndRequestStatus(
+		String mobileNo, String requestStatus) {
+
+		return getPersistence().findByMobileNoAndRequestStatus(
+			mobileNo, requestStatus);
+	}
+
+	/**
+	 * Returns a range of all the connection requests where mobileNo = &#63; and requestStatus = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @return the range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByMobileNoAndRequestStatus(
+		String mobileNo, String requestStatus, int start, int end) {
+
+		return getPersistence().findByMobileNoAndRequestStatus(
+			mobileNo, requestStatus, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where mobileNo = &#63; and requestStatus = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByMobileNoAndRequestStatus(
+		String mobileNo, String requestStatus, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().findByMobileNoAndRequestStatus(
+			mobileNo, requestStatus, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where mobileNo = &#63; and requestStatus = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByMobileNoAndRequestStatus(
+		String mobileNo, String requestStatus, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByMobileNoAndRequestStatus(
+			mobileNo, requestStatus, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where mobileNo = &#63; and requestStatus = &#63;.
+	 *
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public static ConnectionRequest findByMobileNoAndRequestStatus_First(
+			String mobileNo, String requestStatus,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByMobileNoAndRequestStatus_First(
+			mobileNo, requestStatus, orderByComparator);
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where mobileNo = &#63; and requestStatus = &#63;.
+	 *
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public static ConnectionRequest fetchByMobileNoAndRequestStatus_First(
+		String mobileNo, String requestStatus,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().fetchByMobileNoAndRequestStatus_First(
+			mobileNo, requestStatus, orderByComparator);
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where mobileNo = &#63; and requestStatus = &#63;.
+	 *
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public static ConnectionRequest findByMobileNoAndRequestStatus_Last(
+			String mobileNo, String requestStatus,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByMobileNoAndRequestStatus_Last(
+			mobileNo, requestStatus, orderByComparator);
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where mobileNo = &#63; and requestStatus = &#63;.
+	 *
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public static ConnectionRequest fetchByMobileNoAndRequestStatus_Last(
+		String mobileNo, String requestStatus,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().fetchByMobileNoAndRequestStatus_Last(
+			mobileNo, requestStatus, orderByComparator);
+	}
+
+	/**
+	 * Returns the connection requests before and after the current connection request in the ordered set where mobileNo = &#63; and requestStatus = &#63;.
+	 *
+	 * @param connectionRequestId the primary key of the current connection request
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next connection request
+	 * @throws NoSuchConnectionRequestException if a connection request with the primary key could not be found
+	 */
+	public static ConnectionRequest[]
+			findByMobileNoAndRequestStatus_PrevAndNext(
+				long connectionRequestId, String mobileNo, String requestStatus,
+				OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByMobileNoAndRequestStatus_PrevAndNext(
+			connectionRequestId, mobileNo, requestStatus, orderByComparator);
+	}
+
+	/**
+	 * Removes all the connection requests where mobileNo = &#63; and requestStatus = &#63; from the database.
+	 *
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 */
+	public static void removeByMobileNoAndRequestStatus(
+		String mobileNo, String requestStatus) {
+
+		getPersistence().removeByMobileNoAndRequestStatus(
+			mobileNo, requestStatus);
+	}
+
+	/**
+	 * Returns the number of connection requests where mobileNo = &#63; and requestStatus = &#63;.
+	 *
+	 * @param mobileNo the mobile no
+	 * @param requestStatus the request status
+	 * @return the number of matching connection requests
+	 */
+	public static int countByMobileNoAndRequestStatus(
+		String mobileNo, String requestStatus) {
+
+		return getPersistence().countByMobileNoAndRequestStatus(
+			mobileNo, requestStatus);
+	}
+
+	/**
 	 * Returns all the connection requests where emailId = &#63;.
 	 *
 	 * @param emailId the email ID

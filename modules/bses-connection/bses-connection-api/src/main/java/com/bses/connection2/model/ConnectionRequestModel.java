@@ -284,6 +284,36 @@ public interface ConnectionRequestModel
 	public void setRequestType(String requestType);
 
 	/**
+	 * Returns the request status of this connection request.
+	 *
+	 * @return the request status of this connection request
+	 */
+	@AutoEscape
+	public String getRequestStatus();
+
+	/**
+	 * Sets the request status of this connection request.
+	 *
+	 * @param requestStatus the request status of this connection request
+	 */
+	public void setRequestStatus(String requestStatus);
+
+	/**
+	 * Returns the request mode of this connection request.
+	 *
+	 * @return the request mode of this connection request
+	 */
+	@AutoEscape
+	public String getRequestMode();
+
+	/**
+	 * Sets the request mode of this connection request.
+	 *
+	 * @param requestMode the request mode of this connection request
+	 */
+	public void setRequestMode(String requestMode);
+
+	/**
 	 * Returns the consumer type of this connection request.
 	 *
 	 * @return the consumer type of this connection request
@@ -1137,6 +1167,27 @@ public interface ConnectionRequestModel
 	 * @param eServiceMailId the e service mail ID of this connection request
 	 */
 	public void setEServiceMailId(String eServiceMailId);
+
+	/**
+	 * Returns the e service mail validated of this connection request.
+	 *
+	 * @return the e service mail validated of this connection request
+	 */
+	public boolean getEServiceMailValidated();
+
+	/**
+	 * Returns <code>true</code> if this connection request is e service mail validated.
+	 *
+	 * @return <code>true</code> if this connection request is e service mail validated; <code>false</code> otherwise
+	 */
+	public boolean isEServiceMailValidated();
+
+	/**
+	 * Sets whether this connection request is e service mail validated.
+	 *
+	 * @param eServiceMailValidated the e service mail validated of this connection request
+	 */
+	public void setEServiceMailValidated(boolean eServiceMailValidated);
 
 	/**
 	 * Returns the applicant photo of this connection request.

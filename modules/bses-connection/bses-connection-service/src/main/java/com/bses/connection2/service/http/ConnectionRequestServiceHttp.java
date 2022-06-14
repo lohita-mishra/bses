@@ -417,6 +417,47 @@ public class ConnectionRequestServiceHttp {
 		}
 	}
 
+	public static boolean deleteByConnectionRequestId(
+			HttpPrincipal httpPrincipal, long connectionRequestId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ConnectionRequestServiceUtil.class,
+				"deleteByConnectionRequestId",
+				_deleteByConnectionRequestIdParameterTypes12);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, connectionRequestId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return ((Boolean)returnObj).booleanValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		ConnectionRequestServiceHttp.class);
 
@@ -447,5 +488,7 @@ public class ConnectionRequestServiceHttp {
 		_getConnectionRequestsByMobileNoParameterTypes10 = new Class[] {
 			String.class
 		};
+	private static final Class<?>[]
+		_deleteByConnectionRequestIdParameterTypes12 = new Class[] {long.class};
 
 }

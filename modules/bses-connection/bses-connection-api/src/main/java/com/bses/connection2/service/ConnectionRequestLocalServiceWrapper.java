@@ -73,6 +73,24 @@ public class ConnectionRequestLocalServiceWrapper
 			mobileNo, emailId);
 	}
 
+	@Override
+	public com.bses.connection2.model.ConnectionRequest createConnectionRequest(
+		String mobileNo, String emailId, String requestType,
+		String requestMode) {
+
+		return _connectionRequestLocalService.createConnectionRequest(
+			mobileNo, emailId, requestType, requestMode);
+	}
+
+	@Override
+	public com.bses.connection2.model.ConnectionRequest
+			deleteByConnectionRequestId(long connectionRequestId)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return _connectionRequestLocalService.deleteByConnectionRequestId(
+			connectionRequestId);
+	}
+
 	/**
 	 * Deletes the connection request from the database. Also notifies the appropriate model listeners.
 	 *
@@ -121,6 +139,12 @@ public class ConnectionRequestLocalServiceWrapper
 
 		return _connectionRequestLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public int deleteStaleConnectionRequests(String mobileNo) {
+		return _connectionRequestLocalService.deleteStaleConnectionRequests(
+			mobileNo);
 	}
 
 	@Override

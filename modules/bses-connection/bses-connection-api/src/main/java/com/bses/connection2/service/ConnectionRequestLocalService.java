@@ -16,6 +16,7 @@ package com.bses.connection2.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.bses.connection2.exception.NoSuchConnectionRequestException;
 import com.bses.connection2.model.ConnectionRequest;
 
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -92,6 +93,14 @@ public interface ConnectionRequestLocalService
 	public ConnectionRequest createConnectionRequest(
 		String mobileNo, String emailId);
 
+	public ConnectionRequest createConnectionRequest(
+		String mobileNo, String emailId, String requestType,
+		String requestMode);
+
+	public ConnectionRequest deleteByConnectionRequestId(
+			long connectionRequestId)
+		throws NoSuchConnectionRequestException;
+
 	/**
 	 * Deletes the connection request from the database. Also notifies the appropriate model listeners.
 	 *
@@ -127,6 +136,8 @@ public interface ConnectionRequestLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	public int deleteStaleConnectionRequests(String mobileNo);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

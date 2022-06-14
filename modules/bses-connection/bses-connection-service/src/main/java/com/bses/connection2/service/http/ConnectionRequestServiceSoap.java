@@ -157,6 +157,23 @@ public class ConnectionRequestServiceSoap {
 		}
 	}
 
+	public static boolean deleteByConnectionRequestId(long connectionRequestId)
+		throws RemoteException {
+
+		try {
+			boolean returnValue =
+				ConnectionRequestServiceUtil.deleteByConnectionRequestId(
+					connectionRequestId);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		ConnectionRequestServiceSoap.class);
 

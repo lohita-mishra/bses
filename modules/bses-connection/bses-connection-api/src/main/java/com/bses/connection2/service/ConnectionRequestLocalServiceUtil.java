@@ -80,6 +80,21 @@ public class ConnectionRequestLocalServiceUtil {
 		return getService().createConnectionRequest(mobileNo, emailId);
 	}
 
+	public static ConnectionRequest createConnectionRequest(
+		String mobileNo, String emailId, String requestType,
+		String requestMode) {
+
+		return getService().createConnectionRequest(
+			mobileNo, emailId, requestType, requestMode);
+	}
+
+	public static ConnectionRequest deleteByConnectionRequestId(
+			long connectionRequestId)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getService().deleteByConnectionRequestId(connectionRequestId);
+	}
+
 	/**
 	 * Deletes the connection request from the database. Also notifies the appropriate model listeners.
 	 *
@@ -122,6 +137,10 @@ public class ConnectionRequestLocalServiceUtil {
 		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
+	}
+
+	public static int deleteStaleConnectionRequests(String mobileNo) {
+		return getService().deleteStaleConnectionRequests(mobileNo);
 	}
 
 	public static DynamicQuery dynamicQuery() {

@@ -1,3 +1,4 @@
+<%@page import="com.bses.connection2.util.RequestTypeModeStatus"%>
 <%@page import="com.liferay.portal.kernel.util.PropsUtil"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@page import="com.liferay.counter.kernel.service.CounterLocalServiceUtil"%>
@@ -96,7 +97,7 @@
 	ConnectionRequest requestEntity=null;
 	
 	if(connectionRequestId==0){
-		requestEntity=ConnectionRequestLocalServiceUtil.createConnectionRequest(mobileNo, emailId);
+		requestEntity=ConnectionRequestLocalServiceUtil.createConnectionRequest(mobileNo, emailId, RequestTypeModeStatus.TYPE_NEW_CONNECTION, RequestTypeModeStatus.MODE_ONLINE);
 		connectionRequestId=requestEntity.getConnectionRequestId();
 	}else{
 		requestEntity=ConnectionRequestLocalServiceUtil.getConnectionRequest(connectionRequestId);
@@ -114,7 +115,7 @@
 	}else{
 		autoSaveFlag="true";
 	}
-	//autoSaveFlag="false";
+	autoSaveFlag="false";
 %>
 
 <portlet:renderURL var="emailVerificationURL">
@@ -155,9 +156,6 @@
 	</div>
 </div>
 
-
-
-
 <script>
 	var portletNamespace="<portlet:namespace/>";
 	var autoSaveFlag = <%=autoSaveFlag%>;
@@ -170,21 +168,19 @@
 	function showHideConsumerTypeDiv() {
 		
 		$('#firmDiv').hide();
-		$('#'+portletNamespace+'consumerType')
-				.change(
-						function() {
-							//alert("showHideConsumerTypeDiv <portlet:namespace/>");
-							if (this.options[this.selectedIndex].value == 'Firm') {
-								$('#indvDiv').hide();
-								$('#firmDiv').show();
-							} else if (this.options[this.selectedIndex].value == 'Individual') {
-								$('#indvDiv').show();
-								$('#firmDiv').hide();
-							} else {
-								$('#indvDiv').show();
-								$('#firmDiv').hide();
-							}
-						});
+		$('#'+portletNamespace+'consumerType').change(function() {
+			//alert("showHideConsumerTypeDiv <portlet:namespace/>");
+			if (this.options[this.selectedIndex].value == 'Firm') {
+				$('#indvDiv').hide();
+				$('#firmDiv').show();
+			} else if (this.options[this.selectedIndex].value == 'Individual') {
+				$('#indvDiv').show();
+				$('#firmDiv').hide();
+			} else {
+				$('#indvDiv').show();
+				$('#firmDiv').hide();
+			}
+		});
 	}
 
 	function upicAvailableOnChange() {

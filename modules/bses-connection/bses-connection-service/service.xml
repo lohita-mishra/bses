@@ -28,6 +28,8 @@
 		<column name="emailId" type="String" />
 		<column name="requestDate" type="Date" />
 		<column name="requestType" type="String" />
+		<column name="requestStatus" type="String" />
+		<column name="requestMode" type="String" />
 		
 		<!-- Consumer Information -->
 		<column name="consumerType" type="String" />
@@ -90,6 +92,7 @@
 		
 		<column name="eServiceOnMail" type="boolean" />
 		<column name="eServiceMailId" type="String" />
+		<column name="eServiceMailValidated" type="boolean" />
 		
 		<!-- Document Information -->
 		<column name="applicantPhoto" type="String" />
@@ -129,6 +132,11 @@
 		<finder name="MobileNoAndRequestNo" return-type="Collection">
 			<finder-column name="mobileNo" />
 			<finder-column name="requestNo" />
+		</finder>
+		
+		<finder name="MobileNoAndRequestStatus" return-type="Collection">
+			<finder-column name="mobileNo" />
+			<finder-column name="requestStatus" />
 		</finder>
 		
 		<finder name="EmailId" return-type="Collection">

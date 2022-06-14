@@ -81,7 +81,8 @@ public class ConnectionRequestModelImpl
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"requestNo", Types.VARCHAR}, {"mobileNo", Types.VARCHAR},
 		{"emailId", Types.VARCHAR}, {"requestDate", Types.TIMESTAMP},
-		{"requestType", Types.VARCHAR}, {"consumerType", Types.VARCHAR},
+		{"requestType", Types.VARCHAR}, {"requestStatus", Types.VARCHAR},
+		{"requestMode", Types.VARCHAR}, {"consumerType", Types.VARCHAR},
 		{"title", Types.VARCHAR}, {"firstName", Types.VARCHAR},
 		{"middleName", Types.VARCHAR}, {"lastName", Types.VARCHAR},
 		{"sonDaughterWife", Types.VARCHAR},
@@ -112,6 +113,7 @@ public class ConnectionRequestModelImpl
 		{"hasPollutionCertificate", Types.BOOLEAN},
 		{"pollutionCertificate", Types.VARCHAR},
 		{"eServiceOnMail", Types.BOOLEAN}, {"eServiceMailId", Types.VARCHAR},
+		{"eServiceMailValidated", Types.BOOLEAN},
 		{"applicantPhoto", Types.VARCHAR}, {"applicantSignature", Types.BIGINT},
 		{"idProofType", Types.VARCHAR}, {"idProofNo", Types.VARCHAR},
 		{"idProofDocument", Types.VARCHAR},
@@ -140,6 +142,8 @@ public class ConnectionRequestModelImpl
 		TABLE_COLUMNS_MAP.put("emailId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("requestDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("requestType", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("requestStatus", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("requestMode", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("consumerType", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("firstName", Types.VARCHAR);
@@ -192,6 +196,7 @@ public class ConnectionRequestModelImpl
 		TABLE_COLUMNS_MAP.put("pollutionCertificate", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("eServiceOnMail", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("eServiceMailId", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("eServiceMailValidated", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("applicantPhoto", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("applicantSignature", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("idProofType", Types.VARCHAR);
@@ -208,7 +213,7 @@ public class ConnectionRequestModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table bsesconn_ConnectionRequest (uuid_ VARCHAR(75) null,connectionRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,requestNo VARCHAR(75) null,mobileNo VARCHAR(75) null,emailId VARCHAR(75) null,requestDate DATE null,requestType VARCHAR(75) null,consumerType VARCHAR(75) null,title VARCHAR(75) null,firstName VARCHAR(75) null,middleName VARCHAR(75) null,lastName VARCHAR(75) null,sonDaughterWife VARCHAR(75) null,fatherOrHusbandName VARCHAR(75) null,firmName VARCHAR(75) null,signatoryName VARCHAR(75) null,signatoryDesignation VARCHAR(75) null,organizationType VARCHAR(75) null,incorporationDate DATE null,gstIn VARCHAR(75) null,panNo VARCHAR(75) null,locality VARCHAR(75) null,district VARCHAR(75) null,houseNo VARCHAR(75) null,floor VARCHAR(75) null,buildingName VARCHAR(75) null,street VARCHAR(75) null,colonyArea VARCHAR(75) null,landmark VARCHAR(75) null,landmarkDetails VARCHAR(75) null,pinCode VARCHAR(75) null,connectionType VARCHAR(75) null,tariffCategory VARCHAR(75) null,loadKva DOUBLE,loadKw DOUBLE,areaType VARCHAR(75) null,premisesType VARCHAR(75) null,upicAvailable BOOLEAN,upic VARCHAR(75) null,wiringTest BOOLEAN,wiringCertificate VARCHAR(75) null,elcbInstalled BOOLEAN,elcbDocument VARCHAR(75) null,stiltParking BOOLEAN,height15Mtr BOOLEAN,height17Mtr BOOLEAN,fcc BOOLEAN,fccCertificate VARCHAR(75) null,lift BOOLEAN,liftCertificate VARCHAR(75) null,agriConsumer BOOLEAN,hasBdoCertificate BOOLEAN,bdoCertificate VARCHAR(75) null,hasDpccCertificate BOOLEAN,dpccCertificate VARCHAR(75) null,hasPollutionCertificate BOOLEAN,pollutionCertificate VARCHAR(75) null,eServiceOnMail BOOLEAN,eServiceMailId VARCHAR(75) null,applicantPhoto VARCHAR(75) null,applicantSignature LONG,idProofType VARCHAR(75) null,idProofNo VARCHAR(75) null,idProofDocument VARCHAR(75) null,ownershipProofType VARCHAR(75) null,ownershipProofDocument VARCHAR(75) null,selfDeclaration BOOLEAN,selfDeclarationTime DATE null,bpNumber VARCHAR(75) null,orderNo VARCHAR(75) null,documentUploaded VARCHAR(75) null,sapOrderGenerated VARCHAR(75) null)";
+		"create table bsesconn_ConnectionRequest (uuid_ VARCHAR(75) null,connectionRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,requestNo VARCHAR(75) null,mobileNo VARCHAR(75) null,emailId VARCHAR(75) null,requestDate DATE null,requestType VARCHAR(75) null,requestStatus VARCHAR(75) null,requestMode VARCHAR(75) null,consumerType VARCHAR(75) null,title VARCHAR(75) null,firstName VARCHAR(75) null,middleName VARCHAR(75) null,lastName VARCHAR(75) null,sonDaughterWife VARCHAR(75) null,fatherOrHusbandName VARCHAR(75) null,firmName VARCHAR(75) null,signatoryName VARCHAR(75) null,signatoryDesignation VARCHAR(75) null,organizationType VARCHAR(75) null,incorporationDate DATE null,gstIn VARCHAR(75) null,panNo VARCHAR(75) null,locality VARCHAR(75) null,district VARCHAR(75) null,houseNo VARCHAR(75) null,floor VARCHAR(75) null,buildingName VARCHAR(75) null,street VARCHAR(75) null,colonyArea VARCHAR(75) null,landmark VARCHAR(75) null,landmarkDetails VARCHAR(75) null,pinCode VARCHAR(75) null,connectionType VARCHAR(75) null,tariffCategory VARCHAR(75) null,loadKva DOUBLE,loadKw DOUBLE,areaType VARCHAR(75) null,premisesType VARCHAR(75) null,upicAvailable BOOLEAN,upic VARCHAR(75) null,wiringTest BOOLEAN,wiringCertificate VARCHAR(75) null,elcbInstalled BOOLEAN,elcbDocument VARCHAR(75) null,stiltParking BOOLEAN,height15Mtr BOOLEAN,height17Mtr BOOLEAN,fcc BOOLEAN,fccCertificate VARCHAR(75) null,lift BOOLEAN,liftCertificate VARCHAR(75) null,agriConsumer BOOLEAN,hasBdoCertificate BOOLEAN,bdoCertificate VARCHAR(75) null,hasDpccCertificate BOOLEAN,dpccCertificate VARCHAR(75) null,hasPollutionCertificate BOOLEAN,pollutionCertificate VARCHAR(75) null,eServiceOnMail BOOLEAN,eServiceMailId VARCHAR(75) null,eServiceMailValidated BOOLEAN,applicantPhoto VARCHAR(75) null,applicantSignature LONG,idProofType VARCHAR(75) null,idProofNo VARCHAR(75) null,idProofDocument VARCHAR(75) null,ownershipProofType VARCHAR(75) null,ownershipProofDocument VARCHAR(75) null,selfDeclaration BOOLEAN,selfDeclarationTime DATE null,bpNumber VARCHAR(75) null,orderNo VARCHAR(75) null,documentUploaded VARCHAR(75) null,sapOrderGenerated VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table bsesconn_ConnectionRequest";
@@ -250,7 +255,9 @@ public class ConnectionRequestModelImpl
 
 	public static final long REQUESTNO_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long REQUESTSTATUS_COLUMN_BITMASK = 32L;
+
+	public static final long UUID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -278,6 +285,8 @@ public class ConnectionRequestModelImpl
 		model.setEmailId(soapModel.getEmailId());
 		model.setRequestDate(soapModel.getRequestDate());
 		model.setRequestType(soapModel.getRequestType());
+		model.setRequestStatus(soapModel.getRequestStatus());
+		model.setRequestMode(soapModel.getRequestMode());
 		model.setConsumerType(soapModel.getConsumerType());
 		model.setTitle(soapModel.getTitle());
 		model.setFirstName(soapModel.getFirstName());
@@ -330,6 +339,7 @@ public class ConnectionRequestModelImpl
 		model.setPollutionCertificate(soapModel.getPollutionCertificate());
 		model.setEServiceOnMail(soapModel.isEServiceOnMail());
 		model.setEServiceMailId(soapModel.getEServiceMailId());
+		model.setEServiceMailValidated(soapModel.isEServiceMailValidated());
 		model.setApplicantPhoto(soapModel.getApplicantPhoto());
 		model.setApplicantSignature(soapModel.getApplicantSignature());
 		model.setIdProofType(soapModel.getIdProofType());
@@ -797,6 +807,53 @@ public class ConnectionRequestModelImpl
 					Object requestTypeObject) {
 
 					connectionRequest.setRequestType((String)requestTypeObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"requestStatus",
+			new Function<ConnectionRequest, Object>() {
+
+				@Override
+				public Object apply(ConnectionRequest connectionRequest) {
+					return connectionRequest.getRequestStatus();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"requestStatus",
+			new BiConsumer<ConnectionRequest, Object>() {
+
+				@Override
+				public void accept(
+					ConnectionRequest connectionRequest,
+					Object requestStatusObject) {
+
+					connectionRequest.setRequestStatus(
+						(String)requestStatusObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"requestMode",
+			new Function<ConnectionRequest, Object>() {
+
+				@Override
+				public Object apply(ConnectionRequest connectionRequest) {
+					return connectionRequest.getRequestMode();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"requestMode",
+			new BiConsumer<ConnectionRequest, Object>() {
+
+				@Override
+				public void accept(
+					ConnectionRequest connectionRequest,
+					Object requestModeObject) {
+
+					connectionRequest.setRequestMode((String)requestModeObject);
 				}
 
 			});
@@ -2015,6 +2072,30 @@ public class ConnectionRequestModelImpl
 
 			});
 		attributeGetterFunctions.put(
+			"eServiceMailValidated",
+			new Function<ConnectionRequest, Object>() {
+
+				@Override
+				public Object apply(ConnectionRequest connectionRequest) {
+					return connectionRequest.getEServiceMailValidated();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"eServiceMailValidated",
+			new BiConsumer<ConnectionRequest, Object>() {
+
+				@Override
+				public void accept(
+					ConnectionRequest connectionRequest,
+					Object eServiceMailValidatedObject) {
+
+					connectionRequest.setEServiceMailValidated(
+						(Boolean)eServiceMailValidatedObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"applicantPhoto",
 			new Function<ConnectionRequest, Object>() {
 
@@ -2585,6 +2666,48 @@ public class ConnectionRequestModelImpl
 	@Override
 	public void setRequestType(String requestType) {
 		_requestType = requestType;
+	}
+
+	@JSON
+	@Override
+	public String getRequestStatus() {
+		if (_requestStatus == null) {
+			return "";
+		}
+		else {
+			return _requestStatus;
+		}
+	}
+
+	@Override
+	public void setRequestStatus(String requestStatus) {
+		_columnBitmask |= REQUESTSTATUS_COLUMN_BITMASK;
+
+		if (_originalRequestStatus == null) {
+			_originalRequestStatus = _requestStatus;
+		}
+
+		_requestStatus = requestStatus;
+	}
+
+	public String getOriginalRequestStatus() {
+		return GetterUtil.getString(_originalRequestStatus);
+	}
+
+	@JSON
+	@Override
+	public String getRequestMode() {
+		if (_requestMode == null) {
+			return "";
+		}
+		else {
+			return _requestMode;
+		}
+	}
+
+	@Override
+	public void setRequestMode(String requestMode) {
+		_requestMode = requestMode;
 	}
 
 	@JSON
@@ -3419,6 +3542,23 @@ public class ConnectionRequestModelImpl
 
 	@JSON
 	@Override
+	public boolean getEServiceMailValidated() {
+		return _eServiceMailValidated;
+	}
+
+	@JSON
+	@Override
+	public boolean isEServiceMailValidated() {
+		return _eServiceMailValidated;
+	}
+
+	@Override
+	public void setEServiceMailValidated(boolean eServiceMailValidated) {
+		_eServiceMailValidated = eServiceMailValidated;
+	}
+
+	@JSON
+	@Override
 	public String getApplicantPhoto() {
 		if (_applicantPhoto == null) {
 			return "";
@@ -3672,6 +3812,8 @@ public class ConnectionRequestModelImpl
 		connectionRequestImpl.setEmailId(getEmailId());
 		connectionRequestImpl.setRequestDate(getRequestDate());
 		connectionRequestImpl.setRequestType(getRequestType());
+		connectionRequestImpl.setRequestStatus(getRequestStatus());
+		connectionRequestImpl.setRequestMode(getRequestMode());
 		connectionRequestImpl.setConsumerType(getConsumerType());
 		connectionRequestImpl.setTitle(getTitle());
 		connectionRequestImpl.setFirstName(getFirstName());
@@ -3727,6 +3869,8 @@ public class ConnectionRequestModelImpl
 			getPollutionCertificate());
 		connectionRequestImpl.setEServiceOnMail(isEServiceOnMail());
 		connectionRequestImpl.setEServiceMailId(getEServiceMailId());
+		connectionRequestImpl.setEServiceMailValidated(
+			isEServiceMailValidated());
 		connectionRequestImpl.setApplicantPhoto(getApplicantPhoto());
 		connectionRequestImpl.setApplicantSignature(getApplicantSignature());
 		connectionRequestImpl.setIdProofType(getIdProofType());
@@ -3815,6 +3959,8 @@ public class ConnectionRequestModelImpl
 		_originalMobileNo = _mobileNo;
 
 		_originalEmailId = _emailId;
+
+		_originalRequestStatus = _requestStatus;
 
 		_columnBitmask = 0;
 	}
@@ -3906,6 +4052,22 @@ public class ConnectionRequestModelImpl
 
 		if ((requestType != null) && (requestType.length() == 0)) {
 			connectionRequestCacheModel.requestType = null;
+		}
+
+		connectionRequestCacheModel.requestStatus = getRequestStatus();
+
+		String requestStatus = connectionRequestCacheModel.requestStatus;
+
+		if ((requestStatus != null) && (requestStatus.length() == 0)) {
+			connectionRequestCacheModel.requestStatus = null;
+		}
+
+		connectionRequestCacheModel.requestMode = getRequestMode();
+
+		String requestMode = connectionRequestCacheModel.requestMode;
+
+		if ((requestMode != null) && (requestMode.length() == 0)) {
+			connectionRequestCacheModel.requestMode = null;
 		}
 
 		connectionRequestCacheModel.consumerType = getConsumerType();
@@ -4250,6 +4412,9 @@ public class ConnectionRequestModelImpl
 			connectionRequestCacheModel.eServiceMailId = null;
 		}
 
+		connectionRequestCacheModel.eServiceMailValidated =
+			isEServiceMailValidated();
+
 		connectionRequestCacheModel.applicantPhoto = getApplicantPhoto();
 
 		String applicantPhoto = connectionRequestCacheModel.applicantPhoto;
@@ -4449,6 +4614,9 @@ public class ConnectionRequestModelImpl
 	private String _originalEmailId;
 	private Date _requestDate;
 	private String _requestType;
+	private String _requestStatus;
+	private String _originalRequestStatus;
+	private String _requestMode;
 	private String _consumerType;
 	private String _title;
 	private String _firstName;
@@ -4501,6 +4669,7 @@ public class ConnectionRequestModelImpl
 	private String _pollutionCertificate;
 	private boolean _eServiceOnMail;
 	private String _eServiceMailId;
+	private boolean _eServiceMailValidated;
 	private String _applicantPhoto;
 	private long _applicantSignature;
 	private String _idProofType;

@@ -24,9 +24,16 @@ import org.apache.commons.lang3.StringUtils;
 public class DigitalSevaKendraServiceHelper {
 	private static final Log LOGGER=LogFactoryUtil.getLog(DigitalSevaKendraServiceHelper.class);
 	public static String addNewConnectionRequestDetailSoapCall(long connectionRequestId) {
-		String serviceOrder = null;
 		try {
 			ConnectionRequest connectionRequest=ConnectionRequestLocalServiceUtil.getConnectionRequest(connectionRequestId);
+			LOGGER.info("connectionRequest - " + connectionRequest);
+			return addNewConnectionRequestDetailSoapCall(connectionRequest);
+		}catch(Exception e) {}
+		return null;
+	}
+	public static String addNewConnectionRequestDetailSoapCall(ConnectionRequest connectionRequest) {
+		String serviceOrder = null;
+		try {
 			LOGGER.info("connectionRequest - " + connectionRequest);
 
 			String titleKey = StringPool.BLANK;

@@ -42,6 +42,14 @@ public class ConnectionRequestServiceWrapper
 	}
 
 	@Override
+	public boolean deleteByConnectionRequestId(long connectionRequestId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _connectionRequestService.deleteByConnectionRequestId(
+			connectionRequestId);
+	}
+
+	@Override
 	public com.bses.connection2.model.ConnectionRequest getConnectionRequest(
 		String requestNo) {
 
