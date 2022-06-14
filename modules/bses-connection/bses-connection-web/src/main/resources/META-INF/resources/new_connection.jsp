@@ -115,7 +115,7 @@
 	}else{
 		autoSaveFlag="true";
 	}
-	autoSaveFlag="false";
+//	autoSaveFlag="false";
 %>
 
 <portlet:renderURL var="emailVerificationURL">
