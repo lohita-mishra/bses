@@ -35,6 +35,10 @@ public class OTPServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.bses.connection2.service.impl.OTPServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static OTP generateEmailOtp(String mobileNo, String email) {
+		return getService().generateEmailOtp(mobileNo, email);
+	}
+
 	public static OTP generateOtp(String mobileNo, String email) {
 		return getService().generateOtp(mobileNo, email);
 	}
@@ -50,6 +54,10 @@ public class OTPServiceUtil {
 	 */
 	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static OTP resendEmailOtp(String mobileNo, String email) {
+		return getService().resendEmailOtp(mobileNo, email);
 	}
 
 	public static OTP resendOtp(String mobileNo, String email) {

@@ -37,7 +37,7 @@ public class OTPServiceImpl extends OTPServiceBaseImpl {
 
 		return otpLocalService.generateOtp(mobileNo, email);
 	}
-
+	
 	public String validateOtp(String mobileNo, String otpNumber) {
 
 		return otpLocalService.validateOtp(mobileNo, otpNumber);
@@ -46,6 +46,16 @@ public class OTPServiceImpl extends OTPServiceBaseImpl {
 	public OTP resendOtp(String mobileNo, String email) {
 
 		return otpLocalService.resendOtp(mobileNo, email);
+	}
+	
+	public OTP generateEmailOtp(String mobileNo, String email) {
+
+		return otpLocalService.generateEmailOtp(mobileNo, email);
+	}
+	
+	public OTP resendEmailOtp(String mobileNo, String email) {
+
+		return otpLocalService.resendEmailOtp(mobileNo, email);
 	}
 	
 	public String generateOtpForCaNumber(String caNumber) {

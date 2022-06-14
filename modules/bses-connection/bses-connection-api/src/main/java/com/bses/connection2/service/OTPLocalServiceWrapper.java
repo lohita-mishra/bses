@@ -218,6 +218,13 @@ public class OTPLocalServiceWrapper
 	}
 
 	@Override
+	public com.bses.connection2.model.OTP generateEmailOtp(
+		String mobileNo, String email) {
+
+		return _otpLocalService.generateEmailOtp(mobileNo, email);
+	}
+
+	@Override
 	public com.bses.connection2.model.OTP generateOtp(
 		String mobileNo, String email) {
 
@@ -365,6 +372,13 @@ public class OTPLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _otpLocalService.getPersistedModel(primaryKeyObj);
+	}
+
+	@Override
+	public com.bses.connection2.model.OTP resendEmailOtp(
+		String mobileNo, String email) {
+
+		return _otpLocalService.resendEmailOtp(mobileNo, email);
 	}
 
 	@Override

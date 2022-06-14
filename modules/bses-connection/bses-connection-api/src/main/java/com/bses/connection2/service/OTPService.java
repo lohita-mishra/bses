@@ -57,6 +57,8 @@ public interface OTPService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.bses.connection2.service.impl.OTPServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the otp remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link OTPServiceUtil} if injection and service tracking are not available.
 	 */
+	public OTP generateEmailOtp(String mobileNo, String email);
+
 	public OTP generateOtp(String mobileNo, String email);
 
 	public String generateOtpForCaNumber(String caNumber);
@@ -67,6 +69,8 @@ public interface OTPService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	public OTP resendEmailOtp(String mobileNo, String email);
 
 	public OTP resendOtp(String mobileNo, String email);
 

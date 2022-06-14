@@ -112,6 +112,40 @@ public class OTPServiceSoap {
 		}
 	}
 
+	public static com.bses.connection2.model.OTPSoap generateEmailOtp(
+			String mobileNo, String email)
+		throws RemoteException {
+
+		try {
+			com.bses.connection2.model.OTP returnValue =
+				OTPServiceUtil.generateEmailOtp(mobileNo, email);
+
+			return com.bses.connection2.model.OTPSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.bses.connection2.model.OTPSoap resendEmailOtp(
+			String mobileNo, String email)
+		throws RemoteException {
+
+		try {
+			com.bses.connection2.model.OTP returnValue =
+				OTPServiceUtil.resendEmailOtp(mobileNo, email);
+
+			return com.bses.connection2.model.OTPSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	public static String generateOtpForCaNumber(String caNumber)
 		throws RemoteException {
 

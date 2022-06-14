@@ -204,6 +204,10 @@ public class OTPLocalServiceUtil {
 		return getService().findByMobileNo(mobileNo);
 	}
 
+	public static OTP generateEmailOtp(String mobileNo, String email) {
+		return getService().generateEmailOtp(mobileNo, email);
+	}
+
 	public static OTP generateOtp(String mobileNo, String email) {
 		return getService().generateOtp(mobileNo, email);
 	}
@@ -329,6 +333,10 @@ public class OTPLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static OTP resendEmailOtp(String mobileNo, String email) {
+		return getService().resendEmailOtp(mobileNo, email);
 	}
 
 	public static OTP resendOtp(String mobileNo, String email) {

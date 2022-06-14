@@ -201,6 +201,8 @@ public interface OTPLocalService
 
 	public OTP findByMobileNo(String mobileNo);
 
+	public OTP generateEmailOtp(String mobileNo, String email);
+
 	public OTP generateOtp(String mobileNo, String email);
 
 	public String generateOtpForCaNumber(String caNumber);
@@ -298,6 +300,8 @@ public interface OTPLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
+
+	public OTP resendEmailOtp(String mobileNo, String email);
 
 	public OTP resendOtp(String mobileNo, String email);
 

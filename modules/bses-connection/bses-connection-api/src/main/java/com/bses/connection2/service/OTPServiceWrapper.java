@@ -31,6 +31,13 @@ public class OTPServiceWrapper
 	}
 
 	@Override
+	public com.bses.connection2.model.OTP generateEmailOtp(
+		String mobileNo, String email) {
+
+		return _otpService.generateEmailOtp(mobileNo, email);
+	}
+
+	@Override
 	public com.bses.connection2.model.OTP generateOtp(
 		String mobileNo, String email) {
 
@@ -50,6 +57,13 @@ public class OTPServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _otpService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.bses.connection2.model.OTP resendEmailOtp(
+		String mobileNo, String email) {
+
+		return _otpService.resendEmailOtp(mobileNo, email);
 	}
 
 	@Override

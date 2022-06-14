@@ -147,13 +147,77 @@ public class OTPServiceHttp {
 		}
 	}
 
+	public static com.bses.connection2.model.OTP generateEmailOtp(
+		HttpPrincipal httpPrincipal, String mobileNo, String email) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				OTPServiceUtil.class, "generateEmailOtp",
+				_generateEmailOtpParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, mobileNo, email);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.bses.connection2.model.OTP)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.bses.connection2.model.OTP resendEmailOtp(
+		HttpPrincipal httpPrincipal, String mobileNo, String email) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				OTPServiceUtil.class, "resendEmailOtp",
+				_resendEmailOtpParameterTypes4);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, mobileNo, email);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.bses.connection2.model.OTP)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static String generateOtpForCaNumber(
 		HttpPrincipal httpPrincipal, String caNumber) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				OTPServiceUtil.class, "generateOtpForCaNumber",
-				_generateOtpForCaNumberParameterTypes3);
+				_generateOtpForCaNumberParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, caNumber);
@@ -190,7 +254,11 @@ public class OTPServiceHttp {
 	private static final Class<?>[] _resendOtpParameterTypes2 = new Class[] {
 		String.class, String.class
 	};
-	private static final Class<?>[] _generateOtpForCaNumberParameterTypes3 =
+	private static final Class<?>[] _generateEmailOtpParameterTypes3 =
+		new Class[] {String.class, String.class};
+	private static final Class<?>[] _resendEmailOtpParameterTypes4 =
+		new Class[] {String.class, String.class};
+	private static final Class<?>[] _generateOtpForCaNumberParameterTypes5 =
 		new Class[] {String.class};
 
 }
