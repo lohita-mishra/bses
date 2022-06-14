@@ -82,6 +82,7 @@ create table bsesconn_ConnectionRequest (
 	pollutionCertificate VARCHAR(75) null,
 	eServiceOnMail BOOLEAN,
 	eServiceMailId VARCHAR(75) null,
+	eServiceMailValidated BOOLEAN,
 	applicantPhoto VARCHAR(75) null,
 	applicantSignature LONG,
 	idProofType VARCHAR(75) null,

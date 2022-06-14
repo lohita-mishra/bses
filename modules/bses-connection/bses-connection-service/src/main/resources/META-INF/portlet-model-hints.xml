@@ -84,6 +84,7 @@
 		<field name="pollutionCertificate" type="String" />
 		<field name="eServiceOnMail" type="boolean" />
 		<field name="eServiceMailId" type="String" />
+		<field name="eServiceMailValidated" type="boolean" />
 		<field name="applicantPhoto" type="String" />
 		<field name="applicantSignature" type="long" />
 		<field name="idProofType" type="String" />

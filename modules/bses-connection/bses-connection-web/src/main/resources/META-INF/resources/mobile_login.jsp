@@ -18,7 +18,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group mb-4">
-									<h1>OTP Login</h1>
+									<h5>OTP Login</h5>
 										<aui:input type="text" class="form-control" name="mobileNo" label="otp-login-mobile-no" >
 											<aui:validator name="required" errorMessage="Please enter 10 digit's valid mobile number!"/>
 											<aui:validator name="digits" errorMessage="Please enter 10 digit's valid mobile number!"/>

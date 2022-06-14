@@ -98,6 +98,7 @@ public class ConnectionRequestSoap implements Serializable {
 		soapModel.setPollutionCertificate(model.getPollutionCertificate());
 		soapModel.setEServiceOnMail(model.isEServiceOnMail());
 		soapModel.setEServiceMailId(model.getEServiceMailId());
+		soapModel.setEServiceMailValidated(model.isEServiceMailValidated());
 		soapModel.setApplicantPhoto(model.getApplicantPhoto());
 		soapModel.setApplicantSignature(model.getApplicantSignature());
 		soapModel.setIdProofType(model.getIdProofType());
@@ -760,6 +761,18 @@ public class ConnectionRequestSoap implements Serializable {
 		_eServiceMailId = eServiceMailId;
 	}
 
+	public boolean getEServiceMailValidated() {
+		return _eServiceMailValidated;
+	}
+
+	public boolean isEServiceMailValidated() {
+		return _eServiceMailValidated;
+	}
+
+	public void setEServiceMailValidated(boolean eServiceMailValidated) {
+		_eServiceMailValidated = eServiceMailValidated;
+	}
+
 	public String getApplicantPhoto() {
 		return _applicantPhoto;
 	}
@@ -935,6 +948,7 @@ public class ConnectionRequestSoap implements Serializable {
 	private String _pollutionCertificate;
 	private boolean _eServiceOnMail;
 	private String _eServiceMailId;
+	private boolean _eServiceMailValidated;
 	private String _applicantPhoto;
 	private long _applicantSignature;
 	private String _idProofType;

@@ -33,6 +33,7 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -81,6 +82,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public static final String FORM_EMAIL_ID = "bsesnoreply@relianceada.com";
 	public static final String SUBJECT = "OTP for New Connection";
 	public static DateFormat dateFormat=null;
+	public static final int RETENTION_DAYS=5;
 	
 	@Reference
 	private ConnectionDocumentLocalService connectionDocumentLocalService;
@@ -118,13 +120,11 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateConsumerDetails(String requestNo, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(requestNo, params, PREFIX_CONSUMER);
-		// return dssNewConnRequest;
 	}
 
 	public String updateConsumerDetails(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_CONSUMER);
-		// return dssNewConnRequest;
 	}
 
 	public String updateAddress(String requestNo, Map<String, String> params) {
@@ -135,7 +135,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateAddress(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_ADDRESS);
-		// return dssNewConnRequest;
 	}
 
 	public String updateConnection(String requestNo, Map<String, String> params) {
@@ -146,7 +145,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateConnection(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_CONNECTION);
-		// return dssNewConnRequest;
 	}
 
 	public String updateChecklistDocuments(String requestNo, Map<String, String> params) {
@@ -157,7 +155,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateChecklistDocuments(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_CHECKLIST);
-		// return dssNewConnRequest;
 	}
 
 	public String updateImportantDocuments(String requestNo, Map<String, String> params) {
@@ -168,7 +165,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateImportantDocuments(long connectionRequestId, Map<String, String> params) {
 		LOGGER.info(params);
 		return updateConnectionRequest(connectionRequestId, params, PREFIX_DOCUMENT);
-		// return dssNewConnRequest;
 	}
 
 	public ConnectionRequest getConnectionRequest(String requestNo) {
@@ -215,13 +211,10 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public String updateConnectionRequest(long connectionRequestId, Map<String, String> params, String sectionPrefix) {
 		try {
 			ConnectionRequest connectionRequest = getConnectionRequest(connectionRequestId);
-			System.out.println("setattribute begin");
 			setAttributes(connectionRequest, params, sectionPrefix);
-			System.out.println("setattribute end ");
 			connectionRequestPersistence.update(connectionRequest);
 			return "success";
 		} catch (Exception e) {
-			System.out.println("exception ");
 			LOGGER.error(e.getMessage());
 		}
 		return "failure";
@@ -229,10 +222,16 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 	public String submitConnectionRequestToSoap(long connectionRequestId) {
 		try {
-			// ConnectionRequest connectionRequest=
-			// connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
-			DigitalSevaKendraServiceHelper.addNewConnectionRequestDetailSoapCall(connectionRequestId);
-			return "success";
+			ConnectionRequest connectionRequest=
+			connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
+			String serviceOrder=DigitalSevaKendraServiceHelper.addNewConnectionRequestDetailSoapCall(connectionRequest);
+			if(StringUtils.isNotEmpty(serviceOrder)) {
+				connectionRequest.setOrderNo(serviceOrder);
+				connectionRequest.setSapOrderGenerated("Y");
+				connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_ORDER_GENERATED);
+				connectionRequestPersistence.update(connectionRequest);
+				return "success";
+			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -468,19 +467,46 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		}
 		return false;
 	}
-	private static DateFormat getDateFormat() {
+	private static DateFormat getSourceDateFormat() {
 		if(dateFormat==null) {
 			dateFormat=new SimpleDateFormat(PropsUtil.get("source.date.format"));
 		}
 		return dateFormat;
 	}
+	
 	public ConnectionRequest deleteByConnectionRequestId(long connectionRequestId) throws NoSuchConnectionRequestException {
 		ConnectionRequest connectionRequest=connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
-		List<ConnectionDocument> documents=connectionDocumentLocalService.getConnectionDocumentByConnectionRequestId(connectionRequestId);
+		deleteConnectionRequestAndDocuments(connectionRequest);
+		return connectionRequest;
+	}
+	
+	private boolean deleteConnectionRequestAndDocuments(ConnectionRequest connectionRequest) {
+		List<ConnectionDocument> documents=connectionDocumentLocalService.getConnectionDocumentByConnectionRequestId(connectionRequest.getConnectionRequestId());
 		for(ConnectionDocument d:documents) {
 			connectionDocumentLocalService.deleteConnectionDocument(d);
 		}
 		connectionRequestPersistence.remove(connectionRequest);
-		return connectionRequest;
+		return true;
+	}
+	
+	public int deleteStaleConnectionRequests(String mobileNo) {
+		int retentionDays=RETENTION_DAYS;
+		try {
+			retentionDays=Integer.parseInt(PropsUtil.get("draft.connection.request.retention").trim());
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		long retentionMills=retentionDays*24*60*60*1000;
+		Calendar today=Calendar.getInstance();
+		
+		int deleted=0;
+		List<ConnectionRequest> connectionRequests=connectionRequestPersistence.findByMobileNo(mobileNo);
+		for(ConnectionRequest connectionRequest:connectionRequests) {
+			if(today.getTimeInMillis()-connectionRequest.getModifiedDate().getTime()>=retentionMills) {
+				deleteConnectionRequestAndDocuments(connectionRequest);
+				deleted++;
+			}
+		}
+		return deleted;
 	}
 }

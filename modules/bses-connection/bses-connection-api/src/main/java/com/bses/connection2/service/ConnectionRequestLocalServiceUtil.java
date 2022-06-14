@@ -139,6 +139,10 @@ public class ConnectionRequestLocalServiceUtil {
 		return getService().deletePersistedModel(persistedModel);
 	}
 
+	public static int deleteStaleConnectionRequests(String mobileNo) {
+		return getService().deleteStaleConnectionRequests(mobileNo);
+	}
+
 	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}

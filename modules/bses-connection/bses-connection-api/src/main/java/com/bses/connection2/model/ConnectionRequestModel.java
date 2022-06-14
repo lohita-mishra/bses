@@ -1169,6 +1169,27 @@ public interface ConnectionRequestModel
 	public void setEServiceMailId(String eServiceMailId);
 
 	/**
+	 * Returns the e service mail validated of this connection request.
+	 *
+	 * @return the e service mail validated of this connection request
+	 */
+	public boolean getEServiceMailValidated();
+
+	/**
+	 * Returns <code>true</code> if this connection request is e service mail validated.
+	 *
+	 * @return <code>true</code> if this connection request is e service mail validated; <code>false</code> otherwise
+	 */
+	public boolean isEServiceMailValidated();
+
+	/**
+	 * Sets whether this connection request is e service mail validated.
+	 *
+	 * @param eServiceMailValidated the e service mail validated of this connection request
+	 */
+	public void setEServiceMailValidated(boolean eServiceMailValidated);
+
+	/**
 	 * Returns the applicant photo of this connection request.
 	 *
 	 * @return the applicant photo of this connection request

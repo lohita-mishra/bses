@@ -123,6 +123,7 @@ public class ConnectionRequestWrapper
 		attributes.put("pollutionCertificate", getPollutionCertificate());
 		attributes.put("eServiceOnMail", isEServiceOnMail());
 		attributes.put("eServiceMailId", getEServiceMailId());
+		attributes.put("eServiceMailValidated", isEServiceMailValidated());
 		attributes.put("applicantPhoto", getApplicantPhoto());
 		attributes.put("applicantSignature", getApplicantSignature());
 		attributes.put("idProofType", getIdProofType());
@@ -550,6 +551,13 @@ public class ConnectionRequestWrapper
 			setEServiceMailId(eServiceMailId);
 		}
 
+		Boolean eServiceMailValidated = (Boolean)attributes.get(
+			"eServiceMailValidated");
+
+		if (eServiceMailValidated != null) {
+			setEServiceMailValidated(eServiceMailValidated);
+		}
+
 		String applicantPhoto = (String)attributes.get("applicantPhoto");
 
 		if (applicantPhoto != null) {
@@ -840,6 +848,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public String getEServiceMailId() {
 		return _connectionRequest.getEServiceMailId();
+	}
+
+	/**
+	 * Returns the e service mail validated of this connection request.
+	 *
+	 * @return the e service mail validated of this connection request
+	 */
+	@Override
+	public boolean getEServiceMailValidated() {
+		return _connectionRequest.getEServiceMailValidated();
 	}
 
 	/**
@@ -1508,6 +1526,16 @@ public class ConnectionRequestWrapper
 	}
 
 	/**
+	 * Returns <code>true</code> if this connection request is e service mail validated.
+	 *
+	 * @return <code>true</code> if this connection request is e service mail validated; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isEServiceMailValidated() {
+		return _connectionRequest.isEServiceMailValidated();
+	}
+
+	/**
 	 * Returns <code>true</code> if this connection request is e service on mail.
 	 *
 	 * @return <code>true</code> if this connection request is e service on mail; <code>false</code> otherwise
@@ -1840,6 +1868,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public void setEServiceMailId(String eServiceMailId) {
 		_connectionRequest.setEServiceMailId(eServiceMailId);
+	}
+
+	/**
+	 * Sets whether this connection request is e service mail validated.
+	 *
+	 * @param eServiceMailValidated the e service mail validated of this connection request
+	 */
+	@Override
+	public void setEServiceMailValidated(boolean eServiceMailValidated) {
+		_connectionRequest.setEServiceMailValidated(eServiceMailValidated);
 	}
 
 	/**

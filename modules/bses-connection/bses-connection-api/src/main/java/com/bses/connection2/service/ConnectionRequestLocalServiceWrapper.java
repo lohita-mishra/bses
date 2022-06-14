@@ -142,6 +142,12 @@ public class ConnectionRequestLocalServiceWrapper
 	}
 
 	@Override
+	public int deleteStaleConnectionRequests(String mobileNo) {
+		return _connectionRequestLocalService.deleteStaleConnectionRequests(
+			mobileNo);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return _connectionRequestLocalService.dynamicQuery();
 	}

@@ -65,7 +65,7 @@ public class ConnectionRequestCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(161);
+		StringBundler sb = new StringBundler(163);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -201,6 +201,8 @@ public class ConnectionRequestCacheModel
 		sb.append(eServiceOnMail);
 		sb.append(", eServiceMailId=");
 		sb.append(eServiceMailId);
+		sb.append(", eServiceMailValidated=");
+		sb.append(eServiceMailValidated);
 		sb.append(", applicantPhoto=");
 		sb.append(applicantPhoto);
 		sb.append(", applicantSignature=");
@@ -605,6 +607,8 @@ public class ConnectionRequestCacheModel
 			connectionRequestImpl.setEServiceMailId(eServiceMailId);
 		}
 
+		connectionRequestImpl.setEServiceMailValidated(eServiceMailValidated);
+
 		if (applicantPhoto == null) {
 			connectionRequestImpl.setApplicantPhoto("");
 		}
@@ -781,6 +785,8 @@ public class ConnectionRequestCacheModel
 
 		eServiceOnMail = objectInput.readBoolean();
 		eServiceMailId = objectInput.readUTF();
+
+		eServiceMailValidated = objectInput.readBoolean();
 		applicantPhoto = objectInput.readUTF();
 
 		applicantSignature = objectInput.readLong();
@@ -1153,6 +1159,8 @@ public class ConnectionRequestCacheModel
 			objectOutput.writeUTF(eServiceMailId);
 		}
 
+		objectOutput.writeBoolean(eServiceMailValidated);
+
 		if (applicantPhoto == null) {
 			objectOutput.writeUTF("");
 		}
@@ -1296,6 +1304,7 @@ public class ConnectionRequestCacheModel
 	public String pollutionCertificate;
 	public boolean eServiceOnMail;
 	public String eServiceMailId;
+	public boolean eServiceMailValidated;
 	public String applicantPhoto;
 	public long applicantSignature;
 	public String idProofType;

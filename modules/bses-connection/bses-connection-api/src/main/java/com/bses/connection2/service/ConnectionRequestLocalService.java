@@ -137,6 +137,8 @@ public interface ConnectionRequestLocalService
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
 
+	public int deleteStaleConnectionRequests(String mobileNo);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
 
