@@ -29,6 +29,8 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * The implementation of the connection document local service.
  *
@@ -66,7 +68,7 @@ public class ConnectionDocumentLocalServiceImpl
 	}
 	
 	public ConnectionDocument updateConnectionDocument(long connectionDocumentId, long connectionRequestId, String documentType, String documentName, File file) throws PortalException{
-		
+		LOGGER.info("updateConnectionDocument:  connectionRequestId="+connectionRequestId+", documentType="+documentType);
 		ConnectionRequest connectionRequest=null;
 		ConnectionDocument connectionDocument=null;
 		
@@ -75,7 +77,11 @@ public class ConnectionDocumentLocalServiceImpl
 		try {
 			if(connectionDocumentId>0) {
 				connectionDocument=connectionDocumentPersistence.findByPrimaryKey(connectionDocumentId);
-			}else {
+			}else if(connectionRequestId>0 && StringUtils.isNoneBlank(documentType)){
+				connectionDocument=connectionDocumentPersistence.findByConnectionRequestIdAndDocumentType(connectionRequestId, documentType);
+			}
+			
+			if(connectionDocument==null) {
 				connectionDocument=connectionDocumentPersistence.create(CounterLocalServiceUtil.increment(ConnectionDocument.class.getName()));
 			}
 		} catch (NoSuchConnectionDocumentException e) {
@@ -92,7 +98,8 @@ public class ConnectionDocumentLocalServiceImpl
 			folder.mkdirs();
 		}
 		
-		File dest=new File(folder, file.getName());
+		String destFileName=calendar.getTimeInMillis()+"."+file.getName().substring(file.getName().lastIndexOf("."));
+		File dest=new File(folder, destFileName);
 		if(file.renameTo(dest)) {
 			LOGGER.info(file.getAbsolutePath() +" was moved to "+dest.getAbsolutePath());
 		}else {

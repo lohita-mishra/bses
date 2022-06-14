@@ -117,9 +117,9 @@
 						<td>BRPL</td>
 						<td>Nehru Place</td>
 						<td></td>
-						<td><%=name%></td>
-						<td><%=r.getEmailId() %></td>
-						<td><%=r.getMobileNo() %></td>
+						<td><%=StringUtils.trim(name)%></td>
+						<td><%=StringUtils.trim(r.getEmailId()) %></td>
+						<td><%=StringUtils.trim(r.getMobileNo()) %></td>
 						<td><%=dateFormat.format(r.getCreateDate())%></td>
 					</tr>
 <%

@@ -21,7 +21,6 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 </div>
 <aui:script position="inline" use="aui-base">
 	$(document).ready(function(){
-		alert("OK");
 		$("#<portlet:namespace/>previewBtn").click(function(){
 			Liferay.Util.openWindow(
 				{

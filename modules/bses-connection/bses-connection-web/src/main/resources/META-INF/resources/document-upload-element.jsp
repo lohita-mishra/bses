@@ -45,7 +45,7 @@ try{
 	ConnectionDocument connectionDocument=ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestIdAndDocumentType(requestEntity.getConnectionRequestId(), "Polution Certificate");
 	connectionDocumentId=connectionDocument.getConnectionDocumentId();
 }catch(Exception e){
-	LOGGER.error(e);
+	LOGGER.error(e.getMessage());
 }
 
 String progressBarId = elementName.concat("_progressbar");
@@ -87,8 +87,9 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	});--%>
 	
 	$('#<portlet:namespace/><%=elementName%>_file').on('change', function(event) {
-		console.log('Uploading for '+'<%=connectionRequestId%>, <%=connectionDocumentId%> , <%=documentType%>' + $('#<portlet:namespace/><%=elementName%>_documentName').val());
-		uploadFile('<%=connectionRequestId%>', '<%=connectionDocumentId%>', '<%=documentType%>', $('#<portlet:namespace/><%=elementName%>_documentName').val(), 
+		var connectionDocumentId=$('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val();
+		console.log('Uploading for '+'<%=connectionRequestId%>, '+connectionDocumentId+' , <%=documentType%>' + $('#<portlet:namespace/><%=elementName%>_documentName').val());
+		uploadFile('<%=connectionRequestId%>', connectionDocumentId, '<%=documentType%>', $('#<portlet:namespace/><%=elementName%>_documentName').val(), 
 				$('#<portlet:namespace/><%=elementName%>_file'), <%=progressBarId%>, <portlet:namespace /><%=elementName%>_uploadFileOnSuccess);
 	});
 	
@@ -103,7 +104,8 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	});
 
 	function <portlet:namespace /><%=elementName%>_uploadFileOnSuccess(response){
-		$('#<portlet:namespace/><%=elementName%>').val(response.fileEntryId);
+		$('#<portlet:namespace/><%=elementName%>').val(response.connectionDocumentId);
+		$('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val(response.connectionDocumentId);
 		$('#<portlet:namespace /><%=elementName%>_uploadBtn').css("display", "none");
 		$('#<portlet:namespace/><%=elementName%>_fileName').html("Uploaded successfully");
 		$('#<portlet:namespace /><%=elementName%>_clearBtn').css("display", "block");

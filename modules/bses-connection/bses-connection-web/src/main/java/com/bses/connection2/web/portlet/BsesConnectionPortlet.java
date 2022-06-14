@@ -187,7 +187,7 @@ public class BsesConnectionPortlet extends MVCPortlet {
      	//String filePath=uploadRequest.getParameter(fileElementName+"_path");
      	File sourceFile=uploadRequest.getFile("file");
         long connectionRequestId=ParamUtil.getLong(uploadRequest, "connectionRequestId",0);
-        long connectionDocumentId=ParamUtil.getLong(uploadRequest, "connectionDocumenetId",0);
+        long connectionDocumentId=ParamUtil.getLong(uploadRequest, "connectionDocumentId",0);
         String documentType=ParamUtil.getString(uploadRequest, "documentType");
         String documentName=ParamUtil.getString(uploadRequest, "documentName");
 
