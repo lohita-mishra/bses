@@ -84,6 +84,7 @@
 </style>
 <portlet:resourceURL var="fileUploadURL" id="fileUpload">
 </portlet:resourceURL>
+
 <%
 	long connectionRequestId=ParamUtil.getLong(request, "connectionRequestId", 0);
 	if(connectionRequestId==0 && session.getAttribute(ConnectionRequest.class.getName()+"#id")!=null){
@@ -115,6 +116,17 @@
 	}
 	//autoSaveFlag="false";
 %>
+
+<portlet:renderURL var="emailVerificationURL">
+	<portlet:param name="mvcPath" value="/email_verification.jsp" />
+	<portlet:param name="connectionRequestId" value="<%=String.valueOf(connectionRequestId) %>" />
+</portlet:renderURL>
+
+<portlet:renderURL var="connectionRequestSuccessURL">
+	<portlet:param name="mvcPath" value="/connection_request_success.jsp" />
+	<portlet:param name="connectionRequestId" value="<%=String.valueOf(connectionRequestId) %>" />
+</portlet:renderURL>
+
 <div class="card card-primary bg-light mb-2">
 	<div class="card-header">
 		<liferay-util:include page="/request_header.jsp" servletContext="<%=application%>">
@@ -762,8 +774,15 @@
 	    });	
 	}
 	function handleSubmitSuccess(){
-		alert("New connection request submitted");
+		
 		//submitSoap();
+		if($("input[name=<portlet:namespace/>eServiceOnMail]") && $("input[name=<portlet:namespace/>eServiceMailId]").val() !=""){
+			window.location = "<%=emailVerificationURL.toString()%>";
+		}else{
+			window.location = "<%=connectionRequestSuccessURL.toString()%>";
+		}
+		
+
 	}
 
 	function submitSoap(){
