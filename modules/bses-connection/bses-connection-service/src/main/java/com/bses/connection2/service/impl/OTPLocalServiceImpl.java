@@ -62,7 +62,7 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 
 			if (Validator.isNull(otp)) {
 				otp = otpLocalService.createOTP(CounterLocalServiceUtil.increment(OTP.class.getName()));
-				otp.setUserName(user.getScreenName());
+				//otp.setUserName(user.getScreenName());
 			}
 
 			otp.setMobileNo(mobileNo);
