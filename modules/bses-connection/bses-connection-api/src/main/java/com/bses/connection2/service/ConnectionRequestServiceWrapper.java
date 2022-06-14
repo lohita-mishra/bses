@@ -35,10 +35,21 @@ public class ConnectionRequestServiceWrapper
 
 	@Override
 	public com.bses.connection2.model.ConnectionRequest createConnectionRequest(
-		String mobileNo, String emailId) {
+			String mobileNo, String emailId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _connectionRequestService.createConnectionRequest(
 			mobileNo, emailId);
+	}
+
+	@Override
+	public com.bses.connection2.model.ConnectionRequest createConnectionRequest(
+			String mobileNo, String emailId, String requestType,
+			String requestMode)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _connectionRequestService.createConnectionRequest(
+			mobileNo, emailId, requestType, requestMode);
 	}
 
 	@Override

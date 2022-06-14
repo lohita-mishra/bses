@@ -24,6 +24,7 @@ import com.bses.connection2.util.RequestTypeModeStatus;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -87,11 +88,21 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	@Reference
 	private ConnectionDocumentLocalService connectionDocumentLocalService;
 
-	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId) {
+	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId) throws PortalException {
 		String requestNo = "R-TMP-" + new Date().getTime();
 		LOGGER.info(mobileNo + " - " + emailId + " - " + requestNo);
-		ConnectionRequest connectionRequest = connectionRequestPersistence
-				.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
+		int draftCount=connectionRequestPersistence.countByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);
+		
+		int maxCount=5;
+		try{
+			maxCount=Integer.parseInt(PropsUtil.get("connection.request.draft.max.count").trim());
+		}catch(Exception e){}
+		
+		if(draftCount>=maxCount) {
+			throw new PortalException("Maximum number of pending requests reached "+maxCount);
+		}
+		
+		ConnectionRequest connectionRequest = connectionRequestPersistence.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
 		connectionRequest.setMobileNo(mobileNo);
 		connectionRequest.setEmailId(emailId);
 		connectionRequest.setRequestNo(requestNo);
@@ -101,11 +112,19 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		return connectionRequest;
 	}
 	
-	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId, String requestType, String requestMode) {
+	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId, String requestType, String requestMode) throws PortalException {
 		String requestNo = "R-TMP-" + new Date().getTime();
 		LOGGER.info(mobileNo + " - " + emailId + " - " + requestNo);
-		ConnectionRequest connectionRequest = connectionRequestPersistence
-				.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
+		int draftCount=connectionRequestPersistence.countByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);
+		int maxCount=5;
+		try{
+			maxCount=Integer.parseInt(PropsUtil.get("connection.request.draft.max.count").trim());
+		}catch(Exception e){}
+		
+		if(draftCount>=maxCount) {
+			throw new PortalException("Maximum number of pending requests reached "+maxCount);
+		}
+		ConnectionRequest connectionRequest = connectionRequestPersistence.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
 		connectionRequest.setMobileNo(mobileNo);
 		connectionRequest.setEmailId(emailId);
 		connectionRequest.setRequestNo(requestNo);
@@ -195,6 +214,18 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 		return connectionRequests;
 	}
+	
+	public List<ConnectionRequest> getConnectionRequestsByMobileNoAndRequestStatus(String mobileNo, String requestStatus) {
+		List<ConnectionRequest> connectionRequests = new ArrayList();
+		try {
+			connectionRequests = connectionRequestPersistence.findByMobileNoAndRequestStatus(mobileNo, requestStatus);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+
+		return connectionRequests;
+	}
+	
 
 	public String updateConnectionRequest(String requestNo, Map<String, String> params, String sectionPrefix) {
 		try {
@@ -248,7 +279,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 		ConnectionRequest target = connectionRequestPersistence.create(0);
 		Enumeration<String> enumBundle = bundle.getKeys();
-		// String formName=params.get("formName");
 		while (enumBundle.hasMoreElements()) {
 			String prefix = "";
 			String key = enumBundle.nextElement();

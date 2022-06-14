@@ -63,7 +63,14 @@ public interface ConnectionRequestService extends BaseService {
 	 */
 	@AccessControlled(guestAccessEnabled = true)
 	public ConnectionRequest createConnectionRequest(
-		String mobileNo, String emailId);
+			String mobileNo, String emailId)
+		throws PortalException;
+
+	@AccessControlled(guestAccessEnabled = true)
+	public ConnectionRequest createConnectionRequest(
+			String mobileNo, String emailId, String requestType,
+			String requestMode)
+		throws PortalException;
 
 	public boolean deleteByConnectionRequestId(long connectionRequestId)
 		throws PortalException;

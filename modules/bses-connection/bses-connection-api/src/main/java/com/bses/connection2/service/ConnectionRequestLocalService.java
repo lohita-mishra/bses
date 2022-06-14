@@ -91,11 +91,13 @@ public interface ConnectionRequestLocalService
 	public ConnectionRequest createConnectionRequest(long connectionRequestId);
 
 	public ConnectionRequest createConnectionRequest(
-		String mobileNo, String emailId);
+			String mobileNo, String emailId)
+		throws PortalException;
 
 	public ConnectionRequest createConnectionRequest(
-		String mobileNo, String emailId, String requestType,
-		String requestMode);
+			String mobileNo, String emailId, String requestType,
+			String requestMode)
+		throws PortalException;
 
 	public ConnectionRequest deleteByConnectionRequestId(
 			long connectionRequestId)
@@ -270,6 +272,11 @@ public interface ConnectionRequestLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<ConnectionRequest> getConnectionRequestsByMobileNo(
 		String mobileNo);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ConnectionRequest>
+		getConnectionRequestsByMobileNoAndRequestStatus(
+			String mobileNo, String requestStatus);
 
 	/**
 	 * Returns all the connection requests matching the UUID and company.

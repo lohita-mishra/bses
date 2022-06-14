@@ -31,10 +31,11 @@
 	<portlet:param name="mobileNo" value="<%=mobileNo%>" />
 	<portlet:param name="emailId" value="<%=emailId%>" />
 </portlet:renderURL>
+
 <%
 	List<ConnectionRequest> connectionRequestList=(List)request.getAttribute(ConnectionRequest.class.getName()+"#list");
 	if(connectionRequestList==null){
-		connectionRequestList=ConnectionRequestLocalServiceUtil.getConnectionRequestsByMobileNo(mobileNo);
+		connectionRequestList=ConnectionRequestLocalServiceUtil.getConnectionRequestsByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);
 	}
 	DateFormat dateFormat=new SimpleDateFormat(PropsUtil.get("display.datetime.format"));
 %>
@@ -98,9 +99,7 @@
 				<tbody>
 <%
 				for(ConnectionRequest r:connectionRequestList){
-					if(!StringUtils.equalsIgnoreCase(r.getRequestType(), RequestTypeModeStatus.STATUS_DRAFT)){
-						continue;
-					}
+					
 					String name=MasterData.getTitleValue(r.getTitle())+" "+r.getFirstName()+(StringUtils.isNotBlank(r.getMiddleName())?" "+r.getMiddleName():"")+(StringUtils.isNotBlank(r.getLastName())?" "+r.getLastName():"");
 %>				
 					<tr>

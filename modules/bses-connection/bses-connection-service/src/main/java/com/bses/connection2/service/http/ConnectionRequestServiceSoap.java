@@ -81,6 +81,27 @@ public class ConnectionRequestServiceSoap {
 		}
 	}
 
+	public static com.bses.connection2.model.ConnectionRequestSoap
+			createConnectionRequest(
+				String mobileNo, String emailId, String requestType,
+				String requestMode)
+		throws RemoteException {
+
+		try {
+			com.bses.connection2.model.ConnectionRequest returnValue =
+				ConnectionRequestServiceUtil.createConnectionRequest(
+					mobileNo, emailId, requestType, requestMode);
+
+			return com.bses.connection2.model.ConnectionRequestSoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	public static String submitConnectionRequestToSoap(long connectionRequestId)
 		throws RemoteException {
 

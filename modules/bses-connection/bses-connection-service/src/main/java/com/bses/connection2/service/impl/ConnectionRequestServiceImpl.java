@@ -54,9 +54,15 @@ public class ConnectionRequestServiceImpl extends ConnectionRequestServiceBaseIm
 	private static final Log LOGGER = LogFactoryUtil.getLog(ConnectionRequestServiceImpl.class);
 
 	@AccessControlled(guestAccessEnabled=true)
-	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId) {
+	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId) throws PortalException {
 		LOGGER.info(mobileNo + " = " + emailId);
 		return connectionRequestLocalService.createConnectionRequest(mobileNo, emailId);
+	}
+	
+	@AccessControlled(guestAccessEnabled=true)
+	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId, String requestType, String requestMode) throws PortalException {
+		LOGGER.info(mobileNo + " = " + emailId);
+		return connectionRequestLocalService.createConnectionRequest(mobileNo, emailId, requestType, requestMode);
 	}
 
 	/*public String updateConnectionRequest(String requestNo, Map<String, String> params, String sectionPrefix) {

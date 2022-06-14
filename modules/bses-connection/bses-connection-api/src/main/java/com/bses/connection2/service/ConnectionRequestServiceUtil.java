@@ -41,9 +41,19 @@ public class ConnectionRequestServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.bses.connection2.service.impl.ConnectionRequestServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static ConnectionRequest createConnectionRequest(
-		String mobileNo, String emailId) {
+			String mobileNo, String emailId)
+		throws PortalException {
 
 		return getService().createConnectionRequest(mobileNo, emailId);
+	}
+
+	public static ConnectionRequest createConnectionRequest(
+			String mobileNo, String emailId, String requestType,
+			String requestMode)
+		throws PortalException {
+
+		return getService().createConnectionRequest(
+			mobileNo, emailId, requestType, requestMode);
 	}
 
 	public static boolean deleteByConnectionRequestId(long connectionRequestId)

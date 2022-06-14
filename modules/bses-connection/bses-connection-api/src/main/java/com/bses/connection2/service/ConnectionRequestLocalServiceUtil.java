@@ -75,14 +75,16 @@ public class ConnectionRequestLocalServiceUtil {
 	}
 
 	public static ConnectionRequest createConnectionRequest(
-		String mobileNo, String emailId) {
+			String mobileNo, String emailId)
+		throws PortalException {
 
 		return getService().createConnectionRequest(mobileNo, emailId);
 	}
 
 	public static ConnectionRequest createConnectionRequest(
-		String mobileNo, String emailId, String requestType,
-		String requestMode) {
+			String mobileNo, String emailId, String requestType,
+			String requestMode)
+		throws PortalException {
 
 		return getService().createConnectionRequest(
 			mobileNo, emailId, requestType, requestMode);
@@ -307,6 +309,14 @@ public class ConnectionRequestLocalServiceUtil {
 		String mobileNo) {
 
 		return getService().getConnectionRequestsByMobileNo(mobileNo);
+	}
+
+	public static List<ConnectionRequest>
+		getConnectionRequestsByMobileNoAndRequestStatus(
+			String mobileNo, String requestStatus) {
+
+		return getService().getConnectionRequestsByMobileNoAndRequestStatus(
+			mobileNo, requestStatus);
 	}
 
 	/**

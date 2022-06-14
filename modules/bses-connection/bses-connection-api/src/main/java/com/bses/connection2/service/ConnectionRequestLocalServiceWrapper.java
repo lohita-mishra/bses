@@ -67,7 +67,8 @@ public class ConnectionRequestLocalServiceWrapper
 
 	@Override
 	public com.bses.connection2.model.ConnectionRequest createConnectionRequest(
-		String mobileNo, String emailId) {
+			String mobileNo, String emailId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _connectionRequestLocalService.createConnectionRequest(
 			mobileNo, emailId);
@@ -75,8 +76,9 @@ public class ConnectionRequestLocalServiceWrapper
 
 	@Override
 	public com.bses.connection2.model.ConnectionRequest createConnectionRequest(
-		String mobileNo, String emailId, String requestType,
-		String requestMode) {
+			String mobileNo, String emailId, String requestType,
+			String requestMode)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _connectionRequestLocalService.createConnectionRequest(
 			mobileNo, emailId, requestType, requestMode);
@@ -341,6 +343,16 @@ public class ConnectionRequestLocalServiceWrapper
 
 		return _connectionRequestLocalService.getConnectionRequestsByMobileNo(
 			mobileNo);
+	}
+
+	@Override
+	public java.util.List<com.bses.connection2.model.ConnectionRequest>
+		getConnectionRequestsByMobileNoAndRequestStatus(
+			String mobileNo, String requestStatus) {
+
+		return _connectionRequestLocalService.
+			getConnectionRequestsByMobileNoAndRequestStatus(
+				mobileNo, requestStatus);
 	}
 
 	/**

@@ -1,3 +1,4 @@
+<%@page import="com.bses.connection2.util.RequestTypeModeStatus"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
 <%@page import="java.util.List"%>
@@ -7,7 +8,7 @@
 String mobileNo=ParamUtil.getString(request, "mobileNo", "");
 String emailId=ParamUtil.getString(request, "emailId", "");
 
-List<ConnectionRequest> connectionRequestList=ConnectionRequestLocalServiceUtil.getConnectionRequestsByMobileNo(mobileNo);
+List<ConnectionRequest> connectionRequestList=ConnectionRequestLocalServiceUtil.getConnectionRequestsByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);
 if(connectionRequestList!=null && !connectionRequestList.isEmpty()){
 	request.setAttribute(ConnectionRequest.class.getName()+"#list", connectionRequestList);
 
