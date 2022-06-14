@@ -214,7 +214,7 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 			return otpPersistence.findByMobileNo(mobileNo);
 		} catch (Exception e) {
 
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null;
 		}
 	}
