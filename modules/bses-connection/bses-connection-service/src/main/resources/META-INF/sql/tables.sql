@@ -28,6 +28,8 @@ create table bsesconn_ConnectionRequest (
 	emailId VARCHAR(75) null,
 	requestDate DATE null,
 	requestType VARCHAR(75) null,
+	requestStatus VARCHAR(75) null,
+	requestMode VARCHAR(75) null,
 	consumerType VARCHAR(75) null,
 	title VARCHAR(75) null,
 	firstName VARCHAR(75) null,

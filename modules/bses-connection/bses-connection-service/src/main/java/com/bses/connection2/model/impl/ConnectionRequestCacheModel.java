@@ -65,7 +65,7 @@ public class ConnectionRequestCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(157);
+		StringBundler sb = new StringBundler(161);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -93,6 +93,10 @@ public class ConnectionRequestCacheModel
 		sb.append(requestDate);
 		sb.append(", requestType=");
 		sb.append(requestType);
+		sb.append(", requestStatus=");
+		sb.append(requestStatus);
+		sb.append(", requestMode=");
+		sb.append(requestMode);
 		sb.append(", consumerType=");
 		sb.append(consumerType);
 		sb.append(", title=");
@@ -299,6 +303,20 @@ public class ConnectionRequestCacheModel
 		}
 		else {
 			connectionRequestImpl.setRequestType(requestType);
+		}
+
+		if (requestStatus == null) {
+			connectionRequestImpl.setRequestStatus("");
+		}
+		else {
+			connectionRequestImpl.setRequestStatus(requestStatus);
+		}
+
+		if (requestMode == null) {
+			connectionRequestImpl.setRequestMode("");
+		}
+		else {
+			connectionRequestImpl.setRequestMode(requestMode);
 		}
 
 		if (consumerType == null) {
@@ -694,6 +712,8 @@ public class ConnectionRequestCacheModel
 		emailId = objectInput.readUTF();
 		requestDate = objectInput.readLong();
 		requestType = objectInput.readUTF();
+		requestStatus = objectInput.readUTF();
+		requestMode = objectInput.readUTF();
 		consumerType = objectInput.readUTF();
 		title = objectInput.readUTF();
 		firstName = objectInput.readUTF();
@@ -833,6 +853,20 @@ public class ConnectionRequestCacheModel
 		}
 		else {
 			objectOutput.writeUTF(requestType);
+		}
+
+		if (requestStatus == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(requestStatus);
+		}
+
+		if (requestMode == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(requestMode);
 		}
 
 		if (consumerType == null) {
@@ -1208,6 +1242,8 @@ public class ConnectionRequestCacheModel
 	public String emailId;
 	public long requestDate;
 	public String requestType;
+	public String requestStatus;
+	public String requestMode;
 	public String consumerType;
 	public String title;
 	public String firstName;

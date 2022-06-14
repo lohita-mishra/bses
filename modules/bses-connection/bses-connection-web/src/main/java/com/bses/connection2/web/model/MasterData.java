@@ -25,6 +25,13 @@ public class MasterData {
 		return floors;
 	}
 	
+	public static String getFloorValue(String key) {
+		if(floors.isEmpty()) {
+			getFloors();
+		}
+		return floors.get(key);
+	}
+	
 	public static Map<String, String> getLandmarks(){
 		if(landmarks.isEmpty()) {
 			landmarks.put("Above", "Above");
@@ -36,6 +43,13 @@ public class MasterData {
 		return landmarks;
 	}
 	
+	public static String getLandmarkValue(String key) {
+		if(landmarks.isEmpty()) {
+			getLandmarks();
+		}
+		return landmarks.get(key);
+	}
+	
 	public static Map<String, String> getTitles(){
 		if(titles.isEmpty()) {
 			titles.put("0002", "Mr.");
@@ -45,6 +59,13 @@ public class MasterData {
 			titles.put("0006", "M/s");
 		}
 		return titles;
+	}
+	
+	public static String getTitleValue(String key) {
+		if(titles.isEmpty()) {
+			getTitles();
+		}
+		return titles.get(key);
 	}
 	
 	public static Map<String, String> getTariffCategories(){
@@ -59,6 +80,12 @@ public class MasterData {
 		}
 		return tariffCategories;
 	}
+	public static String getTariffCategoryValue(String key) {
+		if(tariffCategories.isEmpty()) {
+			getTariffCategories();
+		}
+		return tariffCategories.get(key);
+	}
 	
 	public static Map<String, String> getPremisesTypes(){
 		if(premisesTypes.isEmpty()) {
@@ -67,6 +94,13 @@ public class MasterData {
 			premisesTypes.put("3", "Others");
 		}
 		return premisesTypes;
+	}
+	
+	public static String getPremisesTypeValue(String key) {
+		if(premisesTypes.isEmpty()) {
+			getPremisesTypes();
+		}
+		return premisesTypes.get(key);
 	}
 	
 	public static Map<String, String> getIDProofTypes(){
@@ -79,12 +113,27 @@ public class MasterData {
 		return idProofTypes;
 	}
 	
+	public static String getIDProofTypeValue(String key) {
+		if(idProofTypes.isEmpty()) {
+			getIDProofTypes();
+		}
+		return idProofTypes.get(key);
+	}
+	
 	public static Map<String, String> getOwnershipProofTypes(){
 		if(ownershipProofTypes.isEmpty()) {
 			ownershipProofTypes.put("Title Deed", "Certified Copy of Title Deed");
 		}
 		return ownershipProofTypes;
 	}
+	
+	public static String getOwnershipProofTypeValue(String key) {
+		if(ownershipProofTypes.isEmpty()) {
+			getOwnershipProofTypes();
+		}
+		return ownershipProofTypes.get(key);
+	}
+	
 	
 	public enum ConsumerTypes{
 		Individual, Firm

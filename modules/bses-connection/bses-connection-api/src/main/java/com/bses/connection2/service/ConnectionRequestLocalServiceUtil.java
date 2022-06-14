@@ -80,6 +80,14 @@ public class ConnectionRequestLocalServiceUtil {
 		return getService().createConnectionRequest(mobileNo, emailId);
 	}
 
+	public static ConnectionRequest createConnectionRequest(
+		String mobileNo, String emailId, String requestType,
+		String requestMode) {
+
+		return getService().createConnectionRequest(
+			mobileNo, emailId, requestType, requestMode);
+	}
+
 	public static ConnectionRequest deleteByConnectionRequestId(
 			long connectionRequestId)
 		throws com.bses.connection2.exception.NoSuchConnectionRequestException {

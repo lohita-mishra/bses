@@ -93,6 +93,10 @@ public interface ConnectionRequestLocalService
 	public ConnectionRequest createConnectionRequest(
 		String mobileNo, String emailId);
 
+	public ConnectionRequest createConnectionRequest(
+		String mobileNo, String emailId, String requestType,
+		String requestMode);
+
 	public ConnectionRequest deleteByConnectionRequestId(
 			long connectionRequestId)
 		throws NoSuchConnectionRequestException;

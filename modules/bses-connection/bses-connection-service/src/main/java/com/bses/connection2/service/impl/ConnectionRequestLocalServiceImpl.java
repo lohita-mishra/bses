@@ -20,6 +20,7 @@ import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionDocumentLocalService;
 import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
+import com.bses.connection2.util.RequestTypeModeStatus;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailServiceUtil;
@@ -92,9 +93,27 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		connectionRequest.setMobileNo(mobileNo);
 		connectionRequest.setEmailId(emailId);
 		connectionRequest.setRequestNo(requestNo);
+		connectionRequest.setRequestType(RequestTypeModeStatus.TYPE_NEW_CONNECTION);
+		connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_DRAFT);
 		connectionRequestPersistence.update(connectionRequest);
 		return connectionRequest;
 	}
+	
+	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId, String requestType, String requestMode) {
+		String requestNo = "R-TMP-" + new Date().getTime();
+		LOGGER.info(mobileNo + " - " + emailId + " - " + requestNo);
+		ConnectionRequest connectionRequest = connectionRequestPersistence
+				.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
+		connectionRequest.setMobileNo(mobileNo);
+		connectionRequest.setEmailId(emailId);
+		connectionRequest.setRequestNo(requestNo);
+		connectionRequest.setRequestType(requestType);
+		connectionRequest.setRequestMode(requestMode);
+		connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_DRAFT);
+		connectionRequestPersistence.update(connectionRequest);
+		return connectionRequest;
+	}
+	
 
 	public String updateConsumerDetails(String requestNo, Map<String, String> params) {
 		LOGGER.info(params);
@@ -234,7 +253,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		while (enumBundle.hasMoreElements()) {
 			String prefix = "";
 			String key = enumBundle.nextElement();
-			;
 
 			if (key.startsWith(PREFIX_CONSUMER + ".")) {
 				prefix = PREFIX_CONSUMER;
@@ -372,7 +390,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	private Object getAttribute(ConnectionRequest obj, String name) {
 		Method methodGet = null;
 		try {
-			methodGet = getGetterMethod(ConnectionRequest.class, name);
+			methodGet = getGetterMethod(ConnectionRequest.class, StringUtils.trim(name));
 			return methodGet.invoke(obj);
 		} catch (Exception e) {
 			LOGGER.error("Error in getAttribute for [ConnectionRequest." + name + "]");
@@ -383,7 +401,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 	private Method getSetterMethod(Class clazz, String name, Class[] paramTypes) {
 		try {
-			return clazz.getMethod("set" + StringUtils.capitalize(name), paramTypes);
+			return clazz.getMethod("set" + StringUtils.capitalize(StringUtils.trim(name)), paramTypes);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -392,7 +410,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 
 	private Method getGetterMethod(Class clazz, String name) {
 		try {
-			return clazz.getMethod("get" + StringUtils.capitalize(name));
+			return clazz.getMethod("get" + StringUtils.capitalize(StringUtils.trim(name)));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}

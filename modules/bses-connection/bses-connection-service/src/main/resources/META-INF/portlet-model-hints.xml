@@ -30,6 +30,8 @@
 		<field name="emailId" type="String" />
 		<field name="requestDate" type="Date" />
 		<field name="requestType" type="String" />
+		<field name="requestStatus" type="String" />
+		<field name="requestMode" type="String" />
 		<field name="consumerType" type="String" />
 		<field name="title" type="String" />
 		<field name="firstName" type="String" />

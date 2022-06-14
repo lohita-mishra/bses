@@ -74,6 +74,15 @@ public class ConnectionRequestLocalServiceWrapper
 	}
 
 	@Override
+	public com.bses.connection2.model.ConnectionRequest createConnectionRequest(
+		String mobileNo, String emailId, String requestType,
+		String requestMode) {
+
+		return _connectionRequestLocalService.createConnectionRequest(
+			mobileNo, emailId, requestType, requestMode);
+	}
+
+	@Override
 	public com.bses.connection2.model.ConnectionRequest
 			deleteByConnectionRequestId(long connectionRequestId)
 		throws com.bses.connection2.exception.NoSuchConnectionRequestException {

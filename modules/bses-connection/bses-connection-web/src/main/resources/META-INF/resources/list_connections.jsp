@@ -1,3 +1,7 @@
+<%@page import="com.bses.connection2.util.RequestTypeModeStatus"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="com.bses.connection2.web.model.MasterData"%>
 <%@page import="com.liferay.portal.kernel.util.PropsUtil"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="java.util.List"%>
@@ -32,6 +36,7 @@
 	if(connectionRequestList==null){
 		connectionRequestList=ConnectionRequestLocalServiceUtil.getConnectionRequestsByMobileNo(mobileNo);
 	}
+	DateFormat dateFormat=new SimpleDateFormat(PropsUtil.get("display.datetime.format"));
 %>
 <div class="card card-primary bg-light mb-2">
 	<div class="card-header">
@@ -93,7 +98,10 @@
 				<tbody>
 <%
 				for(ConnectionRequest r:connectionRequestList){
-					String name=r.getTitle()+" "+r.getFirstName()+(StringUtils.isNotBlank(r.getMiddleName())?" "+r.getMiddleName():"")+(StringUtils.isNotBlank(r.getLastName())?" "+r.getLastName():"");
+					if(!StringUtils.equalsIgnoreCase(r.getRequestType(), RequestTypeModeStatus.STATUS_DRAFT)){
+						continue;
+					}
+					String name=MasterData.getTitleValue(r.getTitle())+" "+r.getFirstName()+(StringUtils.isNotBlank(r.getMiddleName())?" "+r.getMiddleName():"")+(StringUtils.isNotBlank(r.getLastName())?" "+r.getLastName():"");
 %>				
 					<tr>
 						<td class="d-flex align-items-center"><span class="text-primary"> <a href=""><%=r.getRequestNo() %></a></span> <span class="btn-group ml-2">
@@ -112,7 +120,7 @@
 						<td><%=name%></td>
 						<td><%=r.getEmailId() %></td>
 						<td><%=r.getMobileNo() %></td>
-						<td><%=r.getCreateDate() %></td>
+						<td><%=dateFormat.format(r.getCreateDate())%></td>
 
 					</tr>
 <%

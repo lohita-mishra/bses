@@ -39,6 +39,8 @@
 		<property name="emailId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="requestDate" type="org.hibernate.type.TimestampType" />
 		<property name="requestType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="requestStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="requestMode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="consumerType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="firstName" type="com.liferay.portal.dao.orm.hibernate.StringType" />

@@ -28,6 +28,8 @@
 		<column name="emailId" type="String" />
 		<column name="requestDate" type="Date" />
 		<column name="requestType" type="String" />
+		<column name="requestStatus" type="String" />
+		<column name="requestMode" type="String" />
 		
 		<!-- Consumer Information -->
 		<column name="consumerType" type="String" />

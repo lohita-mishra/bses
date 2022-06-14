@@ -69,6 +69,8 @@ public class ConnectionRequestWrapper
 		attributes.put("emailId", getEmailId());
 		attributes.put("requestDate", getRequestDate());
 		attributes.put("requestType", getRequestType());
+		attributes.put("requestStatus", getRequestStatus());
+		attributes.put("requestMode", getRequestMode());
 		attributes.put("consumerType", getConsumerType());
 		attributes.put("title", getTitle());
 		attributes.put("firstName", getFirstName());
@@ -216,6 +218,18 @@ public class ConnectionRequestWrapper
 
 		if (requestType != null) {
 			setRequestType(requestType);
+		}
+
+		String requestStatus = (String)attributes.get("requestStatus");
+
+		if (requestStatus != null) {
+			setRequestStatus(requestStatus);
+		}
+
+		String requestMode = (String)attributes.get("requestMode");
+
+		if (requestMode != null) {
+			setRequestMode(requestMode);
 		}
 
 		String consumerType = (String)attributes.get("consumerType");
@@ -1239,6 +1253,16 @@ public class ConnectionRequestWrapper
 	}
 
 	/**
+	 * Returns the request mode of this connection request.
+	 *
+	 * @return the request mode of this connection request
+	 */
+	@Override
+	public String getRequestMode() {
+		return _connectionRequest.getRequestMode();
+	}
+
+	/**
 	 * Returns the request no of this connection request.
 	 *
 	 * @return the request no of this connection request
@@ -1246,6 +1270,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public String getRequestNo() {
 		return _connectionRequest.getRequestNo();
+	}
+
+	/**
+	 * Returns the request status of this connection request.
+	 *
+	 * @return the request status of this connection request
+	 */
+	@Override
+	public String getRequestStatus() {
+		return _connectionRequest.getRequestStatus();
 	}
 
 	/**
@@ -2236,6 +2270,16 @@ public class ConnectionRequestWrapper
 	}
 
 	/**
+	 * Sets the request mode of this connection request.
+	 *
+	 * @param requestMode the request mode of this connection request
+	 */
+	@Override
+	public void setRequestMode(String requestMode) {
+		_connectionRequest.setRequestMode(requestMode);
+	}
+
+	/**
 	 * Sets the request no of this connection request.
 	 *
 	 * @param requestNo the request no of this connection request
@@ -2243,6 +2287,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public void setRequestNo(String requestNo) {
 		_connectionRequest.setRequestNo(requestNo);
+	}
+
+	/**
+	 * Sets the request status of this connection request.
+	 *
+	 * @param requestStatus the request status of this connection request
+	 */
+	@Override
+	public void setRequestStatus(String requestStatus) {
+		_connectionRequest.setRequestStatus(requestStatus);
 	}
 
 	/**

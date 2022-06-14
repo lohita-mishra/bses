@@ -284,6 +284,36 @@ public interface ConnectionRequestModel
 	public void setRequestType(String requestType);
 
 	/**
+	 * Returns the request status of this connection request.
+	 *
+	 * @return the request status of this connection request
+	 */
+	@AutoEscape
+	public String getRequestStatus();
+
+	/**
+	 * Sets the request status of this connection request.
+	 *
+	 * @param requestStatus the request status of this connection request
+	 */
+	public void setRequestStatus(String requestStatus);
+
+	/**
+	 * Returns the request mode of this connection request.
+	 *
+	 * @return the request mode of this connection request
+	 */
+	@AutoEscape
+	public String getRequestMode();
+
+	/**
+	 * Sets the request mode of this connection request.
+	 *
+	 * @param requestMode the request mode of this connection request
+	 */
+	public void setRequestMode(String requestMode);
+
+	/**
 	 * Returns the consumer type of this connection request.
 	 *
 	 * @return the consumer type of this connection request
