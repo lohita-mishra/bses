@@ -73,6 +73,15 @@ public class ConnectionRequestLocalServiceWrapper
 			mobileNo, emailId);
 	}
 
+	@Override
+	public com.bses.connection2.model.ConnectionRequest
+			deleteByConnectionRequestId(long connectionRequestId)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return _connectionRequestLocalService.deleteByConnectionRequestId(
+			connectionRequestId);
+	}
+
 	/**
 	 * Deletes the connection request from the database. Also notifies the appropriate model listeners.
 	 *

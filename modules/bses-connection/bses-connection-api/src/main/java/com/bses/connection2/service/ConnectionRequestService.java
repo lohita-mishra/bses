@@ -65,6 +65,9 @@ public interface ConnectionRequestService extends BaseService {
 	public ConnectionRequest createConnectionRequest(
 		String mobileNo, String emailId);
 
+	public boolean deleteByConnectionRequestId(long connectionRequestId)
+		throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ConnectionRequest getConnectionRequest(String requestNo);
 

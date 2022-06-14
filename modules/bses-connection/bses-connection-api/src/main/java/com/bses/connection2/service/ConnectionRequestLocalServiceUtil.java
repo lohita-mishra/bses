@@ -80,6 +80,13 @@ public class ConnectionRequestLocalServiceUtil {
 		return getService().createConnectionRequest(mobileNo, emailId);
 	}
 
+	public static ConnectionRequest deleteByConnectionRequestId(
+			long connectionRequestId)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getService().deleteByConnectionRequestId(connectionRequestId);
+	}
+
 	/**
 	 * Deletes the connection request from the database. Also notifies the appropriate model listeners.
 	 *

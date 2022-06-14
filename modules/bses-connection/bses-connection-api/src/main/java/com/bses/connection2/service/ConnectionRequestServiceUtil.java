@@ -16,6 +16,8 @@ package com.bses.connection2.service;
 
 import com.bses.connection2.model.ConnectionRequest;
 
+import com.liferay.portal.kernel.exception.PortalException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +44,12 @@ public class ConnectionRequestServiceUtil {
 		String mobileNo, String emailId) {
 
 		return getService().createConnectionRequest(mobileNo, emailId);
+	}
+
+	public static boolean deleteByConnectionRequestId(long connectionRequestId)
+		throws PortalException {
+
+		return getService().deleteByConnectionRequestId(connectionRequestId);
 	}
 
 	public static ConnectionRequest getConnectionRequest(String requestNo) {

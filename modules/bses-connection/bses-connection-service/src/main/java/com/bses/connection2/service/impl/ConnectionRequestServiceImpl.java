@@ -16,6 +16,7 @@ package com.bses.connection2.service.impl;
 
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.base.ConnectionRequestServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
@@ -116,6 +117,11 @@ public class ConnectionRequestServiceImpl extends ConnectionRequestServiceBaseIm
 	}
 	
 	private boolean getEmailAndSendOTPNEW(String emailId, ThemeDisplay themeDisplay) {
+		return true;
+	}
+	
+	public boolean deleteByConnectionRequestId(long connectionRequestId) throws PortalException {
+		connectionRequestLocalService.deleteByConnectionRequestId(connectionRequestId);
 		return true;
 	}
 }

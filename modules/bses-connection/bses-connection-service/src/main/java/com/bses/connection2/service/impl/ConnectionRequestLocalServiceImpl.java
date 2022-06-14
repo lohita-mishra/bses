@@ -14,8 +14,11 @@
 
 package com.bses.connection2.service.impl;
 
+import com.bses.connection2.exception.NoSuchConnectionRequestException;
 import com.bses.connection2.helper.DigitalSevaKendraServiceHelper;
+import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.model.ConnectionRequest;
+import com.bses.connection2.service.ConnectionDocumentLocalService;
 import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.mail.kernel.model.MailMessage;
@@ -39,6 +42,7 @@ import java.util.ResourceBundle;
 import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang3.StringUtils;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The implementation of the connection request local service.
@@ -76,8 +80,9 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public static final String FORM_EMAIL_ID = "bsesnoreply@relianceada.com";
 	public static final String SUBJECT = "OTP for New Connection";
 	public static DateFormat dateFormat=null;
-	// @Reference
-	// private DigitalSevaKendraServiceHelper digitalSevaKendraServiceHelper;
+	
+	@Reference
+	private ConnectionDocumentLocalService connectionDocumentLocalService;
 
 	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId) {
 		String requestNo = "R-TMP-" + new Date().getTime();
@@ -450,5 +455,14 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			dateFormat=new SimpleDateFormat(PropsUtil.get("source.date.format"));
 		}
 		return dateFormat;
+	}
+	public ConnectionRequest deleteByConnectionRequestId(long connectionRequestId) throws NoSuchConnectionRequestException {
+		ConnectionRequest connectionRequest=connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
+		List<ConnectionDocument> documents=connectionDocumentLocalService.getConnectionDocumentByConnectionRequestId(connectionRequestId);
+		for(ConnectionDocument d:documents) {
+			connectionDocumentLocalService.deleteConnectionDocument(d);
+		}
+		connectionRequestPersistence.remove(connectionRequest);
+		return connectionRequest;
 	}
 }
