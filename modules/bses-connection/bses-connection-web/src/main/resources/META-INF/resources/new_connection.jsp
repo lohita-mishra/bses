@@ -115,7 +115,7 @@
 	}else{
 		autoSaveFlag="true";
 	}
-	autoSaveFlag="false";
+	//autoSaveFlag="false";
 %>
 
 <portlet:renderURL var="emailVerificationURL">
@@ -384,6 +384,20 @@
 		});
 	}
 
+	function ownershipProofTypeOnChange() {
+		$("#<portlet:namespace/>ownershipProofType").change(function() {
+			var docName=$("#<portlet:namespace/>ownershipProofType option:selected" ).text();
+			$("#<portlet:namespace/>ownershipProof_documentName").val(docName);
+		})
+	}
+	
+	function idProofTypeOnChange() {
+		$("#<portlet:namespace/>idProofType").change(function() {
+			var docName=$("#<portlet:namespace/>idProofType option:selected" ).text();
+			$("#<portlet:namespace/>idProof_documentName").val(docName);
+		})
+	}
+	
 	function showUpicNoDiv(showHide) {
 		if (showHide) {
 			$("#upicnodiv").show();
@@ -550,6 +564,8 @@
 		$("#bdocertblink").hide();
 		
 		handleSubmitBtnClick();
+		ownershipProofTypeOnChange();
+		idProofTypeOnChange();
 		autoSave();
 	}
 	
