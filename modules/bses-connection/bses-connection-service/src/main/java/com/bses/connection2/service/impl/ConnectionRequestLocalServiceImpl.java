@@ -522,7 +522,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public int deleteStaleConnectionRequests(String mobileNo) {
 		int retentionDays=RETENTION_DAYS;
 		try {
-			retentionDays=Integer.parseInt(PropsUtil.get("draft.connection.request.retention").trim());
+			retentionDays=Integer.parseInt(PropsUtil.get("connection.request.draft.retention").trim());
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
 		}

@@ -101,6 +101,7 @@
 				for(ConnectionRequest r:connectionRequestList){
 					
 					String name=MasterData.getTitleValue(r.getTitle())+" "+r.getFirstName()+(StringUtils.isNotBlank(r.getMiddleName())?" "+r.getMiddleName():"")+(StringUtils.isNotBlank(r.getLastName())?" "+r.getLastName():"");
+					//System.out.println("name = "+name);
 %>				
 					<tr>
 						<td class="d-flex align-items-center"><span class="text-primary"> <a href=""><%=r.getRequestNo() %></a></span> <span class="btn-group ml-2">
@@ -120,7 +121,6 @@
 						<td><%=r.getEmailId() %></td>
 						<td><%=r.getMobileNo() %></td>
 						<td><%=dateFormat.format(r.getCreateDate())%></td>
-
 					</tr>
 <%
 				}
