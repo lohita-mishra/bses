@@ -128,6 +128,11 @@
 	<portlet:param name="connectionRequestId" value="<%=String.valueOf(connectionRequestId) %>" />
 </portlet:renderURL>
 
+<portlet:renderURL var="acknowledgementURL" >
+	<portlet:param name="mvcPath" value="/acknowledgement.jsp" />
+	<portlet:param name="connectionRequestId" value="<%=String.valueOf(requestEntity.getConnectionRequestId()) %>" />
+</portlet:renderURL>
+
 <div class="card card-primary bg-light mb-2">
 	<div class="card-header">
 		<liferay-util:include page="/request_header.jsp" servletContext="<%=application%>">
@@ -725,6 +730,9 @@
 		}else{
 			alert("Please enter valid details...");
 		}
+		
+		
+	   
 	}
 	
 	function submitFormDetails(forms, currentIndex){
@@ -791,7 +799,8 @@
 		if($("input[name=<portlet:namespace/>eServiceOnMail]") && $("input[name=<portlet:namespace/>eServiceMailId]").val() !=""){
 			window.location = "<%=emailVerificationURL.toString()%>";
 		}else{
-			window.location = "<%=connectionRequestSuccessURL.toString()%>";
+			<%-- //window.location = "<%=connectionRequestSuccessURL.toString()%>"; --%>
+			window.location.href="<%=acknowledgementURL.toString() %>";
 		}
 		
 
