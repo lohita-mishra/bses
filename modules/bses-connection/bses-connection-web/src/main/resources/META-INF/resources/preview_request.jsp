@@ -176,19 +176,19 @@ label {
 							<section class="applicant_details">
 								<div class="container">
 
-									<div class="row">
+									<!-- <div class="row">
 										<div class="col-8 ml-0">
 											<h5>
 												1a. &nbsp <b>Name of Applicant (specify as mentioned in
 													proof of photo identity)</b>
 											</h5>
 										</div>
-										<!-- <div class="col-4">
+										<div class="col-4">
 											<h5>
 												<a href="#">Edit Consumer Personal Details</a>
 											</h5>
-										</div> -->
-									</div>
+										</div>
+									</div> -->
 
 
 
@@ -236,9 +236,9 @@ label {
 
 
 
-									<h5>
+									<h7>
 										1b. <b>Additional Details</b>
-									</h5>
+									</h7>
 
 									<div class="row">
 										<div class="col-8">
@@ -247,7 +247,7 @@ label {
 											 <div class="row">
 
 												
-												<div class="col-6">
+												<div class="col-8">
 													<label> <input type="radio" name="title" value="">
 														Son
 													</label> <label> <input type="radio" name="title" value="">
@@ -286,9 +286,7 @@ label {
 							<section class="address">
 								<div class="container">
 
-									<h5>
-										2a. <b>Communication Address</b>
-									</h5>
+									
 									<div class="row mt-2 ml-2">
 									<div class="col-6 mb-2">
 									<div class="row">
