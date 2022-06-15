@@ -101,12 +101,6 @@ label {
 .col-sm-6 {
 	max-width: 60%;
 }
-
-@media print {
-            html, body {
-                width: 1300px;
-                height: 255px;
-            }
 </style>
 
 </head>

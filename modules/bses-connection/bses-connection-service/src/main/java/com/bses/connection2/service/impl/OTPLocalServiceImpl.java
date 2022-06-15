@@ -205,9 +205,11 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 				//otp.setUserName(user.getScreenName());
 			}
 
+			otp.setCaNumber(caNumber);
 			otp.setMobileNo(mobileNo);
 			otp.setOtp(otpNumber);
 			otp.setExpiryTime(addSeconds(new Date(), 100));
+		
 			//SMSUtil.sendSMS(mobileNo, smsBody);
 			otpLocalService.updateOTP(otp);
 			
