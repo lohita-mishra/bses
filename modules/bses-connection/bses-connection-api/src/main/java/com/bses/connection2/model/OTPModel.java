@@ -267,6 +267,21 @@ public interface OTPModel
 	 */
 	public void setExpiryTime(Date expiryTime);
 
+	/**
+	 * Returns the ca number of this otp.
+	 *
+	 * @return the ca number of this otp
+	 */
+	@AutoEscape
+	public String getCaNumber();
+
+	/**
+	 * Sets the ca number of this otp.
+	 *
+	 * @param caNumber the ca number of this otp
+	 */
+	public void setCaNumber(String caNumber);
+
 	@Override
 	public boolean isNew();
 

@@ -212,6 +212,10 @@ public class OTPLocalServiceUtil {
 		return getService().generateOtp(mobileNo, email);
 	}
 
+	public static String generateOtpForCaNumber(String caNumber) {
+		return getService().generateOtpForCaNumber(caNumber);
+	}
+
 	public static String generateTwelveDigitCANo(String accNo) {
 		return getService().generateTwelveDigitCANo(accNo);
 	}

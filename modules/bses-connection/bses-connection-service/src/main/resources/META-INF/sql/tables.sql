@@ -125,5 +125,6 @@ create table bsesconn_OTP (
 	otp VARCHAR(75) null,
 	mobileNo VARCHAR(75) null,
 	emailId VARCHAR(75) null,
-	expiryTime DATE null
+	expiryTime DATE null,
+	caNumber VARCHAR(75) null
 );

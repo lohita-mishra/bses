@@ -232,6 +232,11 @@ public class OTPLocalServiceWrapper
 	}
 
 	@Override
+	public String generateOtpForCaNumber(String caNumber) {
+		return _otpLocalService.generateOtpForCaNumber(caNumber);
+	}
+
+	@Override
 	public String generateTwelveDigitCANo(String accNo) {
 		return _otpLocalService.generateTwelveDigitCANo(accNo);
 	}

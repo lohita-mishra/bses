@@ -67,6 +67,7 @@ public class OTPWrapper implements ModelWrapper<OTP>, OTP {
 		attributes.put("mobileNo", getMobileNo());
 		attributes.put("emailId", getEmailId());
 		attributes.put("expiryTime", getExpiryTime());
+		attributes.put("caNumber", getCaNumber());
 
 		return attributes;
 	}
@@ -144,6 +145,12 @@ public class OTPWrapper implements ModelWrapper<OTP>, OTP {
 		if (expiryTime != null) {
 			setExpiryTime(expiryTime);
 		}
+
+		String caNumber = (String)attributes.get("caNumber");
+
+		if (caNumber != null) {
+			setCaNumber(caNumber);
+		}
 	}
 
 	@Override
@@ -154,6 +161,16 @@ public class OTPWrapper implements ModelWrapper<OTP>, OTP {
 	@Override
 	public int compareTo(OTP otp) {
 		return _otp.compareTo(otp);
+	}
+
+	/**
+	 * Returns the ca number of this otp.
+	 *
+	 * @return the ca number of this otp
+	 */
+	@Override
+	public String getCaNumber() {
+		return _otp.getCaNumber();
 	}
 
 	/**
@@ -334,6 +351,16 @@ public class OTPWrapper implements ModelWrapper<OTP>, OTP {
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_otp.setCachedModel(cachedModel);
+	}
+
+	/**
+	 * Sets the ca number of this otp.
+	 *
+	 * @param caNumber the ca number of this otp
+	 */
+	@Override
+	public void setCaNumber(String caNumber) {
+		_otp.setCaNumber(caNumber);
 	}
 
 	/**

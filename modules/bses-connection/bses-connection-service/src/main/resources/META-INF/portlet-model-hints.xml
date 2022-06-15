@@ -126,5 +126,6 @@
 		<field name="mobileNo" type="String" />
 		<field name="emailId" type="String" />
 		<field name="expiryTime" type="Date" />
+		<field name="caNumber" type="String" />
 	</model>
 </model-hints>

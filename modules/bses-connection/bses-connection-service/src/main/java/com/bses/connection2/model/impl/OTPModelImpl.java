@@ -79,7 +79,8 @@ public class OTPModelImpl extends BaseModelImpl<OTP> implements OTPModel {
 		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"otp", Types.VARCHAR}, {"mobileNo", Types.VARCHAR},
-		{"emailId", Types.VARCHAR}, {"expiryTime", Types.TIMESTAMP}
+		{"emailId", Types.VARCHAR}, {"expiryTime", Types.TIMESTAMP},
+		{"caNumber", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -98,10 +99,11 @@ public class OTPModelImpl extends BaseModelImpl<OTP> implements OTPModel {
 		TABLE_COLUMNS_MAP.put("mobileNo", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("emailId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("expiryTime", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("caNumber", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table bsesconn_OTP (uuid_ VARCHAR(75) null,otpId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,otp VARCHAR(75) null,mobileNo VARCHAR(75) null,emailId VARCHAR(75) null,expiryTime DATE null)";
+		"create table bsesconn_OTP (uuid_ VARCHAR(75) null,otpId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,otp VARCHAR(75) null,mobileNo VARCHAR(75) null,emailId VARCHAR(75) null,expiryTime DATE null,caNumber VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table bsesconn_OTP";
 
@@ -168,6 +170,7 @@ public class OTPModelImpl extends BaseModelImpl<OTP> implements OTPModel {
 		model.setMobileNo(soapModel.getMobileNo());
 		model.setEmailId(soapModel.getEmailId());
 		model.setExpiryTime(soapModel.getExpiryTime());
+		model.setCaNumber(soapModel.getCaNumber());
 
 		return model;
 	}
@@ -557,6 +560,26 @@ public class OTPModelImpl extends BaseModelImpl<OTP> implements OTPModel {
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"caNumber",
+			new Function<OTP, Object>() {
+
+				@Override
+				public Object apply(OTP otp) {
+					return otp.getCaNumber();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"caNumber",
+			new BiConsumer<OTP, Object>() {
+
+				@Override
+				public void accept(OTP otp, Object caNumberObject) {
+					otp.setCaNumber((String)caNumberObject);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -799,6 +822,22 @@ public class OTPModelImpl extends BaseModelImpl<OTP> implements OTPModel {
 		_expiryTime = expiryTime;
 	}
 
+	@JSON
+	@Override
+	public String getCaNumber() {
+		if (_caNumber == null) {
+			return "";
+		}
+		else {
+			return _caNumber;
+		}
+	}
+
+	@Override
+	public void setCaNumber(String caNumber) {
+		_caNumber = caNumber;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
@@ -852,6 +891,7 @@ public class OTPModelImpl extends BaseModelImpl<OTP> implements OTPModel {
 		otpImpl.setMobileNo(getMobileNo());
 		otpImpl.setEmailId(getEmailId());
 		otpImpl.setExpiryTime(getExpiryTime());
+		otpImpl.setCaNumber(getCaNumber());
 
 		otpImpl.resetOriginalValues();
 
@@ -1016,6 +1056,14 @@ public class OTPModelImpl extends BaseModelImpl<OTP> implements OTPModel {
 			otpCacheModel.expiryTime = Long.MIN_VALUE;
 		}
 
+		otpCacheModel.caNumber = getCaNumber();
+
+		String caNumber = otpCacheModel.caNumber;
+
+		if ((caNumber != null) && (caNumber.length() == 0)) {
+			otpCacheModel.caNumber = null;
+		}
+
 		return otpCacheModel;
 	}
 
@@ -1107,6 +1155,7 @@ public class OTPModelImpl extends BaseModelImpl<OTP> implements OTPModel {
 	private String _emailId;
 	private String _originalEmailId;
 	private Date _expiryTime;
+	private String _caNumber;
 	private long _columnBitmask;
 	private OTP _escapedModel;
 

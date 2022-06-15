@@ -43,6 +43,7 @@ public class OTPSoap implements Serializable {
 		soapModel.setMobileNo(model.getMobileNo());
 		soapModel.setEmailId(model.getEmailId());
 		soapModel.setExpiryTime(model.getExpiryTime());
+		soapModel.setCaNumber(model.getCaNumber());
 
 		return soapModel;
 	}
@@ -191,6 +192,14 @@ public class OTPSoap implements Serializable {
 		_expiryTime = expiryTime;
 	}
 
+	public String getCaNumber() {
+		return _caNumber;
+	}
+
+	public void setCaNumber(String caNumber) {
+		_caNumber = caNumber;
+	}
+
 	private String _uuid;
 	private long _otpId;
 	private long _groupId;
@@ -203,5 +212,6 @@ public class OTPSoap implements Serializable {
 	private String _mobileNo;
 	private String _emailId;
 	private Date _expiryTime;
+	private String _caNumber;
 
 }

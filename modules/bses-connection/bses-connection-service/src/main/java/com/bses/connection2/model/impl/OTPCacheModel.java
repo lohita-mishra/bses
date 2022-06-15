@@ -61,7 +61,7 @@ public class OTPCacheModel implements CacheModel<OTP>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -87,6 +87,8 @@ public class OTPCacheModel implements CacheModel<OTP>, Externalizable {
 		sb.append(emailId);
 		sb.append(", expiryTime=");
 		sb.append(expiryTime);
+		sb.append(", caNumber=");
+		sb.append(caNumber);
 		sb.append("}");
 
 		return sb.toString();
@@ -157,6 +159,13 @@ public class OTPCacheModel implements CacheModel<OTP>, Externalizable {
 			otpImpl.setExpiryTime(new Date(expiryTime));
 		}
 
+		if (caNumber == null) {
+			otpImpl.setCaNumber("");
+		}
+		else {
+			otpImpl.setCaNumber(caNumber);
+		}
+
 		otpImpl.resetOriginalValues();
 
 		return otpImpl;
@@ -180,6 +189,7 @@ public class OTPCacheModel implements CacheModel<OTP>, Externalizable {
 		mobileNo = objectInput.readUTF();
 		emailId = objectInput.readUTF();
 		expiryTime = objectInput.readLong();
+		caNumber = objectInput.readUTF();
 	}
 
 	@Override
@@ -231,6 +241,13 @@ public class OTPCacheModel implements CacheModel<OTP>, Externalizable {
 		}
 
 		objectOutput.writeLong(expiryTime);
+
+		if (caNumber == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(caNumber);
+		}
 	}
 
 	public String uuid;
@@ -245,5 +262,6 @@ public class OTPCacheModel implements CacheModel<OTP>, Externalizable {
 	public String mobileNo;
 	public String emailId;
 	public long expiryTime;
+	public String caNumber;
 
 }

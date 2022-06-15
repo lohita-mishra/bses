@@ -139,5 +139,6 @@
 		<property name="mobileNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="emailId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="expiryTime" type="org.hibernate.type.TimestampType" />
+		<property name="caNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 </hibernate-mapping>

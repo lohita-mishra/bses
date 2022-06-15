@@ -173,6 +173,7 @@
 		<column name="mobileNo" type="String" />
 		<column name="emailId" type="String" />
 		<column name="expiryTime" type="Date" />
+		<column name="caNumber" type="String" />
 
 		<!-- Order -->
 
