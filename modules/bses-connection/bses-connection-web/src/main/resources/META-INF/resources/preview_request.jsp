@@ -101,7 +101,6 @@ label {
 .col-sm-6 {
 	max-width: 60%;
 }
-        
 </style>
 
 </head>
@@ -847,7 +846,7 @@ label {
 								</div>
 							</section>
 
-							<section class="sap_upload mt-2">
+							<!-- <section class="sap_upload mt-2">
 								<div class="container">
 
 									<div class="row ml-1 mt-2 mb-2">
@@ -864,7 +863,7 @@ label {
 									</div>
 
 								</div>
-							</section>
+							</section> -->
 
 
 
