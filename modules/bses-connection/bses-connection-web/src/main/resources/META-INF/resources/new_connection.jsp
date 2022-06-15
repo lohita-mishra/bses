@@ -142,14 +142,14 @@
 		</liferay-util:include>
 	</div>
 	<div class="card-body">
-<%--		<liferay-util:include page="/consumer.jsp" servletContext="<%=application%>">
+		<liferay-util:include page="/consumer.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
 		<liferay-util:include page="/address.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
-		 --%>
+
 		<liferay-util:include page="/connection.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
-<%--		
+		
 		<liferay-util:include page="/checklist.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
 
@@ -157,7 +157,6 @@
 		</liferay-util:include>
 		<liferay-util:include page="/declaration.jsp" servletContext="<%=application%>">
 		</liferay-util:include>		
- --%>		
 	</div>
 	<div class="card-footer">
 		<liferay-util:include page="/actions.jsp" servletContext="<%=application%>">
