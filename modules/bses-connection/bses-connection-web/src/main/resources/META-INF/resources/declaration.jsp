@@ -500,21 +500,79 @@ div.scroll {
 
 $(document).ready(function(){  
 	
-var fname;
-var mname;
-var lname;
-var house;
-var floor;
-var buildingName;
-var street;
-var colony;
-var lendmark;
-var lendmarkDetails;
-var locality;
-var district;
-var cityPostalCode;
+var consumerType = $("#<portlet:namespace/>consumerType").val();
+var fname = $("#<portlet:namespace/>firstName").val();
+var mname = $("#<portlet:namespace/>middleName").val();
+var lname = $("#<portlet:namespace/>lastName").val();
+/* var house = $("#<portlet:namespace/>houseNo").val();
+var floor = $("#<portlet:namespace/>floor").val();
+var buildingName = $("#<portlet:namespace/>buildingName").val();
+var street = $("#<portlet:namespace/>street").val();
+var colony = $("#<portlet:namespace/>colonyArea").val();
+var lendmark = $("#<portlet:namespace/>landmark").val();
+var lendmarkDetails = $("#<portlet:namespace/>landmarkDetail").val();
+var locality = $("#<portlet:namespace/>locality").val();
+var district = $("#<portlet:namespace/>district").val();
+var cityPostalCode = $("#<portlet:namespace/>pinCode").val();
+ */
+var arr1=[fname,mname,lname];
 
 
+
+/* var arr = [floor,buildingName,house,street,colony,lendmark,lendmarkDetails,locality,district,cityPostalCode];	
+ */
+var fullname=arr1.filter(function(x) {
+     return x !== undefined;
+}).join(' ');
+
+var fatherOrHusbandName=$("#<portlet:namespace/>fatherOrHusbandName").val();
+
+//var fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
+
+/* var fullAddress = arr.filter(function(x) {
+     return x !== undefined;
+}); */
+
+var fullAddress;
+
+updateAddress();
+
+
+$("#authorizedSignature1").text($("#<portlet:namespace/>nameOfAuthorizedSignatory").val());
+if(consumerType == "Individual")
+{
+	$("#detail1").text(fullname);
+	$("#fullName").text(fullname);
+	$("#fatherName1").text(fatherOrHusbandName);
+	$("#fatherName2").text(fatherOrHusbandName);
+	$("#detail2").text(fatherOrHusbandName);
+
+}
+else if(consumerType == "Firm")
+{
+	$("#detail1").text($("#<portlet:namespace/>nameOfAuthorizedSignatory").val());
+	$("#fullName").text($("#<portlet:namespace/>nameOfAuthorizedSignatory").val());
+	$("#fatherName2").text($("#<portlet:namespace/>firmName").val());
+	
+}
+
+$("#firmName1").text($("#<portlet:namespace/>firmName").val());
+$("#firstName1").text(fullname);
+
+
+
+/* $("#address1").text(fullAddress);
+
+$("#address2").text(fullAddress);
+$("#address3").text(fullAddress);
+$("#fullAddress").text(fullAddress);
+$("#fullAddress1").text(fullAddress);
+$("#detail3").text(fullAddress);
+$("#detail4").text(fullAddress);
+$("#registeredOffice1").text(fullAddress);
+$("#authorizedSignature2").text(fullAddress);
+
+ */
 if($("#<portlet:namespace/>nameOfAuthorizedSignatory")){
 	$("#<portlet:namespace/>nameOfAuthorizedSignatory").keyup(function(){  
 		  $("#authorizedSignature1").text($(this).val());
@@ -542,7 +600,8 @@ if($("#<portlet:namespace/>firstName")){
 if( $("#<portlet:namespace/>middleName")) {
 	$("#<portlet:namespace/>middleName").keyup(function(){  
            mname=$(this).val();
-           var fullname=fname+" "+mname+" "+lname; 
+//           var fullname=fname+" "+mname+" "+lname; 
+			fullname=fname+" "+mname+" "+lname; 
           $("#firstName1").text(fullname);
         
     });
@@ -568,18 +627,25 @@ if($("#<portlet:namespace/>lastName")){
 
 if($("#<portlet:namespace/>fatherOrHusbandName")){
 	$("#<portlet:namespace/>fatherOrHusbandName").keyup(function(){  
-          var fatherOrHusbandName=$(this).val();
+        //  var fatherOrHusbandName=$(this).val();
+          fatherOrHusbandName=$(this).val();
           
           $("#fatherName1").text(fatherOrHusbandName);
           $("#fatherName2").text(fatherOrHusbandName);
     });  
 }
-if($("#<portlet:namespace/>house")){
-	$("#<portlet:namespace/>house").keyup(function(){  
+if($("#<portlet:namespace/>houseNo")){
+	$("#<portlet:namespace/>houseNo").keyup(function(){  
      
-	 	house=$(this).val();
+//	 	house=$(this).val();
      
-   		$("#address1").text(house);
+//	 	fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
+
+//		$("#address1").text(fullAddress);
+		 
+	 	
+   //		$("#address1").text(house);
+	 	updateAddress();
  
 	}); 
 }
@@ -587,44 +653,58 @@ if($("#<portlet:namespace/>house")){
 if($("#<portlet:namespace/>floor")){
  $('#<portlet:namespace/>floor').change(function(){
 	 
-	 floor= $(this).val();
+//	 floor= $(this).val();
 	 
-	 var fullAddress=house+","+floor; 
+	// var fullAddress=house+","+floor; 
+//	fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
+
 	 
-	 $("#address1").text(fullAddress);
+//	 $("#address1").text(fullAddress);
+
+	 updateAddress();
 	
  });
 }
 if($("#<portlet:namespace/>buildingName")){
 $("#<portlet:namespace/>buildingName").keyup(function(){  
  
-	buildingName=$(this).val();
+//	buildingName=$(this).val();
 	
-    var fullAddress=house+","+floor+","+buildingName; 
-   $("#address1").text(fullAddress);
+    //var fullAddress=house+","+floor+","+buildingName; 
+//    fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
+
+//   $("#address1").text(fullAddress);
+
+	updateAddress();
  
 }); 
 }
 if($("#<portlet:namespace/>street")){
 $("#<portlet:namespace/>street").keyup(function(){  
  
-     street=$(this).val();
+ //    street=$(this).val();
      
-   var fullAddress=house+","+floor+","+buildingName+","+street;
+  // var fullAddress=house+","+floor+","+buildingName+","+street;
+//  fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
 
-   $("#address1").text(fullAddress);
+
+ //  $("#address1").text(fullAddress);
+ 
+	updateAddress();
  
 }); 
 }
-if($("#<portlet:namespace/>colony")){
-$("#<portlet:namespace/>colony").keyup(function(){  
+if($("#<portlet:namespace/>colonyArea")){
+$("#<portlet:namespace/>colonyArea").keyup(function(){  
     
-	colony=$(this).val();
+//	colony=$(this).val();
 	
-	var fullAddress=house+","+floor+","+buildingName+","+street+","+colony;
+//	var fullAddress=house+","+floor+","+buildingName+","+street+","+colony;
+//	fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
 
+	updateAddress();
     
-  $("#address1").text(fullAddress);
+//  $("#address1").text(fullAddress);
 
 });  
 }
@@ -633,23 +713,29 @@ if($("#<portlet:namespace/>landmark")){
 $('#<portlet:namespace/>landmark').change(function(){
 	
 	 
-	 lendmark= $(this).val();
+	// lendmark= $(this).val();
 	 
-	 var fullAddress=house+","+floor+","+buildingName+","+street+","+colony+","+lendmark; 
+	 //var fullAddress=house+","+floor+","+buildingName+","+street+","+colony+","+lendmark; 
+	// fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
+
 	 
-	 $("#address1").text(fullAddress);
+	// $("#address1").text(fullAddress);
+	updateAddress();
 	
 });
 }
-if($("#<portlet:namespace/>landmarkDetails")){
-$("#<portlet:namespace/>landmarkDetails").keyup(function(){  
+if($("#<portlet:namespace/>landmarkDetail")){
+$("#<portlet:namespace/>landmarkDetail").keyup(function(){  
     
-	lendmarkDetails=$(this).val();
+	//lendmarkDetails=$(this).val();
 	
-	var fullAddress=house+","+floor+","+buildingName+","+street+","+colony+","+lendmark+","+lendmarkDetails;
+//	var fullAddress=house+","+floor+","+buildingName+","+street+","+colony+","+lendmark+","+lendmarkDetails;
+//	fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
 
     
-  $("#address1").text(fullAddress);
+ // $("#address1").text(fullAddress);
+ 
+	updateAddress();
 
 });  
 }
@@ -657,12 +743,16 @@ $("#<portlet:namespace/>landmarkDetails").keyup(function(){
 if($("#<portlet:namespace/>locality")){
 $("#<portlet:namespace/>locality").change(function(){  
     
-	locality=$(this).val();
+	//locality=$(this).val();
 	
-	var fullAddress=house+","+floor+","+buildingName+","+street+","+colony+","+lendmark+","+lendmarkDetails+","+locality;
+	//var fullAddress=house+","+floor+","+buildingName+","+street+","+colony+","+lendmark+","+lendmarkDetails+","+locality;
+
+	//fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
 
     
-  $("#address1").text(fullAddress);
+  //$("#address1").text(fullAddress);
+  
+	updateAddress();
 
 });  
 }
@@ -671,26 +761,34 @@ $("#<portlet:namespace/>locality").change(function(){
 if($("#<portlet:namespace/>district")){
 $('#<portlet:namespace/>district').change(function(){
 	 
-	 district= $(this).val();
+	// district= $(this).val();
 	 
-	 var fullAddress=house+","+floor+","+buildingName+","+street+","+colony+","+lendmark+","+lendmarkDetails+","+locality+","+district; 
+	// var fullAddress=house+","+floor+","+buildingName+","+street+","+colony+","+lendmark+","+lendmarkDetails+","+locality+","+district; 
+	//fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
+
 	 
-	 $("#address1").text(fullAddress);
+	// $("#address1").text(fullAddress);
+	
+	updateAddress();
 	
 });
 }
-if($("#<portlet:namespace/>cityPostalCode")){
-$("#<portlet:namespace/>cityPostalCode").keyup(function(){  
+if($("#<portlet:namespace/>pinCode")){
+$("#<portlet:namespace/>pinCode").keyup(function(){  
     
-	cityPostalCode=$(this).val();
+	/* cityPostalCode=$(this).val();
 	var arr = [floor,buildingName,house,street,colony,lendmark,lendmarkDetails,locality,district,cityPostalCode];	
 	var filtered = arr.filter(function(x) {
 	     return x !== undefined;
 	});
+	 */
 	
-	var fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
+	//var fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
     
-  $("#address1").text(filtered);
+	//fullAddress=floor+","+buildingName+","+house+","+street+","+colony+","+lendmark+" "+lendmarkDetails+","+locality+","+district+","+cityPostalCode;
+  //	fullAddress = filtered;
+	
+ /*  $("#address1").text(filtered);
   $("#address2").text(filtered);
   $("#address3").text(filtered);
   $("#fullAddress").text(filtered);
@@ -698,12 +796,47 @@ $("#<portlet:namespace/>cityPostalCode").keyup(function(){
   $("#detail3").text(filtered);
   $("#detail4").text(filtered);
   $("#registeredOffice1").text(filtered);
-  $("#authorizedSignature2").text(filtered);
+  $("#authorizedSignature2").text(filtered); */
+  
+	updateAddress();
 
 });  
 }
 
-});  
+function updateAddress()
+{
+	
+	var house = $("#<portlet:namespace/>houseNo").val();
+	var floor = $("#<portlet:namespace/>floor").val();
+	var buildingName = $("#<portlet:namespace/>buildingName").val();
+	var street = $("#<portlet:namespace/>street").val();
+	var colony = $("#<portlet:namespace/>colonyArea").val();
+	var lendmark = $("#<portlet:namespace/>landmark").val();
+	var lendmarkDetails = $("#<portlet:namespace/>landmarkDetail").val();
+	var locality = $("#<portlet:namespace/>locality").val();
+	var district = $("#<portlet:namespace/>district").val();
+	var cityPostalCode = $("#<portlet:namespace/>pinCode").val();
+
+	
+	var arr = [floor,buildingName,house,street,colony,lendmark,lendmarkDetails,locality,district,cityPostalCode];	
+
+	 fullAddress = arr.filter(function(x) {
+	     return x !== undefined;
+	});
+	 
+	 $("#address1").text(fullAddress);
+	  $("#address2").text(fullAddress);
+	  $("#address3").text(fullAddress);
+	  $("#fullAddress").text(fullAddress);
+	  $("#fullAddress1").text(fullAddress);
+	  $("#detail3").text(fullAddress);
+	  $("#detail4").text(fullAddress);
+	  $("#registeredOffice1").text(fullAddress);
+	  $("#authorizedSignature2").text(fullAddress);
+}
+
+}); 
+
 </script>
 </body>
 </html>
