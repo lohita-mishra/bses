@@ -50,24 +50,37 @@
 										</td>
 									</tr>
 							</table>
+							<div><p>
+							In case of any query pertaining to this application, please contact </br>
+							</br>
+							DSK Helpline No.</br>
+							011- 49109931 </br>
+							RAJEEV AWASTHI </br>
+							(DSK Manager ) </br>
+							011-49107593</br>
+							rajeev.awasthi@relianceada.com</br>
+							</p>
+							</div>
+
 						</div>
 						<div class="row">
 							<div class="col-xs-12">
 						      	<p><strong>Registered office: </strong></p>
 						      	<br>
-						      	<c:choose>
+						      	<%-- <c:choose>
 						      		<c:when test="${not empty noteForAck}">
 						      			<p><strong>Note: </strong>${noteForAck}</p>
 						      		</c:when>
 						      		<c:otherwise>
-						      			<%-- <p><strong>Note: </strong>Your request subject to submission of complete application form with requisite documents to our representative or at division office and completion of commercial formalities. <c:if test="${not empty contactNoOnAckReceipt}">For any Enquiry please call at ${contactNoOnAckReceipt}.</c:if></p> --%>
-						      			<p><strong>Note: </strong>Your request is subject to completion of requisite documents and commercial formalities. <c:if test="${not empty contactNoOnAckReceipt}">For any Enquiry please call at ${contactNoOnAckReceipt}.</c:if></p>
+						      			<p><strong>Note: </strong>Your request subject to submission of complete application form with requisite documents to our representative or at division office and completion of commercial formalities. <c:if test="${not empty contactNoOnAckReceipt}">For any Enquiry please call at ${contactNoOnAckReceipt}.</c:if></p>
+						      			<p><strong>Note: </strong>The timeline starts after completion of commercial formalities . If there is any deficiency in documents , same will be
+										communicated through defined channels of SMS and/or E-mail and/or Letter.</p>
 						      		</c:otherwise>
-						      	</c:choose>
+						      	</c:choose> --%>
+						      	<p><strong>Note: </strong>The timeline starts after completion of commercial formalities . If there is any deficiency in documents , same will be
+										communicated through defined channels of SMS and/or E-mail and/or Letter.</p>
 						        <br>	
-						        <p>Safety First! Installation of ELCB is mandatory for 2 Kw & above connections.
- Consumer shall provide suitable, adequate & safe space/wall away from stair case & escape route for installation of meter in line with Regulation 29 of DERC Supply code 2017 & DFS guidelines.</p>
-						<br>
+					
 						        <p>Please take either print or write the Service Order Number for future references</p>
 						        <P><center><strong style="font-size: x-large;">Safety first! Installation of ELCB is mandatory for 2kW &amp; above connections.</strong></center></P> 
 						        <br>  
