@@ -256,6 +256,8 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			ConnectionRequest connectionRequest=
 			connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
 			String serviceOrder=DigitalSevaKendraServiceHelper.addNewConnectionRequestDetailSoapCall(connectionRequest);
+			LOGGER.info("Service Order generated : "+serviceOrder);
+			
 			if(StringUtils.isNotEmpty(serviceOrder)) {
 				connectionRequest.setOrderNo(serviceOrder);
 				connectionRequest.setSapOrderGenerated("Y");

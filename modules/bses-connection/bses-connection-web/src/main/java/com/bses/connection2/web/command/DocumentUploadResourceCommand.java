@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletResponseUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
@@ -70,7 +71,7 @@ public class DocumentUploadResourceCommand implements MVCResourceCommand {
 		}
 
 		try {
-			resourceResponse.setContentType("application/json");
+			resourceResponse.setContentType(ContentTypes.APPLICATION_JSON);
 			PortletResponseUtil.write(resourceResponse, result.toJSONString());
 			return false;
 		} catch (Exception e) {

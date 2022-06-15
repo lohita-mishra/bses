@@ -14,6 +14,8 @@
 
 package com.bses.connection2.service;
 
+import com.bses.connection2.model.LocalityDivision;
+
 /**
  * Provides the remote service utility for LocalityDivision. This utility wraps
  * <code>com.bses.connection2.service.impl.LocalityDivisionServiceImpl</code> and is an
@@ -33,13 +35,18 @@ public class LocalityDivisionServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.bses.connection2.service.impl.LocalityDivisionServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static LocalityDivision getLocalityDivision(
+		long localityDivisionId) {
+
+		return getService().getLocalityDivision(localityDivisionId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 

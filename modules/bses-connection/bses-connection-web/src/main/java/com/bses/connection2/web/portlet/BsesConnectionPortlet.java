@@ -69,7 +69,7 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)	throws IOException, PortletException {
 		String viewMode = renderRequest.getPreferences().getValue("viewMode", " ");
-		LOGGER.info("doView(RenderRequest renderRequest, RenderResponse renderResponse) is called");
+		LOGGER.info("doView(RenderRequest renderRequest, RenderResponse renderResponse) is called : "+viewMode);
 		switch(viewMode){    
 		case "U01":    
 			 handleNewComnnectionView(renderRequest,renderResponse);
@@ -154,10 +154,10 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	}
 	
 	public void newConnectionLogin(ActionRequest request, ActionResponse response) {
-		System.out.println("BsesConnectionPortlet:newConnectionLogin");
+		
 		String mobileNo = ParamUtil.getString(request, "mobileNo");
         String email = ParamUtil.getString(request, "email");
-		
+        LOGGER.info("BsesConnectionPortlet:newConnectionLogin, mobileNo: "+mobileNo+", email: "+email);
 		PortletSession session = request.getPortletSession();
 		
 		session.setAttribute("mobileNo", mobileNo);

@@ -14,7 +14,10 @@
 
 package com.bses.connection2.service.impl;
 
+import com.bses.connection2.model.LocalityDivision;
 import com.bses.connection2.service.base.LocalityDivisionServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.access.control.AccessControlled;
 
 /**
  * The implementation of the locality division remote service.
@@ -36,4 +39,12 @@ public class LocalityDivisionServiceImpl extends LocalityDivisionServiceBaseImpl
 	 *
 	 * Never reference this class directly. Always use {@link com.bses.connection2.service.LocalityDivisionServiceUtil} to access the locality division remote service.
 	 */
+	@AccessControlled(guestAccessEnabled=true)
+	public LocalityDivision getLocalityDivision(long localityDivisionId) {
+		try {
+			return localityDivisionLocalService.getLocalityDivision(localityDivisionId);
+		} catch (PortalException e) {
+		}
+		return null;
+	}
 }

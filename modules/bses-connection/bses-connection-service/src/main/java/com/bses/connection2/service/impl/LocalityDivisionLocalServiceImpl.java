@@ -15,6 +15,8 @@
 package com.bses.connection2.service.impl;
 
 import com.bses.connection2.service.base.LocalityDivisionLocalServiceBaseImpl;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 /**
  * The implementation of the locality division local service.
@@ -37,4 +39,7 @@ public class LocalityDivisionLocalServiceImpl
 	 *
 	 * Never reference this class directly. Always use {@link com.bses.connection2.service.LocalityDivisionLocalServiceUtil} to access the locality division local service.
 	 */
+	private static final Log LOGGER = LogFactoryUtil.getLog(LocalityDivisionLocalServiceImpl.class);
+
+
 }

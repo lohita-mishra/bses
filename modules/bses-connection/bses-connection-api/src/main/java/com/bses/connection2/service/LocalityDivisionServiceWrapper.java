@@ -33,6 +33,13 @@ public class LocalityDivisionServiceWrapper
 		_localityDivisionService = localityDivisionService;
 	}
 
+	@Override
+	public com.bses.connection2.model.LocalityDivision getLocalityDivision(
+		long localityDivisionId) {
+
+		return _localityDivisionService.getLocalityDivision(localityDivisionId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

@@ -118,7 +118,7 @@
 	}else{
 		autoSaveFlag="true";
 	}
-	//autoSaveFlag="false";
+	autoSaveFlag="false";
 %>
 
 <portlet:renderURL var="emailVerificationURL">
@@ -149,14 +149,14 @@
 
 		<liferay-util:include page="/connection.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
-		
+ 		
 		<liferay-util:include page="/checklist.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
 
 		<liferay-util:include page="/documents.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
 		<liferay-util:include page="/declaration.jsp" servletContext="<%=application%>">
-		</liferay-util:include>		
+		</liferay-util:include>			
 	</div>
 	<div class="card-footer">
 		<liferay-util:include page="/actions.jsp" servletContext="<%=application%>">
@@ -190,7 +190,39 @@
 			}
 		});
 	}
-
+	
+	function handleLocalityChange() {
+		$('#'+portletNamespace+'locality').change(function() {
+			$('#'+portletNamespace+'districtName').val('');
+			if($(this).val()!=''){
+				showDistrict($(this).val());
+			}
+		});
+	}
+	
+	function showDistrict(localityDivisionId){
+		var form = new FormData();
+		form.append("localityDivisionId", localityDivisionId);
+		
+		
+		var settings = {
+			"url": "/api/jsonws/bsesconn.localitydivision/get-locality-division",
+			"method": "POST",
+			"timeout": 0,
+			"headers": {},
+			"processData": false,
+			"mimeType": "application/x-www-form-urlencoded",
+			"contentType": false,
+			"data": form
+		};
+		
+		$.ajax(settings).done(function (response) {
+			console.log("showDistrict");
+			console.log(response);
+			callback(JSON.parse(response));
+		});
+	}
+	
 	function upicAvailableOnChange() {
 		$("input[name=<portlet:namespace/>upic]").change(function() {
 			var upic = "";

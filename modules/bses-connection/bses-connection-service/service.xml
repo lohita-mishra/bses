@@ -4,7 +4,7 @@
 <service-builder package-path="com.bses.connection2">
 	<namespace>bsesconn</namespace>
 	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
-	<entity local-service="true" name="ConnectionRequest" remote-service="true" uuid="true">
+	<entity name="ConnectionRequest" local-service="true" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
 
@@ -197,7 +197,7 @@
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 	</entity>
 	
-	<entity local-service="true" name="LocalityDivision" remote-service="true" uuid="true">
+	<entity name="LocalityDivision" local-service="true" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
 
@@ -252,7 +252,7 @@
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 	</entity>
 	
-	<entity local-service="true" name="ConnectionDocument" remote-service="true" uuid="true">
+	<entity name="ConnectionDocument" local-service="true" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
 
