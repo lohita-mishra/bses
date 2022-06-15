@@ -101,6 +101,7 @@ label {
 .col-sm-6 {
 	max-width: 60%;
 }
+        
 </style>
 
 </head>
@@ -466,11 +467,11 @@ label {
 									
 								</div>
 							</section>
-							<div class="mt-5 row">
+							<!-- <div class="mt-5 row">
 								<h5 class="font-weight-bold ml-4">Section 4. General
 									Particulars</h5>
-							</div>
-							<section class="general_particulars">
+							</div> -->
+							<!-- <section class="general_particulars">
 								<div class="container">
 									<div class="row mt-2">
 
@@ -574,11 +575,11 @@ label {
 												</select>
 
 											</div>
-										</div>
-
+										 </div>
+ 
 									</div>
 								</div>
-							</section>
+							</section> -->
 							<div class="mt-5 row">
 								<h5 class="font-weight-bold ml-4">Uploaded Documents</h5>
 							</div>
