@@ -62,12 +62,12 @@ public class ConnectionDocumentLocalServiceImpl
 		try {
 			return connectionDocumentPersistence.findByConnectionRequestIdAndDocumentType(connectionRequestId, documentType);
 		} catch (NoSuchConnectionDocumentException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return null;
 	}
 	
-	public ConnectionDocument updateConnectionDocument(long connectionDocumentId, long connectionRequestId, String documentType, String documentName, File file) throws PortalException{
+	public ConnectionDocument updateConnectionDocument(long connectionDocumentId, long connectionRequestId, String documentType, String documentName, String clientFileName, File file) throws PortalException{
 		LOGGER.info("updateConnectionDocument:  connectionRequestId="+connectionRequestId+", documentType="+documentType);
 		ConnectionRequest connectionRequest=null;
 		ConnectionDocument connectionDocument=null;
@@ -77,17 +77,13 @@ public class ConnectionDocumentLocalServiceImpl
 		try {
 			if(connectionDocumentId>0) {
 				connectionDocument=connectionDocumentPersistence.findByPrimaryKey(connectionDocumentId);
-			}else if(connectionRequestId>0 && StringUtils.isNoneBlank(documentType)){
+			}else if(connectionRequestId>0 && StringUtils.isNotBlank(documentType)){
 				connectionDocument=connectionDocumentPersistence.findByConnectionRequestIdAndDocumentType(connectionRequestId, documentType);
 			}
-			
-			if(connectionDocument==null) {
-				connectionDocument=connectionDocumentPersistence.create(CounterLocalServiceUtil.increment(ConnectionDocument.class.getName()));
-			}
-		} catch (NoSuchConnectionDocumentException e) {
-			LOGGER.error(e);
-			throw new PortalException(e);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
 		}
+		
 		
 		Calendar calendar=Calendar.getInstance();
 		String basePath=PropsUtil.get("connection.document.base.path");
@@ -105,14 +101,19 @@ public class ConnectionDocumentLocalServiceImpl
 		}else {
 			LOGGER.info(file.getAbsolutePath() +" could not be moved to "+dest.getAbsolutePath());
 		}
-		
-		if(connectionDocument!=null) {
-			connectionDocument.setConnectionRequestId(connectionRequestId);
-			connectionDocument.setDocumentName(documentName);
-			connectionDocument.setDocumentType(documentType);
-			connectionDocument.setDocumentPath(dest.getAbsolutePath());
-			connectionDocumentPersistence.update(connectionDocument);
+
+		if(connectionDocument==null) {
+			connectionDocument=connectionDocumentPersistence.create(CounterLocalServiceUtil.increment(ConnectionDocument.class.getName()));
 		}
+		
+		//if(connectionDocument!=null) {
+		connectionDocument.setConnectionRequestId(connectionRequestId);
+		connectionDocument.setDocumentName(documentName);
+		connectionDocument.setDocumentType(documentType);
+		connectionDocument.setDocumentPath(dest.getAbsolutePath());
+		connectionDocument.setClientFileName(clientFileName);
+		connectionDocumentPersistence.update(connectionDocument);
+		//}
 		return connectionDocument;
 	}
 }

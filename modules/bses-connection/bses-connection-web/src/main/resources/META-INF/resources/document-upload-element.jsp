@@ -37,6 +37,7 @@ String savedValue=ParamUtil.getString(request, elementName);
 String documentType=ParamUtil.getString(request, "documentType");
 String documentName=ParamUtil.getString(request, "documentName");
 
+String clientFileName="";
 long connectionDocumentId=0;
 ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
 long connectionRequestId=requestEntity.getConnectionRequestId();
@@ -44,6 +45,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 try{
 	ConnectionDocument connectionDocument=ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestIdAndDocumentType(requestEntity.getConnectionRequestId(), "Polution Certificate");
 	connectionDocumentId=connectionDocument.getConnectionDocumentId();
+	clientFileName=connectionDocument.getClientFileName()+" uploaded successfully";
 }catch(Exception e){
 	LOGGER.error(e.getMessage());
 }
@@ -63,8 +65,8 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	<input type="file" name="<portlet:namespace/><%=elementName+"_file"%>" id="<portlet:namespace/><%=elementName%>_file" style="width:0px;" <%=acceptTypes%>> 
 
 	<%--<label id="<portlet:namespace /><%=elementName+"_document"%>"> --%>
-		<button type="button" class="btn btn-primary upload-btn" id="<portlet:namespace /><%=elementName+"_uploadBtn"%>" value="Choose File">Choose File</button>
-		<span id="<portlet:namespace /><%=elementName+"_fileName"%>" style="font-weight: bold;"></span>
+		<button type="button" class="btn btn-primary upload-btn" id="<portlet:namespace /><%=elementName+"_uploadBtn"%>" value="Choose File">Upload File</button>
+		<span id="<portlet:namespace /><%=elementName+"_fileName"%>" style="font-weight: bold;"><%=clientFileName %></span>
 		<%--<a id="<portlet:namespace /><%=elementName+"_uploadBtn"%>" style="float: right;"><i class="fa fa-upload"></i></a> <%=StringUtils.isNotBlank(placeHolder)?placeHolder:"Choose a file to upload.."%>--%>
 	<%--</label> --%>
 	
@@ -107,7 +109,7 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 		$('#<portlet:namespace/><%=elementName%>').val(response.connectionDocumentId);
 		$('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val(response.connectionDocumentId);
 		$('#<portlet:namespace /><%=elementName%>_uploadBtn').css("display", "none");
-		$('#<portlet:namespace/><%=elementName%>_fileName').html("Uploaded successfully");
+		$('#<portlet:namespace/><%=elementName%>_fileName').html(response.clientFileName+" uploaded successfully");
 		$('#<portlet:namespace /><%=elementName%>_clearBtn').css("display", "block");
 		console.log(<%=progressBarId%>);
 	}		

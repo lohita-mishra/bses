@@ -68,6 +68,7 @@ public class ConnectionDocumentWrapper
 		attributes.put("documentType", getDocumentType());
 		attributes.put("documentName", getDocumentName());
 		attributes.put("documentPath", getDocumentPath());
+		attributes.put("clientFileName", getClientFileName());
 		attributes.put("transfered", getTransfered());
 
 		return attributes;
@@ -148,6 +149,12 @@ public class ConnectionDocumentWrapper
 			setDocumentPath(documentPath);
 		}
 
+		String clientFileName = (String)attributes.get("clientFileName");
+
+		if (clientFileName != null) {
+			setClientFileName(clientFileName);
+		}
+
 		String transfered = (String)attributes.get("transfered");
 
 		if (transfered != null) {
@@ -164,6 +171,16 @@ public class ConnectionDocumentWrapper
 	@Override
 	public int compareTo(ConnectionDocument connectionDocument) {
 		return _connectionDocument.compareTo(connectionDocument);
+	}
+
+	/**
+	 * Returns the client file name of this connection document.
+	 *
+	 * @return the client file name of this connection document
+	 */
+	@Override
+	public String getClientFileName() {
+		return _connectionDocument.getClientFileName();
 	}
 
 	/**
@@ -354,6 +371,16 @@ public class ConnectionDocumentWrapper
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_connectionDocument.setCachedModel(cachedModel);
+	}
+
+	/**
+	 * Sets the client file name of this connection document.
+	 *
+	 * @param clientFileName the client file name of this connection document
+	 */
+	@Override
+	public void setClientFileName(String clientFileName) {
+		_connectionDocument.setClientFileName(clientFileName);
 	}
 
 	/**

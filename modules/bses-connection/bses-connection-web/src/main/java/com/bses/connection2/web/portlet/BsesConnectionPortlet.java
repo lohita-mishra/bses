@@ -38,6 +38,7 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author arjun
  */
+
 @Component(
 	immediate = true,
 	property = {
@@ -68,7 +69,7 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)	throws IOException, PortletException {
 		String viewMode = renderRequest.getPreferences().getValue("viewMode", " ");
-		
+		LOGGER.info("doView(RenderRequest renderRequest, RenderResponse renderResponse) is called");
 		switch(viewMode){    
 		case "U01":    
 			 handleNewComnnectionView(renderRequest,renderResponse);
@@ -100,8 +101,7 @@ public class BsesConnectionPortlet extends MVCPortlet {
 		if(StringUtils.isBlank(loginId)) {
 			view = "/mobile_login.jsp";
 		}
-		
-		
+
 		include(view, renderRequest, renderResponse);
 	}
 	
@@ -190,15 +190,16 @@ public class BsesConnectionPortlet extends MVCPortlet {
         long connectionDocumentId=ParamUtil.getLong(uploadRequest, "connectionDocumentId",0);
         String documentType=ParamUtil.getString(uploadRequest, "documentType");
         String documentName=ParamUtil.getString(uploadRequest, "documentName");
+        String clientFileName=ParamUtil.getString(uploadRequest, "name");
 
         ConnectionDocument connectionDocument=null;
-        String message=documentName+" was updated successfully";
+        String message=documentName+" was uploaded successfully";
         String status="success";
         
 		try {
-			connectionDocument = ConnectionDocumentLocalServiceUtil.updateConnectionDocument(connectionDocumentId, connectionRequestId, documentType, documentName, sourceFile);
+			connectionDocument = ConnectionDocumentLocalServiceUtil.updateConnectionDocument(connectionDocumentId, connectionRequestId, documentType, documentName, clientFileName, sourceFile);
 		} catch (PortalException e) {
-			message=documentName+" could not be updated. Error: "+e.getMessage();
+			message=documentName+" could not be uploaded. Error: "+e.getMessage();
 			status="failure";
 		}
 		JSONObject result=JSONFactoryUtil.createJSONObject();
@@ -206,7 +207,7 @@ public class BsesConnectionPortlet extends MVCPortlet {
 		result.put("message", message);
 		if(connectionDocument!=null) {
 			result.put("connectionDocumentId", connectionDocument.getConnectionDocumentId());
-			result.put("documentPath", connectionDocument.getDocumentPath());
+			result.put("clientFileName", connectionDocument.getClientFileName());
 		}
 
 		PrintWriter pw=resourceResponse.getWriter();
@@ -214,6 +215,7 @@ public class BsesConnectionPortlet extends MVCPortlet {
      	pw.flush();
      	pw.close();
 	}
+	
 	public String generateTwelveDigitCANo(String accNo) {
 		String formattedNumber = StringPool.BLANK;
 		if (Validator.isNotNull(accNo)) {

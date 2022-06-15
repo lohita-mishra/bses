@@ -275,6 +275,7 @@
 		<column name="documentType" type="String" />
 		<column name="documentName" type="String" />
 		<column name="documentPath" type="String" />
+		<column name="clientFileName" type="String" />
 		<column name="transfered" type="String" />
 
 		<!-- Order -->

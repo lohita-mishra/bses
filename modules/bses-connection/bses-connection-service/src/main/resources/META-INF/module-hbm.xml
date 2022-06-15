@@ -21,6 +21,7 @@
 		<property name="documentType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="documentName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="documentPath" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="clientFileName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="transfered" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.bses.connection2.model.impl.ConnectionRequestImpl" table="bsesconn_ConnectionRequest">

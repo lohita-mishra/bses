@@ -1,9 +1,16 @@
+<%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
+<%@page import="com.liferay.portal.kernel.log.Log"%>
+<%@page import="com.bses.connection2.service.ConnectionDocumentLocalServiceUtil"%>
+<%@page import="com.bses.connection2.model.ConnectionDocument"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.bses.connection2.web.model.MasterData"%>
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
 <%@page import="java.util.Calendar"%>
 <%@ include file="/init.jsp"%>
+<%!
+	private static final Log LOGGER = LogFactoryUtil.getLog("org.apache.jsp.components.documents_005f_jsp");
+%>
 <%
 long connectionDocumentId=0;
 //Calendar calendar=Calendar.getInstance();
@@ -93,12 +100,21 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 		
 		<div class="row mb-3">
 			<div class="col-md-4 pl-5">
+<%
+	String idProofDocumentName="ID Proof";
+	try{
+		ConnectionDocument connectionDocument=ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestIdAndDocumentType(requestEntity.getConnectionRequestId(), "ID Proof");
+		idProofDocumentName=connectionDocument.getDocumentName();
+	}catch(Exception e){
+		LOGGER.error(e.getMessage());
+	}
+%>			
 				<aui:select class="form-control d-block w-100" name="idProofType" label="document-id-proof-type">
 					<aui:option value="" label="-Select-" />
 <%
 		for(Map.Entry<String, String> entry:MasterData.getIDProofTypes().entrySet()){
 %>	
-			<aui:option value="<%=entry.getKey()%>" label="<%=entry.getValue()%>" selected="<%=StringUtils.equalsIgnoreCase(requestEntity.getFloor(), entry.getKey())%>"/>
+			<aui:option value="<%=entry.getKey()%>" label="<%=entry.getValue()%>" selected="<%=StringUtils.equalsIgnoreCase(idProofDocumentName, entry.getValue())%>"/>
 <%
 		}
 %>
@@ -113,7 +129,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="idProof" />
 					<liferay-util:param name="documentType" value="ID Proof" />
-					<liferay-util:param name="documentName" value="ID Proof" />
+					<liferay-util:param name="documentName" value="<%=idProofDocumentName%>" />
 				</liferay-util:include>
 				<%--<aui:input type="file" style="border:0px; padding:0;" name="idProofDocument" label="" /> --%>
 			</div>
@@ -140,12 +156,21 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			
 		<div class="row">
 			<div class="col-md-4 pl-5">
+<%		
+	String ownershipProofDocumentName="Ownership Proof";
+	try{
+		ConnectionDocument connectionDocument=ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestIdAndDocumentType(requestEntity.getConnectionRequestId(), "ID Proof");
+		ownershipProofDocumentName=connectionDocument.getDocumentName();
+	}catch(Exception e){
+		LOGGER.error(e.getMessage());
+	}
+%>	
 				<aui:select class="form-control d-block w-100" name="ownershipProofType" label="">
 					<aui:option value="" label="-Select-" />
 <%
 		for(Map.Entry<String, String> entry:MasterData.getOwnershipProofTypes().entrySet()){
 %>	
-			<aui:option value="<%=entry.getKey()%>" label="<%=entry.getValue()%>" selected="<%=StringUtils.equalsIgnoreCase(requestEntity.getFloor(), entry.getKey())%>"/>
+			<aui:option value="<%=entry.getKey()%>" label="<%=entry.getValue()%>" selected="<%=StringUtils.equalsIgnoreCase(ownershipProofDocumentName, entry.getValue())%>"/>
 <%
 		}
 %>
@@ -157,7 +182,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="ownershipProof" />
 					<liferay-util:param name="documentType" value="Ownership Proof" />
-					<liferay-util:param name="documentName" value="Ownership Proof" />
+					<liferay-util:param name="documentName" value="<%=ownershipProofDocumentName %>" />
 				</liferay-util:include>
 				<%-- <aui:input type="file" style="border:0px; padding:0;" name="ownershipProofDocument" label="" />--%>
 			</div>

@@ -14,6 +14,10 @@
 
 package com.bses.connection2.service;
 
+import com.bses.connection2.model.ConnectionDocument;
+
+import com.liferay.portal.kernel.exception.PortalException;
+
 /**
  * Provides the remote service utility for ConnectionDocument. This utility wraps
  * <code>com.bses.connection2.service.impl.ConnectionDocumentServiceImpl</code> and is an
@@ -39,8 +43,19 @@ public class ConnectionDocumentServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static ConnectionDocument updateConnectionDocument(
+			long connectionDocumentId, long connectionRequestId,
+			String documentType, String documentName, String clientFileName,
+			java.io.File file)
+		throws PortalException {
+
+		return getService().updateConnectionDocument(
+			connectionDocumentId, connectionRequestId, documentType,
+			documentName, clientFileName, file);
 	}
 
 	public static ConnectionDocumentService getService() {

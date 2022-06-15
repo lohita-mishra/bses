@@ -11,6 +11,7 @@ create table bsesconn_ConnectionDocument (
 	documentType VARCHAR(75) null,
 	documentName VARCHAR(75) null,
 	documentPath VARCHAR(75) null,
+	clientFileName VARCHAR(75) null,
 	transfered VARCHAR(75) null
 );
 
