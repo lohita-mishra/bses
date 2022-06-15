@@ -14,7 +14,11 @@
 
 package com.bses.connection2.service.impl;
 
+import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.service.base.ConnectionDocumentServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
+
+import java.io.File;
 
 /**
  * The implementation of the connection document remote service.
@@ -37,4 +41,8 @@ public class ConnectionDocumentServiceImpl
 	 *
 	 * Never reference this class directly. Always use {@link com.bses.connection2.service.ConnectionDocumentServiceUtil} to access the connection document remote service.
 	 */
+	
+	public ConnectionDocument updateConnectionDocument(long connectionDocumentId, long connectionRequestId, String documentType, String documentName, String clientFileName, File file) throws PortalException{
+		return connectionDocumentLocalService.updateConnectionDocument(connectionDocumentId, connectionRequestId, documentType, documentName, clientFileName, file);
+	}
 }

@@ -43,6 +43,7 @@ public class ConnectionDocumentSoap implements Serializable {
 		soapModel.setDocumentType(model.getDocumentType());
 		soapModel.setDocumentName(model.getDocumentName());
 		soapModel.setDocumentPath(model.getDocumentPath());
+		soapModel.setClientFileName(model.getClientFileName());
 		soapModel.setTransfered(model.getTransfered());
 
 		return soapModel;
@@ -202,6 +203,14 @@ public class ConnectionDocumentSoap implements Serializable {
 		_documentPath = documentPath;
 	}
 
+	public String getClientFileName() {
+		return _clientFileName;
+	}
+
+	public void setClientFileName(String clientFileName) {
+		_clientFileName = clientFileName;
+	}
+
 	public String getTransfered() {
 		return _transfered;
 	}
@@ -222,6 +231,7 @@ public class ConnectionDocumentSoap implements Serializable {
 	private String _documentType;
 	private String _documentName;
 	private String _documentPath;
+	private String _clientFileName;
 	private String _transfered;
 
 }

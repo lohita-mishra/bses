@@ -329,7 +329,8 @@ public interface ConnectionDocumentLocalService
 
 	public ConnectionDocument updateConnectionDocument(
 			long connectionDocumentId, long connectionRequestId,
-			String documentType, String documentName, File file)
+			String documentType, String documentName, String clientFileName,
+			File file)
 		throws PortalException;
 
 }

@@ -269,6 +269,21 @@ public interface ConnectionDocumentModel
 	public void setDocumentPath(String documentPath);
 
 	/**
+	 * Returns the client file name of this connection document.
+	 *
+	 * @return the client file name of this connection document
+	 */
+	@AutoEscape
+	public String getClientFileName();
+
+	/**
+	 * Sets the client file name of this connection document.
+	 *
+	 * @param clientFileName the client file name of this connection document
+	 */
+	public void setClientFileName(String clientFileName);
+
+	/**
 	 * Returns the transfered of this connection document.
 	 *
 	 * @return the transfered of this connection document

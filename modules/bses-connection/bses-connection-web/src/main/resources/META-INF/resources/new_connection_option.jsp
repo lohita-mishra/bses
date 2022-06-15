@@ -28,8 +28,8 @@
 					load > 45 KW.
 				</div>
 				<div class="text-danger text-center my-5">
-					<button  onclick="applyAppointment();" class="btn btn-primary mx-2">Request for Appointment</a> 
-					<button  onclick="applyOnline();" class="btn btn-danger" id="<portlet:namespace/>applyOnlineLink">Apply Online</button>
+					<button class="btn btn-primary mx-2" id="<portlet:namespace/>appointmentBtn">Request for Appointment</a> 
+					<button class="btn btn-danger" id="<portlet:namespace/>applyOnlineBtn">Apply Online</button>
 				</div>
 			</div>
 		</div>
@@ -40,18 +40,14 @@
 <aui:script use="aui-base liferay-form">
 $(document).ready(function(){
 	$('#connectionTypeModal').modal('show'); 
+	
+	$('#<portlet:namespace/>appointmentBtn').click(function(){
+		window.location.href="<%=applyAppointmentURL.toString()%>";
+	})
+	$('#<portlet:namespace/>applyOnlineBtn').click(function(){
+		window.location.href="<%=applyOnlineURL.toString()%>";
+	});
 });
-
-
 </aui:script>
-<<script >
-function applyOnline(){
-	window.location.href="<%=applyOnlineURL.toString()%>";
-}
-function applyAppointment(){
-	window.location.href="<%=applyAppointmentURL.toString()%>";
-}
-
-</script>
 
 

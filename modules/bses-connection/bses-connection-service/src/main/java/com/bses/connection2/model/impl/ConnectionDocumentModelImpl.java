@@ -82,7 +82,7 @@ public class ConnectionDocumentModelImpl
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"connectionRequestId", Types.BIGINT}, {"documentType", Types.VARCHAR},
 		{"documentName", Types.VARCHAR}, {"documentPath", Types.VARCHAR},
-		{"transfered", Types.VARCHAR}
+		{"clientFileName", Types.VARCHAR}, {"transfered", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -101,11 +101,12 @@ public class ConnectionDocumentModelImpl
 		TABLE_COLUMNS_MAP.put("documentType", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("documentName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("documentPath", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("clientFileName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("transfered", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table bsesconn_ConnectionDocument (uuid_ VARCHAR(75) null,connectionDocumentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,connectionRequestId LONG,documentType VARCHAR(75) null,documentName VARCHAR(75) null,documentPath VARCHAR(75) null,transfered VARCHAR(75) null)";
+		"create table bsesconn_ConnectionDocument (uuid_ VARCHAR(75) null,connectionDocumentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,connectionRequestId LONG,documentType VARCHAR(75) null,documentName VARCHAR(75) null,documentPath VARCHAR(75) null,clientFileName VARCHAR(75) null,transfered VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table bsesconn_ConnectionDocument";
@@ -174,6 +175,7 @@ public class ConnectionDocumentModelImpl
 		model.setDocumentType(soapModel.getDocumentType());
 		model.setDocumentName(soapModel.getDocumentName());
 		model.setDocumentPath(soapModel.getDocumentPath());
+		model.setClientFileName(soapModel.getClientFileName());
 		model.setTransfered(soapModel.getTransfered());
 
 		return model;
@@ -618,6 +620,30 @@ public class ConnectionDocumentModelImpl
 
 			});
 		attributeGetterFunctions.put(
+			"clientFileName",
+			new Function<ConnectionDocument, Object>() {
+
+				@Override
+				public Object apply(ConnectionDocument connectionDocument) {
+					return connectionDocument.getClientFileName();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"clientFileName",
+			new BiConsumer<ConnectionDocument, Object>() {
+
+				@Override
+				public void accept(
+					ConnectionDocument connectionDocument,
+					Object clientFileNameObject) {
+
+					connectionDocument.setClientFileName(
+						(String)clientFileNameObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"transfered",
 			new Function<ConnectionDocument, Object>() {
 
@@ -886,6 +912,22 @@ public class ConnectionDocumentModelImpl
 
 	@JSON
 	@Override
+	public String getClientFileName() {
+		if (_clientFileName == null) {
+			return "";
+		}
+		else {
+			return _clientFileName;
+		}
+	}
+
+	@Override
+	public void setClientFileName(String clientFileName) {
+		_clientFileName = clientFileName;
+	}
+
+	@JSON
+	@Override
 	public String getTransfered() {
 		if (_transfered == null) {
 			return "";
@@ -957,6 +999,7 @@ public class ConnectionDocumentModelImpl
 		connectionDocumentImpl.setDocumentType(getDocumentType());
 		connectionDocumentImpl.setDocumentName(getDocumentName());
 		connectionDocumentImpl.setDocumentPath(getDocumentPath());
+		connectionDocumentImpl.setClientFileName(getClientFileName());
 		connectionDocumentImpl.setTransfered(getTransfered());
 
 		connectionDocumentImpl.resetOriginalValues();
@@ -1123,6 +1166,14 @@ public class ConnectionDocumentModelImpl
 			connectionDocumentCacheModel.documentPath = null;
 		}
 
+		connectionDocumentCacheModel.clientFileName = getClientFileName();
+
+		String clientFileName = connectionDocumentCacheModel.clientFileName;
+
+		if ((clientFileName != null) && (clientFileName.length() == 0)) {
+			connectionDocumentCacheModel.clientFileName = null;
+		}
+
 		connectionDocumentCacheModel.transfered = getTransfered();
 
 		String transfered = connectionDocumentCacheModel.transfered;
@@ -1225,6 +1276,7 @@ public class ConnectionDocumentModelImpl
 	private String _originalDocumentType;
 	private String _documentName;
 	private String _documentPath;
+	private String _clientFileName;
 	private String _transfered;
 	private long _columnBitmask;
 	private ConnectionDocument _escapedModel;

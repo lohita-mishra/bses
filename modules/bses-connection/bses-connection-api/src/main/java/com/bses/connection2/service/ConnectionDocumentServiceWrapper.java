@@ -44,6 +44,19 @@ public class ConnectionDocumentServiceWrapper
 	}
 
 	@Override
+	public com.bses.connection2.model.ConnectionDocument
+			updateConnectionDocument(
+				long connectionDocumentId, long connectionRequestId,
+				String documentType, String documentName, String clientFileName,
+				java.io.File file)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _connectionDocumentService.updateConnectionDocument(
+			connectionDocumentId, connectionRequestId, documentType,
+			documentName, clientFileName, file);
+	}
+
+	@Override
 	public ConnectionDocumentService getWrappedService() {
 		return _connectionDocumentService;
 	}

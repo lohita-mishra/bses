@@ -83,9 +83,12 @@
 
 
 </style>
-<portlet:resourceURL var="fileUploadURL" id="fileUpload">
+<portlet:resourceURL var="documentUploadURL" id="documentUpload">
 </portlet:resourceURL>
-
+<%--
+<portlet:resourceURL id="/document/upload" var="documentUploadURL" />
+<portlet:resourceURL id="/document/download" var="documentDownloadURL" />
+--%>
 <%
 	long connectionRequestId=ParamUtil.getLong(request, "connectionRequestId", 0);
 	if(connectionRequestId==0 && session.getAttribute(ConnectionRequest.class.getName()+"#id")!=null){
@@ -139,14 +142,14 @@
 		</liferay-util:include>
 	</div>
 	<div class="card-body">
-		<liferay-util:include page="/consumer.jsp" servletContext="<%=application%>">
+<%--		<liferay-util:include page="/consumer.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
 		<liferay-util:include page="/address.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
-		
+		 --%>
 		<liferay-util:include page="/connection.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
-		
+<%--		
 		<liferay-util:include page="/checklist.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
 
@@ -154,6 +157,7 @@
 		</liferay-util:include>
 		<liferay-util:include page="/declaration.jsp" servletContext="<%=application%>">
 		</liferay-util:include>		
+ --%>		
 	</div>
 	<div class="card-footer">
 		<liferay-util:include page="/actions.jsp" servletContext="<%=application%>">
@@ -350,13 +354,13 @@
 			var tariffCategory = $(this).val();
 			if (tariffCategory == "0100") {
 				showLoadKvaDiv(false);
-				$("#<portlet:namespace/>loadKw").prop("disabled", false);
+				$("#<portlet:namespace/>loadKw").prop("readonly", false);
 				$("#<portlet:namespace/>loadKw").val("");
 				$("#<portlet:namespace/>loadKva").val("");
 			} else {
 				showLoadKvaDiv(true);
-				$("#<portlet:namespace/>loadKva").prop("disabled", false);
-				$("#<portlet:namespace/>loadKw").prop("disabled", true);
+				$("#<portlet:namespace/>loadKva").prop("readonly", false);
+				$("#<portlet:namespace/>loadKw").prop("readonly", true);
 				$("#<portlet:namespace/>loadKw").val("");
 				$("#<portlet:namespace/>loadKva").val("");
 			}
@@ -382,9 +386,9 @@
 			var kw = $("#<portlet:namespace/>loadKw").val();
 			if (kw != "" && kw != "0" && kw >= 45) {
 				$("#prePostPaid").val('1');
-				$("#prePostPaid").prop("disabled", true);
+				$("#prePostPaid").prop("readonly", true);
 			} else {
-				$("#prePostPaid").prop("disabled", false);
+				$("#prePostPaid").prop("readonly", false);
 			}
 		});
 	}
@@ -629,13 +633,12 @@
 		form.append("description", documentName);
 		form.append("changeLog", "Uploaded "+documentName+" on "+(new Date()));
 		
-		
 		//form.append("p_auth", Liferay.authToken);
 		
 		console.log(form);
 		
 		var settings = {
-			"url": "<%=fileUploadURL.toString()%>",
+			"url": "<%=documentUploadURL.toString()%>",
 			"method": "POST",
 			"timeout": 0,
 			"headers": {},
@@ -727,6 +730,7 @@
 			autoSaveFlag = false;
 			submitFormDetails(forms,0);
 			saveChecklistForm();
+			saveDocumentForm();
 		}else{
 			alert("Please enter valid details...");
 		}
@@ -793,6 +797,28 @@
 	        );
 	    });	
 	}
+	
+	function saveDocumentForm(){
+		var formDataJson={};
+		formDataJson['<portlet:namespace/>idProofType']=$("#<portlet:namespace/>idProofType").val();
+		formDataJson['<portlet:namespace/>idProofNo']=$("#<portlet:namespace/>idProofNo").val();
+		formDataJson['<portlet:namespace/>ownershipProofType']=$("#<portlet:namespace/>ownershipProofType").val();
+		formDataJson['namespace']='<portlet:namespace/>';
+		
+		AUI().use('aui-base', function(A){
+	        Liferay.Service(
+	            '/bsesconn.connectionrequest/update-connection-request', //call your service here
+	            {
+	            	connectionRequestId:<%=connectionRequestId%>,
+	                params: formDataJson,
+	                sectionPrefix:'document'
+	            },
+	            function(obj) {
+	                console.log(obj);
+	            }
+	        );
+	    });	
+	}
 	function handleSubmitSuccess(){
 		
 		//submitSoap();
@@ -850,7 +876,11 @@
 		
 		setTimeout(function (){
 			saveChecklistForm();
-		});
+		},1000);
+		
+		setTimeout(function (){
+			saveDocumentForm();
+		},1000);
 	}
 	
 	function autoSaveForm(formId, sectionPrefix, validate){

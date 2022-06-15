@@ -376,12 +376,13 @@ public class ConnectionDocumentLocalServiceUtil {
 
 	public static ConnectionDocument updateConnectionDocument(
 			long connectionDocumentId, long connectionRequestId,
-			String documentType, String documentName, java.io.File file)
+			String documentType, String documentName, String clientFileName,
+			java.io.File file)
 		throws PortalException {
 
 		return getService().updateConnectionDocument(
 			connectionDocumentId, connectionRequestId, documentType,
-			documentName, file);
+			documentName, clientFileName, file);
 	}
 
 	public static ConnectionDocumentLocalService getService() {

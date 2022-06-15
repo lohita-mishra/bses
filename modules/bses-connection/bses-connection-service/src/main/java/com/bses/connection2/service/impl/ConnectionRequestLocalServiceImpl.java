@@ -389,17 +389,21 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			Method methodGet = getGetterMethod(ConnectionRequest.class, StringUtils.trim(name));
 			LOGGER.info(methodGet.getReturnType()+" - "+value+" - for "+name);
 			Method methodSet = getSetterMethod(ConnectionRequest.class, StringUtils.trim(name), new Class[] { methodGet.getReturnType() });
-			if(methodGet.getReturnType()==String.class) {
-				methodSet.invoke(obj, value);
-			}else if(methodGet.getReturnType()==int.class) {
+			if(methodGet.getReturnType()==int.class) {
 				methodSet.invoke(obj, Integer.parseInt(value));
 			}else if(methodGet.getReturnType()==long.class) {
 				methodSet.invoke(obj, Long.parseLong(value));
+			}else if(methodGet.getReturnType()==float.class) {
+				methodSet.invoke(obj, Float.parseFloat(value));
+			}else if(methodGet.getReturnType()==double.class) {
+				methodSet.invoke(obj, Double.parseDouble(value));
 			}else if(methodGet.getReturnType()==boolean.class) {
 				boolean boolValue="1".equals(value)|| "y".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value);
 				methodSet.invoke(obj, boolValue);
 			}else if(methodGet.getReturnType()==Date.class) {
 				methodSet.invoke(obj, dateFormat.parse(value));
+			}else {
+				methodSet.invoke(obj, value);
 			}
 		} catch (Exception e) {
 			//LOGGER.error(e);

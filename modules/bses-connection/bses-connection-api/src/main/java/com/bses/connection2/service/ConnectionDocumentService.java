@@ -16,6 +16,8 @@ package com.bses.connection2.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.bses.connection2.model.ConnectionDocument;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
@@ -24,6 +26,8 @@ import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import java.io.File;
 
 /**
  * Provides the remote service interface for ConnectionDocument. Methods of this
@@ -62,5 +66,11 @@ public interface ConnectionDocumentService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	public ConnectionDocument updateConnectionDocument(
+			long connectionDocumentId, long connectionRequestId,
+			String documentType, String documentName, String clientFileName,
+			File file)
+		throws PortalException;
 
 }

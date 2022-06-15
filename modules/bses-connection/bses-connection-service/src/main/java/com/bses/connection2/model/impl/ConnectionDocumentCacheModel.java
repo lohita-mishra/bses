@@ -65,7 +65,7 @@ public class ConnectionDocumentCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -91,6 +91,8 @@ public class ConnectionDocumentCacheModel
 		sb.append(documentName);
 		sb.append(", documentPath=");
 		sb.append(documentPath);
+		sb.append(", clientFileName=");
+		sb.append(clientFileName);
 		sb.append(", transfered=");
 		sb.append(transfered);
 		sb.append("}");
@@ -159,6 +161,13 @@ public class ConnectionDocumentCacheModel
 			connectionDocumentImpl.setDocumentPath(documentPath);
 		}
 
+		if (clientFileName == null) {
+			connectionDocumentImpl.setClientFileName("");
+		}
+		else {
+			connectionDocumentImpl.setClientFileName(clientFileName);
+		}
+
 		if (transfered == null) {
 			connectionDocumentImpl.setTransfered("");
 		}
@@ -190,6 +199,7 @@ public class ConnectionDocumentCacheModel
 		documentType = objectInput.readUTF();
 		documentName = objectInput.readUTF();
 		documentPath = objectInput.readUTF();
+		clientFileName = objectInput.readUTF();
 		transfered = objectInput.readUTF();
 	}
 
@@ -243,6 +253,13 @@ public class ConnectionDocumentCacheModel
 			objectOutput.writeUTF(documentPath);
 		}
 
+		if (clientFileName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(clientFileName);
+		}
+
 		if (transfered == null) {
 			objectOutput.writeUTF("");
 		}
@@ -263,6 +280,7 @@ public class ConnectionDocumentCacheModel
 	public String documentType;
 	public String documentName;
 	public String documentPath;
+	public String clientFileName;
 	public String transfered;
 
 }
