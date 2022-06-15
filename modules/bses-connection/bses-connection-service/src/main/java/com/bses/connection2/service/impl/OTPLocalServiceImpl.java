@@ -14,18 +14,23 @@
 
 package com.bses.connection2.service.impl;
 
-import com.bses.connection2.exception.NoSuchOTPException;
 import com.bses.connection2.model.OTP;
 import com.bses.connection2.service.base.OTPLocalServiceBaseImpl;
+import com.bses.sap.connector.services.SapConnctorServiceApi;
+import com.bses.sap.model.DssISUCADisplayRequest;
+import com.bses.sap.model.DssISUCADisplayResponse;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+
+import org.osgi.service.component.annotations.Reference;
 
 
 /**
@@ -46,6 +51,9 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 
 	private static final Log log = LogFactoryUtil.getLog(OTPLocalServiceImpl.class);
 
+	@Reference
+	private SapConnctorServiceApi sapServiceApi;
+	
 	public OTP generateOtp(String mobileNo, String email) {
 
 		System.out.println("1.OTPLocalServiceImpl:generateOTP");
@@ -109,7 +117,6 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 	}
 	
 	public OTP resendOtp(String mobileNo, String email) {
-		User user = null;
 		OTP otp = null;
 		String otpNumber ="1111111"; //String.valueOf(generateOTP());
 		String smsBody = "Your One Time Password for New Connection is " + otpNumber
@@ -124,6 +131,7 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 		return otp;
 
 	}
+		
 	
 	public OTP generateEmailOtp(String mobileNo, String email) {
 
@@ -173,28 +181,44 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 		return otp;
 
 	}
-	
-	
-	
+
 	public String generateOtpForCaNumber(String caNumber) {
-		/*		
+		String mobileNo = null;
+		OTP otp = null;
 		try {
 			DssISUCADisplayRequest request = new DssISUCADisplayRequest();
-			String caNumber= generateTwelveDigitCANo("103012062"); //103012062
+			caNumber= generateTwelveDigitCANo("103012062"); //103012062
 			System.out.println("caNumber - "+caNumber);
 			
 			request.setCaNumber(caNumber);
 			DssISUCADisplayResponse res= this.sapServiceApi.getDssISUCADisplay2(request);
-			//System.out.println(res.getBpNumber());
+			System.out.println("1.OTPLocalServiceImpl:generateOTP");
+
+			String otpNumber = "1111111";//String.valueOf(generateOTP());
+			String smsBody = "Your One Time Password for New Connection is " + otpNumber
+					+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
+			mobileNo = res.getMobileNo();
+			otp = otpLocalService.findByMobileNo(mobileNo);
+
+			if (otp == null) {
+				otp = otpLocalService.createOTP(CounterLocalServiceUtil.increment(OTP.class.getName()));
+				//otp.setUserName(user.getScreenName());
+			}
+
+			otp.setMobileNo(mobileNo);
+			otp.setOtp(otpNumber);
+			otp.setExpiryTime(addSeconds(new Date(), 100));
+			//SMSUtil.sendSMS(mobileNo, smsBody);
+			otpLocalService.updateOTP(otp);
+			
 		}catch(Exception ex) {
 			ex.printStackTrace();
-			
 		}
-		*/
 		
-		return  caNumber;
+		return mobileNo;
 	}
 
+	
 	public static Date addSeconds(Date date, Integer seconds) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -218,5 +242,15 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 			return null;
 		}
 	}
+	
+	public String generateTwelveDigitCANo(String accNo) {
+		String formattedNumber = StringPool.BLANK;
+		if (Validator.isNotNull(accNo)) {
+			formattedNumber = String.format("%012d", Long.valueOf(accNo));
+			//log.debug("Formatted account number from  getValidAccountNumber method ::::::::  " + formattedNumber);
+		}
+		return formattedNumber;
+	}
+	
 	 
 }

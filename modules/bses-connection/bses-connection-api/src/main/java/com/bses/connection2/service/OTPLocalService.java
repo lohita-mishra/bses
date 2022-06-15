@@ -205,7 +205,7 @@ public interface OTPLocalService
 
 	public OTP generateOtp(String mobileNo, String email);
 
-	public String generateOtpForCaNumber(String caNumber);
+	public String generateTwelveDigitCANo(String accNo);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
