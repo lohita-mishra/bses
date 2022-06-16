@@ -3,6 +3,7 @@ package com.bses.connection2.web.portlet;
 import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
+import com.bses.connection2.util.RequestTypeModeStatus;
 import com.bses.connection2.web.constants.BsesConnectionPortletKeys;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -33,7 +34,6 @@ import javax.portlet.ResourceResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author arjun
@@ -63,8 +63,6 @@ import org.osgi.service.component.annotations.Reference;
 public class BsesConnectionPortlet extends MVCPortlet {
 	private static final Log LOGGER=LogFactoryUtil.getLog(BsesConnectionPortlet.class.getName());
 	
-	@Reference
-	private SapConnctorServiceApi sapServiceApi;
 	
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)	throws IOException, PortletException {
