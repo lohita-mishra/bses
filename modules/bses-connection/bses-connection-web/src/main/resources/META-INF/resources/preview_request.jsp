@@ -1,5 +1,13 @@
 <%@ include file="/init.jsp"%>
-
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List" %>
+<%@page import="com.bses.connection2.service.ConnectionDocumentLocalServiceUtil"%>
+<%@page import="com.bses.connection2.model.ConnectionDocument"%>
+<%@page import="com.bses.connection2.service.ConnectionRequestLocalServiceUtil"%>
+<%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
+<%@page import="com.bses.connection2.model.ConnectionRequest"%>
+<%@page import="com.bses.connection2.web.model.MasterData"%>
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +36,11 @@ a {
 
 input[type="file"] {
 	display: inline-block;
+}
+.form-control:disabled, .form-control[readonly] {
+    
+    opacity: 1;
+    background-color: white;
 }
 
 .sap_upload {
@@ -108,11 +121,10 @@ label {
 </head>
 <body>
 <%
-// ConnectionRequest connectionRequest=(ConnectionRequest)request.getAttribute("connectionRequest");
-
-//ConnectionRequest connectionRequest = ConnectionRequestLocalServiceUtil.getConnectionRequest(1234L);
-
-%>
+		long connectionRequestId = ParamUtil.getLong(request, "connectionRequestId", 0);
+		ConnectionRequest connectionRequest = ConnectionRequestLocalServiceUtil.getConnectionRequest(connectionRequestId);
+		List<ConnectionDocument> connectionDocumentList = ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestId(connectionRequestId);
+	%>
 
 	
 
@@ -122,7 +134,7 @@ label {
 						<div class="col-md-12 pt-2 mb-4">
 							<div class="text-center container position-relative">
 								<img class="img-fluid"
-									src="<%=request.getContextPath()%>/images/header.jpeg"
+									src="<%=request.getContextPath()%>/images/header.jpg"
 									alt="Header Images" title="Header">
 								<h4 class="font-weight-bold  text-uppercase bg-light p-3">ONLINE
 									NEW CONNECTION SERVICE(S) FORM</h4>
@@ -136,7 +148,7 @@ label {
 											<div class="col-sm-6">
 												<input readonly
 													class=" input-class form-control-plaintext font-weight-bold text-uppercase"
-													id="requestNo" value=''>
+													id="requestNo" value="<%=connectionRequest.getRequestNo()%>">
 
 											</div>
 										</div>
@@ -144,11 +156,11 @@ label {
 											<label for="typeOfRegistration">Type Of Registration
 											</label>
 											<div class="form-group col-md-6">
-												<select type="text" class="form-control"
+												<select type="text" class="form-control" 
 													id="typeOfRegistration">
 													
-													<option value="Individual" id="Individual" style="display: none;">Individual</option>
-													<option value="Firm" id=""style="display: none;">Firm/Trust/Company/Others</option>
+													<option ><%=connectionRequest.getRequestType()%></option>
+													
 												</select>
 											</div>
 										</div>
@@ -170,6 +182,7 @@ label {
 
 
 							<section class="applicant_details">
+			<%if(connectionRequest.getRequestType().equalsIgnoreCase("individual")){ %>				
 								<div class="container" >
 
 									<!-- <div class="row">
@@ -194,14 +207,14 @@ label {
 									<label for="title">Title</label><br>
 									<select type="text" 
 													id="title">
+	<%
+		for(Map.Entry<String, String> entry:MasterData.getTitles().entrySet()){
+			
+		if(connectionRequest.getTitle().equals(entry.getKey())){
+%>												
+													<option ><%=entry.getValue()%></option>
 													
-													<option value="" id="mr" >Mr.</option>
-													<option value="" id="ms">Ms.</option>
-													<option value="" id="m/s" >M/S</option>
-													<option value="" id="dr">Dr.</option>
-													<option value="" id="prof" >Prof.</option>
-													<option value="" id="others">Others.</option>
-													
+<%}} %>													
 												</select>
 									
 									</div>
@@ -209,21 +222,21 @@ label {
 										<div class="col-md-3">
 											<p>
 												<label for="firstName">First name</label><br> <input
-													type="text" name="first_name" value=''>
+													type="text" readonly name="first_name" value="<%=connectionRequest.getFirstName()%>">
 											</p>
 										</div>
 
 										<div class="col-md-3">
 											<p>
 												<label for="middleName">Middle name</label><br> <input
-													type="text" name="middle_name" value=''>
+													type="text" readonly name="middle_name" value="<%=connectionRequest.getMiddleName()%>">
 											</p>
 										</div>
 
 										<div class="col-md-3">
 											<p>
 												<label for="lastName">Last Name</label><br> <input
-													type="text" name="last_name" value=''>
+													type="text" readonly name="last_name" value="<%=connectionRequest.getLastName()%>">
 											</p>
 										</div>
 
@@ -244,12 +257,12 @@ label {
 
 												
 												<div class="col-8">
-													<label for="alignRight"> <input type="radio" name="title" value="">
+													<label for="alignRight"> <input type="radio" readonly name="title" value="relation<%=connectionRequest.getSonDaughterWife()%>">
 														Son
-													</label > <label for="alignRight"> <input type="radio" name="title" value="">
+													</label > <label for="alignRight"> <input type="radio" readonly name="title" value="relation<%=connectionRequest.getSonDaughterWife()%>">
 														Daughter
-													</label> <label for="alignRight"> <input type="radio" name="title"
-														value=""> Wife of
+													</label> <label for="alignRight"> <input type="radio" readonly name="title"
+														value="relation<%=connectionRequest.getSonDaughterWife()%>"> Wife of
 													</label>
 												</div>
 
@@ -258,7 +271,7 @@ label {
 											<div class="row">
 											
 												<div class="col mb-4 ml-2">
-													<input type="text" class="form-control" name="father's_husband's_Name">
+													<input type="text" class="form-control" readonly name="father's_husband's_Name" value="<%=connectionRequest.getFatherOrHusbandName()%>">
 												</div>
 												
 											</div>
@@ -272,6 +285,7 @@ label {
 									</div>
 
 								</div>
+								<%} else { %>
 								<div class="container" style=" display: none;">
 								
 								<div class="row">
@@ -279,7 +293,7 @@ label {
 								<div class="row">
 								<div class="col-12 ml-2">
 												<label for="company">Firm/Trust/Company/Others Name </label><br> <input
-													type="text" class="form-control"  name="company" value=''>
+													type="text" readonly class="form-control"  name="company" value="<%=connectionRequest.getFirmName()%>">
 											</div>
 								</div>
 								
@@ -287,11 +301,11 @@ label {
 								<div class="row">
 								<div class="col-6 mb-2">
 												<label for="typeOfOrganisation">Type Of Organisation </label><br> <input
-													type="text" name="typeOfOrganisation" value=''>
+													type="text" readonly name="typeOfOrganisation" value="<%=connectionRequest.getOrganizationType()%>">
 											</div>
 								<div class="col-6">
 												<label for="dateOfIncorporation">Date Of Incorporation </label><br> <input
-												style="width: 80%;"	type="date" name="dateOfIncorporation" value=''>
+												style="width: 80%;"	type="date" readonly name="dateOfIncorporation" value="<%=connectionRequest.getIncorporationDate()%>">
 											</div>
 								
 								
@@ -301,11 +315,11 @@ label {
 								<div class="row">
 								<div class="col-6 ">
 												<label for="authorizedSignatory">Name Of Authorized Signatory </label><br> <input
-													type="text" name="authorizedSignatory" value=''>
+													type="text" readonly name="authorizedSignatory" value="<%=connectionRequest.getSignatoryName()%>">
 											</div>
 								<div class="col-6">
 												<label for="designationOfSignatory">Designation of Signatory </label><br> <input
-													type="text" name="designationOfSignatory" value=''>
+													type="text" readonly name="designationOfSignatory" value="<%=connectionRequest.getSignatoryDesignation()%>">
 											</div>
 								
 								
@@ -313,11 +327,11 @@ label {
 								<div class="row">
 								<div class="col-6">
 												<label for="gstNo">GST No. </label><br> <input
-													type="text" name="gstNo" value=''>
+													type="text" readonly name="gstNo" value="<%=connectionRequest.getGstIn()%>">
 											</div>
 								<div class="col-6">
 												<label for="panNo">Pan No. </label><br> <input
-													type="text" name="panNo" value=''>
+													type="text" readonly name="panNo" value="<%=connectionRequest.getPanNo()%>">
 											</div>
 								
 								
@@ -331,6 +345,7 @@ label {
 								
 								
 								</div>
+								<%} %>
 							</section>
 
 							<div class="mt-5 row">
@@ -349,7 +364,7 @@ label {
 											<label>Locality</label><br>
 										
 											<select style="width: 95%;" type="text" class="form-control" id="#">
-												<option value="-1">-Select-</option>
+												<option ><%=connectionRequest.getLocality()%></option>
 												
 											</select>
 										
@@ -359,12 +374,17 @@ label {
 									<div class="row">
 									<div class="col-6"><label>House No.</label><br>
 										
-											<input type="text" class="form-control"  name="houseNo"></div>
+											<input type="text" class="form-control" readonly name="houseNo" value="<%=connectionRequest.getHouseNo()%>"></div>
 									<div class="col-6"><label>Floor</label><br>
 										
-											<select type="text" class="form-control"  id="#">
-												<!-- <option value="-1">-Select-</option> -->
-												
+											<select type="text" class="form-control"   id="#">
+	<%
+		for(Map.Entry<String, String> entry:MasterData.getFloors().entrySet()){
+			if(connectionRequest.getFloor().equals(entry.getKey())){
+		
+%>											
+												 <option ><%=entry.getValue()%></option> 
+<%}} %>												
 											</select></div>
 											
 										
@@ -374,11 +394,11 @@ label {
 									<div class="row">
 									<div class="col-6"><label>Colony/Area</label><br>
 										
-											<input type="text" class="form-control"  name="colony_area"></div>
+											<input type="text" class="form-control" readonly name="colony_area" value="<%=connectionRequest.getColonyArea()%>"></div>
 									<div class="col-6"><label>Landmark</label><br>
 										
-											<select type="text" class="form-control" id="#">
-												<!-- <option value="-1">-Select-</option> -->
+											<select type="text"  class="form-control" id="#">
+												 <option ><%=connectionRequest.getLandmark()%></option> 
 												
 											</select></div>
 											
@@ -393,7 +413,7 @@ label {
 									<div class="col-12">
 											<label>District</label><br>
 										
-											<input style="width: 95%;" type="text" class="form-control" name="district">
+											<input style="width: 95%;" type="text" readonly class="form-control" name="district" value="<%=connectionRequest.getDistrict()%>">
 										
 									
 									</div>
@@ -401,10 +421,10 @@ label {
 									<div class="row">
 									<div class="col-6"><label>Building Name</label><br>
 										
-											<input type="text" class="form-control" name="buildingName"></div>
+											<input type="text" readonly class="form-control" name="buildingName" value="<%=connectionRequest.getBuildingName()%>"></div>
 									<div class="col-6"><label>Street</label><br>
 										
-											<input type="text" class="form-control"  name="street"></div>
+											<input type="text" readonly class="form-control"  name="street" value="<%=connectionRequest.getStreet()%>"></div>
 											
 										
 									
@@ -413,10 +433,10 @@ label {
 									<div class="row">
 									<div class="col-6"><label>Landmark Details</label><br>
 										
-											<input type="text" class="form-control"  name="landmarkDetails"></div>
+											<input type="text" readonly class="form-control"  name="landmarkDetails" value="<%=connectionRequest.getLandmarkDetails()%>"></div>
 									<div class="col-6"><label>City Postal Code </label><br>
 										
-											<input type="text" class="form-control" name="cityPostalCode"></div>
+											<input type="text" readonly class="form-control" name="cityPostalCode" value="<%=connectionRequest.getPinCode()%>"></div>
 											
 										
 									
@@ -452,9 +472,9 @@ label {
 									<div class="mt-3 row">
 
 										<div class="form-group col-ml-1 ">
-										             <label for="alignRight"> <input type="radio" name="title"  id="permanent">
+										             <label for="alignRight"> <input type="radio"  name="title"  id="connectionType<%=connectionRequest.getConnectionType()%>">
 														Permanent
-													</label> <label for="alignRight"> <input type="radio" name="title" id="temporary"
+													</label> <label for="alignRight"> <input type="radio"  name="title" id="connectionType<%=connectionRequest.getConnectionType()%>"
 														> Temporary
 													</label> 
 											
@@ -464,45 +484,43 @@ label {
 									<div class="row">
 									<div class="col-6 ">
 									                  <label for="title">Tariff Category</label><br>
-									<select type="text"  class="form-control"
+									<select type="text"   class="form-control"
 													id="tarrifCategory">
-													
-													<option value="" id="domestic" >Domestic</option>
-													
+<%
+		for(Map.Entry<String, String> entry:MasterData.getTariffCategories().entrySet()){
+			if(connectionRequest.getTariffCategory().equals(entry.getKey())){
+		
+%>														
+													<option  ><%=entry.getValue()%></option>
+<%}} %>													
 													
 												</select>
 									</div>
 									<div class="col-4"><p>
 												<label for="load">Load (KW)</label><br> <input
-													type="text" name="load" value="">
+													type="text" readonly name="load" value="<%=connectionRequest.getLoadKw()%>">
 											</p></div>
 									
 									
 									</div>
 									<div class="row">
 									<div class="col-6"><label for="title">Type Of Area</label><br>
-									<select type="text" class="form-control"
+									<select type="text"  class="form-control"
 													id="typeOfArea">
 													
-													<option value="" id="jhuggiJhopri" >Jhuggi
-											Jhopri Cluster</option>
-													<option value="" id="govt">Govt.
-											House/DDA Flat/CGHS Flat</option>
-													
-													<option value="" id="others">Others.</option>
+													<option value="typeOfAreaJJCLUSTER">Jhuggi Jhopri Cluster</option>
+													<option value="typeOfAreaOTHR">Others</option>
 													
 												</select></div>
 									<div class="col-6"><label for="title">Type of Premises</label><br>
-									<select type="text" class="form-control"
+									<select type="text"  class="form-control"
 													id="typeOfPremises">
-													
-													<option value="" id="owned" >Owned</option>
-													<option value="" id="rented_lease">Rented/Lease</option>
-													<option value="" id="company_provided" >Company Provided</option>
-													<option value="" id="govt_provided">Govt. Provided</option>
-													
-													<option value="" id="others">Others.</option>
-													
+	<%
+		for(Map.Entry<String, String> entry:MasterData.getPremisesTypes().entrySet()){
+			if(connectionRequest.getPremisesType().equals(entry.getKey())){
+%>													
+													<option><%=entry.getValue()%></option>
+<%}} %>													
 												</select></div>
 									
 									
@@ -515,10 +533,10 @@ label {
 										</h7>
 									</div>
 									<div class="row">
-									<label for="alignRight"> <input type="radio" name="yes"
-												value="yes"> Yes
-											</label> <label for="alignRight"> <input type="radio"
-												name="no " value="no">
+									<label for="alignRight"> <input type="radio"  name="yes"
+												 id="UPIC<%=connectionRequest.getUpicAvailable()%>"> Yes
+											</label> <label for="alignRight"> <input type="radio" 
+												name="no "  id="UPIC<%=connectionRequest.getUpicAvailable()%>">
 												No
 											</label> 
 									
@@ -527,119 +545,7 @@ label {
 									
 								</div>
 							</section>
-							<!-- <div class="mt-5 row">
-								<h5 class="font-weight-bold ml-4">Section 4. General
-									Particulars</h5>
-							</div> -->
-							<!-- <section class="general_particulars">
-								<div class="container">
-									<div class="row mt-2">
-
-										<div class="col-4">
-											4a.<label> Purpose/Usage of new connection</label>
-										</div>
-										<div class="col-8">
-											<input type="text" class="form-control" name="buildingName">
-										</div>
-
-
-
-									</div>
-
-									<div class="row mt-2">
-
-										<div class="col-4">
-											4b.<label> Meter Choice</label>
-										</div>
-										<div class="col-8 ">
-											<label> <input type="radio" name="bsesMeter"
-												value="beseMeter"> BSES Meter
-											</label> <label> <input type="radio" name="applicantMeter"
-												value="applicantMeter"> Applicant's Meter
-
-											</label>
-										</div>
-
-
-
-									</div>
-
-									<div class="row mt-2">
-										<div class="col-4">
-											4c.<label>Desired Load </label>
-										</div>
-										<div class="col-8">
-											<label><input type="radio" name="kw" value="kw">KW
-											</label> <label> <input type="radio" name="kva" value="kva">KVA
-											</label> <label><input type="number" class="load"
-												name="number"></label> <label><h6>Voltage Level</h6>
-												<input type="text" name="voltageLevel" class="load"></label>
-
-											<label>
-												<h6>Phase</h6> <input type="text" name="phase" class="load">
-											</label>
-
-
-										</div>
-
-
-
-									</div>
-
-									<div class="row mt-2">
-										<div class="col-4">
-											4d.<label>PAN Number (if available)</label>
-										</div>
-										<div class="col-8">
-											<input type="text" name="buildingName">
-										</div>
-									</div>
-
-									<div class="row mt-2">
-										<div class="col-4">
-											4e.<label>Aadhar No.</label>
-										</div>
-										<div class="col-8">
-											<input type="text" name="buildingName">
-										</div>
-									</div>
-
-									<div class="row mt-2">
-										<div class="col-4">
-											4f.<label>Voter ID/Passport No.</label>
-										</div>
-										<div class="col-8">
-											<input type="text" name="buildingName">
-										</div>
-									</div>
-
-									<div class="row mt-2">
-										<div class="col-4">
-											4g.<label> GSTIN (if available)</label>
-										</div>
-										<div class="col-8">
-											<input type="text" name="buildingName">
-										</div>
-									</div>
-
-									<div class="row mt-2 mb-2">
-										<div class="col-4">
-											4h.<label> UPIC Number (if available)</label>
-										</div>
-										<div class="col-8">
-											<div class="form-group ">
-
-												<select type="text" id="#">
-													<option value="-1">-Select-</option>
-													<option value="domestic">Domestic</option>
-												</select>
-
-											</div>
-										 </div>
- 
-									</div>
-								</div>
-							</section> -->
+							
 							<div class="mt-5 row">
 								<h5 class="font-weight-bold ml-4">Uploaded Documents</h5>
 							</div>
@@ -657,6 +563,7 @@ label {
 											<th>Download/Show</th>
 
 										</tr>
+									
 										<tr>
 											<td></td>
 											<td></td>
@@ -939,6 +846,10 @@ label {
 	<button onclick="window.print()" style="margin-left: 30%; width: 6%;">Print
 	</button>
 	<script type="text/javascript">
+document.getElementById("connectionType<%=connectionRequest.getConnectionType()%>").checked=true;
+document.getElementById("relation<%=connectionRequest.getSonDaughterWife()%>").checked=true;
+document.getElementById("UPIC<%=connectionRequest.getUpicAvailable()%>").checked=true;
+
 
 </script>
 </body>
