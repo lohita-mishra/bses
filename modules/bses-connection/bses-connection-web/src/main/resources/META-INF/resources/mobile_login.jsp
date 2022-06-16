@@ -121,11 +121,21 @@ function validateForm(formId){
 }
 
 $('#<portlet:namespace />generateOtp').click(function() {
-		generateOtp();
+		f( validateForm('<portlet:namespace/>generateOtpForm')){
+		 	generateOtp();
+		 }else{
+		 	return false;
+		 }
+		
 	});
 	
 $('#<portlet:namespace />validateOtp').click(function() {
-		validateOtp();
+		f( validateForm('<portlet:namespace/>validateOtpForm')){
+		 	validateOtp();
+		 }else{
+		 	return false;
+		 }
+		
 	});
 	
 $('#<portlet:namespace />resendOtp').click(function() {

@@ -18,10 +18,8 @@
 								<div class="col-md-12">
 									<div class="form-group mb-4">
 										<aui:input type="text" class="form-control" name="caNumber" label="CA Number" >
-											<aui:validator name="required" errorMessage="Please enter 12 digit's valid mobile number!"/>
-											<aui:validator name="digits" errorMessage="Please enter 12 digit's valid mobile number!"/>
-											<aui:validator name="minLength" errorMessage="Please enter 12 digit's valid mobile number!">12</aui:validator>
-											<aui:validator name="maxLength" errorMessage="Please enter 12 digit's valid mobile number!">12</aui:validator>
+											<aui:validator name="required" errorMessage="Please enter valid ca number!"/>
+											<aui:validator name="digits" errorMessage="Please enter valid ca number!"/>
 										</aui:input>
 										<aui:input  type="hidden" name="mobileNo" ></aui:input>
 									</div>
@@ -81,7 +79,7 @@
 			</div>
 		</div>
 		<div class="col-md-7">
-			Write your content here.
+			
 		</div>
 	</div>
 </div>
@@ -97,7 +95,6 @@ $(document).ready(function(){
 function validateForm(formId){
 	
     var liferayForm = Liferay.Form.get(formId);
-
     if (liferayForm) {
         var validator = liferayForm.formValidator;
         
@@ -118,11 +115,21 @@ function validateForm(formId){
 }
 
 $('#<portlet:namespace />generateOtp').click(function() {
-		 generateOtpforCaNumber();
+		if( validateForm('<portlet:namespace/>generateOtpForm')){
+		 	generateOtpforCaNumber();
+		 }else{
+		 	return false;
+		 }
+		 
 	});
 	
 $('#<portlet:namespace />validateOtp').click(function() {
-		validateOtp();
+		
+		if( validateForm('<portlet:namespace/>validateOtpForm')){
+		 	validateOtp();
+		 }else{
+		 	return false;
+		 }
 	});
 	
 $('#<portlet:namespace />resendOtp').click(function() {
