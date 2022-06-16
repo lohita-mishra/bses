@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@page import="com.bses.connection2.util.RequestTypeModeStatus"%>
 <%@page import="com.liferay.portal.kernel.util.PropsUtil"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
@@ -51,7 +52,10 @@
 		font-size: 1.5rem !important;
 		font-weight: bold;
 	}
-	
+	.modal {
+  		/*display: none;*/
+  	}
+<%--	
 .modal {
   display: none;
   position: fixed;
@@ -72,7 +76,7 @@
   padding: 20px;
   border: 1px solid #888;
   width: 60%;
-}
+}--%>
 
 .close {
   color: #aaaaaa;
@@ -94,10 +98,14 @@
 <portlet:resourceURL var="documentUploadURL" id="documentUpload">
 	<portlet:param name="cmd" value="upload"/>
 </portlet:resourceURL>
+
 <portlet:resourceURL var="documentDownloadURL" id="documentDownload">
 	<portlet:param name="cmd" value="download"/>
 </portlet:resourceURL>
 
+<portlet:renderURL var="documentViewerURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+	<portlet:param name="mvcPath" value="/document_viewer.jsp" />
+</portlet:renderURL>
 <%-- 
 <portlet:resourceURL id="documentUpload" var="documentUploadURL" />
 <portlet:resourceURL id="/document/download" var="documentDownloadURL" />
@@ -185,8 +193,28 @@
 		</liferay-util:include>
 	</div>
 </div>
-
+<%--
+<div class="modal" id="document-viewer-modal" style="width:1024px !important; height:800px !important; display: none;">
+	<div class="modal-dialog modal-dialog-centered" style="width:100% !important;max-width: 100% !important;
+    margin: none !important;">
+		<div class="modal-content">
+			<div class="modal-header" style="border-bottom: none;">
+				<h6 class="modal-title">Document Viewer</h6>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<iframe id="document-viewer-iframe" src="" width="1000" height="786"></iframe>
+				
+			</div>
+		</div>
+	</div>
+</div>
+ --%>
 <script>
+	//To add aui support
+
 	var portletNamespace="<portlet:namespace/>";
 	var autoSaveFlag = <%=autoSaveFlag%>;
 	var autoSaveFrequency= <%=autoSaveFrequency%>;
@@ -1059,9 +1087,35 @@
 	    });	
 	}
 	
-	function downloadDocument(connectionDocumentId){
-		window.open('<%=documentDownloadURL%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId);
-	}
+
 	//************ Auto Save End****************
 
+
+
+<%--
+	function downloadDocument(connectionDocumentId){
+		var viewerUrl='<%=documentViewerURL.toString()%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId;
+		
+		$('#document-viewer-iframe').attr("src", viewerUrl);
+		$('#document-viewer-modal').modal('show'); 
+		
+		Liferay.Util.openWindow(
+				{
+					dialog: {
+						//cssClass: 'aui-popup-example',
+						destroyOnHide: true,
+						height: 400,
+						width: 400
+					},
+					dialogIframe: {
+						//bodyCssClass: 'custom-css-class'
+					},
+					title: 'My Own Title(400x400 Window Size)',
+					uri: '<%=documentViewerURL.toString()%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId
+				}
+			);
+		
+			window.open('<%=documentDownloadURL%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId);
+		
+	}--%>
 </script>

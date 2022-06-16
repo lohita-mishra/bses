@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
 <%@page import="com.bses.connection2.service.ConnectionDocumentLocalServiceUtil"%>
 <%@page import="com.bses.connection2.model.ConnectionDocument"%>
@@ -36,6 +37,7 @@ String placeHolder=ParamUtil.getString(request, "placeHolder");
 String savedValue=ParamUtil.getString(request, elementName);
 String documentType=ParamUtil.getString(request, "documentType");
 String documentName=ParamUtil.getString(request, "documentName");
+boolean thumbnail=ParamUtil.getBoolean(request, "thumbnail", false);
 
 String displayFileName="";
 String fileName="";
@@ -47,7 +49,8 @@ try{
 	ConnectionDocument connectionDocument=ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestIdAndDocumentType(requestEntity.getConnectionRequestId(), documentType);
 	connectionDocumentId=connectionDocument.getConnectionDocumentId();
 	fileName=connectionDocument.getClientFileName();
-	displayFileName="<span class=\"text-primary\">"+fileName+"</span> uploaded successfully";
+	//displayFileName="<span class=\"text-primary\">"+fileName+"</span> uploaded successfully";
+	displayFileName="<span class=\"text-primary\">"+fileName+"</span>";
 }catch(Exception e){
 	LOGGER.error(e.getMessage());
 }
@@ -69,19 +72,36 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	<input type="file" name="<portlet:namespace/><%=elementName+"_file"%>" id="<portlet:namespace/><%=elementName%>_file" style="width:0px;" <%=acceptTypes%>> 
 
 	<%--<label id="<portlet:namespace /><%=elementName+"_document"%>"> --%>
-		<button type="button" class="btn btn-primary upload-btn" id="<portlet:namespace /><%=elementName+"_uploadBtn"%>" value="Choose File" >Upload File</button>
+		<button type="button" class="btn btn-primary btn-sx" id="<portlet:namespace /><%=elementName+"_uploadBtn"%>" style="font-size:1em;" value="Choose File" >Upload File</button>
+<%
+	if(!thumbnail){
+%>		
 		<span id="<portlet:namespace /><%=elementName+"_displayFileName"%>"><%=displayFileName %></span>
-		<button type="button" class="btn btn-success btn-sx" id="<portlet:namespace /><%=elementName+"_viewBtn"%>" style="float: right; font-size:1em; display:none;"><i class="fa fa-close"></i>View</button>
-		<button type="button" class="btn btn-danger btn-sx" id="<portlet:namespace /><%=elementName+"_deleteBtn"%>" style="float: right; font-size:1em; display:none;"><i class="fa fa-close"></i>Delete</button>
-		
-		
+<%
+	}else{
+%>	
+		<img id="<portlet:namespace/><%=elementName%>_document-iframe" src="" width="0" height="0" class="mb-2 mt-2" style="left:auto; border:1px solid black;"/>	
+<%
+	}
+%>
 		<%--<a id="<portlet:namespace /><%=elementName+"_uploadBtn"%>" style="float: right;"><i class="fa fa-upload"></i></a> <%=StringUtils.isNotBlank(placeHolder)?placeHolder:"Choose a file to upload.."%>--%>
 	<%--</label> --%>
 	
 </div>
-<liferay-ui:upload-progress id="<%=progressBarId%>" message="uploading" height="10"/>
+<liferay-ui:upload-progress id="<%=progressBarId%>" message="uploading" height="0"/>
+<button type="button" class="btn btn-success btn-sx pl-2 pr-2" id="<portlet:namespace /><%=elementName+"_viewBtn"%>" style="font-size:1em; display:none; padding-left:12px !important; padding-right:12px !important;"><i class="fa fa-close"></i>View</button>
+<button type="button" class="btn btn-danger btn-sx ml-2 pl-2 pr-2" id="<portlet:namespace /><%=elementName+"_deleteBtn"%>" style="font-size:1em; display:none;  padding-left:12px !important; padding-right:12px !important;"><i class="fa fa-close"></i>Delete</button>
+
+<portlet:resourceURL var="documentDownloadURL" id="documentDownload">
+	<portlet:param name="cmd" value="download"/>
+</portlet:resourceURL>
+
+<portlet:renderURL var="documentViewerURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+	<portlet:param name="mvcPath" value="/document_viewer.jsp" />
+</portlet:renderURL>
 
 <aui:script use="aui-base, liferay-preview, liferay-util-window">
+	var thumbnail=<%=thumbnail%>;
 <%--	A.one('#<portlet:namespace /><%=elementName%>_uploadBtn').on('click', function(event) {
 	
 		var el = document.getElementById("<portlet:namespace/><%=elementName%>_file");
@@ -99,7 +119,7 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 		var connectionDocumentId=$('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val();
 		console.log('Uploading for '+'<%=connectionRequestId%>, '+connectionDocumentId+' , <%=documentType%>' + $('#<portlet:namespace/><%=elementName%>_documentName').val());
 		uploadFile('<%=connectionRequestId%>', connectionDocumentId, '<%=documentType%>', $('#<portlet:namespace/><%=elementName%>_documentName').val(), 
-				$('#<portlet:namespace/><%=elementName%>_file'), $('#<portlet:namespace/><%=elementName%>_acceptTypes').val(),<%=progressBarId%>, <portlet:namespace /><%=elementName%>_uploadFileOnSuccess);
+				$('#<portlet:namespace/><%=elementName%>_file'), $('#<portlet:namespace/><%=elementName%>_acceptTypes').val(),'', <portlet:namespace /><%=elementName%>_uploadFileOnSuccess);
 	});
 	
 	$('#<portlet:namespace /><%=elementName%>_deleteBtn').on('click', function(event) {
@@ -114,7 +134,11 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 		if(obj==true || obj=="true"){
 			$('#<portlet:namespace/><%=elementName%>').val('');
 			$('#<portlet:namespace/><%=elementName%>_fileName').val('');
-			$('#<portlet:namespace/><%=elementName%>_displayFileName').html('');
+			if(!thumbnail){
+				$('#<portlet:namespace/><%=elementName%>_displayFileName').html('');
+			}else{
+				<portlet:namespace /><%=elementName%>_clearThumbnail();
+			}
 			$('#<portlet:namespace /><%=elementName%>_deleteBtn').hide();
 			$('#<portlet:namespace /><%=elementName%>_viewBtn').hide();
 			$('#<portlet:namespace /><%=elementName%>_uploadBtn').show();
@@ -126,14 +150,19 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 		$('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val(response.connectionDocumentId);
 		$('#<portlet:namespace /><%=elementName%>_uploadBtn').hide();
 		$('#<portlet:namespace/><%=elementName%>_fileName').val(response.clientFileName);
-		$('#<portlet:namespace/><%=elementName%>_displayFileName').html('<span class="text-primary">'+response.clientFileName+'</span> uploaded successfully');
-		$('#<portlet:namespace /><%=elementName%>_viewBtn').show();
 		$('#<portlet:namespace /><%=elementName%>_deleteBtn').show();
+
+		if(!thumbnail){
+			$('#<portlet:namespace/><%=elementName%>_displayFileName').html('<span class="text-primary">'+response.clientFileName+'</span>');
+			$('#<portlet:namespace /><%=elementName%>_viewBtn').show();
+		}else{
+			<portlet:namespace /><%=elementName%>_showThumbnail(response.connectionDocumentId);
+		}
 		console.log(<%=progressBarId%>);
 	}		
 
 	$('#<portlet:namespace /><%=elementName%>_viewBtn').on('click', function(event) {
-		downloadDocument($('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val());
+		<portlet:namespace /><%=elementName%>_downloadDocument($('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val());
 	});
 	$(document).ready(function() {
 		$('#<portlet:namespace /><%=elementName%>_uploadBtn').on('click', function(event) {
@@ -142,7 +171,12 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 <%
 		if(StringUtils.isNotBlank(displayFileName)){
 %>
-			$('#<portlet:namespace/><%=elementName%>_displayFileName').show();
+			if(!thumbnail){
+				$('#<portlet:namespace/><%=elementName%>_displayFileName').show();
+				$('#<portlet:namespace /><%=elementName%>_viewBtn').show();
+			}else{
+				<portlet:namespace /><%=elementName%>_showThumbnail($('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val())
+			}
 			$('#<portlet:namespace /><%=elementName%>_uploadBtn').hide();
 			$('#<portlet:namespace /><%=elementName%>_deleteBtn').show();
 <%
@@ -150,6 +184,47 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 %>
 	});
 
+	function <portlet:namespace /><%=elementName%>_downloadDocument(connectionDocumentId){
+		<%--
+		var viewerUrl='<%=documentDownloadURL.toString()%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId;
+		
+		$('#document-viewer-iframe').attr("src", viewerUrl);
+		$('#document-viewer-modal').modal('show'); 
+		--%>
+		Liferay.Util.openWindow(
+				{
+					dialog: {
+						//cssClass: 'aui-popup-example',
+						destroyOnHide: true,
+						resizable: true,
+						width: 1524,
+						height: 840,
+						
+					},
+					dialogIframe: {
+						//bodyCssClass: 'custom-css-class'
+					},
+					title: 'Document Viewer',
+					uri: '<%=documentViewerURL.toString()%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId
+				}
+			);
+		<%--
+			window.open('<%=documentDownloadURL%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId);
+		--%>
+	}
+	
+	function <portlet:namespace /><%=elementName%>_showThumbnail(connectionDocumentId){
+		var viewerUrl='<%=documentDownloadURL.toString()%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId;
+		$('#<portlet:namespace/><%=elementName%>_document-iframe').attr("src", viewerUrl);
+		$('#<portlet:namespace/><%=elementName%>_document-iframe').attr("height", 150);
+		$('#<portlet:namespace/><%=elementName%>_document-iframe').attr("width", 120);
+	}
+	
+	function <portlet:namespace /><%=elementName%>_clearThumbnail(){
+		$('#<portlet:namespace/><%=elementName%>_document-iframe').attr("src", '');
+		$('#<portlet:namespace/><%=elementName%>_document-iframe').attr("height", 0);
+		$('#<portlet:namespace/><%=elementName%>_document-iframe').attr("width", 0);
+	}
 </aui:script>
 <script>
 <%--

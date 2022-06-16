@@ -55,6 +55,7 @@ boolean ownershipProofRequired=(requestType.equalsIgnoreCase(RequestTypeModeStat
 					<liferay-util:param name="documentType" value="Applicant Photo" />
 					<liferay-util:param name="documentName" value="Applicant Photo" />
 					<liferay-util:param name="fileTypes" value="image/png,image/jpeg" />
+					<liferay-util:param name="thumbnail" value="true" />
 				</liferay-util:include>
 			</div>
 <%
@@ -74,7 +75,8 @@ boolean ownershipProofRequired=(requestType.equalsIgnoreCase(RequestTypeModeStat
 					<liferay-util:param name="elementName" value="applicantSignature" />
 					<liferay-util:param name="documentType" value="Applicant Signature" />
 					<liferay-util:param name="documentName" value="Applicant Signature" />
-					<liferay-util:param name="fileTypes" value="image/png,image/jpeg" />					
+					<liferay-util:param name="fileTypes" value="image/png,image/jpeg" />
+					<liferay-util:param name="thumbnail" value="true" />					
 				</liferay-util:include>
 			</div>
 <%
