@@ -1,3 +1,5 @@
+<%@page import="com.bses.connection2.util.RequestTypeModeStatus"%>
+<%@page import="com.liferay.portal.kernel.util.PropsUtil"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@page import="com.liferay.counter.kernel.service.CounterLocalServiceUtil"%>
 <%@page import="com.bses.connection2.service.ConnectionRequestLocalServiceUtil"%>
@@ -42,25 +44,93 @@
 		font-size: 1.5rem !important;
 		font-weight: bold;
 	}
+	
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1; 
+  padding-top: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
 </style>
-<portlet:resourceURL var="fileUploadURL" id="fileUpload">
+<portlet:resourceURL var="documentUploadURL" id="documentUpload">
 </portlet:resourceURL>
+<%--
+<portlet:resourceURL id="/document/upload" var="documentUploadURL" />
+<portlet:resourceURL id="/document/download" var="documentDownloadURL" />
+--%>
 <%
-	long connectionRequestId=ParamUtil.getLong(request, "connectionRequestId", 0);
-	String mobileNo=ParamUtil.getString(request, "mobileNo", "");
-	String emailId=ParamUtil.getString(request, "emailId", "");
-	
-	ConnectionRequest requestEntity=null;
-	
-	if(connectionRequestId==0){
-		requestEntity=ConnectionRequestLocalServiceUtil.createConnectionRequest(mobileNo, emailId);
-		connectionRequestId=requestEntity.getConnectionRequestId();
-	}else{
-		requestEntity=ConnectionRequestLocalServiceUtil.getConnectionRequest(connectionRequestId);
-	}
-	
-	request.setAttribute(ConnectionRequest.class.getName(), requestEntity);
+
+long connectionRequestId=ParamUtil.getLong(request, "connectionRequestId", 0);
+if(connectionRequestId==0 && session.getAttribute(ConnectionRequest.class.getName()+"#id")!=null){
+	connectionRequestId=(Long)session.getAttribute(ConnectionRequest.class.getName()+"#id");
+}
+String mobileNo=ParamUtil.getString(request, "mobileNo", "");
+String emailId=ParamUtil.getString(request, "emailId", "");
+
+ConnectionRequest requestEntity=ConnectionRequestLocalServiceUtil.getConnectionRequest(connectionRequestId);
+
+request.setAttribute(ConnectionRequest.class.getName(), requestEntity);
+session.setAttribute(ConnectionRequest.class.getName()+"#id", requestEntity.getConnectionRequestId());
+
+String autoSaveFlag = PropsUtil.get("connection.request.auto.save");
+
+if(autoSaveFlag!=null){
+	try{
+		autoSaveFlag=String.valueOf(Boolean.parseBoolean(autoSaveFlag));
+	}catch(Exception e){}
+}else{
+	autoSaveFlag="true";
+}
+autoSaveFlag="false";
+
 %>
+
+<portlet:renderURL var="emailVerificationURL">
+	<portlet:param name="mvcPath" value="/email_verification.jsp" />
+	<portlet:param name="connectionRequestId" value="<%=String.valueOf(connectionRequestId) %>" />
+</portlet:renderURL>
+
+<portlet:renderURL var="connectionRequestSuccessURL">
+	<portlet:param name="mvcPath" value="/connection_request_success.jsp" />
+	<portlet:param name="connectionRequestId" value="<%=String.valueOf(connectionRequestId) %>" />
+</portlet:renderURL>
+
+<portlet:renderURL var="acknowledgementURL" >
+	<portlet:param name="mvcPath" value="/acknowledgement.jsp" />
+	<portlet:param name="connectionRequestId" value="<%=String.valueOf(requestEntity.getConnectionRequestId()) %>" />
+</portlet:renderURL>
+
 <div class="card card-primary bg-light mb-2">
 	<div class="card-header">
 		<liferay-util:include page="/request_header.jsp" servletContext="<%=application%>">
@@ -69,186 +139,269 @@
 	<div class="card-body">
 		<liferay-util:include page="/address.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
+
 		<liferay-util:include page="/documents.jsp" servletContext="<%=application%>">
+			<liferay-util:param name="requestType" value="<%=RequestTypeModeStatus.TYPE_ADDRESS_CHANGE%>" />
 		</liferay-util:include>
+
 		<liferay-util:include page="/declaration.jsp" servletContext="<%=application%>">
-		</liferay-util:include>
+		</liferay-util:include>	 					
 	</div>
 	<div class="card-footer">
 		<liferay-util:include page="/actions.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
 	</div>
 </div>
+
 <script>
 	var portletNamespace="<portlet:namespace/>";
-	var autoSaveFlag =true;
+	var autoSaveFlag = <%=autoSaveFlag%>;
 	$(document).ready(function() {
 		//$('[data-toggle="tooltip"]').tooltip();
 		documentOnload();
 		initSelect2();
+		showHideComponents();
 	});
+	
+	function showHideComponents(){
+		showHideConsumerTypeDiv();
+		showDistrict();
+		showHideUpicNoDiv();
+		showHideElcbUpload();
+		showHideBuilding15_17();
+		showHideFccUpload();
+		showHideLiftUpload();
+		showHideWiringUpload();
+		showHideEmailServiceDiv();
+	}
 	
 	function showHideConsumerTypeDiv() {
 		
 		$('#firmDiv').hide();
-		$('#'+portletNamespace+'consumerType')
-				.change(
-						function() {
-							//alert("showHideConsumerTypeDiv <portlet:namespace/>");
-							if (this.options[this.selectedIndex].value == 'Firm') {
-								$('#indvDiv').hide();
-								$('#firmDiv').show();
-							} else if (this.options[this.selectedIndex].value == 'Individual') {
-								$('#indvDiv').show();
-								$('#firmDiv').hide();
-							} else {
-								$('#indvDiv').show();
-								$('#firmDiv').hide();
-							}
-						});
+		var consumerType=$('#'+portletNamespace+'consumerType').val();
+		if (consumerType == 'Firm') {
+			$('#indvDiv').hide();
+			$('#firmDiv').show();
+			$('#registered-address-row').show();
+		} else if (consumerType == 'Individual') {
+			$('#indvDiv').show();
+			$('#firmDiv').hide();
+			$('#registered-address-row').hide();
+		}
 	}
-
+	
+	function handleConsumerTypeChange() {
+		$('#'+portletNamespace+'consumerType').change(function() {
+			showHideConsumerTypeDiv();
+		});
+	}
+	
+	function handleLocalityChange() {
+		
+		$('#'+portletNamespace+'locality').change(function() {
+			showDistrict();
+		});
+	}
+	
+	function showDistrict(){
+		$('#'+portletNamespace+'districtName').val('');
+		
+		var localityDivisionId=$('#'+portletNamespace+'locality').val();
+		
+		if(localityDivisionId!=''){
+			showDistrict(localityDivisionId);
+		}
+		
+		Liferay.Service(
+			'/bsesconn.localitydivision/get-locality-division',
+			{
+			 localityDivisionId: localityDivisionId
+			},
+			function(obj) {
+			  console.log(obj);
+			  $('#'+portletNamespace+'district').val(obj.divisionCode);
+			  $('#'+portletNamespace+'districtName').val(obj.divisionName);
+			}
+		)
+	}
+	
 	function upicAvailableOnChange() {
 		$("input[name=<portlet:namespace/>upic]").change(function() {
-			var upic = "";
-
-			var upic = $(this).val();
-			if (upic == "1") {
-				showUpicNoDiv(true);
-			} else {
-				showUpicNoDiv(false);
-			}
+			showHideUpicNoDiv();
 		});
 	}
+	
+	function showHideUpicNoDiv() {
+		var upic = $("input[name=<portlet:namespace/>upic]:checked").val();
+		
+		if (upic == "1") {
+			showUpicNoDiv(true);
+		} else {
+			showUpicNoDiv(false);
+		}
+	}
+		
 	function elcbOnChange() {
 		$("input[name=<portlet:namespace/>elcbInstalled]").change(function() {
-			var elcb = "";
-
-			var elcb = $(this).val();
-			if (elcb == "1") {
-				showElcbUpload(true);
-				$("#elcbblink").show();
-			} else {
-				showElcbUpload(false);
-				$("#elcbblink").hide();
-				var kw = $("#<portlet:namespace/>loadKw").val();
-				if (kw != "" && kw != "0" && kw >= 2) {
-					showElcbUploadErrorDiv(true);
-				}
-			}
+			showHideElcbUpload();
 		});
 	}
 
+	function showHideElcbUpload() {
+
+		var elcb = $("input[name=<portlet:namespace/>elcbInstalled]:checked").val();
+		if (elcb == "1") {
+			showElcbUpload(true);
+			$("#elcbblink").show();
+		} else {
+			showElcbUpload(false);
+			$("#elcbblink").hide();
+			var kw = $("#<portlet:namespace/>loadKw").val();
+			if (kw != "" && kw != "0" && kw >= 2) {
+				showElcbUploadErrorDiv(true);
+			}else{
+				showElcbUploadErrorDiv(false);
+			}
+		}
+	}
 	function stiltParkingOnChange() {
 		$("input[name=<portlet:namespace/>stiltParking]").change(function() {
-			var stiltParking = "";
-
-			var stiltParking = $(this).val();
-			if (stiltParking == "1") {
-				showBuilding15(false);
-				showBuilding17(true);
-				showFcc(false);
-			} else {
-				showBuilding15(true);
-				showBuilding17(false);
-				showFcc(false);
-			}
+			showHideBuilding15_17();
 		});
 	}
 
+	function showHideBuilding15_17(){
+		var stiltParking = $("input[name=<portlet:namespace/>stiltParking]:checked").val();
+		if (stiltParking == "1") {
+			showBuilding15(false);
+			showBuilding17(true);
+			showFcc(false);
+		} else {
+			showBuilding15(true);
+			showBuilding17(false);
+			showFcc(false);
+		}
+	}
 	function building15OnChange() {
 		$("input[name=<portlet:namespace/>height15Mtr]").change(function() {
-			var height15 = "";
+			showHideFcc15();
+		});
+	}
 
-			var height15 = $(this).val();
+	function showHideFcc15(){
+		var stiltParking = $("input[name=<portlet:namespace/>stiltParking]:checked").val();
+		if(stiltParking=='0'){
+			var height15 = $("input[name=<portlet:namespace/>height15Mtr]:checked").val();
 			if (height15 == "0") {
 				showFcc(true);
 			} else {
 				showFcc(false);
 			}
-		});
+		}
 	}
-
+	
 	function building17OnChange() {
 		$("input[name=<portlet:namespace/>height17Mtr]").change(function() {
-			var height17 = "";
-			var height17 = $(this).val();
+			showHideFcc17();
+		});
+	}
+	
+	function showHideFcc17(){
+		var stiltParking = $("input[name=<portlet:namespace/>stiltParking]:checked").val();
+		if(stiltParking=='1'){
+			var height17 = $("input[name=<portlet:namespace/>height17Mtr]:checked").val();
 			if (height17 == "0") {
 				showFcc(true);
 			} else {
 				showFcc(false);
 			}
-		});
+		}
 	}
-
+	
 	function fccOnChange() {
 		$("input[name=<portlet:namespace/>fcc]").change(function() {
-			var fcc = "";
-			var fcc = $(this).val();
-			if (fcc == "1") {
-				showFccUpload(true);
-				$("#fccblink").show();
-			} else {
-				showFccUpload(false);
-				$("#fccblink").hide();
-			}
+			showHideFccUpload();
 		});
 	}
 
+	function showHideFccUpload(){
+
+		var fcc = $("input[name=<portlet:namespace/>fcc]:checked").val();
+		if (fcc == "1") {
+			showFccUpload(true);
+			$("#fccblink").show();
+		} else {
+			showFccUpload(false);
+			$("#fccblink").hide();
+		}
+	}
+	
 	function liftOnChange() {
 		$("input[name=<portlet:namespace/>lift]").change(function() {
-			var lift = "";
-			var lift = $(this).val();
-			if (lift == "1") {
-				showLiftUpload(true);
-				$("#liftblink").show();
-			} else {
-				showLiftUpload(false);
-				$("#liftblink").hide();
-			}
+			showHideLiftUpload();
 		});
 	}
 
+	function showHideLiftUpload(){
+		var lift = $("input[name=<portlet:namespace/>lift]:checked").val();
+		if (lift == "1") {
+			showLiftUpload(true);
+			$("#liftblink").show();
+		} else {
+			showLiftUpload(false);
+			$("#liftblink").hide();
+		}
+	}
+	
 	function wiringOnChange() {
 		$("input[name=<portlet:namespace/>wiringTest]").change(function() {
-			var wiring = "";
-			var wiring = $(this).val();
-			if (wiring == "1") {
-				showWiringUpload(true);
-				$("#wiringblink").show();
-			} else {
-				showWiringUpload(false);
-				$("#wiringblink").hide();
-			}
+			showHideWiringUpload();
 		});
 	}
 
+	function showHideWiringUpload(){
+		var wiring = $("input[name=<portlet:namespace/>wiringTest]:checked").val();
+		if (wiring == "1") {
+			showWiringUpload(true);
+			$("#wiringblink").show();
+		} else {
+			showWiringUpload(false);
+			$("#wiringblink").hide();
+		}
+	}
+	
 	function bdoCertOnChange() {
-		$("input[name=<portlet:namespace/>bdocert]").change(function() {
-			var bdocert = "";
-			var bdocert = $(this).val();
-			if (bdocert == "1") {
-				showBDOCertUpload(true);
-				$("#bdocertblink").show();
-			} else {
-				showBDOCertUpload(false);
-				$("#bdocertblink").hide();
-			}
+		$("input[name=<portlet:namespace/>hasBdoCertificate]").change(function() {
+			showHideBDOCertUpload();
 		});
 	}
 
+	function showHideBDOCertUpload(){
+		var bdocert = $("input[name=<portlet:namespace/>hasBdoCertificate]:checked").val();
+		if (bdocert == "1") {
+			showBDOCertUpload(true);
+			$("#bdocertblink").show();
+		} else {
+			showBDOCertUpload(false);
+			$("#bdocertblink").hide();
+		}
+	}
+		
 	function emailServiceOnChange() {
 		$("input[name=<portlet:namespace/>eServiceOnMail]").change(function() {
-			var emailservice = "";
-			var emailservice = $(this).val();
-			if (emailservice == "1") {
-				showEmailServiceDiv(true);
-			} else {
-				showEmailServiceDiv(false);
-			}
+			showHideEmailServiceDiv();
 		});
 	}
 
+	function showHideEmailServiceDiv(){
+		var emailservice = $("input[name=<portlet:namespace/>eServiceOnMail]:checked").val();
+		if (emailservice == "1") {
+			showEmailServiceDiv(true);
+		} else {
+			showEmailServiceDiv(false);
+		}
+	}
+	
 	function permTempOnChange() {
 		$("input[name=<portlet:namespace/>permTemp]").change(function() {
 			var permTemp = "";
@@ -266,49 +419,81 @@
 	function tariffCategoryOnChange() {
 		
 		$("#<portlet:namespace/>tariffCategory").change(function() {
-			var tariffCategory = "";
-			var tariffCategory = $(this).val();
-			if (tariffCategory == "0100") {
-				showLoadKvaDiv(false);
-				$("#<portlet:namespace/>loadKw").prop("disabled", false);
-				$("#<portlet:namespace/>loadKw").val("");
-				$("#<portlet:namespace/>loadKva").val("");
-			} else {
-				showLoadKvaDiv(true);
-				$("#<portlet:namespace/>loadKva").prop("disabled", false);
-				$("#<portlet:namespace/>loadKw").prop("disabled", true);
-				$("#<portlet:namespace/>loadKw").val("");
-				$("#<portlet:namespace/>loadKva").val("");
-			}
-			if (tariffCategory == "0250") {
-				showBDOCert(true);
-			} else {
-				showBDOCert(false);
-			}
+			handleTariffCategoryChange();
 		});
 	}
-
+	
+	function handleTariffCategoryChange(){
+		var tariffCategory = $("#<portlet:namespace/>tariffCategory").val();
+		if (tariffCategory == "0100") {
+			showLoadKvaDiv(false);
+			$("#<portlet:namespace/>loadKw").prop("readonly", false);
+			$("#<portlet:namespace/>loadKw").val("");
+			$("#<portlet:namespace/>loadKva").val("");
+		} else {
+			showLoadKvaDiv(true);
+			$("#<portlet:namespace/>loadKva").prop("readonly", false);
+			$("#<portlet:namespace/>loadKw").prop("readonly", true);
+			$("#<portlet:namespace/>loadKw").val("");
+			$("#<portlet:namespace/>loadKva").val("");
+		}
+		if (tariffCategory == "0250") {
+			showBDOCert(true);
+		} else {
+			showBDOCert(false);
+		}
+	}
+	
 	function kvaOnChange() {
 		$("#<portlet:namespace/>loadKva").change(function() {
-			var kva = $("#<portlet:namespace/>loadKva").val();
-			if (kva != "" && kva != "0") {
-				$("#<portlet:namespace/>loadKw").val(kva * 0.98);
-			}
+			handleKvaChange();
 		});
+	}
+	
+	function handleKvaChange() {
+		var kva = $("#<portlet:namespace/>loadKva").val();
+		if (kva != "" && kva != "0") {
+			$("#<portlet:namespace/>loadKw").val(kva * 0.98);
+		}
 	}
 
 	function kwOnChange() {
 		$("#<portlet:namespace/>loadKw").change(function() {
-			var kw = $("#<portlet:namespace/>loadKw").val();
-			if (kw != "" && kw != "0" && kw >= 45) {
-				$("#prePostPaid").val('1');
-				$("#prePostPaid").prop("disabled", true);
-			} else {
-				$("#prePostPaid").prop("disabled", false);
-			}
+			handleKwChange();
 		});
 	}
 
+	function handleKwChange() {
+		var kw = $("#<portlet:namespace/>loadKw").val();
+		if (kw != "" && kw != "0" && kw >= 45) {
+			$("#prePostPaid").val('1');
+			$("#prePostPaid").prop("readonly", true);
+		} else {
+			$("#prePostPaid").prop("readonly", false);
+		}
+	}
+		
+	function ownershipProofTypeOnChange() {
+		$("#<portlet:namespace/>ownershipProofType").change(function() {
+			handleOwnershipProofTypeChange();
+		})
+	}
+	
+	function handleOwnershipProofTypeChange() {
+		var docName=$("#<portlet:namespace/>ownershipProofType option:selected" ).text();
+		$("#<portlet:namespace/>ownershipProof_documentName").val(docName);
+	}
+		
+	function idProofTypeOnChange() {
+		$("#<portlet:namespace/>idProofType").change(function() {
+			handleIdProofTypeChange();
+		})
+	}
+	
+	function handleIdProofTypeChange() {
+		var docName=$("#<portlet:namespace/>idProofType option:selected" ).text();
+		$("#<portlet:namespace/>idProof_documentName").val(docName);
+	}
 	function showUpicNoDiv(showHide) {
 		if (showHide) {
 			$("#upicnodiv").show();
@@ -330,7 +515,6 @@
 			$("#loadkvadiv").hide();
 		}
 	}
-
 
 	function showBuilding15(showHide) {
 		if (showHide) {
@@ -440,8 +624,8 @@
 
 	function documentOnload(){
 		//initSelect2();
-
-		showHideConsumerTypeDiv();
+		handleConsumerTypeChange();
+		handleLocalityChange();
 		upicAvailableOnChange();
 		elcbOnChange();
 		stiltParkingOnChange();
@@ -452,7 +636,7 @@
 		fccOnChange();
 		liftOnChange();
 		wiringOnChange();
-
+ 
 		tariffCategoryOnChange();
 		bdoCertOnChange();
 		emailServiceOnChange();
@@ -460,7 +644,7 @@
 		kvaOnChange();
 		kwOnChange();
 		permTempOnChange();
-		showUpicNoDiv(false);
+		/*showUpicNoDiv(false);
 		showLoadKvaDiv(false);
 		showBuilding17(false);
 		showFcc(false);
@@ -468,13 +652,15 @@
 		showWiringUpload(true);
 		showBDOCert(false);
 		showBDOCertUpload(false);
-		showEmailServiceDiv(true);
+		showEmailServiceDiv(true);*/
 		//blinkText();
 		
 		$("#liftblink").hide();
 		$("#bdocertblink").hide();
 		
 		handleSubmitBtnClick();
+		ownershipProofTypeOnChange();
+		idProofTypeOnChange();
 		autoSave();
 	}
 	
@@ -521,7 +707,7 @@
 		form.append("file", file, file.name);
 		//form.append("repositoryId", repositoryId);
 		//form.append("folderId", folderId);
-		form.append("folder", folder);
+		//form.append("folder", folder);
 		
 		form.append("name", file.name);
 		form.append("mimeType", file.type);
@@ -533,13 +719,12 @@
 		form.append("description", documentName);
 		form.append("changeLog", "Uploaded "+documentName+" on "+(new Date()));
 		
-		
 		//form.append("p_auth", Liferay.authToken);
 		
 		console.log(form);
 		
 		var settings = {
-			"url": "<%=fileUploadURL.toString()%>",
+			"url": "<%=documentUploadURL.toString()%>",
 			"method": "POST",
 			"timeout": 0,
 			"headers": {},
@@ -581,7 +766,7 @@
 		console.log(obj);
 	}
 	
-	function funcOnSaveFailure(){
+	function funcOnSaveFailure(obj){
 		console.log(obj);
 	}
 	
@@ -610,6 +795,7 @@
 	function handleSubmitBtnClick(){
 		$("#<portlet:namespace/>submitBtn").click(function() {
 			console.log("submitBtn clicked");
+			
 			submitForms();
 		});
 	}
@@ -618,20 +804,25 @@
 		console.log("Calling saveForms");
 		var forms = [];
 		var  validForms = true;
-		$(".custom-form").each(function( index, item ) {
+		$(".form-auto-save").each(function( index, item ) {
 			  if(!validateForm($(item).attr('id'))){
 				  validForms = false;
 			   }
 			
 			forms.push(item);
 		});
+		
 		if(validForms){
 			autoSaveFlag = false;
 			submitFormDetails(forms,0);
+			saveChecklistForm();
+			saveDocumentForm();
 		}else{
 			alert("Please enter valid details...");
 		}
 		
+		
+	   
 	}
 	
 	function submitFormDetails(forms, currentIndex){
@@ -662,9 +853,69 @@
 		}
 	}
 	
+	function saveChecklistForm(){
+		var formDataJson={};
+		formDataJson['<portlet:namespace/>wiringTest']=$("input[name=<portlet:namespace/>wiringTest]").val();
+		formDataJson['<portlet:namespace/>elcbInstalled']=$("input[name=<portlet:namespace/>elcbInstalled]").val();
+		formDataJson['<portlet:namespace/>stiltParking']=$("input[name=<portlet:namespace/>stiltParking]").val();
+		formDataJson['<portlet:namespace/>height15Mtr']=$("input[name=<portlet:namespace/>height15Mtr]").val();
+		formDataJson['<portlet:namespace/>height17Mtr']=$("input[name=<portlet:namespace/>height17Mtr]").val();
+		formDataJson['<portlet:namespace/>fcc']=$("input[name=<portlet:namespace/>fcc]").val();
+		formDataJson['<portlet:namespace/>lift']=$("input[name=<portlet:namespace/>lift]").val();
+		formDataJson['<portlet:namespace/>hasBdoCertificate']=$("input[name=<portlet:namespace/>hasBdoCertificate]").val();
+		formDataJson['<portlet:namespace/>hasDpccCertificate']=$("input[name=<portlet:namespace/>hasDpccCertificate]").val();
+		formDataJson['<portlet:namespace/>hasPollutionCertificate']=$("input[name=<portlet:namespace/>hasPollutionCertificate]").val();
+		formDataJson['<portlet:namespace/>eServiceOnMail']=$("input[name=<portlet:namespace/>eServiceOnMail]").val();
+		formDataJson['<portlet:namespace/>eServiceMailId']=$("input[name=<portlet:namespace/>eServiceMailId]").val();
+		formDataJson['namespace']='<portlet:namespace/>';
+		
+		AUI().use('aui-base', function(A){
+	        Liferay.Service(
+	            '/bsesconn.connectionrequest/update-connection-request', //call your service here
+	            {
+	            	connectionRequestId:<%=connectionRequestId%>,
+	                params: formDataJson,
+	                sectionPrefix:'checklist'
+	            },
+	            function(obj) {
+	                console.log(obj);
+	            }
+	        );
+	    });	
+	}
+	
+	function saveDocumentForm(){
+		var formDataJson={};
+		formDataJson['<portlet:namespace/>idProofType']=$("#<portlet:namespace/>idProofType").val();
+		formDataJson['<portlet:namespace/>idProofNo']=$("#<portlet:namespace/>idProofNo").val();
+		formDataJson['<portlet:namespace/>ownershipProofType']=$("#<portlet:namespace/>ownershipProofType").val();
+		formDataJson['namespace']='<portlet:namespace/>';
+		
+		AUI().use('aui-base', function(A){
+	        Liferay.Service(
+	            '/bsesconn.connectionrequest/update-connection-request', //call your service here
+	            {
+	            	connectionRequestId:<%=connectionRequestId%>,
+	                params: formDataJson,
+	                sectionPrefix:'document'
+	            },
+	            function(obj) {
+	                console.log(obj);
+	            }
+	        );
+	    });	
+	}
 	function handleSubmitSuccess(){
-		alert("New connection request submitted");
+		
 		//submitSoap();
+		if($("input[name=<portlet:namespace/>eServiceOnMail]") && $("input[name=<portlet:namespace/>eServiceMailId]").val() !=""){
+			window.location = "<%=emailVerificationURL.toString()%>";
+		}else{
+			<%-- //window.location = "<%=connectionRequestSuccessURL.toString()%>"; --%>
+			window.location.href="<%=acknowledgementURL.toString() %>";
+		}
+		
+
 	}
 
 	function submitSoap(){
@@ -693,16 +944,29 @@
 				console.log("Auto save is called...");
 				initAutoSaveForms(false);
 			}
-		}, 10000);
+		}, 15000);
 	}
 	
 	function initAutoSaveForms(validate){
 		console.log("Calling saveForms");
-		$(".custom-form").each(function( index, item ) {
-			console.log("Before submitting : "+index);
-			console.log("Submitting "+$(item).attr('id'));
-			autoSaveForm($(item).attr('id'), $(item).attr('section-attr'), validate);
-		});
+		
+		var timeout=0;
+		$(".form-auto-save").each(function( index, item ) {
+			//console.log("Before submitting : "+index);
+			console.log("Submitting "+$(item).attr('id') +" after "+timeout+" milli-seconds.");
+			setTimeout(function (){
+				autoSaveForm($(item).attr('id'), $(item).attr('section-attr'), validate);
+			}, timeout); 
+			timeout+=2000;
+		}, timeout);
+		
+		setTimeout(function (){
+			saveChecklistForm();
+		},1000);
+		
+		setTimeout(function (){
+			saveDocumentForm();
+		},1000);
 	}
 	
 	function autoSaveForm(formId, sectionPrefix, validate){
@@ -735,6 +999,21 @@
 	    });	
 	}
 
+	function deleteConnectionDocument(connectionDocumentId){
+		AUI().use('aui-base', function(A){
+	        Liferay.Service(
+	            '/bsesconn.connectiondocument/remove-connection-document', //call your service here
+	            {
+	            	connectionDocumentId:connectionDocumentId
+	            },
+	            function(obj) {
+	                try{
+	                    onSuccess(obj);
+	                }catch(e){}
+	            }
+	        );
+	    });	
+	}
 	//************ Auto Save End****************
 
 </script>
