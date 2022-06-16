@@ -1,6 +1,6 @@
 <%@ include file="/init.jsp"%>
 
-<portlet:actionURL name="mobileLogin" var="mobileLoginURL" />
+<portlet:actionURL name="newConnectionLogin" var="newConnectionLoginURL" />
 
 <style>
 .modal {
@@ -13,7 +13,7 @@
 		<div class="col-md-5">
 			<div class="card m-3 p-5">
 				<div class="card-body bg-dagner">
-					<aui:form role="form" action="<%=mobileLoginURL.toString()%>" class="" name="generateOtpForm">
+					<aui:form role="form" action="<%=newConnectionLoginURL.toString()%>" class="" name="generateOtpForm">
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-md-12">

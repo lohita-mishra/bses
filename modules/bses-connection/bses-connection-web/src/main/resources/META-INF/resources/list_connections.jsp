@@ -116,7 +116,7 @@
 						</span></td>
 						<td>BRPL</td>
 						<td>Nehru Place</td>
-						<td></td>
+						<td><%=RequestTypeModeStatus.getRequestType(StringUtils.trim(r.getRequestType()))%></td>
 						<td><%=StringUtils.trim(name)%></td>
 						<td><%=StringUtils.trim(r.getEmailId()) %></td>
 						<td><%=StringUtils.trim(r.getMobileNo()) %></td>
