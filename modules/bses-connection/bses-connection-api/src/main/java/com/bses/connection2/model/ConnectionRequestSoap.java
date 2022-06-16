@@ -70,6 +70,7 @@ public class ConnectionRequestSoap implements Serializable {
 		soapModel.setLandmark(model.getLandmark());
 		soapModel.setLandmarkDetails(model.getLandmarkDetails());
 		soapModel.setPinCode(model.getPinCode());
+		soapModel.setRegisteredAddress(model.getRegisteredAddress());
 		soapModel.setConnectionType(model.getConnectionType());
 		soapModel.setTariffCategory(model.getTariffCategory());
 		soapModel.setLoadKva(model.getLoadKva());
@@ -483,6 +484,14 @@ public class ConnectionRequestSoap implements Serializable {
 
 	public void setPinCode(String pinCode) {
 		_pinCode = pinCode;
+	}
+
+	public String getRegisteredAddress() {
+		return _registeredAddress;
+	}
+
+	public void setRegisteredAddress(String registeredAddress) {
+		_registeredAddress = registeredAddress;
 	}
 
 	public String getConnectionType() {
@@ -920,6 +929,7 @@ public class ConnectionRequestSoap implements Serializable {
 	private String _landmark;
 	private String _landmarkDetails;
 	private String _pinCode;
+	private String _registeredAddress;
 	private String _connectionType;
 	private String _tariffCategory;
 	private float _loadKva;

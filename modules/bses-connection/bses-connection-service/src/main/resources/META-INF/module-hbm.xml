@@ -66,6 +66,7 @@
 		<property name="landmark" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="landmarkDetails" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="pinCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="registeredAddress" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="connectionType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="tariffCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="loadKva" type="com.liferay.portal.dao.orm.hibernate.FloatType" />

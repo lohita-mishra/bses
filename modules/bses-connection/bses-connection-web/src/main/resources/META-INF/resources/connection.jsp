@@ -95,13 +95,12 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 				
 				<div class="">
 					<div class="form-check form-check-inline">
-						
 						<aui:input class="form-check-input" type="radio" name="upic" id="upicYes" value="1" label="Yes" checked="<%=requestEntity.getUpicAvailable()%>"/> <%--<label class="form-check-label text-primary"
 							for="exampleRadios1" style="font-size: 16px;"> <liferay-ui:message key="connection-type-permanent" /></label>--%>
 						
 					</div>
 					<div class="form-check form-check-inline">
-						<aui:input class="form-check-input" type="radio" name="upic" id="upicNo" value="2" label="No" checked="<%=!requestEntity.getUpicAvailable()%>"/> <%--<label class="form-check-label text-primary" for="exampleRadios2"
+						<aui:input class="form-check-input" type="radio" name="upic" id="upicNo" value="0" label="No" checked="<%=!requestEntity.getUpicAvailable()%>"/> <%--<label class="form-check-label text-primary" for="exampleRadios2"
 							style="font-size: 16px;"><liferay-ui:message key="connection-type-permanent" /></label>--%>
 					</div>
 				</div>

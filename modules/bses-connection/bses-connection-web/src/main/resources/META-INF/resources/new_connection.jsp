@@ -156,7 +156,7 @@
 		<liferay-util:include page="/documents.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
 		<liferay-util:include page="/declaration.jsp" servletContext="<%=application%>">
-		</liferay-util:include>			
+		</liferay-util:include>	 					
 	</div>
 	<div class="card-footer">
 		<liferay-util:include page="/actions.jsp" servletContext="<%=application%>">
@@ -171,199 +171,248 @@
 		//$('[data-toggle="tooltip"]').tooltip();
 		documentOnload();
 		initSelect2();
+		showHideComponents();
 	});
+	
+	function showHideComponents(){
+		showHideConsumerTypeDiv();
+		showDistrict();
+		showHideUpicNoDiv();
+		showHideElcbUpload();
+		showHideBuilding15_17();
+		showHideFccUpload();
+		showHideLiftUpload();
+		showHideWiringUpload();
+		showHideEmailServiceDiv();
+	}
 	
 	function showHideConsumerTypeDiv() {
 		
 		$('#firmDiv').hide();
+		var consumerType=$('#'+portletNamespace+'consumerType').val();
+		if (consumerType == 'Firm') {
+			$('#indvDiv').hide();
+			$('#firmDiv').show();
+			$('#registered-address-row').show();
+		} else if (consumerType == 'Individual') {
+			$('#indvDiv').show();
+			$('#firmDiv').hide();
+			$('#registered-address-row').hide();
+		}
+	}
+	
+	function handleConsumerTypeChange() {
 		$('#'+portletNamespace+'consumerType').change(function() {
-			//alert("showHideConsumerTypeDiv <portlet:namespace/>");
-			if (this.options[this.selectedIndex].value == 'Firm') {
-				$('#indvDiv').hide();
-				$('#firmDiv').show();
-			} else if (this.options[this.selectedIndex].value == 'Individual') {
-				$('#indvDiv').show();
-				$('#firmDiv').hide();
-			} else {
-				$('#indvDiv').show();
-				$('#firmDiv').hide();
-			}
+			showHideConsumerTypeDiv();
 		});
 	}
 	
 	function handleLocalityChange() {
+		
 		$('#'+portletNamespace+'locality').change(function() {
-			$('#'+portletNamespace+'districtName').val('');
-			if($(this).val()!=''){
-				showDistrict($(this).val());
-			}
+			showDistrict();
 		});
 	}
 	
-	function showDistrict(localityDivisionId){
-		var form = new FormData();
-		form.append("localityDivisionId", localityDivisionId);
+	function showDistrict(){
+		$('#'+portletNamespace+'districtName').val('');
 		
+		var localityDivisionId=$('#'+portletNamespace+'locality').val();
 		
-		var settings = {
-			"url": "/api/jsonws/bsesconn.localitydivision/get-locality-division",
-			"method": "POST",
-			"timeout": 0,
-			"headers": {},
-			"processData": false,
-			"mimeType": "application/x-www-form-urlencoded",
-			"contentType": false,
-			"data": form
-		};
+		if(localityDivisionId!=''){
+			showDistrict(localityDivisionId);
+		}
 		
-		$.ajax(settings).done(function (response) {
-			console.log("showDistrict");
-			console.log(response);
-			callback(JSON.parse(response));
-		});
+		Liferay.Service(
+			'/bsesconn.localitydivision/get-locality-division',
+			{
+			 localityDivisionId: localityDivisionId
+			},
+			function(obj) {
+			  console.log(obj);
+			  $('#'+portletNamespace+'district').val(obj.divisionCode);
+			  $('#'+portletNamespace+'districtName').val(obj.divisionName);
+			}
+		)
 	}
 	
 	function upicAvailableOnChange() {
 		$("input[name=<portlet:namespace/>upic]").change(function() {
-			var upic = "";
-
-			var upic = $(this).val();
-			if (upic == "1") {
-				showUpicNoDiv(true);
-			} else {
-				showUpicNoDiv(false);
-			}
+			showHideUpicNoDiv();
 		});
 	}
+	
+	function showHideUpicNoDiv() {
+		var upic = $("input[name=<portlet:namespace/>upic]:checked").val();
+		
+		if (upic == "1") {
+			showUpicNoDiv(true);
+		} else {
+			showUpicNoDiv(false);
+		}
+	}
+		
 	function elcbOnChange() {
 		$("input[name=<portlet:namespace/>elcbInstalled]").change(function() {
-			var elcb = "";
-
-			var elcb = $(this).val();
-			if (elcb == "1") {
-				showElcbUpload(true);
-				$("#elcbblink").show();
-			} else {
-				showElcbUpload(false);
-				$("#elcbblink").hide();
-				var kw = $("#<portlet:namespace/>loadKw").val();
-				if (kw != "" && kw != "0" && kw >= 2) {
-					showElcbUploadErrorDiv(true);
-				}
-			}
+			showHideElcbUpload();
 		});
 	}
 
+	function showHideElcbUpload() {
+
+		var elcb = $("input[name=<portlet:namespace/>elcbInstalled]:checked").val();
+		if (elcb == "1") {
+			showElcbUpload(true);
+			$("#elcbblink").show();
+		} else {
+			showElcbUpload(false);
+			$("#elcbblink").hide();
+			var kw = $("#<portlet:namespace/>loadKw").val();
+			if (kw != "" && kw != "0" && kw >= 2) {
+				showElcbUploadErrorDiv(true);
+			}else{
+				showElcbUploadErrorDiv(false);
+			}
+		}
+	}
 	function stiltParkingOnChange() {
 		$("input[name=<portlet:namespace/>stiltParking]").change(function() {
-			var stiltParking = "";
-
-			var stiltParking = $(this).val();
-			if (stiltParking == "1") {
-				showBuilding15(false);
-				showBuilding17(true);
-				showFcc(false);
-			} else {
-				showBuilding15(true);
-				showBuilding17(false);
-				showFcc(false);
-			}
+			showHideBuilding15_17();
 		});
 	}
 
+	function showHideBuilding15_17(){
+		var stiltParking = $("input[name=<portlet:namespace/>stiltParking]:checked").val();
+		if (stiltParking == "1") {
+			showBuilding15(false);
+			showBuilding17(true);
+			showFcc(false);
+		} else {
+			showBuilding15(true);
+			showBuilding17(false);
+			showFcc(false);
+		}
+	}
 	function building15OnChange() {
 		$("input[name=<portlet:namespace/>height15Mtr]").change(function() {
-			var height15 = "";
+			showHideFcc15();
+		});
+	}
 
-			var height15 = $(this).val();
+	function showHideFcc15(){
+		var stiltParking = $("input[name=<portlet:namespace/>stiltParking]:checked").val();
+		if(stiltParking=='0'){
+			var height15 = $("input[name=<portlet:namespace/>height15Mtr]:checked").val();
 			if (height15 == "0") {
 				showFcc(true);
 			} else {
 				showFcc(false);
 			}
-		});
+		}
 	}
-
+	
 	function building17OnChange() {
 		$("input[name=<portlet:namespace/>height17Mtr]").change(function() {
-			var height17 = "";
-			var height17 = $(this).val();
+			showHideFcc17();
+		});
+	}
+	
+	function showHideFcc17(){
+		var stiltParking = $("input[name=<portlet:namespace/>stiltParking]:checked").val();
+		if(stiltParking=='1'){
+			var height17 = $("input[name=<portlet:namespace/>height17Mtr]:checked").val();
 			if (height17 == "0") {
 				showFcc(true);
 			} else {
 				showFcc(false);
 			}
-		});
+		}
 	}
-
+	
 	function fccOnChange() {
 		$("input[name=<portlet:namespace/>fcc]").change(function() {
-			var fcc = "";
-			var fcc = $(this).val();
-			if (fcc == "1") {
-				showFccUpload(true);
-				$("#fccblink").show();
-			} else {
-				showFccUpload(false);
-				$("#fccblink").hide();
-			}
+			showHideFccUpload();
 		});
 	}
 
+	function showHideFccUpload(){
+
+		var fcc = $("input[name=<portlet:namespace/>fcc]:checked").val();
+		if (fcc == "1") {
+			showFccUpload(true);
+			$("#fccblink").show();
+		} else {
+			showFccUpload(false);
+			$("#fccblink").hide();
+		}
+	}
+	
 	function liftOnChange() {
 		$("input[name=<portlet:namespace/>lift]").change(function() {
-			var lift = "";
-			var lift = $(this).val();
-			if (lift == "1") {
-				showLiftUpload(true);
-				$("#liftblink").show();
-			} else {
-				showLiftUpload(false);
-				$("#liftblink").hide();
-			}
+			showHideLiftUpload();
 		});
 	}
 
+	function showHideLiftUpload(){
+		var lift = $("input[name=<portlet:namespace/>lift]:checked").val();
+		if (lift == "1") {
+			showLiftUpload(true);
+			$("#liftblink").show();
+		} else {
+			showLiftUpload(false);
+			$("#liftblink").hide();
+		}
+	}
+	
 	function wiringOnChange() {
 		$("input[name=<portlet:namespace/>wiringTest]").change(function() {
-			var wiring = "";
-			var wiring = $(this).val();
-			if (wiring == "1") {
-				showWiringUpload(true);
-				$("#wiringblink").show();
-			} else {
-				showWiringUpload(false);
-				$("#wiringblink").hide();
-			}
+			showHideWiringUpload();
 		});
 	}
 
+	function showHideWiringUpload(){
+		var wiring = $("input[name=<portlet:namespace/>wiringTest]:checked").val();
+		if (wiring == "1") {
+			showWiringUpload(true);
+			$("#wiringblink").show();
+		} else {
+			showWiringUpload(false);
+			$("#wiringblink").hide();
+		}
+	}
+	
 	function bdoCertOnChange() {
-		$("input[name=<portlet:namespace/>bdocert]").change(function() {
-			var bdocert = "";
-			var bdocert = $(this).val();
-			if (bdocert == "1") {
-				showBDOCertUpload(true);
-				$("#bdocertblink").show();
-			} else {
-				showBDOCertUpload(false);
-				$("#bdocertblink").hide();
-			}
+		$("input[name=<portlet:namespace/>hasBdoCertificate]").change(function() {
+			showHideBDOCertUpload();
 		});
 	}
 
+	function showHideBDOCertUpload(){
+		var bdocert = $("input[name=<portlet:namespace/>hasBdoCertificate]:checked").val();
+		if (bdocert == "1") {
+			showBDOCertUpload(true);
+			$("#bdocertblink").show();
+		} else {
+			showBDOCertUpload(false);
+			$("#bdocertblink").hide();
+		}
+	}
+		
 	function emailServiceOnChange() {
 		$("input[name=<portlet:namespace/>eServiceOnMail]").change(function() {
-			var emailservice = "";
-			var emailservice = $(this).val();
-			if (emailservice == "1") {
-				showEmailServiceDiv(true);
-			} else {
-				showEmailServiceDiv(false);
-			}
+			showHideEmailServiceDiv();
 		});
 	}
 
+	function showHideEmailServiceDiv(){
+		var emailservice = $("input[name=<portlet:namespace/>eServiceOnMail]:checked").val();
+		if (emailservice == "1") {
+			showEmailServiceDiv(true);
+		} else {
+			showEmailServiceDiv(false);
+		}
+	}
+	
 	function permTempOnChange() {
 		$("input[name=<portlet:namespace/>permTemp]").change(function() {
 			var permTemp = "";
@@ -381,63 +430,81 @@
 	function tariffCategoryOnChange() {
 		
 		$("#<portlet:namespace/>tariffCategory").change(function() {
-			var tariffCategory = "";
-			var tariffCategory = $(this).val();
-			if (tariffCategory == "0100") {
-				showLoadKvaDiv(false);
-				$("#<portlet:namespace/>loadKw").prop("readonly", false);
-				$("#<portlet:namespace/>loadKw").val("");
-				$("#<portlet:namespace/>loadKva").val("");
-			} else {
-				showLoadKvaDiv(true);
-				$("#<portlet:namespace/>loadKva").prop("readonly", false);
-				$("#<portlet:namespace/>loadKw").prop("readonly", true);
-				$("#<portlet:namespace/>loadKw").val("");
-				$("#<portlet:namespace/>loadKva").val("");
-			}
-			if (tariffCategory == "0250") {
-				showBDOCert(true);
-			} else {
-				showBDOCert(false);
-			}
+			handleTariffCategoryChange();
 		});
 	}
-
+	
+	function handleTariffCategoryChange(){
+		var tariffCategory = $("#<portlet:namespace/>tariffCategory").val();
+		if (tariffCategory == "0100") {
+			showLoadKvaDiv(false);
+			$("#<portlet:namespace/>loadKw").prop("readonly", false);
+			$("#<portlet:namespace/>loadKw").val("");
+			$("#<portlet:namespace/>loadKva").val("");
+		} else {
+			showLoadKvaDiv(true);
+			$("#<portlet:namespace/>loadKva").prop("readonly", false);
+			$("#<portlet:namespace/>loadKw").prop("readonly", true);
+			$("#<portlet:namespace/>loadKw").val("");
+			$("#<portlet:namespace/>loadKva").val("");
+		}
+		if (tariffCategory == "0250") {
+			showBDOCert(true);
+		} else {
+			showBDOCert(false);
+		}
+	}
+	
 	function kvaOnChange() {
 		$("#<portlet:namespace/>loadKva").change(function() {
-			var kva = $("#<portlet:namespace/>loadKva").val();
-			if (kva != "" && kva != "0") {
-				$("#<portlet:namespace/>loadKw").val(kva * 0.98);
-			}
+			handleKvaChange();
 		});
+	}
+	
+	function handleKvaChange() {
+		var kva = $("#<portlet:namespace/>loadKva").val();
+		if (kva != "" && kva != "0") {
+			$("#<portlet:namespace/>loadKw").val(kva * 0.98);
+		}
 	}
 
 	function kwOnChange() {
 		$("#<portlet:namespace/>loadKw").change(function() {
-			var kw = $("#<portlet:namespace/>loadKw").val();
-			if (kw != "" && kw != "0" && kw >= 45) {
-				$("#prePostPaid").val('1');
-				$("#prePostPaid").prop("readonly", true);
-			} else {
-				$("#prePostPaid").prop("readonly", false);
-			}
+			handleKwChange();
 		});
 	}
 
+	function handleKwChange() {
+		var kw = $("#<portlet:namespace/>loadKw").val();
+		if (kw != "" && kw != "0" && kw >= 45) {
+			$("#prePostPaid").val('1');
+			$("#prePostPaid").prop("readonly", true);
+		} else {
+			$("#prePostPaid").prop("readonly", false);
+		}
+	}
+		
 	function ownershipProofTypeOnChange() {
 		$("#<portlet:namespace/>ownershipProofType").change(function() {
-			var docName=$("#<portlet:namespace/>ownershipProofType option:selected" ).text();
-			$("#<portlet:namespace/>ownershipProof_documentName").val(docName);
+			handleOwnershipProofTypeChange();
 		})
 	}
 	
+	function handleOwnershipProofTypeChange() {
+		var docName=$("#<portlet:namespace/>ownershipProofType option:selected" ).text();
+		$("#<portlet:namespace/>ownershipProof_documentName").val(docName);
+	}
+		
 	function idProofTypeOnChange() {
 		$("#<portlet:namespace/>idProofType").change(function() {
-			var docName=$("#<portlet:namespace/>idProofType option:selected" ).text();
-			$("#<portlet:namespace/>idProof_documentName").val(docName);
+			handleIdProofTypeChange();
 		})
 	}
 	
+	function handleIdProofTypeChange() {
+		var docName=$("#<portlet:namespace/>idProofType option:selected" ).text();
+		$("#<portlet:namespace/>idProof_documentName").val(docName);
+	}
 	function showUpicNoDiv(showHide) {
 		if (showHide) {
 			$("#upicnodiv").show();
@@ -459,7 +526,6 @@
 			$("#loadkvadiv").hide();
 		}
 	}
-
 
 	function showBuilding15(showHide) {
 		if (showHide) {
@@ -569,8 +635,8 @@
 
 	function documentOnload(){
 		//initSelect2();
-
-		showHideConsumerTypeDiv();
+		handleConsumerTypeChange();
+		handleLocalityChange();
 		upicAvailableOnChange();
 		elcbOnChange();
 		stiltParkingOnChange();
@@ -581,7 +647,7 @@
 		fccOnChange();
 		liftOnChange();
 		wiringOnChange();
-
+ 
 		tariffCategoryOnChange();
 		bdoCertOnChange();
 		emailServiceOnChange();
@@ -589,7 +655,7 @@
 		kvaOnChange();
 		kwOnChange();
 		permTempOnChange();
-		showUpicNoDiv(false);
+		/*showUpicNoDiv(false);
 		showLoadKvaDiv(false);
 		showBuilding17(false);
 		showFcc(false);
@@ -597,7 +663,7 @@
 		showWiringUpload(true);
 		showBDOCert(false);
 		showBDOCertUpload(false);
-		showEmailServiceDiv(true);
+		showEmailServiceDiv(true);*/
 		//blinkText();
 		
 		$("#liftblink").hide();

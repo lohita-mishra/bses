@@ -58,6 +58,7 @@
 		<column name="landmark" type="String" />
 		<column name="landmarkDetails" type="String" />
 		<column name="pinCode" type="String" />
+		<column name="registeredAddress" type="String" />
 		
 		<!-- Connection Information -->
 		<column name="connectionType" type="String" />

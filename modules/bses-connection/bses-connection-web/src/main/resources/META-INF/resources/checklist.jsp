@@ -47,6 +47,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="wiringCertificate" />
 					<liferay-util:param name="documentType" value="Wiring Certificate" />
 					<liferay-util:param name="documentName" value="Wiring Certificate" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />
 				</liferay-util:include>
 			</div>
 		</div>
@@ -76,6 +77,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="elcbDocument" />
 					<liferay-util:param name="documentType" value="ELCB Document" />
 					<liferay-util:param name="documentName" value="ELCB Document" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />
 				</liferay-util:include>
 			</div>
 		</div>
@@ -156,6 +158,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="fccCertificate" />
 					<liferay-util:param name="documentType" value="FCC Certificate" />
 					<liferay-util:param name="documentName" value="FCC Certificate" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />					
 				</liferay-util:include>
 				<%--<label class="font-weight-bold">Upload fire clearance certificate </label> 
 				<aui:input type="file" style="border:0px; padding:0;" name="fccCertificate" label="checklist-stilt-parking-fcc-certificate" />--%>
@@ -187,6 +190,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="liftCertificate" />
 					<liferay-util:param name="documentType" value="Lift Certificate" />
 					<liferay-util:param name="documentName" value="Lift Certificate" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />					
 				</liferay-util:include>
 				<%--<label class="font-weight-bold">Upload lift fitness certificate </label>
 				 <aui:input type="file" style="border:0px; padding:0;" name="liftCertificate" label="checklist-lift-certificate" />
@@ -219,6 +223,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="bdoCertificate" />
 					<liferay-util:param name="documentType" value="BDO Certificate" />
 					<liferay-util:param name="documentName" value="BDO Certificate" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />					
 				</liferay-util:include>
 				<%--<label class="font-weight-bold">Upload Certificate from BDO <span class="text-danger" id="agconsumeruploadmandatory">*</span>
 				</label> 
@@ -251,6 +256,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="dpccLicense" />
 					<liferay-util:param name="documentType" value="DPCC License" />
 					<liferay-util:param name="documentName" value="DPCC License" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />					
 				</liferay-util:include>			
 				<%--<label class="font-weight-bold">Upload the DPCC License Certificate<span class="text-danger">*</span>
 				</label> <aui:input type="file" style="border:0px; padding:0;" name="dpccLicenseCertificate" label="checklist-dpcc-license-certificate" />--%>
@@ -281,6 +287,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="pollutionCertificate" />
 					<liferay-util:param name="documentType" value="Pollution Certificate" />
 					<liferay-util:param name="documentName" value="Pollution Certificate" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />					
 				</liferay-util:include>
 				
 				<%--<label class="font-weight-bold">Upload Certificate from BDO <span class="text-danger">*</span>

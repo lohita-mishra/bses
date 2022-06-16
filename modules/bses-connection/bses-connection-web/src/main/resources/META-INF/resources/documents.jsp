@@ -42,6 +42,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="applicantPhoto" />
 					<liferay-util:param name="documentType" value="Applicant Photo" />
 					<liferay-util:param name="documentName" value="Applicant Photo" />
+					<liferay-util:param name="fileTypes" value="image/png, image/jpeg" />
 				</liferay-util:include>
 				<%--<aui:input type="file" style="border:0px; padding:0;" name="applicantPhoto" label="" /> --%>
 			</div>
@@ -69,6 +70,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="applicantSignature" />
 					<liferay-util:param name="documentType" value="Applicant Signature" />
 					<liferay-util:param name="documentName" value="Applicant Signature" />
+					<liferay-util:param name="fileTypes" value="image/png, image/jpeg" />					
 				</liferay-util:include>
 				<%--
 				<aui:input type="file" style="border:0px; padding:0;" name="applicantSignature" label="" />
@@ -123,13 +125,16 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 				
 				</div>
 				<div class="col-md-3">
-					<aui:input type="text" class="form-control" name="idProofNo" label="document-id-proof-no" />
+					<aui:input type="text" class="form-control" name="idProofNo" label="document-id-proof-no" >
+						<aui:validator name="required"/>
+					</aui:input>
 				</div>
 			<div class="col-md-5 pt-5">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="idProof" />
 					<liferay-util:param name="documentType" value="ID Proof" />
 					<liferay-util:param name="documentName" value="<%=idProofDocumentName%>" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />
 				</liferay-util:include>
 				<%--<aui:input type="file" style="border:0px; padding:0;" name="idProofDocument" label="" /> --%>
 			</div>
@@ -183,6 +188,7 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="ownershipProof" />
 					<liferay-util:param name="documentType" value="Ownership Proof" />
 					<liferay-util:param name="documentName" value="<%=ownershipProofDocumentName %>" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />
 				</liferay-util:include>
 				<%-- <aui:input type="file" style="border:0px; padding:0;" name="ownershipProofDocument" label="" />--%>
 			</div>

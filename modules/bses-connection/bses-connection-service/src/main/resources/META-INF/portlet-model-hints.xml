@@ -57,6 +57,7 @@
 		<field name="landmark" type="String" />
 		<field name="landmarkDetails" type="String" />
 		<field name="pinCode" type="String" />
+		<field name="registeredAddress" type="String" />
 		<field name="connectionType" type="String" />
 		<field name="tariffCategory" type="String" />
 		<field name="loadKva" type="float" />
