@@ -6,7 +6,7 @@
 
 String caNumber=(String)portletSession.getAttribute("caNumber");
 
- if(StringUtils.isBlank(caNumber)){
+ if(StringUtils.isNotBlank(caNumber)){
 	String mobileNo=(String)portletSession.getAttribute("mobileNo");
 %>
 <liferay-util:include page="/name_change.jsp" servletContext="<%=application%>">

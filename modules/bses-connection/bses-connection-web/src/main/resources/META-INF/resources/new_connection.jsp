@@ -6,6 +6,13 @@
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
 <%@ include file="/init.jsp"%>
 <style>
+	lexicon-icon-asterisk {
+		color:red;
+		width:5px !important;
+		height:5px !important;
+	    display: inline-block !important;
+	    vertical-align: top !important;
+	}
 	input[type="radio"] {
     	opacity: 1 !important;
     	margin-top: 0 !important;	

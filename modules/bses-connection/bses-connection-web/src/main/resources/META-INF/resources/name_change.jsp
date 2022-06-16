@@ -4,6 +4,7 @@
 <%@page import="com.liferay.counter.kernel.service.CounterLocalServiceUtil"%>
 <%@page import="com.bses.connection2.service.ConnectionRequestLocalServiceUtil"%>
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
+<%@page import="javax.portlet.PortletSession"%>
 <%@ include file="/init.jsp"%>
 <style>
 	input[type="radio"] {
@@ -94,6 +95,13 @@
 	if(connectionRequestId==0 && session.getAttribute(ConnectionRequest.class.getName()+"#id")!=null){
 		connectionRequestId=(Long)session.getAttribute(ConnectionRequest.class.getName()+"#id");
 	}
+	
+	System.out.println("name change - connectionRequestId 1 - " +connectionRequestId);
+	if(connectionRequestId==0 && portletSession.getAttribute(ConnectionRequest.class.getName()+"#id")!=null){
+		connectionRequestId=(Long)portletSession.getAttribute(ConnectionRequest.class.getName()+"#id");
+	}	
+	
+	System.out.println("name change - connectionRequestId - " +connectionRequestId);
 	String mobileNo=ParamUtil.getString(request, "mobileNo", "");
 	String emailId=ParamUtil.getString(request, "emailId", "");
 	

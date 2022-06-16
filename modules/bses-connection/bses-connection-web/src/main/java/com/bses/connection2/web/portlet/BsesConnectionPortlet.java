@@ -3,6 +3,7 @@ package com.bses.connection2.web.portlet;
 import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
+import com.bses.connection2.service.ConnectionRequestLocalServiceUtil;
 import com.bses.connection2.util.RequestTypeModeStatus;
 import com.bses.connection2.web.constants.BsesConnectionPortletKeys;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -134,7 +135,16 @@ public class BsesConnectionPortlet extends MVCPortlet {
 		
 			String requestId =(String) session.getAttribute(ConnectionRequest.class.getName()+"#id");
 			if(StringUtils.isBlank(requestId)) {
-				//ConnectionRequestLocalServiceUtil.createNameChangeRequest(loginId);
+				try {
+					ConnectionRequest connectionRequest = ConnectionRequestLocalServiceUtil.createNameChangeRequest(loginId);
+					if(connectionRequest != null) {
+						System.out.println("connectionRequest.getConnectionRequestId()- "+connectionRequest.getConnectionRequestId());
+						session.setAttribute(ConnectionRequest.class.getName()+"#id",connectionRequest.getConnectionRequestId());
+					}
+				
+				} catch (PortalException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		include(view, renderRequest, renderResponse);
