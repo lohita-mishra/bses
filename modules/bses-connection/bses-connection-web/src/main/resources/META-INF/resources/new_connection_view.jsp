@@ -1,3 +1,4 @@
+<%@page import="com.bses.connection2.util.RequestTypeModeStatus"%>
 <%@page import="javax.portlet.PortletSession"%>
 <%@page import="javax.portlet.PortletSessionUtil"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
@@ -15,7 +16,7 @@ if(newConnectionMode==null){
 	
 </liferay-util:include>
 <%
-}else if(newConnectionMode.equals("online")){
+}else if(newConnectionMode.equals(RequestTypeModeStatus.MODE_ONLINE)){
 	
 	String mobileNo=(String)portletSession.getAttribute("mobileNo");
 	String emailId=(String)portletSession.getAttribute( "emailId");

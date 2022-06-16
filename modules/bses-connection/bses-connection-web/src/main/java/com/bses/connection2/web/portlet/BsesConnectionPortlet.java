@@ -2,6 +2,7 @@ package com.bses.connection2.web.portlet;
 
 import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
+import com.bses.connection2.util.RequestTypeModeStatus;
 import com.bses.connection2.web.constants.BsesConnectionPortletKeys;
 import com.bses.sap.connector.services.SapConnctorServiceApi;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -141,16 +142,16 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	public void newConnectionApplyOnlineView(ActionRequest request, ActionResponse response) {
 		System.out.println("BsesConnectionPortlet:newConnectionApplyOnlineView");
 		PortletSession session = request.getPortletSession();
-		
+		session.setAttribute("newConnectionMode", RequestTypeModeStatus.MODE_ONLINE);
 		SessionMessages.add(request, PortalUtil.getPortletId(request) + SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
-		session.setAttribute("newConnectionMode", "online");
+		//session.setAttribute("newConnectionMode", "online");
 	}
 	
-	public void newConnectionApplyAppoinmentView(ActionRequest request, ActionResponse response) {
+	public void newConnectionApplyAppointmentView(ActionRequest request, ActionResponse response) {
 		System.out.println("BsesConnectionPortlet:newConnectionApplyAppoinmentView");
 		PortletSession session = request.getPortletSession();
-		
-		session.setAttribute("newConnectioMode", "appointment");
+		session.setAttribute("newConnectionMode", RequestTypeModeStatus.MODE_APPOINTMENT);
+		//session.setAttribute("newConnectioMode", "appointment");
 	}
 	
 	public void newConnectionLogin(ActionRequest request, ActionResponse response) {
