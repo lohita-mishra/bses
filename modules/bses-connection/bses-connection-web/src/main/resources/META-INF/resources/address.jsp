@@ -60,8 +60,8 @@
 					<option>West Delhi</option>
 					<aui:validator name="required"/>
 				</aui:select> --%>
-				<aui:input type="hidden" class="form-control" name="district" label="" value="<%=requestEntity.getDistrict()%>" />
-				<aui:input type="text" class="form-control" name="districtName" label="address-district" value="<%=(localityDistrict!=null?localityDistrict.getDivisionName():"")%>" />
+				<aui:input type="hidden" class="form-control" name="district" label="" value="<%=(localityDistrict!=null?localityDistrict.getDivisionCode():"")%>" />
+				<aui:input type="text" class="form-control" name="districtName" label="address-district" value="<%=(localityDistrict!=null?localityDistrict.getDivisionName():"")%>" readonly="true" />
 			</div>
 
 			<div class="form-group col-md-3">
@@ -89,7 +89,7 @@
 			<div class="form-group col-md-3">
 				<%--<label>Building Name</label>--%> 
 				<aui:input type="text" class="form-control" name="buildingName" label="address-building-name" value="<%=requestEntity.getBuildingName()%>">
-					<aui:validator name="required"/>
+					<%--<aui:validator name="required"/> --%>
 				</aui:input>
 			</div>
 
@@ -136,6 +136,13 @@
 					<aui:validator name="required"/>
 					<aui:validator name="min">110001</aui:validator>
 					<aui:validator name="max">110110</aui:validator>
+				</aui:input>
+			</div>
+		</div>
+		<div class="row" id="registered-address-row">
+			<div class="form-group col-md-6">
+				<%--<label>Building Name</label>--%> 
+				<aui:input type="textarea" class="form-control" name="registeredAddress" col="300" row="5" label="address-registered-address" value="<%=requestEntity.getRegisteredAddress() %>">
 				</aui:input>
 			</div>
 		</div>

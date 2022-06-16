@@ -1,3 +1,5 @@
+<%@page import="com.bses.connection2.util.RequestTypeModeStatus"%>
+<%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@page import="com.bses.connection2.model.ConnectionDocument"%>
 <%@page import="com.bses.connection2.service.ConnectionDocumentLocalServiceUtil"%>
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
@@ -8,6 +10,7 @@ long connectionDocumentId=0;
 //Calendar calendar=Calendar.getInstance();
 ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
 long connectionRequestId=requestEntity.getConnectionRequestId();
+String requestMode=ParamUtil.getString(request, "requestMode","");
 
 //String folder="/Users/arjun/Documents/tools/liferay7/liferay-dxp-7.0.10.17-sp17/bses/application/newconnection_docs/"+calendar.get(Calendar.YEAR)+"/"+(calendar.get(Calendar.MONTH)+1)+"/RQ005";
 %>
@@ -39,6 +42,9 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<aui:input class="form-check-input" type="radio" name="wiringTest" label="No" value="0" checked="<%=!requestEntity.getWiringTest()%>"/> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
 				</div>
 			</div>
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>			
 			<div class="col-md-4" id="wiringuploaddiv">
 				<%--<label class="font-weight-bold">Upload wiring test certificate </label>--%> 
 				<%--<aui:input type="file" style="border:0px; padding:0;" name="wiringCertificate" label="checklist-wiring-test-certificate" /> --%>
@@ -47,8 +53,12 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<liferay-util:param name="elementName" value="wiringCertificate" />
 					<liferay-util:param name="documentType" value="Wiring Certificate" />
 					<liferay-util:param name="documentName" value="Wiring Certificate" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />
 				</liferay-util:include>
 			</div>
+<%
+	}
+%>			
 		</div>
 		
 		<%-- ELCB INSTALLATION CERTIFICATE --%>
@@ -70,14 +80,21 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 					<aui:input class="form-check-input" type="radio" name="elcbInstalled" value="0" label="No" checked="<%=!requestEntity.getElcbInstalled() %>"/> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
 				</div>
 			</div>
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>				
 			<div class="col-md-4" id="elcbuploaddiv">
 
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="elcbDocument" />
 					<liferay-util:param name="documentType" value="ELCB Document" />
 					<liferay-util:param name="documentName" value="ELCB Document" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />
 				</liferay-util:include>
 			</div>
+<%
+	}
+%>			
 		</div>
 		
 		<%-- STILT PARKING --%>
@@ -151,15 +168,22 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 				</div>
 				<p></p>
 			</div>
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>				
 			<div class="col-sm-4" id="fccuploaddiv">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="fccCertificate" />
 					<liferay-util:param name="documentType" value="FCC Certificate" />
 					<liferay-util:param name="documentName" value="FCC Certificate" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />					
 				</liferay-util:include>
 				<%--<label class="font-weight-bold">Upload fire clearance certificate </label> 
 				<aui:input type="file" style="border:0px; padding:0;" name="fccCertificate" label="checklist-stilt-parking-fcc-certificate" />--%>
 			</div>
+<%
+	}
+%>			
 		</div>
 		
 		<%-- LIFT DOCUMENT --%>
@@ -182,16 +206,23 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 				</div>
 
 			</div>
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>				
 			<div class="col-md-4" id="liftuploaddiv">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="liftCertificate" />
 					<liferay-util:param name="documentType" value="Lift Certificate" />
 					<liferay-util:param name="documentName" value="Lift Certificate" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />					
 				</liferay-util:include>
 				<%--<label class="font-weight-bold">Upload lift fitness certificate </label>
 				 <aui:input type="file" style="border:0px; padding:0;" name="liftCertificate" label="checklist-lift-certificate" />
 				 --%>
 			</div>
+<%
+	}
+%>			
 		</div>
 		
 		<%-- BDO CERTIFICATE --%>
@@ -214,17 +245,23 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 				</div>
 
 			</div>
-			<div class="col-md-4" id="bdocertuploaddiv">
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>			<div class="col-md-4" id="bdocertuploaddiv">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="bdoCertificate" />
 					<liferay-util:param name="documentType" value="BDO Certificate" />
 					<liferay-util:param name="documentName" value="BDO Certificate" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />					
 				</liferay-util:include>
 				<%--<label class="font-weight-bold">Upload Certificate from BDO <span class="text-danger" id="agconsumeruploadmandatory">*</span>
 				</label> 
 				<aui:input type="file" style="border:0px; padding:0;" name="bdoCertificate" label="checklist-agri-consumer-bdo-certificate" />
 				--%>
 			</div>
+<%
+	}
+%>			
 		</div>
 		
 		<%-- DPCC LICENSE --%>
@@ -246,15 +283,22 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 						No </label>--%>
 				</div>
 			</div>
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>				
 			<div class="col-md-4" id="licenseuploaddiv">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="dpccLicense" />
 					<liferay-util:param name="documentType" value="DPCC License" />
 					<liferay-util:param name="documentName" value="DPCC License" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />					
 				</liferay-util:include>			
 				<%--<label class="font-weight-bold">Upload the DPCC License Certificate<span class="text-danger">*</span>
 				</label> <aui:input type="file" style="border:0px; padding:0;" name="dpccLicenseCertificate" label="checklist-dpcc-license-certificate" />--%>
 			</div>
+<%
+	}
+%>			
 		</div>
 
 		<%-- POLUTION CERTIFICATE --%>		
@@ -276,11 +320,15 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 						No </label>--%>
 				</div>
 			</div>
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>				
 			<div class="col-md-4" id="polutionuploaddiv">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="pollutionCertificate" />
 					<liferay-util:param name="documentType" value="Pollution Certificate" />
 					<liferay-util:param name="documentName" value="Pollution Certificate" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />					
 				</liferay-util:include>
 				
 				<%--<label class="font-weight-bold">Upload Certificate from BDO <span class="text-danger">*</span>
@@ -288,6 +336,9 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 				 <aui:input type="file" style="border:0px; padding:0;" name="polutionCertificate"  label="checklist-polution-free-certificate" />
 				--%>
 			</div>
+<%
+	}
+%>			
 		</div>
 		
 		<%-- EMAIL E-SERVICE --%>			

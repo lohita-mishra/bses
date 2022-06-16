@@ -1,3 +1,5 @@
+<%@page import="com.bses.connection2.util.RequestTypeModeStatus"%>
+<%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
 <%@page import="com.bses.connection2.service.ConnectionDocumentLocalServiceUtil"%>
@@ -13,10 +15,9 @@
 %>
 <%
 long connectionDocumentId=0;
-//Calendar calendar=Calendar.getInstance();
 ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
 long connectionRequestId=requestEntity.getConnectionRequestId();
-//String folder="/Users/arjun/Documents/tools/liferay7/liferay-dxp-7.0.10.17-sp17/bses/application/newconnection_docs/"+calendar.get(Calendar.YEAR)+"/"+(calendar.get(Calendar.MONTH)+1)+"/RQ005";
+String requestMode=ParamUtil.getString(request, "requestMode","");
 %>
 <aui:form cssClass="custom-form" role="form" name="documentForm" id="documentForm" section-attr="document">
 	<div class="container-fluid bg-white shadow p-5 my-3">
@@ -37,57 +38,40 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 			<div class="col-md-7 pl-5">
 				<label class="justify-content-start"><liferay-ui:message key="document-photo" /></label>
 			</div>
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>			
 			<div class="col-sm-5">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="applicantPhoto" />
 					<liferay-util:param name="documentType" value="Applicant Photo" />
 					<liferay-util:param name="documentName" value="Applicant Photo" />
+					<liferay-util:param name="fileTypes" value="image/png, image/jpeg" />
 				</liferay-util:include>
-				<%--<aui:input type="file" style="border:0px; padding:0;" name="applicantPhoto" label="" /> --%>
 			</div>
-
-			<%--<div class="col-sm-4 input-group-prepend">
-				<button class="btn btn-primary btn-sm mr-2" type="button" id="inputGroupFileAddon03">
-					<i class="fas fa-upload"></i> Upload
-				</button>
-				<button class="btn btn-danger btn-sm mr-2" type="button" id="inputGroupFileAddon03">
-					<i class="far fa-trash-alt text-white"></i> Delete
-				</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm">
-					<i class="far fa-eye text-body"></i> View
-				</button>
-			</div> --%>
+<%
+	}
+%>			
 		</div>
 
 		<div class="row mb-3">
 			<div class="col-md-7 pl-5">
 				<label class="justify-content-start"><liferay-ui:message key="document-signature" /></label>
 			</div>
-			
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>			
 			<div class="col-md-5">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="applicantSignature" />
 					<liferay-util:param name="documentType" value="Applicant Signature" />
 					<liferay-util:param name="documentName" value="Applicant Signature" />
+					<liferay-util:param name="fileTypes" value="image/png, image/jpeg" />					
 				</liferay-util:include>
-				<%--
-				<aui:input type="file" style="border:0px; padding:0;" name="applicantSignature" label="" />
-				--%>
 			</div>
-
-			<%--
-			<div class="col-md-4 input-group-prepend">
-				<button class="btn btn-primary btn-sm mr-2" type="button" id="inputGroupFileAddon03">
-					<i class="fas fa-upload"></i> Upload
-				</button>
-				<button class="btn btn-danger btn-sm mr-2" type="button" id="inputGroupFileAddon03">
-					<i class="far fa-trash-alt text-white"></i> Delete
-				</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm">
-					<i class="far fa-eye text-body"></i> View
-				</button>
-			</div>
-			 --%>
+<%
+	}
+%>			
 		</div>
 
 		<div class="row mb-3">
@@ -123,27 +107,24 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 				
 				</div>
 				<div class="col-md-3">
-					<aui:input type="text" class="form-control" name="idProofNo" label="document-id-proof-no" />
+					<aui:input type="text" class="form-control" name="idProofNo" label="document-id-proof-no" >
+						<aui:validator name="required"/>
+					</aui:input>
 				</div>
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>				
 			<div class="col-md-5 pt-5">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="idProof" />
 					<liferay-util:param name="documentType" value="ID Proof" />
 					<liferay-util:param name="documentName" value="<%=idProofDocumentName%>" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />
 				</liferay-util:include>
-				<%--<aui:input type="file" style="border:0px; padding:0;" name="idProofDocument" label="" /> --%>
 			</div>
-			<%--<div class="col-md-4 input-group-prepend">
-				<button class="btn btn-primary btn-sm mr-2" type="button" id="inputGroupFileAddon03">
-					<i class="fas fa-upload"></i> Upload
-				</button>
-				<button class="btn btn-danger btn-sm mr-2" type="button" id="inputGroupFileAddon03">
-					<i class="far fa-trash-alt text-white"></i> Delete
-				</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm">
-					<i class="far fa-eye text-body"></i> View
-				</button>
-			</div> --%>
+<%
+	}
+%>			
 		</div>
 		
 		<div class="row mb-3">
@@ -178,26 +159,20 @@ long connectionRequestId=requestEntity.getConnectionRequestId();
 				</aui:select>
 			</div>
 			<div class="col-md-3"></div>
+<%
+	if(!requestMode.equalsIgnoreCase(RequestTypeModeStatus.MODE_APPOINTMENT)){
+%>			
 			<div class="col-sm-5">
 				<liferay-util:include page="/document-upload-element.jsp" servletContext="<%=application%>">
 					<liferay-util:param name="elementName" value="ownershipProof" />
 					<liferay-util:param name="documentType" value="Ownership Proof" />
 					<liferay-util:param name="documentName" value="<%=ownershipProofDocumentName %>" />
+					<liferay-util:param name="fileTypes" value="application/pdf" />
 				</liferay-util:include>
-				<%-- <aui:input type="file" style="border:0px; padding:0;" name="ownershipProofDocument" label="" />--%>
 			</div>
-			<%--<div class="col-sm-4 input-group-prepend">
-				<button class="btn btn-primary btn-sm mr-2" type="button" id="inputGroupFileAddon03">
-					<i class="fas fa-upload"></i> Upload
-				</button>
-				<button class="btn btn-danger btn-sm mr-2" type="button" id="inputGroupFileAddon03">
-					<i class="far fa-trash-alt text-white"></i> Delete
-				</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm">
-					<i class="far fa-eye text-body"></i> View
-				</button>
-			</div>
-			 --%>
+<%
+	}
+%>			
 		</div>
 	</div>
 </aui:form>

@@ -394,6 +394,12 @@ public class ConnectionDocumentLocalServiceWrapper
 		return _connectionDocumentLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public boolean removeConnectionDocument(long connectionDocumentId) {
+		return _connectionDocumentLocalService.removeConnectionDocument(
+			connectionDocumentId);
+	}
+
 	/**
 	 * Updates the connection document in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

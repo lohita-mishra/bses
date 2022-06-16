@@ -358,6 +358,10 @@ public class ConnectionDocumentLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static boolean removeConnectionDocument(long connectionDocumentId) {
+		return getService().removeConnectionDocument(connectionDocumentId);
+	}
+
 	/**
 	 * Updates the connection document in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

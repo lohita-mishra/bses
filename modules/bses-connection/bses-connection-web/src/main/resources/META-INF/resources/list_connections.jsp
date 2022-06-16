@@ -33,6 +33,7 @@
 </portlet:renderURL>
 
 <%
+	session.removeAttribute(ConnectionRequest.class.getName()+"#id");
 	List<ConnectionRequest> connectionRequestList=(List)request.getAttribute(ConnectionRequest.class.getName()+"#list");
 	if(connectionRequestList==null){
 		connectionRequestList=ConnectionRequestLocalServiceUtil.getConnectionRequestsByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);

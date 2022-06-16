@@ -673,6 +673,21 @@ public interface ConnectionRequestModel
 	public void setPinCode(String pinCode);
 
 	/**
+	 * Returns the registered address of this connection request.
+	 *
+	 * @return the registered address of this connection request
+	 */
+	@AutoEscape
+	public String getRegisteredAddress();
+
+	/**
+	 * Sets the registered address of this connection request.
+	 *
+	 * @param registeredAddress the registered address of this connection request
+	 */
+	public void setRegisteredAddress(String registeredAddress);
+
+	/**
 	 * Returns the connection type of this connection request.
 	 *
 	 * @return the connection type of this connection request

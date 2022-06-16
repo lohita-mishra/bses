@@ -1,5 +1,3 @@
-
-
 <%@ include file="/init.jsp"%>
 
 <!DOCTYPE html>
@@ -83,9 +81,12 @@ input[type="file"] {
 .form-control {
 	width: 90%;
 }
-
+label[for=alignRight] {
+	margin-left: 20px;
+	font-size: 11px;
+}
 label {
-	margin-left: 30px;
+	
 	font-size: 11px;
 }
 
@@ -101,6 +102,7 @@ label {
 .col-sm-6 {
 	max-width: 60%;
 }
+
 </style>
 
 </head>
@@ -128,7 +130,7 @@ label {
 									<div class="col-8">
 										<div class="mt-5 row"
 											style="border: 5px solid black; width: 50%;">
-											<label for="requestNo"
+											<label for="alignRight"
 												class="font-weight-bold text-uppercase"
 												style="color: black;">Request No</label>
 											<div class="col-sm-6">
@@ -168,7 +170,7 @@ label {
 
 
 							<section class="applicant_details">
-								<div class="container">
+								<div class="container" >
 
 									<!-- <div class="row">
 										<div class="col-8 ml-0">
@@ -242,11 +244,11 @@ label {
 
 												
 												<div class="col-8">
-													<label> <input type="radio" name="title" value="">
+													<label for="alignRight"> <input type="radio" name="title" value="">
 														Son
-													</label> <label> <input type="radio" name="title" value="">
+													</label > <label for="alignRight"> <input type="radio" name="title" value="">
 														Daughter
-													</label> <label> <input type="radio" name="title"
+													</label> <label for="alignRight"> <input type="radio" name="title"
 														value=""> Wife of
 													</label>
 												</div>
@@ -269,6 +271,65 @@ label {
 
 									</div>
 
+								</div>
+								<div class="container" style=" display: none;">
+								
+								<div class="row">
+								<div class="col-6">
+								<div class="row">
+								<div class="col-12 ml-2">
+												<label for="company">Firm/Trust/Company/Others Name </label><br> <input
+													type="text" class="form-control"  name="company" value=''>
+											</div>
+								</div>
+								
+							
+								<div class="row">
+								<div class="col-6 mb-2">
+												<label for="typeOfOrganisation">Type Of Organisation </label><br> <input
+													type="text" name="typeOfOrganisation" value=''>
+											</div>
+								<div class="col-6">
+												<label for="dateOfIncorporation">Date Of Incorporation </label><br> <input
+												style="width: 80%;"	type="date" name="dateOfIncorporation" value=''>
+											</div>
+								
+								
+								</div>
+								</div>
+								<div class="col-6">
+								<div class="row">
+								<div class="col-6 ">
+												<label for="authorizedSignatory">Name Of Authorized Signatory </label><br> <input
+													type="text" name="authorizedSignatory" value=''>
+											</div>
+								<div class="col-6">
+												<label for="designationOfSignatory">Designation of Signatory </label><br> <input
+													type="text" name="designationOfSignatory" value=''>
+											</div>
+								
+								
+								</div>
+								<div class="row">
+								<div class="col-6">
+												<label for="gstNo">GST No. </label><br> <input
+													type="text" name="gstNo" value=''>
+											</div>
+								<div class="col-6">
+												<label for="panNo">Pan No. </label><br> <input
+													type="text" name="panNo" value=''>
+											</div>
+								
+								
+								</div>
+								
+								
+								</div>
+								</div>
+								
+								
+								
+								
 								</div>
 							</section>
 
@@ -391,9 +452,9 @@ label {
 									<div class="mt-3 row">
 
 										<div class="form-group col-ml-1 ">
-										             <label> <input type="radio" name="title"  id="permanent">
+										             <label for="alignRight"> <input type="radio" name="title"  id="permanent">
 														Permanent
-													</label> <label> <input type="radio" name="title" id="temporary"
+													</label> <label for="alignRight"> <input type="radio" name="title" id="temporary"
 														> Temporary
 													</label> 
 											
@@ -454,9 +515,9 @@ label {
 										</h7>
 									</div>
 									<div class="row">
-									<label> <input type="radio" name="yes"
+									<label for="alignRight"> <input type="radio" name="yes"
 												value="yes"> Yes
-											</label> <label> <input type="radio"
+											</label> <label for="alignRight"> <input type="radio"
 												name="no " value="no">
 												No
 											</label> 

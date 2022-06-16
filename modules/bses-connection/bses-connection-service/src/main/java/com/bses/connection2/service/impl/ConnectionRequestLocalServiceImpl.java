@@ -140,6 +140,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		connectionRequest.setRequestType(requestType);
 		connectionRequest.setRequestMode(requestMode);
 		connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_DRAFT);
+		setDefaultNewAttributes(connectionRequest);
 		connectionRequestPersistence.update(connectionRequest);
 		return connectionRequest;
 	}
@@ -186,6 +187,20 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	private String getFirstName(String name) {
 		// TODO Auto-generated method stub
 		return name;
+	}
+
+	private void setDefaultNewAttributes(ConnectionRequest connectionRequest) {
+		connectionRequest.setTitle("0002");
+		connectionRequest.setWiringTest(true);
+		connectionRequest.setElcbInstalled(true);
+		connectionRequest.setConsumerType("Individual");
+		connectionRequest.setTariffCategory("0100");
+		connectionRequest.setStiltParking(false);
+		connectionRequest.setHeight15Mtr(true);
+		connectionRequest.setHeight17Mtr(false);
+		connectionRequest.setHasBdoCertificate(true);
+		connectionRequest.setSonDaughterWife("S");
+		connectionRequest.setEServiceOnMail(true);
 	}
 
 	public String updateConsumerDetails(String requestNo, Map<String, String> params) {

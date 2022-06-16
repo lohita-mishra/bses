@@ -95,6 +95,7 @@ public class ConnectionRequestWrapper
 		attributes.put("landmark", getLandmark());
 		attributes.put("landmarkDetails", getLandmarkDetails());
 		attributes.put("pinCode", getPinCode());
+		attributes.put("registeredAddress", getRegisteredAddress());
 		attributes.put("connectionType", getConnectionType());
 		attributes.put("tariffCategory", getTariffCategory());
 		attributes.put("loadKva", getLoadKva());
@@ -377,6 +378,12 @@ public class ConnectionRequestWrapper
 
 		if (pinCode != null) {
 			setPinCode(pinCode);
+		}
+
+		String registeredAddress = (String)attributes.get("registeredAddress");
+
+		if (registeredAddress != null) {
+			setRegisteredAddress(registeredAddress);
 		}
 
 		String connectionType = (String)attributes.get("connectionType");
@@ -1258,6 +1265,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public Serializable getPrimaryKeyObj() {
 		return _connectionRequest.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the registered address of this connection request.
+	 *
+	 * @return the registered address of this connection request
+	 */
+	@Override
+	public String getRegisteredAddress() {
+		return _connectionRequest.getRegisteredAddress();
 	}
 
 	/**
@@ -2295,6 +2312,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_connectionRequest.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	 * Sets the registered address of this connection request.
+	 *
+	 * @param registeredAddress the registered address of this connection request
+	 */
+	@Override
+	public void setRegisteredAddress(String registeredAddress) {
+		_connectionRequest.setRegisteredAddress(registeredAddress);
 	}
 
 	/**

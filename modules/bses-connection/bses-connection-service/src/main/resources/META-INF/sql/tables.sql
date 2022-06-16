@@ -55,6 +55,7 @@ create table bsesconn_ConnectionRequest (
 	landmark VARCHAR(75) null,
 	landmarkDetails VARCHAR(75) null,
 	pinCode VARCHAR(75) null,
+	registeredAddress VARCHAR(75) null,
 	connectionType VARCHAR(75) null,
 	tariffCategory VARCHAR(75) null,
 	loadKva DOUBLE,

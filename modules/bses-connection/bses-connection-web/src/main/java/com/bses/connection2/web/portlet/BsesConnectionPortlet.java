@@ -3,7 +3,6 @@ package com.bses.connection2.web.portlet;
 import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
-import com.bses.connection2.service.ConnectionRequestLocalServiceUtil;
 import com.bses.connection2.web.constants.BsesConnectionPortletKeys;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -34,6 +33,7 @@ import javax.portlet.ResourceResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author arjun
@@ -62,6 +62,9 @@ import org.osgi.service.component.annotations.Component;
 )
 public class BsesConnectionPortlet extends MVCPortlet {
 	private static final Log LOGGER=LogFactoryUtil.getLog(BsesConnectionPortlet.class.getName());
+	
+	@Reference
+	private SapConnctorServiceApi sapServiceApi;
 	
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)	throws IOException, PortletException {
@@ -144,16 +147,16 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	public void newConnectionApplyOnlineView(ActionRequest request, ActionResponse response) {
 		System.out.println("BsesConnectionPortlet:newConnectionApplyOnlineView");
 		PortletSession session = request.getPortletSession();
-		
+		session.setAttribute("newConnectionMode", RequestTypeModeStatus.MODE_ONLINE);
 		SessionMessages.add(request, PortalUtil.getPortletId(request) + SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
-		session.setAttribute("newConnectionMode", "online");
+		//session.setAttribute("newConnectionMode", "online");
 	}
 	
-	public void newConnectionApplyAppoinmentView(ActionRequest request, ActionResponse response) {
+	public void newConnectionApplyAppointmentView(ActionRequest request, ActionResponse response) {
 		System.out.println("BsesConnectionPortlet:newConnectionApplyAppoinmentView");
 		PortletSession session = request.getPortletSession();
-		
-		session.setAttribute("newConnectioMode", "appointment");
+		session.setAttribute("newConnectionMode", RequestTypeModeStatus.MODE_APPOINTMENT);
+		//session.setAttribute("newConnectioMode", "appointment");
 	}
 	
 	public void newConnectionLogin(ActionRequest request, ActionResponse response) {

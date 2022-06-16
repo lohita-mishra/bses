@@ -65,7 +65,7 @@ public class ConnectionRequestCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(163);
+		StringBundler sb = new StringBundler(165);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -145,6 +145,8 @@ public class ConnectionRequestCacheModel
 		sb.append(landmarkDetails);
 		sb.append(", pinCode=");
 		sb.append(pinCode);
+		sb.append(", registeredAddress=");
+		sb.append(registeredAddress);
 		sb.append(", connectionType=");
 		sb.append(connectionType);
 		sb.append(", tariffCategory=");
@@ -490,6 +492,13 @@ public class ConnectionRequestCacheModel
 			connectionRequestImpl.setPinCode(pinCode);
 		}
 
+		if (registeredAddress == null) {
+			connectionRequestImpl.setRegisteredAddress("");
+		}
+		else {
+			connectionRequestImpl.setRegisteredAddress(registeredAddress);
+		}
+
 		if (connectionType == null) {
 			connectionRequestImpl.setConnectionType("");
 		}
@@ -742,6 +751,7 @@ public class ConnectionRequestCacheModel
 		landmark = objectInput.readUTF();
 		landmarkDetails = objectInput.readUTF();
 		pinCode = objectInput.readUTF();
+		registeredAddress = objectInput.readUTF();
 		connectionType = objectInput.readUTF();
 		tariffCategory = objectInput.readUTF();
 
@@ -1038,6 +1048,13 @@ public class ConnectionRequestCacheModel
 			objectOutput.writeUTF(pinCode);
 		}
 
+		if (registeredAddress == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(registeredAddress);
+		}
+
 		if (connectionType == null) {
 			objectOutput.writeUTF("");
 		}
@@ -1276,6 +1293,7 @@ public class ConnectionRequestCacheModel
 	public String landmark;
 	public String landmarkDetails;
 	public String pinCode;
+	public String registeredAddress;
 	public String connectionType;
 	public String tariffCategory;
 	public float loadKva;

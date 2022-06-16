@@ -14,9 +14,16 @@
 
 package com.bses.connection2.service.http;
 
+import com.bses.connection2.service.ConnectionDocumentServiceUtil;
+
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>com.bses.connection2.service.ConnectionDocumentServiceUtil</code> service
+ * <code>ConnectionDocumentServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -54,4 +61,25 @@ package com.bses.connection2.service.http;
  * @generated
  */
 public class ConnectionDocumentServiceSoap {
+
+	public static boolean removeConnectionDocument(long connectionDocumentId)
+		throws RemoteException {
+
+		try {
+			boolean returnValue =
+				ConnectionDocumentServiceUtil.removeConnectionDocument(
+					connectionDocumentId);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(
+		ConnectionDocumentServiceSoap.class);
+
 }

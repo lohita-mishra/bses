@@ -44,6 +44,14 @@ public class ConnectionDocumentServiceWrapper
 	}
 
 	@Override
+	public boolean removeConnectionDocument(long connectionDocumentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _connectionDocumentService.removeConnectionDocument(
+			connectionDocumentId);
+	}
+
+	@Override
 	public com.bses.connection2.model.ConnectionDocument
 			updateConnectionDocument(
 				long connectionDocumentId, long connectionRequestId,
