@@ -89,7 +89,7 @@
 <aui:script use="aui-base liferay-form">
 var mobileNo="";
 $(document).ready(function(){
-	$("#<portlet:namespace/>mobileNo").focus();
+	$("#<portlet:namespace/>caNumber").focus();
 	$("#<portlet:namespace/>validateOtpForm").hide();
 	$("#wrontotp").hide();
 	$("#expireotp").hide();

@@ -1,10 +1,11 @@
 package com.bses.connection2.web.portlet;
 
 import com.bses.connection2.model.ConnectionDocument;
+import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
+import com.bses.connection2.service.ConnectionRequestLocalServiceUtil;
 import com.bses.connection2.util.RequestTypeModeStatus;
 import com.bses.connection2.web.constants.BsesConnectionPortletKeys;
-import com.bses.sap.connector.services.SapConnctorServiceApi;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -39,7 +40,6 @@ import javax.portlet.ResourceResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author arjun
@@ -69,8 +69,6 @@ import org.osgi.service.component.annotations.Reference;
 public class BsesConnectionPortlet extends MVCPortlet {
 	private static final Log LOGGER=LogFactoryUtil.getLog(BsesConnectionPortlet.class.getName());
 	
-	@Reference
-	private SapConnctorServiceApi sapServiceApi;
 	
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)	throws IOException, PortletException {
@@ -135,9 +133,24 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	private void handleNameChangeView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		String view = "/name_change_view.jsp";
 		PortletSession session = renderRequest.getPortletSession();
-		String loginId=(String) session.getAttribute("NAME_CHANGE_LOGIN_ID");
+		String loginId=(String) session.getAttribute("caNumber");
 		if(StringUtils.isBlank(loginId)) {
 			view = "/ca_number_login.jsp";
+		}else {
+		
+			String requestId =(String) session.getAttribute(ConnectionRequest.class.getName()+"#id");
+			if(StringUtils.isBlank(requestId)) {
+				try {
+					ConnectionRequest connectionRequest = ConnectionRequestLocalServiceUtil.createNameChangeRequest(loginId);
+					if(connectionRequest != null) {
+						System.out.println("connectionRequest.getConnectionRequestId()- "+connectionRequest.getConnectionRequestId());
+						session.setAttribute(ConnectionRequest.class.getName()+"#id",connectionRequest.getConnectionRequestId());
+					}
+				
+				} catch (PortalException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		include(view, renderRequest, renderResponse);
 		

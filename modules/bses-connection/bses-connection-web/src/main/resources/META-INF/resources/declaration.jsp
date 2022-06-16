@@ -589,24 +589,28 @@ function updateNameDetails()
 
 function updateAddress()
 {
-	var house = $("#<portlet:namespace/>houseNo :selected").text();
-	var floor = $("#<portlet:namespace/>floor :selected").text();
-	var buildingName = $("#<portlet:namespace/>buildingName :selected").text();
-	var street = $("#<portlet:namespace/>street :selected").text();
-	var colony = $("#<portlet:namespace/>colonyArea :selected").text();
-	var lendmark = $("#<portlet:namespace/>landmark :selected").text();
-	var lendmarkDetails = $("#<portlet:namespace/>landmarkDetail :selected").text();
-	var locality = $("#<portlet:namespace/>locality :selected").text();
-	var district = $("#<portlet:namespace/>district :selected").text();
-	var cityPostalCode = $("#<portlet:namespace/>pinCode :selected").text();
+	var house = $("#<portlet:namespace/>houseNo").text();
+	var floor = $("#<portlet:namespace/>floor :selected").text().replace("-Select-","");
+	var buildingName = $("#<portlet:namespace/>buildingName").text();
+	var street = $("#<portlet:namespace/>street").text();
+	var colony = $("#<portlet:namespace/>colonyArea").text();
+	var lendmark = $("#<portlet:namespace/>landmark :selected").text().replace("-Select-","");
+	var lendmarkDetails = $("#<portlet:namespace/>landmarkDetail").text();
+	var locality = $("#<portlet:namespace/>locality :selected").text().replace("-Select-","");
+	var district = $("#<portlet:namespace/>district").text();
+	var cityPostalCode = $("#<portlet:namespace/>pinCode").text();
 	
 	var arr = [floor,buildingName,house,street,colony,lendmark,lendmarkDetails,locality,district,cityPostalCode];	
 	
 	  var fullAddress = arr.filter(function(x) {
 
+		 // console.log(x);
+
 		 if(x !== '')
 		 {
-			 return x+",";
+			// x = x.replace("-Select-","");
+			  console.log(x);
+		  	return x+",";
 		 }
 		 
 	     //return x !== undefined;

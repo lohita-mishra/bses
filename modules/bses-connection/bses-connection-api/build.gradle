@@ -6,4 +6,5 @@ dependencies {
 	//compileOnly project(":modules:bses-new-connection-services:bses-new-connection-services-api")
 	//compileOnly project(":modules:bses-digital-seva-kendra-api");
 	compileOnly group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+	compileOnly project(":modules:bses-sap-service-connector")
 }

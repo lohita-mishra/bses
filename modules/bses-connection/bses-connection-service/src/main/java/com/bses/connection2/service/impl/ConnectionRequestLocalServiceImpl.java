@@ -21,6 +21,9 @@ import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionDocumentLocalService;
 import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
 import com.bses.connection2.util.RequestTypeModeStatus;
+import com.bses.sap.connector.services.SapConnctorServiceApi;
+import com.bses.sap.model.DssISUCADisplayRequest;
+import com.bses.sap.model.DssISUCADisplayResponse;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailServiceUtil;
@@ -29,6 +32,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.lang.reflect.Method;
 import java.text.DateFormat;
@@ -87,6 +93,9 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	
 	@Reference
 	private ConnectionDocumentLocalService connectionDocumentLocalService;
+	
+	@ServiceReference(type = SapConnctorServiceApi.class)
+	private SapConnctorServiceApi sapService;
 
 	public ConnectionRequest createConnectionRequest(String mobileNo, String emailId) throws PortalException {
 		String requestNo = "R-TMP-" + new Date().getTime();
@@ -136,6 +145,49 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		return connectionRequest;
 	}
 	
+	public ConnectionRequest createNameChangeRequest(String caNumber) throws PortalException {
+		String requestNo = "R-TMP-" + new Date().getTime();
+		LOGGER.info("caNumber - "+caNumber);
+		
+		DssISUCADisplayRequest request = new DssISUCADisplayRequest();
+		caNumber= generateTwelveDigitCANo("103012062"); //103012062
+		request.setCaNumber(caNumber);
+		
+		DssISUCADisplayResponse res= sapService.getDssISUCADisplay2(request);
+		
+		ConnectionRequest connectionRequest = connectionRequestPersistence.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
+		connectionRequest.setMobileNo(res.getMobileNo());
+		connectionRequest.setEmailId(res.getEmail());
+		connectionRequest.setRequestNo(requestNo);
+		connectionRequest.setRequestType(RequestTypeModeStatus.TYPE_NAME_CHANGE);
+		connectionRequest.setRequestMode(RequestTypeModeStatus.MODE_ONLINE);
+		connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_DRAFT);
+		
+		connectionRequest.setFirstName(getFirstName(res.getName()));
+		connectionRequest.setMiddleName(getMiddleName(res.getName()));
+		connectionRequest.setLastName(getLastName(res.getName()));
+		connectionRequest.setFatherOrHusbandName("");//TODO	
+		
+		connectionRequestPersistence.update(connectionRequest);
+		return connectionRequest;
+	}
+	
+	
+
+	private String getMiddleName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String getLastName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String getFirstName(String name) {
+		// TODO Auto-generated method stub
+		return name;
+	}
 
 	private void setDefaultNewAttributes(ConnectionRequest connectionRequest) {
 		connectionRequest.setTitle("0002");
@@ -559,5 +611,14 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			}
 		}
 		return deleted;
+	}
+	
+	private String generateTwelveDigitCANo(String accNo) {
+		String formattedNumber = StringPool.BLANK;
+		if (Validator.isNotNull(accNo)) {
+			formattedNumber = String.format("%012d", Long.valueOf(accNo));
+			//log.debug("Formatted account number from  getValidAccountNumber method ::::::::  " + formattedNumber);
+		}
+		return formattedNumber;
 	}
 }

@@ -3846,7 +3846,7 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 			// getting response while passing xmlString
 			//dssISUCADisplayResponse = getDssISUCADisplay(xmlString);
 		try {
-			xmlString = substringBetween(xmlString, "</xs:schema>", "</Z_BAPI_DSS_ISU_CA_DISPLAYResult>");
+			xmlString = substringBetween(resXML, "</xs:schema>", "</Z_BAPI_DSS_ISU_CA_DISPLAYResult>");
 		} catch (Exception e) {
 			System.out.println("Exception occured while fetching data from 1 st time");
 		}
