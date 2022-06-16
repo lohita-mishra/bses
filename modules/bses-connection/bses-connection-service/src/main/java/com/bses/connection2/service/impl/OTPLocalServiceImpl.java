@@ -15,13 +15,11 @@
 package com.bses.connection2.service.impl;
 
 import com.bses.connection2.model.OTP;
-import com.bses.connection2.service.SAPService;
 import com.bses.connection2.service.base.OTPLocalServiceBaseImpl;
 import com.bses.sap.connector.services.SapConnctorServiceApi;
 import com.bses.sap.model.DssISUCADisplayRequest;
 import com.bses.sap.model.DssISUCADisplayResponse;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -32,8 +30,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
-
-import org.osgi.service.component.annotations.Reference;
 
 
 /**
