@@ -47,6 +47,12 @@ public class ConnectionDocumentServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static boolean removeConnectionDocument(long connectionDocumentId)
+		throws PortalException {
+
+		return getService().removeConnectionDocument(connectionDocumentId);
+	}
+
 	public static ConnectionDocument updateConnectionDocument(
 			long connectionDocumentId, long connectionRequestId,
 			String documentType, String documentName, String clientFileName,

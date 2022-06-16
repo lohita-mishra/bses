@@ -67,7 +67,7 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	<%--<label id="<portlet:namespace /><%=elementName+"_document"%>"> --%>
 		<button type="button" class="btn btn-primary upload-btn" id="<portlet:namespace /><%=elementName+"_uploadBtn"%>" value="Choose File" >Upload File</button>
 		<span id="<portlet:namespace /><%=elementName+"_fileName"%>"><%=clientFileName %></span>
-		<a id="<portlet:namespace /><%=elementName+"_deleteBtn"%>" style="float: right; display:none;color:red;"><i class="fa fa-close"></i>Delete</a>
+		<button type"button" class="btn btn-danger btn-sx" id="<portlet:namespace /><%=elementName+"_deleteBtn"%>" style="float: right; font-size:1em; display:none;"><i class="fa fa-close"></i>Delete</button>
 		
 		<%--<a id="<portlet:namespace /><%=elementName+"_uploadBtn"%>" style="float: right;"><i class="fa fa-upload"></i></a> <%=StringUtils.isNotBlank(placeHolder)?placeHolder:"Choose a file to upload.."%>--%>
 	<%--</label> --%>
@@ -99,13 +99,19 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	$('#<portlet:namespace /><%=elementName%>_deleteBtn').on('click', function(event) {
 		var yn=confirm("Are you sure you want to remove the file?");
 		if(yn){
-			
+			deleteConnectionDocument($('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val(), onConnectionDocumentDeleteSuccess);
+		}
+	});
+	
+	function onConnectionDocumentDeleteSuccess(obj){
+		alert(obj);
+		if(obj==true || obj=="true"){
 			$('#<portlet:namespace/><%=elementName%>').val('');
 			$('#<portlet:namespace/><%=elementName%>_fileName').html('');
 			$('#<portlet:namespace /><%=elementName%>_deleteBtn').hide();
 			$('#<portlet:namespace /><%=elementName%>_uploadBtn').show();
 		}
-	});
+	}
 
 	function <portlet:namespace /><%=elementName%>_uploadFileOnSuccess(response){
 		$('#<portlet:namespace/><%=elementName%>').val(response.connectionDocumentId);

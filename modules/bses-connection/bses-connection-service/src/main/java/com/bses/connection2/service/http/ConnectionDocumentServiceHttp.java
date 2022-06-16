@@ -96,6 +96,46 @@ public class ConnectionDocumentServiceHttp {
 		}
 	}
 
+	public static boolean removeConnectionDocument(
+			HttpPrincipal httpPrincipal, long connectionDocumentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ConnectionDocumentServiceUtil.class, "removeConnectionDocument",
+				_removeConnectionDocumentParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, connectionDocumentId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return ((Boolean)returnObj).booleanValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		ConnectionDocumentServiceHttp.class);
 
@@ -104,5 +144,7 @@ public class ConnectionDocumentServiceHttp {
 			long.class, long.class, String.class, String.class, String.class,
 			java.io.File.class
 		};
+	private static final Class<?>[] _removeConnectionDocumentParameterTypes1 =
+		new Class[] {long.class};
 
 }

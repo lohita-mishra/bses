@@ -777,7 +777,7 @@
 		console.log(obj);
 	}
 	
-	function funcOnSaveFailure(){
+	function funcOnSaveFailure(obj){
 		console.log(obj);
 	}
 	
@@ -1010,6 +1010,21 @@
 	    });	
 	}
 
+	function deleteConnectionDocument(connectionDocumentId){
+		AUI().use('aui-base', function(A){
+	        Liferay.Service(
+	            '/bsesconn.connectiondocument/remove-connection-document', //call your service here
+	            {
+	            	connectionDocumentId:connectionDocumentId
+	            },
+	            function(obj) {
+	                try{
+	                    onSuccess(obj);
+	                }catch(e){}
+	            }
+	        );
+	    });	
+	}
 	//************ Auto Save End****************
 
 </script>

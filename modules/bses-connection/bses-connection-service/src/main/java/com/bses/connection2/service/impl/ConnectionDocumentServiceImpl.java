@@ -17,6 +17,7 @@ package com.bses.connection2.service.impl;
 import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.service.base.ConnectionDocumentServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.access.control.AccessControlled;
 
 import java.io.File;
 
@@ -42,7 +43,13 @@ public class ConnectionDocumentServiceImpl
 	 * Never reference this class directly. Always use {@link com.bses.connection2.service.ConnectionDocumentServiceUtil} to access the connection document remote service.
 	 */
 	
+	@AccessControlled(guestAccessEnabled=true)
 	public ConnectionDocument updateConnectionDocument(long connectionDocumentId, long connectionRequestId, String documentType, String documentName, String clientFileName, File file) throws PortalException{
 		return connectionDocumentLocalService.updateConnectionDocument(connectionDocumentId, connectionRequestId, documentType, documentName, clientFileName, file);
+	}
+	
+	@AccessControlled(guestAccessEnabled=true)
+	public boolean removeConnectionDocument(long connectionDocumentId) throws PortalException{
+		return connectionDocumentLocalService.removeConnectionDocument(connectionDocumentId);
 	}
 }

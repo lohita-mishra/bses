@@ -116,4 +116,17 @@ public class ConnectionDocumentLocalServiceImpl
 		//}
 		return connectionDocument;
 	}
+	public boolean removeConnectionDocument(long connectionDocumentId) {
+			
+		try {
+			ConnectionDocument connectionDocument=connectionDocumentPersistence.findByPrimaryKey(connectionDocumentId);
+			File file=new File(connectionDocument.getDocumentPath());
+			file.delete();
+			connectionDocumentPersistence.remove(connectionDocument);
+			return true;
+		} catch (NoSuchConnectionDocumentException e) {
+			LOGGER.error(e.getMessage());
+		}
+		return false;
+	}
 }

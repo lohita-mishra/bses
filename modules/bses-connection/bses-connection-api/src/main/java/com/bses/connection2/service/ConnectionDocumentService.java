@@ -67,6 +67,11 @@ public interface ConnectionDocumentService extends BaseService {
 	 */
 	public String getOSGiServiceIdentifier();
 
+	@AccessControlled(guestAccessEnabled = true)
+	public boolean removeConnectionDocument(long connectionDocumentId)
+		throws PortalException;
+
+	@AccessControlled(guestAccessEnabled = true)
 	public ConnectionDocument updateConnectionDocument(
 			long connectionDocumentId, long connectionRequestId,
 			String documentType, String documentName, String clientFileName,
