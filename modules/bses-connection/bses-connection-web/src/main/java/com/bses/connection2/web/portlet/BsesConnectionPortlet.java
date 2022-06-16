@@ -10,16 +10,21 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletResponseUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.portlet.ActionRequest;
@@ -183,7 +188,44 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	@Override
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
-     	UploadPortletRequest uploadRequest   =  PortalUtil.getUploadPortletRequest(resourceRequest);
+		ConnectionDocument connectionDocument =null;
+        
+		String cmd=ParamUtil.getString(resourceRequest, "cmd", "");
+		if(StringUtils.equalsIgnoreCase(cmd, "upload")) {
+			JSONObject result=JSONFactoryUtil.createJSONObject();
+			try {
+				connectionDocument = uploadDocument(resourceRequest);
+				result.put("status","success");
+				result.put("connectionDocumentId", connectionDocument.getConnectionDocumentId());
+				result.put("clientFileName", connectionDocument.getClientFileName());
+			} catch (PortalException e) {
+				result.put("status", "fail");
+				result.put("error", e.getMessage());
+			}
+			
+			PrintWriter pw=resourceResponse.getWriter();
+	     	pw.write(result.toJSONString());
+	     	pw.flush();
+	     	pw.close();
+		}else if(StringUtils.equalsIgnoreCase(cmd, "download")) {
+			long connectionDocumentId=ParamUtil.getLong(resourceRequest, "connectionDocumentId",0);
+	        try {
+				connectionDocument=ConnectionDocumentLocalServiceUtil.getConnectionDocument(connectionDocumentId);
+				File file = new File(connectionDocument.getDocumentPath());
+				//byte[] arr = new byte[(int)file.length()];
+				InputStream inputStream = new FileInputStream(file);
+				//OutputStream out=resourceResponse.getPortletOutputStream();
+				
+				PortletResponseUtil.sendFile(resourceRequest, resourceResponse, connectionDocument.getClientFileName(), inputStream, ContentTypes.APPLICATION_PDF);
+			} catch (PortalException e) {
+				LOGGER.error(e);
+			}
+			
+		}
+	}
+	
+	private ConnectionDocument uploadDocument(ResourceRequest resourceRequest) throws PortalException {
+		UploadPortletRequest uploadRequest   =  PortalUtil.getUploadPortletRequest(resourceRequest);
      	//String fileElementName=uploadRequest.getParameter(resourceResponse.getNamespace()+"elementName");
      	//String filePath=uploadRequest.getParameter(fileElementName+"_path");
      	File sourceFile=uploadRequest.getFile("file");
@@ -193,30 +235,10 @@ public class BsesConnectionPortlet extends MVCPortlet {
         String documentName=ParamUtil.getString(uploadRequest, "documentName");
         String clientFileName=ParamUtil.getString(uploadRequest, "name");
 
-        ConnectionDocument connectionDocument=null;
-        String message=documentName+" was uploaded successfully";
-        String status="success";
-        
-		try {
-			connectionDocument = ConnectionDocumentLocalServiceUtil.updateConnectionDocument(connectionDocumentId, connectionRequestId, documentType, documentName, clientFileName, sourceFile);
-		} catch (PortalException e) {
-			message=documentName+" could not be uploaded. Error: "+e.getMessage();
-			status="failure";
-		}
-		JSONObject result=JSONFactoryUtil.createJSONObject();
-		result.put("status", status);
-		result.put("message", message);
-		if(connectionDocument!=null) {
-			result.put("connectionDocumentId", connectionDocument.getConnectionDocumentId());
-			result.put("clientFileName", connectionDocument.getClientFileName());
-		}
-
-		PrintWriter pw=resourceResponse.getWriter();
-     	pw.write(result.toJSONString());
-     	pw.flush();
-     	pw.close();
+        ConnectionDocument connectionDocument=ConnectionDocumentLocalServiceUtil.updateConnectionDocument(connectionDocumentId, connectionRequestId, documentType, documentName, clientFileName, sourceFile);
+		return connectionDocument;
 	}
-	
+
 	public String generateTwelveDigitCANo(String accNo) {
 		String formattedNumber = StringPool.BLANK;
 		if (Validator.isNotNull(accNo)) {

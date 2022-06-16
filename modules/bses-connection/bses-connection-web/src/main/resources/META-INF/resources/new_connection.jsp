@@ -83,12 +83,18 @@
 
 
 </style>
+
 <portlet:resourceURL var="documentUploadURL" id="documentUpload">
+	<portlet:param name="cmd" value="upload"/>
 </portlet:resourceURL>
-<%--
-<portlet:resourceURL id="/document/upload" var="documentUploadURL" />
+<portlet:resourceURL var="documentDownloadURL" id="documentDownload">
+	<portlet:param name="cmd" value="download"/>
+</portlet:resourceURL>
+
+<%-- 
+<portlet:resourceURL id="documentUpload" var="documentUploadURL" />
 <portlet:resourceURL id="/document/download" var="documentDownloadURL" />
---%>
+ --%>
 <%
 	long connectionRequestId=ParamUtil.getLong(request, "connectionRequestId", 0);
 	if(connectionRequestId==0 && session.getAttribute(ConnectionRequest.class.getName()+"#id")!=null){
@@ -113,6 +119,11 @@
 	long autoSaveFrequency=60;
 	try{
 		autoSaveFrequency=Integer.parseInt(PropsUtil.get("connection.request.auto.save.interval").trim());
+	}catch(Exception e){}
+	
+	long maxDocumentSize=5350400;
+	try{
+		maxDocumentSize=Long.parseLong(PropsUtil.get("connection.request.document.max.size").trim());
 	}catch(Exception e){}
 	
 	if(autoSaveFlag!=null){
@@ -172,6 +183,7 @@
 	var portletNamespace="<portlet:namespace/>";
 	var autoSaveFlag = <%=autoSaveFlag%>;
 	var autoSaveFrequency= <%=autoSaveFrequency%>;
+	var maxDocumentSize = <%=maxDocumentSize%>;
 	$(document).ready(function() {
 		//$('[data-toggle="tooltip"]').tooltip();
 		documentOnload();
@@ -680,7 +692,7 @@
 		autoSave();
 	}
 	
-	function uploadFile(connectionRequestId, connectionDocumentId, documentType, documentName, fileElement, uploadProgressBar, callback){
+	function uploadFile(connectionRequestId, connectionDocumentId, documentType, documentName, fileElement, acceptTypes, uploadProgressBar, callback){
 		
 		var fileSelected=readFileUrl(fileElement);
 		
@@ -688,7 +700,16 @@
 			return false;
 		}
 
-	    var mimeType='';
+	    var mimeType=fileSelected.type;
+	    if(acceptTypes.indexOf(mimeType)<0){
+	    	alert("The file type selected is not accepted for uploading.")
+	    	return;
+	    }
+	    
+	    if(maxDocumentSize>0 && maxDocumentSize<fileSelected.size){
+	    	alert("The file size must be less than or equals to "+Math.round(maxDocumentSize/1024/1024)+" MB.");
+	    	return;
+	    }
 	    var description="Uploaded file";
 	    var changeLog=description;
 	    
@@ -696,7 +717,7 @@
 			uploadProgressBar.startProgress();
 		}
 		
-		addFileEntryWithFile(connectionRequestId, connectionDocumentId, documentType, documentName, fileSelected, callback);
+		addFileEntryWithFile(connectionRequestId, connectionDocumentId, documentType, documentName, fileSelected, acceptTypes, callback);
 			//callback(fileElement, response);
 		//});
 		
@@ -718,7 +739,7 @@
 		}
 	}
 	
-	function addFileEntryWithFile(connectionRequestId, connectionDocumentId, documentType, documentName, file, callback){
+	function addFileEntryWithFile(connectionRequestId, connectionDocumentId, documentType, documentName, file, acceptTypes, callback){
 		var form = new FormData();
 		form.append("file", file, file.name);
 		//form.append("repositoryId", repositoryId);
@@ -727,7 +748,6 @@
 		
 		form.append("name", file.name);
 		form.append("mimeType", file.type);
-		form.append("title", file.name);
 		form.append("connectionRequestId", connectionRequestId);
 		form.append("connectionDocumentId", connectionDocumentId);
 		form.append("documentType", documentType);
@@ -1015,7 +1035,7 @@
 	    });	
 	}
 
-	function deleteConnectionDocument(connectionDocumentId){
+	function deleteConnectionDocument(connectionDocumentId, onSuccess){
 		AUI().use('aui-base', function(A){
 	        Liferay.Service(
 	            '/bsesconn.connectiondocument/remove-connection-document', //call your service here
@@ -1023,12 +1043,17 @@
 	            	connectionDocumentId:connectionDocumentId
 	            },
 	            function(obj) {
+	            	
 	                try{
 	                    onSuccess(obj);
 	                }catch(e){}
 	            }
 	        );
 	    });	
+	}
+	
+	function downloadDocument(connectionDocumentId){
+		window.open('<%=documentDownloadURL%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId);
 	}
 	//************ Auto Save End****************
 

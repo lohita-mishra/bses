@@ -16,6 +16,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.File;
+import java.io.PrintWriter;
 
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
@@ -71,13 +72,12 @@ public class DocumentUploadResourceCommand implements MVCResourceCommand {
 		}
 
 		try {
-			resourceResponse.setContentType(ContentTypes.APPLICATION_JSON);
-			PortletResponseUtil.write(resourceResponse, result.toJSONString());
-			return false;
+			PrintWriter writer = resourceResponse.getWriter();
+			writer.write(result.toJSONString());
+			writer.close();
 		} catch (Exception e) {
 			LOGGER.info(e);
-			return true;
 		}
-     	
+     	return false;
 	}
 }
