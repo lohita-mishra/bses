@@ -132,15 +132,16 @@ label {
 				<div class="card card-primary bg-light mb-2">
 					<div class="card-body row">
 						<div class="col-md-12 pt-2 mb-4">
-							<div class="text-center container position-relative">
+							<div class="col ml-5" style="margin-left: 28% ! important;" >
 								<img class="img-fluid"
 									src="<%=request.getContextPath()%>/images/header.jpg"
 									alt="Header Images" title="Header">
 								<h4 class="font-weight-bold  text-uppercase bg-light p-3">ONLINE
 									NEW CONNECTION SERVICE(S) FORM</h4>
+									</div>
 								<div class="row">
 									<div class="col-8">
-										<div class="mt-5 row"
+										<div class="mt-5 row ml-2"
 											style="border: 5px solid black; width: 50%;">
 											<label for="alignRight"
 												class="font-weight-bold text-uppercase"
@@ -152,7 +153,7 @@ label {
 
 											</div>
 										</div>
-										<div class="mt-5 row">
+										<div class="mt-5 ml-2 row">
 											<label for="typeOfRegistration">Type Of Registration
 											</label>
 											<div class="form-group col-md-6">
@@ -164,26 +165,26 @@ label {
 												</select>
 											</div>
 										</div>
-										<div class="mt-5 row">
+										<div class="mt-5 ml-2 row ">
 											<h5 class="font-weight-bold">Section 1. Applicant
 												Details</h5>
 										</div>
 									</div>
-									<div class="col-4">
+									<div class="col-4" style="margin-top: 5%;">
 										<img class="img-fluid"
 											src="<%=request.getContextPath()%>/images/man.jpeg"
 											alt="Side Images" title="man">
 									</div>
 
 								</div>
-							</div>
+							
 
 
 
 
 							<section class="applicant_details">
-			<%if(connectionRequest.getRequestType().equalsIgnoreCase("individual")){ %>				
-								<div class="container" >
+			<%if(connectionRequest.getRequestType().equalsIgnoreCase("U01")){ %>				
+								<div  >
 
 									<!-- <div class="row">
 										<div class="col-8 ml-0">
@@ -201,7 +202,7 @@ label {
 
 
 
-									<div class="row">
+									<div class="row ml-2">
 									<div class="col-md-2">
 									
 									<label for="title">Title</label><br>
@@ -249,7 +250,7 @@ label {
 										1b. <b>Additional Details</b>
 									</h7>
 
-									<div class="row">
+									<div class="row ml-2">
 										<div class="col-8">
 											
 
@@ -257,11 +258,11 @@ label {
 
 												
 												<div class="col-8">
-													<label for="alignRight"> <input type="radio" readonly name="title" value="relation<%=connectionRequest.getSonDaughterWife()%>">
+													<label for="alignRight"> <input type="radio"  name="title" value="relation<%=connectionRequest.getSonDaughterWife()%>">
 														Son
-													</label > <label for="alignRight"> <input type="radio" readonly name="title" value="relation<%=connectionRequest.getSonDaughterWife()%>">
+													</label > <label for="alignRight"> <input type="radio"  name="title" value="relation<%=connectionRequest.getSonDaughterWife()%>">
 														Daughter
-													</label> <label for="alignRight"> <input type="radio" readonly name="title"
+													</label> <label for="alignRight"> <input type="radio"  name="title"
 														value="relation<%=connectionRequest.getSonDaughterWife()%>"> Wife of
 													</label>
 												</div>
@@ -286,12 +287,12 @@ label {
 
 								</div>
 								<%} else { %>
-								<div class="container" style=" display: none;">
+								<div>
 								
-								<div class="row">
+								<div class="row ml-1">
 								<div class="col-6">
 								<div class="row">
-								<div class="col-12 ml-2">
+								<div class="col-12 ml-3">
 												<label for="company">Firm/Trust/Company/Others Name </label><br> <input
 													type="text" readonly class="form-control"  name="company" value="<%=connectionRequest.getFirmName()%>">
 											</div>
@@ -299,13 +300,13 @@ label {
 								
 							
 								<div class="row">
-								<div class="col-6 mb-2">
+								<div class="col-6 mb-2 ml-3">
 												<label for="typeOfOrganisation">Type Of Organisation </label><br> <input
 													type="text" readonly name="typeOfOrganisation" value="<%=connectionRequest.getOrganizationType()%>">
 											</div>
-								<div class="col-6">
+								<div class="col-5">
 												<label for="dateOfIncorporation">Date Of Incorporation </label><br> <input
-												style="width: 80%;"	type="date" readonly name="dateOfIncorporation" value="<%=connectionRequest.getIncorporationDate()%>">
+												style="width: 95%;"	type="date" readonly name="dateOfIncorporation" value="<%=connectionRequest.getIncorporationDate()%>">
 											</div>
 								
 								
@@ -354,7 +355,7 @@ label {
 
 
 							<section class="address">
-								<div class="container">
+								<div >
 
 									
 									<div class="row mt-2 ml-2">
@@ -465,13 +466,13 @@ label {
 							</div>
 
 							<section class="category">
-								<div class="container">
+								<div >
 
 									
 
 									<div class="mt-3 row">
 
-										<div class="form-group col-ml-1 ">
+										<div class="form-group col ml-2 ">
 										             <label for="alignRight"> <input type="radio"  name="title"  id="connectionType<%=connectionRequest.getConnectionType()%>">
 														Permanent
 													</label> <label for="alignRight"> <input type="radio"  name="title" id="connectionType<%=connectionRequest.getConnectionType()%>"
@@ -481,7 +482,7 @@ label {
 										</div>
 
 									</div>
-									<div class="row">
+									<div class="row ml-2">
 									<div class="col-6 ">
 									                  <label for="title">Tariff Category</label><br>
 									<select type="text"   class="form-control"
@@ -503,7 +504,7 @@ label {
 									
 									
 									</div>
-									<div class="row">
+									<div class="row ml-2">
 									<div class="col-6"><label for="title">Type Of Area</label><br>
 									<select type="text"  class="form-control"
 													id="typeOfArea">
@@ -527,12 +528,12 @@ label {
 									</div>
 
 
-									 <div class="row ml-2 mt-4">
+									 <div class="row ml-4 mt-4">
 										<h7>
 											 <b> Unique Property Identification Code (UPIC) available ? </b>
 										</h7>
 									</div>
-									<div class="row">
+									<div class="row ml-2">
 									<label for="alignRight"> <input type="radio"  name="yes"
 												 id="UPIC<%=connectionRequest.getUpicAvailable()%>"> Yes
 											</label> <label for="alignRight"> <input type="radio" 
@@ -552,7 +553,7 @@ label {
 
 
 							<section class="uploaded_documents">
-								<div class="container">
+								<div class="col ml-4" >
 									<table style="width: 100%">
 										<tr>
 											<th>S.No.</th>
@@ -582,8 +583,8 @@ label {
 
 
 							<section class="declaration">
-								<div class="container">
-									<div class="row ml-1 declaration_paragraph">
+								<div >
+									<div class="row ml-1 mr-1 declaration_paragraph">
 										<p>
 											1.That no objection certificate for seeking electricity
 											connection from the co-owner has been obtained (in case the
@@ -737,8 +738,8 @@ label {
 
 
 							<section class="declaration_for_building_height">
-								<div class="container">
-									<div class="row ml-1 declaration_for_building_height_paragraph">
+								<div>
+									<div class="row ml-1  mr-1 declaration_for_building_height_paragraph">
 										<p>
 											I, (hereinafter referred to as <sup>"</sup>Applicant<sup>"</sup>,
 											which term shall mean and include executors, administrators,
