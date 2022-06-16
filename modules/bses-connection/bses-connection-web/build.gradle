@@ -12,5 +12,5 @@ dependencies {
 	
 	
 	compile project(":modules:bses-connection:bses-connection-api")
-	compileOnly project(":modules:bses-sap-service-connector")
+	
 }

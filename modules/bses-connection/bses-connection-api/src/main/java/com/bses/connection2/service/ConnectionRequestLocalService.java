@@ -99,6 +99,9 @@ public interface ConnectionRequestLocalService
 			String requestMode)
 		throws PortalException;
 
+	public ConnectionRequest createNameChangeRequest(String caNumber)
+		throws PortalException;
+
 	public ConnectionRequest deleteByConnectionRequestId(
 			long connectionRequestId)
 		throws NoSuchConnectionRequestException;

@@ -15,16 +15,19 @@
 package com.bses.connection2.service.impl;
 
 import com.bses.connection2.model.OTP;
+import com.bses.connection2.service.SAPService;
 import com.bses.connection2.service.base.OTPLocalServiceBaseImpl;
 import com.bses.sap.connector.services.SapConnctorServiceApi;
 import com.bses.sap.model.DssISUCADisplayRequest;
 import com.bses.sap.model.DssISUCADisplayResponse;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -51,8 +54,10 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 
 	private static final Log log = LogFactoryUtil.getLog(OTPLocalServiceImpl.class);
 
-	@Reference
-	private SapConnctorServiceApi sapServiceApi;
+
+	@ServiceReference(type = SapConnctorServiceApi.class)
+	private SapConnctorServiceApi sapService;
+	
 	
 	public OTP generateOtp(String mobileNo, String email) {
 
@@ -188,16 +193,18 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 		try {
 			DssISUCADisplayRequest request = new DssISUCADisplayRequest();
 			caNumber= generateTwelveDigitCANo("103012062"); //103012062
-			System.out.println("caNumber - "+caNumber);
+			System.out.println("caNumber test- "+caNumber);
 			
 			request.setCaNumber(caNumber);
-			DssISUCADisplayResponse res= this.sapServiceApi.getDssISUCADisplay2(request);
+			
+			DssISUCADisplayResponse res= sapService.getDssISUCADisplay2(request);
 			System.out.println("1.OTPLocalServiceImpl:generateOTP");
 
 			String otpNumber = "1111111";//String.valueOf(generateOTP());
 			String smsBody = "Your One Time Password for New Connection is " + otpNumber
 					+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
-			mobileNo = res.getMobileNo();
+			System.out.println("DssISUCADisplayResponse - "+res);
+			mobileNo = "9810119400";//res.getMobileNo();
 			otp = otpLocalService.findByMobileNo(mobileNo);
 
 			if (otp == null) {

@@ -90,6 +90,12 @@ public class ConnectionRequestLocalServiceUtil {
 			mobileNo, emailId, requestType, requestMode);
 	}
 
+	public static ConnectionRequest createNameChangeRequest(String caNumber)
+		throws PortalException {
+
+		return getService().createNameChangeRequest(caNumber);
+	}
+
 	public static ConnectionRequest deleteByConnectionRequestId(
 			long connectionRequestId)
 		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
