@@ -17,7 +17,11 @@
 long connectionDocumentId=0;
 ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
 long connectionRequestId=requestEntity.getConnectionRequestId();
-String requestMode=ParamUtil.getString(request, "requestMode","");
+String requestMode=requestEntity.getRequestMode();
+String requestType=requestEntity.getRequestType();
+
+boolean idProofAndSignatureRequired=(requestType.equalsIgnoreCase(RequestTypeModeStatus.TYPE_NEW_CONNECTION) || requestType.equalsIgnoreCase(RequestTypeModeStatus.TYPE_NAME_CHANGE));
+boolean ownershipProofRequired=(requestType.equalsIgnoreCase(RequestTypeModeStatus.TYPE_NEW_CONNECTION) || requestType.equalsIgnoreCase(RequestTypeModeStatus.TYPE_ADDRESS_CHANGE));
 %>
 <aui:form cssClass="custom-form" role="form" name="documentForm" id="documentForm" section-attr="document">
 	<div class="container-fluid bg-white shadow p-5 my-3">
@@ -26,6 +30,9 @@ String requestMode=ParamUtil.getString(request, "requestMode","");
 				<h6 class="text-uppercase text-body font-weight-bold bg-light p-3"><liferay-ui:message key="document-section-title" /></h6>
 			</div>
 		</div>
+<%
+	if(idProofAndSignatureRequired){
+%>			
 		
 		<div class="row">
 			<div class="col-md-12">
@@ -34,6 +41,7 @@ String requestMode=ParamUtil.getString(request, "requestMode","");
 				</h6>
 			</div>
 		</div>
+		
 		<div class="row mb-3">
 			<div class="col-md-7 pl-5">
 				<label class="justify-content-start"><liferay-ui:message key="document-photo" /></label>
@@ -98,7 +106,7 @@ String requestMode=ParamUtil.getString(request, "requestMode","");
 <%
 		for(Map.Entry<String, String> entry:MasterData.getIDProofTypes().entrySet()){
 %>	
-			<aui:option value="<%=entry.getKey()%>" label="<%=entry.getValue()%>" selected="<%=StringUtils.equalsIgnoreCase(idProofDocumentName, entry.getValue())%>"/>
+			<aui:option value="<%=entry.getKey()%>" label="<%=entry.getValue()%>" selected="<%=StringUtils.equalsIgnoreCase(requestEntity.getIdProofType(), entry.getKey())%>"/>
 <%
 		}
 %>
@@ -107,7 +115,7 @@ String requestMode=ParamUtil.getString(request, "requestMode","");
 				
 				</div>
 				<div class="col-md-3">
-					<aui:input type="text" class="form-control" name="idProofNo" label="document-id-proof-no" >
+					<aui:input type="text" class="form-control" name="idProofNo" label="document-id-proof-no" value="<%=requestEntity.getIdProofNo() %>">
 						<aui:validator name="required"/>
 					</aui:input>
 				</div>
@@ -126,7 +134,13 @@ String requestMode=ParamUtil.getString(request, "requestMode","");
 	}
 %>			
 		</div>
-		
+<%
+	}
+%>	
+
+<%
+	if(ownershipProofRequired){
+%>		
 		<div class="row mb-3">
 			<div class="col-md-12">
 				<h6 class="font-weight-bold mb-0" style="border-radius: 4px 4px 0 0;">
@@ -134,7 +148,7 @@ String requestMode=ParamUtil.getString(request, "requestMode","");
 				</h6>
 			</div>
 		</div>
-			
+		
 		<div class="row">
 			<div class="col-md-4 pl-5">
 <%		
@@ -151,7 +165,7 @@ String requestMode=ParamUtil.getString(request, "requestMode","");
 <%
 		for(Map.Entry<String, String> entry:MasterData.getOwnershipProofTypes().entrySet()){
 %>	
-			<aui:option value="<%=entry.getKey()%>" label="<%=entry.getValue()%>" selected="<%=StringUtils.equalsIgnoreCase(ownershipProofDocumentName, entry.getValue())%>"/>
+			<aui:option value="<%=entry.getKey()%>" label="<%=entry.getValue()%>" selected="<%=StringUtils.equalsIgnoreCase(requestEntity.getOwnershipProofType(), entry.getKey())%>"/>
 <%
 		}
 %>
@@ -174,5 +188,9 @@ String requestMode=ParamUtil.getString(request, "requestMode","");
 	}
 %>			
 		</div>
+<%
+	}
+%>			
+		
 	</div>
 </aui:form>

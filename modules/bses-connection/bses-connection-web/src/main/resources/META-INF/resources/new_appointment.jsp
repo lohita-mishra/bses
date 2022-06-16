@@ -155,6 +155,7 @@
 		</liferay-util:include>
 
 		<liferay-util:include page="/documents.jsp" servletContext="<%=application%>">
+			<liferay-util:param name="requestMode" value="<%=RequestTypeModeStatus.MODE_APPOINTMENT%>" />
 		</liferay-util:include>
 		<liferay-util:include page="/declaration.jsp" servletContext="<%=application%>">
 		</liferay-util:include>	 					

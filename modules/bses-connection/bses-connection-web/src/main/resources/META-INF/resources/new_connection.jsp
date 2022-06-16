@@ -110,6 +110,10 @@
 	session.setAttribute(ConnectionRequest.class.getName()+"#id", requestEntity.getConnectionRequestId());
 	
 	String autoSaveFlag = PropsUtil.get("connection.request.auto.save");
+	long autoSaveFrequency=60;
+	try{
+		autoSaveFrequency=Integer.parseInt(PropsUtil.get("connection.request.auto.save.interval").trim());
+	}catch(Exception e){}
 	
 	if(autoSaveFlag!=null){
 		try{
@@ -118,7 +122,7 @@
 	}else{
 		autoSaveFlag="true";
 	}
-	autoSaveFlag="false";
+//	autoSaveFlag="false";
 %>
 
 <portlet:renderURL var="emailVerificationURL">
@@ -167,6 +171,7 @@
 <script>
 	var portletNamespace="<portlet:namespace/>";
 	var autoSaveFlag = <%=autoSaveFlag%>;
+	var autoSaveFrequency= <%=autoSaveFrequency%>;
 	$(document).ready(function() {
 		//$('[data-toggle="tooltip"]').tooltip();
 		documentOnload();
@@ -219,8 +224,8 @@
 		
 		var localityDivisionId=$('#'+portletNamespace+'locality').val();
 		
-		if(localityDivisionId!=''){
-			showDistrict(localityDivisionId);
+		if(localityDivisionId==''){
+			return;
 		}
 		
 		Liferay.Service(
@@ -955,7 +960,7 @@
 				console.log("Auto save is called...");
 				initAutoSaveForms(false);
 			}
-		}, 15000);
+		}, autoSaveFrequency*1000);
 	}
 	
 	function initAutoSaveForms(validate){

@@ -10,7 +10,8 @@ long connectionDocumentId=0;
 //Calendar calendar=Calendar.getInstance();
 ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
 long connectionRequestId=requestEntity.getConnectionRequestId();
-String requestMode=ParamUtil.getString(request, "requestMode","");
+String requestMode=requestEntity.getRequestMode();
+String requestType=requestEntity.getRequestType();
 
 //String folder="/Users/arjun/Documents/tools/liferay7/liferay-dxp-7.0.10.17-sp17/bses/application/newconnection_docs/"+calendar.get(Calendar.YEAR)+"/"+(calendar.get(Calendar.MONTH)+1)+"/RQ005";
 %>
