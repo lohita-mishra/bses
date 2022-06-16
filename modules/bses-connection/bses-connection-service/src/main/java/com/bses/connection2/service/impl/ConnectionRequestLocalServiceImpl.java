@@ -20,6 +20,7 @@ import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionDocumentLocalService;
 import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
+import com.bses.connection2.util.NameUtil;
 import com.bses.connection2.util.RequestTypeModeStatus;
 import com.bses.sap.connector.services.SapConnctorServiceApi;
 import com.bses.sap.model.DssISUCADisplayRequest;
@@ -163,9 +164,9 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		connectionRequest.setRequestMode(RequestTypeModeStatus.MODE_ONLINE);
 		connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_DRAFT);
 		
-		connectionRequest.setFirstName(getFirstName(res.getName()));
-		connectionRequest.setMiddleName(getMiddleName(res.getName()));
-		connectionRequest.setLastName(getLastName(res.getName()));
+		connectionRequest.setFirstName(NameUtil.getFirstName(res.getName()));
+		connectionRequest.setMiddleName(NameUtil.getMiddleName(res.getName()));
+		connectionRequest.setLastName(NameUtil.getLastName(res.getName()));
 		connectionRequest.setFatherOrHusbandName("");//TODO	
 		
 		connectionRequestPersistence.update(connectionRequest);
@@ -173,22 +174,6 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	}
 	
 	
-
-	private String getMiddleName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private String getLastName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private String getFirstName(String name) {
-		// TODO Auto-generated method stub
-		return name;
-	}
-
 	private void setDefaultNewAttributes(ConnectionRequest connectionRequest) {
 		connectionRequest.setTitle("0002");
 		connectionRequest.setWiringTest(true);
