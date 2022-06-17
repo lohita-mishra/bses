@@ -100,7 +100,7 @@ $(document).ready(function(){
 function validateForm(formId){
 	
     var liferayForm = Liferay.Form.get(formId);
-
+	//alert(liferayForm);
     if (liferayForm) {
         var validator = liferayForm.formValidator;
         

@@ -23,6 +23,7 @@ import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
 import com.bses.connection2.util.NameUtil;
 import com.bses.connection2.util.RequestTypeModeStatus;
 import com.bses.sap.connector.services.SapConnctorServiceApi;
+import com.bses.sap.model.CmsISUCADisplayResponse;
 import com.bses.sap.model.DssISUCADisplayRequest;
 import com.bses.sap.model.DssISUCADisplayResponse;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
@@ -153,11 +154,17 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		DssISUCADisplayRequest request = new DssISUCADisplayRequest();
 		caNumber= generateTwelveDigitCANo(caNumber); //103012062
 		request.setCaNumber(caNumber);
+	//	http://125.22.84.50:7850/delhiv2/ISUService.asmx/Z_BAPI_CMS_ISU_CA_DISPLAY
+		//	Z_BAPI_DSS_ISU_CA_DISPLAY
 		
 		DssISUCADisplayResponse res= sapService.getDssISUCADisplay2(request);
 		
+		CmsISUCADisplayResponse cmsRes = sapService.getCmsISUCADisplay(caNumber);
+		
 		ConnectionRequest connectionRequest = connectionRequestPersistence.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
 		connectionRequest.setMobileNo(res.getMobileNo());
+		
+		connectionRequest.setBpNumber(res.getBpNumber());
 		connectionRequest.setEmailId(res.getEmail());
 		connectionRequest.setRequestNo(requestNo);
 		connectionRequest.setRequestType(RequestTypeModeStatus.TYPE_NAME_CHANGE);
@@ -168,6 +175,25 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		connectionRequest.setMiddleName(NameUtil.getMiddleName(res.getName()));
 		connectionRequest.setLastName(NameUtil.getLastName(res.getName()));
 		connectionRequest.setFatherOrHusbandName("");//TODO	
+		
+		//set Address data
+			
+		connectionRequest.setHouseNo(cmsRes.getHouse_Number());
+		connectionRequest.setFloor(cmsRes.getFloor());
+		/*
+		connectionRequest.setLocality(cmsRes.get);
+		connectionRequest.setDistrict("");
+		connectionRequest.setBuildingName(cmsRes.);
+		connectionRequest.setStreet(cmsRes);
+		connectionRequest.setColonyArea(cmsRes);
+		connectionRequest.setLandmark(cmsRes);
+		connectionRequest.setLandmarkDetails(cmsRes);
+		
+		*/
+		connectionRequest.setPinCode(cmsRes.getPostCode());
+	//	connectionRequest.setregisteredAddress
+		
+		
 		
 		connectionRequestPersistence.update(connectionRequest);
 		return connectionRequest;

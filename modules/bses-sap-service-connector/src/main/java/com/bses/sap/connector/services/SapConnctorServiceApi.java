@@ -155,4 +155,6 @@ public interface SapConnctorServiceApi {
 
 	ZBapiCaDisplayWhatsApp getZ_BAPI_CA_DISPLAY_WHATSAPP(String caNo);
 
+	CmsISUCADisplayResponse getCmsISUCADisplay(String caNumber);
+
 }
