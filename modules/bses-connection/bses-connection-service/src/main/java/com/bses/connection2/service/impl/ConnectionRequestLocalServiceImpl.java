@@ -180,16 +180,16 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			
 		connectionRequest.setHouseNo(cmsRes.getHouse_Number());
 		connectionRequest.setFloor(cmsRes.getFloor());
-		/*
+	/*	
 		connectionRequest.setLocality(cmsRes.get);
 		connectionRequest.setDistrict("");
-		connectionRequest.setBuildingName(cmsRes.);
+		connectionRequest.setBuildingName(cmsRes.getb);
 		connectionRequest.setStreet(cmsRes);
 		connectionRequest.setColonyArea(cmsRes);
 		connectionRequest.setLandmark(cmsRes);
 		connectionRequest.setLandmarkDetails(cmsRes);
-		
 		*/
+	
 		connectionRequest.setPinCode(cmsRes.getPostCode());
 	//	connectionRequest.setregisteredAddress
 		

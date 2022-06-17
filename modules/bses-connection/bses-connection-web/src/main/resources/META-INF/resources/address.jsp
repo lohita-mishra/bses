@@ -82,7 +82,7 @@
 <%
 		}
 %>
-					<aui:validator name="required"/>
+				
 				</aui:select>
 			</div>
 
@@ -118,15 +118,13 @@
 <%
 		}
 %>
-
-					<aui:validator name="required"/>
 				</aui:select>
 			</div>
 
 			<div class="form-group col-md-3">
 				<%--<label>Landmark Details</label>--%> 
 				<aui:input type="text" class="form-control" name="landmarkDetail" label="address-landmark-detail" value="<%=requestEntity.getLandmarkDetails()%>">
-					<aui:validator name="required"/>
+				
 				</aui:input>
 			</div>
 
