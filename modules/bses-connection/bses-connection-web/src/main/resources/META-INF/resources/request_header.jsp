@@ -22,7 +22,7 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 		}
 	}else{
 %>	
-		Online Services / Change Request	
+		Online Services / <%=MasterData.getRequestType(requestEntity.getRequestType()) %>
 <%
 	}
 %>			

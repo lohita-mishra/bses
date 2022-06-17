@@ -1,5 +1,7 @@
 package com.bses.connection2.web.model;
 
+import com.bses.connection2.util.RequestTypeModeStatus;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -11,7 +13,25 @@ public class MasterData {
 	static final Map<String, String> premisesTypes=new LinkedHashMap<>();
 	static final Map<String, String> idProofTypes=new LinkedHashMap<>();
 	static final Map<String, String> ownershipProofTypes=new LinkedHashMap<>();
+	static final Map<String, String> requestTypes=new LinkedHashMap<>();
 	
+	public static Map<String, String> getRequestTypes(){
+		if(requestTypes.isEmpty()) {
+			requestTypes.put(RequestTypeModeStatus.TYPE_NEW_CONNECTION, "New Connection");
+			requestTypes.put(RequestTypeModeStatus.TYPE_NAME_CHANGE, "Name Change");
+			requestTypes.put(RequestTypeModeStatus.TYPE_ADDRESS_CHANGE, "Address Change");
+			requestTypes.put(RequestTypeModeStatus.TYPE_LOAD_CHANGE, "Load Change");
+			requestTypes.put(RequestTypeModeStatus.TYPE_CATEGORY_CHANGE, "Category Change");
+		}
+		return requestTypes;
+	}
+	
+	public static String getRequestType(String key){
+		if(requestTypes.isEmpty()) {
+			getRequestTypes();
+		}
+		return requestTypes.get(key);
+	}
 	
 	public static Map<String, String> getFloors(){
 		if(floors.isEmpty()) {
