@@ -613,19 +613,19 @@ function updateNameDetails()
 
 function updateAddress()
 {
-	var house = $("#<portlet:namespace/>houseNo").text();
+	var house = $("#<portlet:namespace/>houseNo").val();
 	var floor = $("#<portlet:namespace/>floor :selected").text().replace("-Select-","");
-	var buildingName = $("#<portlet:namespace/>buildingName").text();
-	var street = $("#<portlet:namespace/>street").text();
-	var colony = $("#<portlet:namespace/>colonyArea").text();
+	var buildingName = $("#<portlet:namespace/>buildingName").val();
+	var street = $("#<portlet:namespace/>street").val();
+	var colony = $("#<portlet:namespace/>colonyArea").val();
 	var lendmark = $("#<portlet:namespace/>landmark :selected").text().replace("-Select-","");
-	var lendmarkDetails = $("#<portlet:namespace/>landmarkDetail").text();
+	var lendmarkDetails = $("#<portlet:namespace/>landmarkDetail").val();
 	var locality = $("#<portlet:namespace/>locality :selected").text().replace("-Select-","");
-	var district = $("#<portlet:namespace/>district").text();
-	var cityPostalCode = $("#<portlet:namespace/>pinCode").text();
+	var district = $("#<portlet:namespace/>district").val();
+	var cityPostalCode = $("#<portlet:namespace/>pinCode").val();
 	
 	var arr = [floor,buildingName,house,street,colony,lendmark,lendmarkDetails,locality,district,cityPostalCode];	
-	
+	//alert(arr);
 	  var fullAddress = arr.filter(function(x) {
 
 		 // console.log(x);
@@ -635,6 +635,10 @@ function updateAddress()
 			// x = x.replace("-Select-","");
 			  console.log(x);
 		  	return x+",";
+		 }
+		 else
+		 {
+			return x; 
 		 }
 		 
 	     //return x !== undefined;
