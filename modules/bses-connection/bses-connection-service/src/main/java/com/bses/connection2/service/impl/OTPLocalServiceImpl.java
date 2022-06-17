@@ -188,19 +188,22 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 		OTP otp = null;
 		try {
 			DssISUCADisplayRequest request = new DssISUCADisplayRequest();
-			caNumber= generateTwelveDigitCANo("103012062"); //103012062
+			caNumber= generateTwelveDigitCANo(caNumber); //103012062
 			System.out.println("caNumber test- "+caNumber);
 			
 			request.setCaNumber(caNumber);
 			
 			DssISUCADisplayResponse res= sapService.getDssISUCADisplay2(request);
+			if(res == null) {
+				return "";
+			}
 			System.out.println("1.OTPLocalServiceImpl:generateOTP");
 
 			String otpNumber = "1111111";//String.valueOf(generateOTP());
 			String smsBody = "Your One Time Password for New Connection is " + otpNumber
 					+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
 			System.out.println("DssISUCADisplayResponse - "+res);
-			mobileNo = "9810119400";//res.getMobileNo();
+			mobileNo = res.getMobileNo();
 			otp = otpLocalService.findByMobileNo(mobileNo);
 
 			if (otp == null) {

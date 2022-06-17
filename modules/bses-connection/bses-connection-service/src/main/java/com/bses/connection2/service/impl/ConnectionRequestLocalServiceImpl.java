@@ -151,7 +151,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		LOGGER.info("caNumber - "+caNumber);
 		
 		DssISUCADisplayRequest request = new DssISUCADisplayRequest();
-		caNumber= generateTwelveDigitCANo("103012062"); //103012062
+		caNumber= generateTwelveDigitCANo(caNumber); //103012062
 		request.setCaNumber(caNumber);
 		
 		DssISUCADisplayResponse res= sapService.getDssISUCADisplay2(request);
@@ -172,7 +172,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		connectionRequestPersistence.update(connectionRequest);
 		return connectionRequest;
 	}
-	
+
 	
 	private void setDefaultNewAttributes(ConnectionRequest connectionRequest) {
 		connectionRequest.setTitle("0002");

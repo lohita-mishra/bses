@@ -18,8 +18,10 @@
 								<div class="col-md-12">
 									<div class="form-group mb-4">
 										<aui:input type="text" class="form-control" name="caNumber" label="CA Number" >
-											<aui:validator name="required" errorMessage="Please enter valid ca number!"/>
-											<aui:validator name="digits" errorMessage="Please enter valid ca number!"/>
+											<aui:validator name="required" errorMessage="Please enter 9 digit's valid ca number!"/>
+											<aui:validator name="digits" errorMessage="Please enter 9 digit's valid ca number!"/>
+											<aui:validator name="minLength" errorMessage="Please enter 9 digit's valid ca number!">9</aui:validator>
+											<aui:validator name="maxLength" errorMessage="Please enter 9 digit's valid ca number!">9</aui:validator>
 										</aui:input>
 										<aui:input  type="hidden" name="mobileNo" ></aui:input>
 									</div>
