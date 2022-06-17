@@ -236,6 +236,7 @@
 		showHideLiftUpload();
 		showHideWiringUpload();
 		showHideEmailServiceDiv();
+		handleTariffCategoryChange();
 	}
 	
 	function showHideConsumerTypeDiv() {
@@ -491,14 +492,14 @@
 		if (tariffCategory == "0100") {
 			showLoadKvaDiv(false);
 			$("#<portlet:namespace/>loadKw").prop("readonly", false);
-			$("#<portlet:namespace/>loadKw").val("");
-			$("#<portlet:namespace/>loadKva").val("");
+			//$("#<portlet:namespace/>loadKw").val("");
+			//$("#<portlet:namespace/>loadKva").val("");
 		} else {
 			showLoadKvaDiv(true);
 			$("#<portlet:namespace/>loadKva").prop("readonly", false);
 			$("#<portlet:namespace/>loadKw").prop("readonly", true);
-			$("#<portlet:namespace/>loadKw").val("");
-			$("#<portlet:namespace/>loadKva").val("");
+			//$("#<portlet:namespace/>loadKw").val("");
+			//$("#<portlet:namespace/>loadKva").val("");
 		}
 		if (tariffCategory == "0250") {
 			showBDOCert(true);

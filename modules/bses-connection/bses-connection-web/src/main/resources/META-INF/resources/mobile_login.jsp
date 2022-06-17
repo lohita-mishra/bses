@@ -121,7 +121,7 @@ function validateForm(formId){
 }
 
 $('#<portlet:namespace />generateOtp').click(function() {
-		f( validateForm('<portlet:namespace/>generateOtpForm')){
+		if( validateForm('<portlet:namespace/>generateOtpForm')){
 		 	generateOtp();
 		 }else{
 		 	return false;
@@ -130,7 +130,7 @@ $('#<portlet:namespace />generateOtp').click(function() {
 	});
 	
 $('#<portlet:namespace />validateOtp').click(function() {
-		f( validateForm('<portlet:namespace/>validateOtpForm')){
+		if( validateForm('<portlet:namespace/>validateOtpForm')){
 		 	validateOtp();
 		 }else{
 		 	return false;

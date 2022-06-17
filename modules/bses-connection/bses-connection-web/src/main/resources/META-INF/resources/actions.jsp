@@ -13,8 +13,8 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 	<div class="row">
 		<div class="col-md-12">
 			<div class="float-right">
-				<a class="btn btn-warning" id="<portlet:namespace/>previewBtn" >Preview</a> <a href="#saveasdraft" data-toggle="modal" class="btn btn-primary">Save
-					as Draft</a> <button type="button" class="btn btn-danger" id="<portlet:namespace/>submitBtn" value="Submit">Submit</button>
+				<a class="btn btn-warning" id="<portlet:namespace/>previewBtn" >Preview</a> <%--<a href="#saveasdraft" data-toggle="modal" class="btn btn-primary">Save
+					as Draft</a> --%> <button type="button" class="btn btn-danger" id="<portlet:namespace/>submitBtn" value="Submit">Submit</button>
 			</div>
 		</div>
 	</div>
@@ -27,13 +27,13 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 					dialog: {
 						//cssClass: 'aui-popup-example',
 						destroyOnHide: true,
-						height: 400,
-						width: 400
+						height: 1024,
+						width: 1200
 					},
 					dialogIframe: {
 						//bodyCssClass: 'custom-css-class'
 					},
-					title: 'My Own Title(400x400 Window Size)',
+					title: 'Preview Application',
 					uri: '<%=previewURL.toString()%>'
 				}
 			);
