@@ -77,8 +77,8 @@
 										communicated through defined channels of SMS and/or E-mail and/or Letter.</p>
 						      		</c:otherwise>
 						      	</c:choose> --%>
-						      	<p><strong>Note: </strong>The timeline starts after completion of commercial formalities . If there is any deficiency in documents , same will be
-										communicated through defined channels of SMS and/or E-mail and/or Letter.</p>
+						      	<p><strong>Note: </strong>The timeline starts after completion of commercial formalities . If there is any deficiency in documents , 
+						      	same will be <br>communicated through defined channels of SMS and/or E-mail and/or Letter.</p>
 						        <br>	
 					
 						        <p>Please take either print or write the Service Order Number for future references</p>

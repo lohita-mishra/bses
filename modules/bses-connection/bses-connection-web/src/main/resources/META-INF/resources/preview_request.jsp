@@ -160,7 +160,7 @@ label {
 												<select type="text" class="form-control" 
 													id="typeOfRegistration">
 													
-													<option ><%=connectionRequest.getRequestType()%></option>
+													<option ><%=connectionRequest.getConsumerType()%></option>
 													
 												</select>
 											</div>
@@ -183,7 +183,7 @@ label {
 
 
 							<section class="applicant_details">
-			<%if(connectionRequest.getRequestType().equalsIgnoreCase("U01")){ %>				
+			<%if(connectionRequest.getRequestType().equalsIgnoreCase("Individual")){ %>				
 								<div  >
 
 									<!-- <div class="row">

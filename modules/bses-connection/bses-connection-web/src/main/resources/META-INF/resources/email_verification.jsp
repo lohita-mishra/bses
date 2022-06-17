@@ -11,6 +11,10 @@ ConnectionRequest requestEntity=ConnectionRequestLocalServiceUtil.getConnectionR
 
 
 <portlet:actionURL name="verifyEmail" var="emailVarificationURL" />
+<portlet:renderURL var="acknowledgementURL" >
+	<portlet:param name="mvcPath" value="/acknowledgement.jsp" />
+	<portlet:param name="connectionRequestId" value="<%=String.valueOf(requestEntity.getConnectionRequestId()) %>" />
+</portlet:renderURL>
 
 <style>
 .modal {
@@ -200,6 +204,7 @@ function validateOtp(){
 		
 		$("#<portlet:namespace/>validateOtpForm").hide();
    		$(".email-success").show();
+   		window.location.href="<%=acknowledgementURL.toString() %>";
    		//var detailsForm = $("#<portlet:namespace/>generateOtpForm");
    		//detailsForm.submit();
    }
