@@ -183,7 +183,7 @@ label {
 
 
 							<section class="applicant_details">
-			<%if(connectionRequest.getRequestType().equalsIgnoreCase("Individual")){ %>				
+			<%if(connectionRequest.getConsumerType().equalsIgnoreCase("Individual")){ %>				
 								<div  >
 
 									<!-- <div class="row">

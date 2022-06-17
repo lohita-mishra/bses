@@ -22,21 +22,9 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 <aui:script position="inline" use="aui-base">
 	$(document).ready(function(){
 		$("#<portlet:namespace/>previewBtn").click(function(){
-			Liferay.Util.openWindow(
-				{
-					dialog: {
-						//cssClass: 'aui-popup-example',
-						destroyOnHide: true,
-						height: 1024,
-						width: 1200
-					},
-					dialogIframe: {
-						//bodyCssClass: 'custom-css-class'
-					},
-					title: 'Preview Application',
-					uri: '<%=previewURL.toString()%>'
+
+					window.location.href= '<%=previewURL.toString()%>'
 				}
 			);
 		});
-	})
 </aui:script>
