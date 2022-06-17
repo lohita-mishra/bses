@@ -3838,7 +3838,7 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 		.append("</soap:Envelope>");
 			
 		String requestXML = reqXML.toString();
-		String resXML = callService(requestXML,"http://125.22.84.50:7850/delhiv2/ISUService.asmx","http://tempuri.org/Z_BAPI_DSS_ISU_CA_DISPLAY");
+		String resXML = callService(requestXML,"http://125.22.84.50:7850/delhiv2/ISUService.asmx","http://tempuri.org/Z_BAPI_DSS_ISU_CA_DISPLAY","GET");
 	
 		//System.out.println("*****************************Get***********************************");
 		//System.out.println(resXML);
@@ -3858,7 +3858,7 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 		return resObj;
 	}
 	
-	private String callService(String requestXML,String serviceURL, String actionURL) {
+	private String callService(String requestXML,String serviceURL, String actionURL,String method) {
 		String xmlString = null;
 		String responseString = StringPool.BLANK;
 		StringBuffer outputSb = new StringBuffer();
@@ -3882,7 +3882,7 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 				httpConn.setRequestProperty("Content-Length", String.valueOf(b.length));
 				httpConn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
 				httpConn.setRequestProperty("SOAPAction", SOAPAction);
-				httpConn.setRequestMethod("GET");
+				httpConn.setRequestMethod(method);
 				httpConn.setDoOutput(true);
 				httpConn.setDoInput(true);
 				
@@ -3919,6 +3919,78 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 		*/
 		xmlString = outputSb.toString();
 		return xmlString;
+	}
+	
+	
+	public CmsISUCADisplayResponse getCmsISUCADisplay(String ca) {
+		CmsISUCADisplayResponse cmsISUCADisplayResponse = null;
+		StringBuilder reqXML = new StringBuilder();
+		reqXML.append(
+				"<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema/\" 	xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">")
+				.append("<soap:Body>").append("<Z_BAPI_CMS_ISU_CA_DISPLAY xmlns=\"http://tempuri.org/\">").append("<strCANumber>").append(ca).append("</strCANumber>")
+				.append("<strSerialNumber>").append("").append("</strSerialNumber>").append("<strConsumerNumber>").append("").append("</strConsumerNumber>")
+				.append("<strTelephoneNumber>").append("").append("</strTelephoneNumber>").append("<strKNumber>").append("").append("</strKNumber>")
+				.append("<strContractNumber>").append("").append("</strContractNumber>").append("</Z_BAPI_CMS_ISU_CA_DISPLAY>").append("</soap:Body>")
+				.append("</soap:Envelope>");
+		String requestXML = reqXML.toString();
+
+		String wsURL = "http://10.125.64.215:7850/delhiv2/ISUService.asmx";
+		String responseString = StringPool.BLANK;
+		StringBuffer outputSb = new StringBuffer();
+
+		if (Validator.isNotNull(wsURL)) {
+
+			InputStreamReader isr = null;
+			try {
+				URL url = new URL(wsURL);
+				URLConnection connection = url.openConnection();
+				HttpURLConnection httpConn = (HttpURLConnection) connection;
+				ByteArrayOutputStream bout = new ByteArrayOutputStream();
+				byte[] buffer = new byte[requestXML.length()];
+				buffer = requestXML.getBytes();
+				bout.write(buffer);
+				byte[] b = bout.toByteArray();
+				String SOAPAction = "http://tempuri.org/Z_BAPI_CMS_ISU_CA_DISPLAY";
+				httpConn.setRequestProperty("Content-Length", String.valueOf(b.length));
+				httpConn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+				httpConn.setRequestProperty("SOAPAction", SOAPAction);
+				httpConn.setRequestMethod("POST");
+				httpConn.setDoOutput(true);
+				httpConn.setDoInput(true);
+				OutputStream out = httpConn.getOutputStream();
+				// Write the content of the request to the outputstream of
+				// the HTTP Connection.
+				out.write(b);
+				out.close();
+				// Ready with sending the request.
+				isr = new InputStreamReader(httpConn.getInputStream());
+				BufferedReader in = new BufferedReader(isr);
+				while ((responseString = in.readLine()) != null) {
+					outputSb.append(responseString);
+				}
+			} catch (Exception e) {
+				//logger.error("Error occured while calling ZBAPI_DISPLAY_BILL_WEB with JAVA API : " + e);
+				e.printStackTrace();
+			} finally {
+				if (Validator.isNotNull(isr)) {
+					try {
+						isr.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			String xmlString = substringBetween(outputSb.toString(), "</xs:schema>", "</Z_BAPI_CMS_ISU_CA_DISPLAYResult>");
+
+			if (Validator.isNotNull(xmlString)) {
+				cmsISUCADisplayResponse = getResponseAfterParser(xmlString);
+
+			}
+
+		}
+		return cmsISUCADisplayResponse;
+
 	}
 
 }
