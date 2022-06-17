@@ -61,7 +61,7 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 		User user = null;
 		OTP otp = null;
 
-		String otpNumber = "1111111";//String.valueOf(generateOTP());
+		String otpNumber = generateOTP();
 		String smsBody = "Your One Time Password for New Connection is " + otpNumber
 				+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
 		try {
@@ -119,7 +119,7 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 	
 	public OTP resendOtp(String mobileNo, String email) {
 		OTP otp = null;
-		String otpNumber ="1111111"; //String.valueOf(generateOTP());
+		String otpNumber =generateOTP();
 		String smsBody = "Your One Time Password for New Connection is " + otpNumber
 				+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
 
@@ -140,7 +140,7 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 		
 		OTP otp = null;
 
-		String otpNumber = "1111111";//String.valueOf(generateOTP());
+		String otpNumber = generateOTP();
 		String Message = "Your One Time Password for New Connection is " + otpNumber
 				+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
 		try {
@@ -168,7 +168,7 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 	
 	public OTP resendEmailOtp(String mobileNo, String email) {
 		OTP otp = null;
-		String otpNumber = "1111111";//String.valueOf(generateOTP());
+		String otpNumber = generateOTP();
 		String smsBody = "Your One Time Password for New Connection is " + otpNumber
 				+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
 
@@ -199,7 +199,7 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 			}
 			System.out.println("1.OTPLocalServiceImpl:generateOTP");
 
-			String otpNumber = "1111111";//String.valueOf(generateOTP());
+			String otpNumber = generateOTP();
 			String smsBody = "Your One Time Password for New Connection is " + otpNumber
 					+ ". Do not share OTP to anyone for security reasons, BSES shall not be responsible for any misuse. Team BRPL";
 			System.out.println("DssISUCADisplayResponse - "+res);
@@ -234,9 +234,11 @@ public class OTPLocalServiceImpl extends OTPLocalServiceBaseImpl {
 		return cal.getTime();
 	}
 
-	private static long generateOTP() {
-		Random random = new Random();
-		return random.nextInt(9000000) + 1000000;
+	private  String generateOTP() {
+		return "1111111";
+		
+		//Random random = new Random();
+		//return random.nextInt(9000000) + 1000000;
 	}
 
 	
