@@ -23,9 +23,11 @@ import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.List;
 
@@ -94,9 +96,10 @@ public class ConnectionDocumentLocalServiceImpl
 			folder.mkdirs();
 		}
 		
-		String destFileName=calendar.getTimeInMillis()+"."+file.getName().substring(file.getName().lastIndexOf("."));
+		String destFileName=calendar.getTimeInMillis()+file.getName().substring(file.getName().lastIndexOf("."));
 		File dest=new File(folder, destFileName);
-		if(file.renameTo(dest)) {
+		
+		if(FileUtil.move(file, dest)) {
 			LOGGER.info(file.getAbsolutePath() +" was moved to "+dest.getAbsolutePath());
 		}else {
 			LOGGER.info(file.getAbsolutePath() +" could not be moved to "+dest.getAbsolutePath());
