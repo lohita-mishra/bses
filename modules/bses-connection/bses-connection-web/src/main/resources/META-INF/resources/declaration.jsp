@@ -502,11 +502,12 @@ $(document).ready(function(){
 	
 	var valueExist = false;
 
-	valueExist = $('#<portlet:namespace/>consumerForm').find('input:text')
+	$('#<portlet:namespace/>consumerForm').find('input:text')
     .each(function () {
     
     	if($(this).val() != "")
     	{
+    		valueExist =  true;
     		return true;
     	}
     	
@@ -519,11 +520,12 @@ $(document).ready(function(){
 	 
 	valueExist = false;
 	
-	valueExist = $('#<portlet:namespace/>addressForm').find('input:text')
+	 $('#<portlet:namespace/>addressForm').find('input:text')
     .each(function () {
     	
     	if($(this).val() != "")
     	{
+    		valueExist =  true;
     		return true;
     	}
     	
