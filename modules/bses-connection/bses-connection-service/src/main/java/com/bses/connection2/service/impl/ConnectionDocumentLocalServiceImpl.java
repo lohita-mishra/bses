@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.List;
@@ -98,11 +99,15 @@ public class ConnectionDocumentLocalServiceImpl
 		
 		String destFileName=calendar.getTimeInMillis()+file.getName().substring(file.getName().lastIndexOf("."));
 		File dest=new File(folder, destFileName);
-		
-		if(FileUtil.move(file, dest)) {
+		try {
+			FileUtil.copyFile(file, dest);
 			LOGGER.info(file.getAbsolutePath() +" was moved to "+dest.getAbsolutePath());
-		}else {
+		} catch (IOException e) {
 			LOGGER.info(file.getAbsolutePath() +" could not be moved to "+dest.getAbsolutePath());
+		}finally {
+			try {
+				FileUtil.delete(file);
+			}catch(Exception e) {}
 		}
 
 		if(connectionDocument==null) {
@@ -123,8 +128,9 @@ public class ConnectionDocumentLocalServiceImpl
 			
 		try {
 			ConnectionDocument connectionDocument=connectionDocumentPersistence.findByPrimaryKey(connectionDocumentId);
-			File file=new File(connectionDocument.getDocumentPath());
-			file.delete();
+			FileUtil.delete(connectionDocument.getDocumentPath());
+			//File file=new File(connectionDocument.getDocumentPath());
+			//file.delete();
 			connectionDocumentPersistence.remove(connectionDocument);
 			return true;
 		} catch (NoSuchConnectionDocumentException e) {
