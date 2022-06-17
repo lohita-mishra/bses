@@ -13,11 +13,13 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 	if(requestEntity.getRequestType().equalsIgnoreCase(RequestTypeModeStatus.TYPE_NEW_CONNECTION)){
 		if(requestEntity.getRequestMode().equalsIgnoreCase(RequestTypeModeStatus.MODE_ONLINE)){
 %>
-		Online Services / New Connection / Apply Online 
+		<!-- Online Services / New Connection / Apply Online  -->
+		Apply Online 
 <%			
 		}else{
 %>
-		Online Services / New Connection / Appointment for Visit 
+		<!-- Online Services / New Connection / Appointment for Visit -->
+		Appointment for Visit 
 <%			
 		}
 	}else{

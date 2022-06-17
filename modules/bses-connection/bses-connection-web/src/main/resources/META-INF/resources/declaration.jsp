@@ -14,6 +14,16 @@ div.scroll {
 	overflow-y: auto;
 	text-align: justify;
 }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table.center {
+  margin-left: auto; 
+  margin-right: auto;
+}
 </style>
 </head>
 <body>
@@ -310,7 +320,7 @@ div.scroll {
 				<p>9. I will lay underground HDPE pipe &amp; make trench for laying cable inside the premise up to the position of meter installation
 					condidering future load growth in case of underground service cable, as per the table given below.</p>
 
-				<table class="center1" style="width: 80%">
+				<table class="center" style="width: 80%">
 					<tbody>
 						<tr style="background-color: black; color: white; text-align: center;">
 							<th colspan="3" style="text-align: center;">HDPE Pipe Sizes for laying of Underground Cables*</th>
@@ -367,7 +377,7 @@ div.scroll {
 
 				<p>13. I do hereby undertake and abide to maintain safe distance between my premise and BSES network always as per the below prescribed norms.</p>
 
-				<table class="center2" style="width: 100%">
+				<table class="center" style="width: 100%">
 					<tbody>
 						<tr style="background-color: black; color: white; text-align: center;">
 							<th style="text-align: center;">Sr.No</th>

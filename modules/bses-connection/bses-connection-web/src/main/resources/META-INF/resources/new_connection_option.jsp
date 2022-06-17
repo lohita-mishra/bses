@@ -24,7 +24,7 @@
 			<div class="modal-body align-items-center justify-content-center shadow px-4 py-3 rounded" style="min-height: 200px;">
 				<div class="help-text text-danger text-center fs-18 my-3">
 					<!-- i class="far fa-paper-plane fa-fw text-danger"></i-->
-					<span style="text-decoration: underline;">Important Note:</span><br> Request for Appointment is not applicable for connections <br>with
+					<span style="text-decoration: underline;">Important Note:</span><br> "Request for Appointment" is not applicable for connections <br>with
 					load > 45 KW.
 				</div>
 				<div class="text-danger text-center my-5">

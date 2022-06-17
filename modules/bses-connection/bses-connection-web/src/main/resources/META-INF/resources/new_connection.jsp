@@ -517,7 +517,9 @@
 	function handleKvaChange() {
 		var kva = $("#<portlet:namespace/>loadKva").val();
 		if (kva != "" && kva != "0") {
-			$("#<portlet:namespace/>loadKw").val(kva * 0.98);
+			var kvakw = Math.round(kva * 0.98);
+			console.log("kvakw : "+(kva * 0.98));
+			$("#<portlet:namespace/>loadKw").val(kvakw);
 		}
 	}
 
