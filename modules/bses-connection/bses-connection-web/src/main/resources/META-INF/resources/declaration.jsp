@@ -657,11 +657,19 @@ $('#<portlet:namespace/>addressForm').find(':input')
 .each(function () {
 	
 	$(this).keyup(function(){ 
-		console.log("key up function called");
 		updateAddress();
 		}); 
  });
  
+ 
+if($("#<portlet:namespace/>consumerType")){
+	 $('#<portlet:namespace/>consumerType').change(function(){
+			updateName();
+		
+ });
+}
+
+
  
 if($("#<portlet:namespace/>houseNo")){
 	$("#<portlet:namespace/>houseNo").keyup(function(){  
