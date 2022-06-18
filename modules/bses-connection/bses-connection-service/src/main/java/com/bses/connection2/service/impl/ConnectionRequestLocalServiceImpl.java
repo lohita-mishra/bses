@@ -163,8 +163,10 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		
 		ConnectionRequest connectionRequest = connectionRequestPersistence.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
 		connectionRequest.setMobileNo(res.getMobileNo());
-		
 		connectionRequest.setBpNumber(res.getBpNumber());
+		
+		connectionRequest.setConsumerType(getConsumerType(res.getBpType()));
+		
 		connectionRequest.setEmailId(res.getEmail());
 		connectionRequest.setRequestNo(requestNo);
 		connectionRequest.setRequestType(RequestTypeModeStatus.TYPE_NAME_CHANGE);
@@ -200,6 +202,14 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	}
 
 	
+	private String getConsumerType(String consumerType) {
+		System.out.println("consumerType >>  "+consumerType);
+		if(StringUtils.equalsIgnoreCase(consumerType, "Normal")) {
+			return "Individual";
+		}
+		return "Firm";
+	}
+
 	private void setDefaultNewAttributes(ConnectionRequest connectionRequest) {
 		connectionRequest.setTitle("0002");
 		connectionRequest.setWiringTest(true);
