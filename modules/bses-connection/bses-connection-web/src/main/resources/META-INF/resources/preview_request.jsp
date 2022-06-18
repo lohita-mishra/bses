@@ -1,3 +1,4 @@
+<%@page import="com.bses.connection2.service.LocalityDivisionLocalServiceUtil"%>
 <%@ include file="/init.jsp"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List" %>
@@ -8,6 +9,8 @@
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
 <%@page import="com.bses.connection2.web.model.MasterData"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,14 +56,17 @@ input[type="file"] {
 
 .declaration_for_building_height_paragraph {
 	font-size: 10px;
+	
 }
 
 .declaration_paragraph {
 	font-size: 10px;
+	
 }
 
 .declaration_for_building_height {
 	border: 3px solid black;
+	display:none;
 }
 
 .general_particulars {
@@ -85,8 +91,11 @@ input[type="file"] {
 
 .declaration {
 	border: 3px solid black;
+	display:none;
 }
-
+.documents_checklist{
+border: 3px solid black;
+}
 .load {
 	width: 60%;
 }
@@ -120,12 +129,20 @@ label {
 
 </head>
 <body>
+
+
 <%
 		long connectionRequestId = ParamUtil.getLong(request, "connectionRequestId", 0);
 		ConnectionRequest connectionRequest = ConnectionRequestLocalServiceUtil.getConnectionRequest(connectionRequestId);
+		System.out.println(connectionRequest);
 		List<ConnectionDocument> connectionDocumentList = ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestId(connectionRequestId);
+		
+		//ConnectionDocument connectionDocument = ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestIdAndDocumentType(connectionRequestId,"Applicant Photo");
+		//String docId = String.valueOf(connectionDocument.getConnectionDocumentId());
 	%>
-
+<portlet:renderURL var="documentViewerURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+	<portlet:param name="mvcPath" value="/document_viewer.jsp" />
+</portlet:renderURL>
 	
 
 			<div class="col-md-10 pt-2">
@@ -157,12 +174,12 @@ label {
 											<label for="typeOfRegistration">Type Of Registration
 											</label>
 											<div class="form-group col-md-6">
-												<select type="text" class="form-control" 
-													id="typeOfRegistration">
+												<input type="text" class="form-control" readonly
+													id="typeOfRegistration" value="<%=connectionRequest.getConsumerType()%>">
 													
-													<option ><%=connectionRequest.getConsumerType()%></option>
 													
-												</select>
+													
+												
 											</div>
 										</div>
 										<div class="mt-5 ml-2 row ">
@@ -171,10 +188,27 @@ label {
 										</div>
 									</div>
 									<div class="col-4" style="margin-top: 5%;">
-										<img class="img-fluid"
-											src="<%=request.getContextPath()%>/images/man.jpeg"
-											alt="Side Images" title="man">
-									</div>
+									
+							<%-- <img class="img-fluid"
+											src="<%=%>/images/man.jpeg"
+											alt="Side Images" title="man"> 
+											
+											<iframe id="<portlet:namespace/>document-iframe" src="<%=documentDownloadURL.toString()%>" width="100%" height="100"></iframe>--%>
+
+							<div class="col-sm-5">
+								<liferay-util:include page="/document-upload-element.jsp"
+									servletContext="<%=application%>">
+									<liferay-util:param name="elementName" value="applicantPhoto" />
+									<liferay-util:param name="documentType" value="Applicant Photo" />
+									<liferay-util:param name="documentName" value="Applicant Photo" />
+									<liferay-util:param name="fileTypes"
+										value="image/png,image/jpeg" />
+									<liferay-util:param name="thumbnail" value="true"  />
+									<liferay-util:param name="readonly" value="true"/>
+									
+								</liferay-util:include>
+							</div>
+						</div>
 
 								</div>
 							
@@ -246,7 +280,7 @@ label {
 
 
 
-									<h7>
+									<h7 class="ml-2">
 										1b. <b>Additional Details</b>
 									</h7>
 
@@ -258,12 +292,12 @@ label {
 
 												
 												<div class="col-8">
-													<label for="alignRight"> <input type="radio"  name="title" value="relation<%=connectionRequest.getSonDaughterWife()%>">
+													<label for="alignRight"> <input type="radio"  name="son" id="S" disabled>
 														Son
-													</label > <label for="alignRight"> <input type="radio"  name="title" value="relation<%=connectionRequest.getSonDaughterWife()%>">
+													</label > <label for="alignRight"> <input type="radio"  name="daughter" id="D" disabled>
 														Daughter
-													</label> <label for="alignRight"> <input type="radio"  name="title"
-														value="relation<%=connectionRequest.getSonDaughterWife()%>"> Wife of
+													</label> <label for="alignRight"> <input type="radio"  name="wifeOf"
+														id="W" disabled> Wife of
 													</label>
 												</div>
 
@@ -365,7 +399,7 @@ label {
 											<label>Locality</label><br>
 										
 											<select style="width: 95%;" type="text" class="form-control" id="#">
-												<option ><%=connectionRequest.getLocality()%></option>
+												<option ><%=LocalityDivisionLocalServiceUtil.getLocalityDivision(Long.parseLong(connectionRequest.getLocality())).getLocalityName()%></option>
 												
 											</select>
 										
@@ -473,9 +507,9 @@ label {
 									<div class="mt-3 row">
 
 										<div class="form-group col ml-2 ">
-										             <label for="alignRight"> <input type="radio"  name="title"  id="connectionType<%=connectionRequest.getConnectionType()%>">
+										             <label for="alignRight"> <input type="radio"  name="title"  id="1" disabled>
 														Permanent
-													</label> <label for="alignRight"> <input type="radio"  name="title" id="connectionType<%=connectionRequest.getConnectionType()%>"
+													</label> <label for="alignRight"> <input type="radio"  name="title" id="0" disabled
 														> Temporary
 													</label> 
 											
@@ -508,10 +542,11 @@ label {
 									<div class="col-6"><label for="title">Type Of Area</label><br>
 									<select type="text"  class="form-control"
 													id="typeOfArea">
-													
-													<option value="typeOfAreaJJCLUSTER">Jhuggi Jhopri Cluster</option>
-													<option value="typeOfAreaOTHR">Others</option>
-													
+												<% 	if(connectionRequest.getAreaType().equals("JJCLUSTER")){%>
+													<option value="typeOfAreaJJCLUSTER" id="JJCLUSTER">Jhuggi Jhopri Cluster</option>
+													<%} else { %>
+													<option value="typeOfAreaOTHR" id="OTHR">Others</option>
+													<%} %>
 												</select></div>
 									<div class="col-6"><label for="title">Type of Premises</label><br>
 									<select type="text"  class="form-control"
@@ -535,9 +570,9 @@ label {
 									</div>
 									<div class="row ml-2">
 									<label for="alignRight"> <input type="radio"  name="yes"
-												 id="UPIC<%=connectionRequest.getUpicAvailable()%>"> Yes
+												 id="true" disabled> Yes
 											</label> <label for="alignRight"> <input type="radio" 
-												name="no "  id="UPIC<%=connectionRequest.getUpicAvailable()%>">
+												name="yes"  id="false" disabled>
 												No
 											</label> 
 									
@@ -546,7 +581,191 @@ label {
 									
 								</div>
 							</section>
+							<div class="mt-5 row">
+								<h5 class="font-weight-bold ml-4">Documents CheckList</h5>
+							</div>
+							<section class="documents_checklist">
+							<div class="row mt-2 ml-2">
+							<div class="col-sm-8">
+				<label for="" class="font-weight-bold col-form-label">
+					<span class="font-weight-bold mr-2">1.</span><span> Internal Wiring at the premises has been tested by a Licensed Electrical Contractor/designated officer of the Government and the test Certificate is available with the applicant. </span>
+				</label>
+			
+			</div>
+						<div class="col-sm-2">	
 							
+							<label > <input type="radio"  name="Wiring"
+												 id="Wiringtrue" disabled> Yes
+											</label> <label for=""> <input type="radio" 
+												name="Wiring"  id="Wiringfalse" disabled>
+												No
+											</label> 
+							
+							
+							
+							</div>
+							
+							
+							</div>
+							<div class="row mt-2 ml-2">
+							<div class="col-sm-8">
+							<label for="" class="font-weight-bold col-form-label">
+					<span class="font-weight-bold mr-2">2.</span><span> ELCB(Earth Leakage Circuit Breaker) installed ? </span>
+				</label>
+							</div>
+							<div class="col-sm-2">	
+							<label for=""> <input type="radio"  name="installed"
+												 id="ELCBtrue" disabled> Yes
+											</label> <label for=""> <input type="radio" 
+												name="installed"  id="ELCBfalse" disabled>
+												No
+											</label>
+							</div>
+							</div>
+							<div class="row mt-2 ml-2">
+							<div class="col-sm-8">
+				<label for="" class="font-weight-bold col-form-label">
+					<span class="font-weight-bold mr-2">3.</span><span> Do you have Stilt Parking? </span>
+				</label>
+			
+			</div>
+						<div class="col-sm-2">	
+							
+							<label for=""> <input type="radio"  name="Parking"
+												 id="Parkingtrue" disabled> Yes
+											</label> <label for=""> <input type="radio" 
+												name="Parking"  id="Parkingfalse" disabled>
+												No
+											</label> 
+							
+							
+							
+							</div>
+							
+							
+							</div>
+							<div class="row mt-2 ml-3">
+							<div class="col-sm-8">
+				<label for="" class="font-weight-bold col-form-label">
+				<%if(connectionRequest.getStiltParking()==false){ %>
+					<span class="font-weight-bold mr-2">i.</span><span>Is your building height < 15 meters? </span>
+					<%} else { %>
+					<span class="font-weight-bold mr-2">i.</span><span>Is your building height < 17.5 meters? </span>
+					<%} %>
+				</label>
+			
+			</div>
+						<div class="col-sm-2">	
+							
+							<label for=""> <input type="radio"  name="height"
+												 id="heighttrue" disabled> Yes
+											</label> <label for=""> <input type="radio" 
+												name="height"  id="heightfalse" disabled>
+												No
+											</label> 
+							
+							
+							
+							</div>
+							
+							
+							</div>
+							<%if(connectionRequest.getStiltParking()==true && (connectionRequest.getHeight15Mtr()==false ||connectionRequest.getHeight17Mtr()==false)){ %>
+							<div class="row mt-2 ml-4">
+							<div class="col-sm-8">
+				<label for="" class="font-weight-bold col-form-label">
+					<span class="font-weight-bold mr-2">ii.</span><span>Do you have fire clearance certificate(FCC) ? </span>
+				</label>
+			
+			</div>
+						<div class="col-sm-2">	
+							
+							<label for=""> <input type="radio"  name="FCC"
+												 id="FCCtrue" disabled> Yes
+											</label> <label for=""> <input type="radio" 
+												name="FCC"  id="FCCfalse" disabled>
+												No
+											</label> 
+							
+							
+							
+							</div>
+							
+							
+							</div>
+							<%} %>
+							<div class="row mt-2 ml-2">
+							<div class="col-sm-8">
+				<label for="" class="font-weight-bold col-form-label">
+					<span class="font-weight-bold mr-2">4.</span><span>  Lift is installed in premises and the applicant has obtained the lift fitness certificate from the Electrical Inspector for the lift in the said premises and the same is available with the applicant. </span>
+				</label>
+			
+			</div>
+						<div class="col-sm-2">	
+							
+							<label for=""> <input type="radio"  name="Lift"
+												 id="Lifttrue" disabled> Yes
+											</label> <label for=""> <input type="radio" 
+												name="Lift"  id="Liftfalse" disabled>
+												No
+											</label> 
+							
+							
+							
+							</div>
+							
+							
+							</div>
+							
+							<%if(connectionRequest.getTariffCategory().equals("0250")){ %>
+							<div class="row mt-2 ml-2">
+							<div class="col-sm-8">
+				<label for="" class="font-weight-bold col-form-label">
+					<span class="font-weight-bold mr-2">5.</span><span>Do you have agriculture certificate from Block Development Officer(BDO)? </span>
+				</label>
+			
+			</div>
+						<div class="col-sm-2">	
+							
+							<label for=""> <input type="radio"  name="agriculture"
+												 id="agriculturetrue" disabled> Yes
+											</label> <label for=""> <input type="radio" 
+												name="agriculture"  id="agriculturefalse" disabled>
+												No
+											</label> 
+							
+							
+							
+							</div>
+							
+							
+							</div>
+							<%} else { %>
+							<div class="row mt-2 ml-2">
+							<div class="col-sm-8">
+				<label for="" class="font-weight-bold col-form-label">
+					<span class="font-weight-bold mr-2">6.</span><span>Do you want to avail E-Services on Email?
+ </span>
+				</label>
+			
+			</div>
+						<div class="col-sm-2">	
+							
+							<label for=""> <input type="radio"  name="Email"
+												 id="Emailtrue" disabled> Yes
+											</label> <label for=""> <input type="radio" 
+												name="Email"  id="Emailfalse" disabled>
+												No
+											</label> 
+							
+							
+							
+							</div>
+							
+							
+							</div>
+							<%} %>
+							</section>
 							<div class="mt-5 row">
 								<h5 class="font-weight-bold ml-4">Uploaded Documents</h5>
 							</div>
@@ -559,30 +778,33 @@ label {
 											<th>S.No.</th>
 											<th>Document Name</th>
 											<th>Document Type</th>
-											<th>Uploaded Date</th>
-											<th>Uploaded By</th>
 											<th>Download/Show</th>
 
 										</tr>
-									
+									<% 
+										int i=0;
+										for(ConnectionDocument connectionDocument2:connectionDocumentList){
+											if(connectionDocument2.getDocumentType().equalsIgnoreCase("Applicant Photo")||connectionDocument2.getDocumentType().equalsIgnoreCase("Applicant Signature"))
+												continue;
+									%>
 										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											<td><%=i++ %></td>
+											<td><%=connectionDocument2.getDocumentName() %></td>
+											<td><%=connectionDocument2.getDocumentType() %></td>
+											<td><button Class="btn-primary m-1"  id="btnShow" value="Show" onClick="viewDocument(<%=connectionDocument2.getConnectionDocumentId() %>)" >View</button></td>
 										</tr>
-
+									<%
+										}
+									%>
 									</table>
 								</div>
 							</section>
 							<div class="mt-5 row">
-								<h5 class="font-weight-bold ml-4">Declaration</h5>
+								<h5 hidden class="font-weight-bold ml-4">Declaration</h5>
 							</div>
 
 
-							<section class="declaration">
+							<section class="declaration" >
 								<div >
 									<div class="row ml-1 mr-1 declaration_paragraph">
 										<p>
@@ -732,12 +954,12 @@ label {
 								</div>
 							</section>
 							<div class="mt-5 row">
-								<h5 class="font-weight-bold ml-4">Declaration for Building
+								<h5 hidden class="font-weight-bold ml-4">Declaration for Building
 									Height</h5>
 							</div>
 
 
-							<section class="declaration_for_building_height">
+							<section class="declaration_for_building_height" >
 								<div>
 									<div class="row ml-1  mr-1 declaration_for_building_height_paragraph">
 										<p>
@@ -811,7 +1033,22 @@ label {
 											</h6>
 
 										</div>
-									</div>
+								<div class="col-md-5">
+									<liferay-util:include page="/document-upload-element.jsp"
+										servletContext="<%=application%>">
+										<liferay-util:param name="elementName"
+											value="applicantSignature" />
+										<liferay-util:param name="documentType"
+											value="Applicant Signature" />
+										<liferay-util:param name="documentName"
+											value="Applicant Signature" />
+										<liferay-util:param name="fileTypes"
+											value="image/png,image/jpeg" />
+										<liferay-util:param name="thumbnail" value="true" />
+										<liferay-util:param name="readonly" value="true"/>
+									</liferay-util:include>
+								</div>
+							</div>
 								</div>
 							</section>
 
@@ -846,10 +1083,36 @@ label {
 
 	<button onclick="window.print()" style="margin-left: 30%; width: 6%;">Print
 	</button>
-	<script type="text/javascript">
-document.getElementById("connectionType<%=connectionRequest.getConnectionType()%>").checked=true;
-document.getElementById("relation<%=connectionRequest.getSonDaughterWife()%>").checked=true;
-document.getElementById("UPIC<%=connectionRequest.getUpicAvailable()%>").checked=true;
+<aui:script use="aui-base, liferay-preview, liferay-util-window"> 
+document.getElementById("<%=connectionRequest.getSonDaughterWife()%>").checked=true;
+
+document.getElementById("<%=connectionRequest.getConnectionType()%>").checked=true;
+
+
+document.getElementById("<%=connectionRequest.getUpicAvailable()%>").checked=true;
+document.getElementById("Wiring<%=connectionRequest.getWiringTest()%>").checked=true;
+document.getElementById("ELCB<%=connectionRequest.getElcbInstalled()%>").checked=true;
+document.getElementById("Parking<%=connectionRequest.getStiltParking()%>").checked=true;
+document.getElementById("height<%=connectionRequest.getHeight15Mtr()%>").checked=true;
+<%-- document.getElementById("height<%=connectionRequest.getHeight17Mtr()%>").checked=true; --%>
+<%if(connectionRequest.getStiltParking()==true && (connectionRequest.getHeight15Mtr()==false ||connectionRequest.getHeight17Mtr()==false)){ %>
+document.getElementById("FCC<%=connectionRequest.getFcc()%>").checked=true;
+<%} %>
+document.getElementById("Lift<%=connectionRequest.getLift()%>").checked=true;
+
+<%if(connectionRequest.getTariffCategory().equals("0250")){ %>
+document.getElementById("agriculture<%=connectionRequest.getAgriConsumer()%>").checked=true;
+<%} else { %>
+document.getElementById("Email<%=connectionRequest.getEServiceOnMail()%>").checked=true;
+<%} %>
+
+</aui:script>
+
+<script>
+function viewDocument(connectionDocumentId){
+	
+	window.location.href='<%=documentViewerURL.toString()%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId;
+}
 
 
 </script>
