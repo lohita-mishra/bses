@@ -1,3 +1,4 @@
+<%@page import="com.bses.connection2.web.portlet.ViewHelper"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.bses.connection2.web.model.MasterData"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
@@ -5,6 +6,7 @@
 <%@ include file="/init.jsp"%>
 <%
 ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
+System.out.println("ConsumerType.jsp>requestEntity.getConsumerType()>"+requestEntity.getConsumerType());
 %>
 <portlet:actionURL name="saveForm" var="saveFormActionURL">
 	<portlet:param name="formAction" value="saveConsumer" />
@@ -21,12 +23,16 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 		<div class="row">
 			<div class="form-group col-md-4">
 				<%--<label class="control-label font-weight-bold" for="consumerType">Consumer Type <span class="text-danger">*</span></label>--%> 
-				<aui:select class="form-control" name="consumerType" label="consumer-type">
+				<%if(!ViewHelper.canEditConsumerType(requestEntity)){%>
+					<aui:input type="text" name="consumerType" value="<%=requestEntity.getConsumerType()%>" readOnly="true"/>
+				<%}else{ %>
+				<aui:select class="form-control" name="consumerType" label="consumer-type" >
 					<aui:option value="" label="-Select-" />
 					<aui:option value="<%=MasterData.ConsumerTypes.Individual.name() %>" selected="<%=StringUtils.isBlank(requestEntity.getConsumerType()) || StringUtils.equalsIgnoreCase(requestEntity.getConsumerType(), MasterData.ConsumerTypes.Individual.name())%>" label="Individual" />
 					<aui:option value="<%=MasterData.ConsumerTypes.Firm.name() %>" selected="<%=StringUtils.equalsIgnoreCase(requestEntity.getConsumerType(), MasterData.ConsumerTypes.Firm.name())%>" label="Firm/Trust/Company/Others" />
 					<aui:validator name="required" />
 				</aui:select>
+				<%} %>
 			</div>
 		</div>
 

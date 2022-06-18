@@ -156,6 +156,7 @@ import aQute.bnd.annotation.ProviderType;
 /**
  * The Class BsesSapConnectorservice.
  */
+
 @Component(immediate = true,
 		service = SapConnctorServiceApi.class)
 @ProviderType
@@ -3934,7 +3935,7 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 				.append("</soap:Envelope>");
 		String requestXML = reqXML.toString();
 
-		String wsURL = "http://10.125.64.215:7850/delhiv2/ISUService.asmx";
+		String wsURL = "http://125.22.84.50:7850/delhiv2/ISUService.asmx";//"http://10.125.64.215:7850/delhiv2/ISUService.asmx";
 		String responseString = StringPool.BLANK;
 		StringBuffer outputSb = new StringBuffer();
 
@@ -3954,7 +3955,7 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 				httpConn.setRequestProperty("Content-Length", String.valueOf(b.length));
 				httpConn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
 				httpConn.setRequestProperty("SOAPAction", SOAPAction);
-				httpConn.setRequestMethod("POST");
+				httpConn.setRequestMethod("GET");
 				httpConn.setDoOutput(true);
 				httpConn.setDoInput(true);
 				OutputStream out = httpConn.getOutputStream();
@@ -3980,7 +3981,8 @@ public class BsesSapConnectorservice implements SapConnctorServiceApi {
 					}
 				}
 			}
-
+			System.out.println("************ Service Response ***********");
+			System.out.println(outputSb.toString());
 			String xmlString = substringBetween(outputSb.toString(), "</xs:schema>", "</Z_BAPI_CMS_ISU_CA_DISPLAYResult>");
 
 			if (Validator.isNotNull(xmlString)) {

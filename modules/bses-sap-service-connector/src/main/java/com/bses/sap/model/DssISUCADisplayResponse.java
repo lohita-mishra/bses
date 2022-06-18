@@ -24,6 +24,10 @@ public class DssISUCADisplayResponse {
 	@XmlElement(name = "Bp_Name")
 	private String name;
 	
+	//new field added
+	@XmlElement(name = "Bp_Type")
+	private String bpType;
+	
 	@XmlElement(name = "Search_Term2")
 	private String consumerType;
 
@@ -146,6 +150,14 @@ public class DssISUCADisplayResponse {
 
 	public void setConsumerType(String consumerType) {
 		this.consumerType = consumerType;
+	}
+	
+	public String getBpType() {
+		return bpType;
+	}
+
+	public void setBpType(String bpType) {
+		this.bpType = bpType;
 	}
 
 	public String getHouseNumber() {
