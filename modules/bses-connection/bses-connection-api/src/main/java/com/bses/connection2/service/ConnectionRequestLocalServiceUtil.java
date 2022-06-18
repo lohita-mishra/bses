@@ -367,6 +367,17 @@ public class ConnectionRequestLocalServiceUtil {
 		return getService().getConnectionRequestsCount();
 	}
 
+	public static int getCountByMobileNoAndRequestStatus(
+		String mobileNo, String requestStatus) {
+
+		return getService().getCountByMobileNoAndRequestStatus(
+			mobileNo, requestStatus);
+	}
+
+	public static int getCurrentDraftCount(String mobileNo) {
+		return getService().getCurrentDraftCount(mobileNo);
+	}
+
 	public static boolean getEmailAndSendOTPNEW(
 		String emailId,
 		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay) {
@@ -387,6 +398,10 @@ public class ConnectionRequestLocalServiceUtil {
 			getIndexableActionableDynamicQuery() {
 
 		return getService().getIndexableActionableDynamicQuery();
+	}
+
+	public static int getMaxDraftCount() {
+		return getService().getMaxDraftCount();
 	}
 
 	/**

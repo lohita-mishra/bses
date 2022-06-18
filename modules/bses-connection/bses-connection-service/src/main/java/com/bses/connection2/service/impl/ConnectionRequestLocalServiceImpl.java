@@ -128,10 +128,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		String requestNo = "R-TMP-" + new Date().getTime();
 		LOGGER.info(mobileNo + " - " + emailId + " - " + requestNo);
 		int draftCount=connectionRequestPersistence.countByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);
-		int maxCount=5;
-		try{
-			maxCount=Integer.parseInt(PropsUtil.get("connection.request.draft.max.count").trim());
-		}catch(Exception e){}
+		int maxCount=getMaxDraftCount();
 		
 		if(draftCount>=maxCount) {
 			throw new PortalException("Maximum number of pending requests reached "+maxCount);
@@ -636,5 +633,21 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			//log.debug("Formatted account number from  getValidAccountNumber method ::::::::  " + formattedNumber);
 		}
 		return formattedNumber;
+	}
+	
+	public int getCountByMobileNoAndRequestStatus(String mobileNo, String requestStatus){
+		return connectionRequestPersistence.countByMobileNoAndRequestStatus(mobileNo, requestStatus);
+	}
+	
+	public int getMaxDraftCount() {
+		int maxCount=5;
+		try{
+			maxCount=Integer.parseInt(PropsUtil.get("connection.request.draft.max.count").trim());
+		}catch(Exception e){}
+		return maxCount;
+	}
+	
+	public int getCurrentDraftCount(String mobileNo) {
+		return connectionRequestPersistence.countByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);
 	}
 }

@@ -114,13 +114,14 @@
 %>				
 					<tr>
 						<td class="d-flex align-items-center"><span class="text-primary"> <a href=""><%=r.getRequestNo() %></a></span> <span class="btn-group ml-2">
-								<button type="button" class="btn btn-primary btn-sm edit-connection-btn" data-toggle="tooltip" data-placement="top" title="Edit" value="Edit" data-id="<%=r.getConnectionRequestId()%>" data-rno="<%=r.getRequestNo()%>">
+								<button type="button" class="btn btn-primary edit-connection-btn" data-toggle="tooltip" data-placement="top" title="Edit" value="Edit" data-id="<%=r.getConnectionRequestId()%>" data-rno="<%=r.getRequestNo()%>">
 									<%--<i class="fas fa-pencil-alt fa-sm text-primary"></i> --%>
-									Edit
+									<i class="icon-edit"></i>
 								</button>
-								<button type="button" class="btn btn-danger btn-sm delete-connection-btn ml-1 " data-placement="top" data-toggle="tooltip" title="Delete" value="Delete" data-id="<%=r.getConnectionRequestId()%>" data-rno="<%=r.getRequestNo()%>">
+								
+								<button type="button" class="btn btn-danger delete-connection-btn ml-1 " data-placement="top" data-toggle="tooltip" title="Delete" value="Delete" data-id="<%=r.getConnectionRequestId()%>" data-rno="<%=r.getRequestNo()%>">
 									<%--<i class="far fa-trash-alt fa-sm text-danger"></i>--%>
-									Delete
+									<i class="icon-trash"></i>
 								</button>
 						</span></td>
 						<td>BRPL</td>

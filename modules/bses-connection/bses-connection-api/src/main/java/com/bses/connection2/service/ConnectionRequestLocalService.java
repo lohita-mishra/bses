@@ -316,6 +316,13 @@ public interface ConnectionRequestLocalService
 	public int getConnectionRequestsCount();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCountByMobileNoAndRequestStatus(
+		String mobileNo, String requestStatus);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCurrentDraftCount(String mobileNo);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean getEmailAndSendOTPNEW(
 		String emailId, ThemeDisplay themeDisplay);
 
@@ -325,6 +332,9 @@ public interface ConnectionRequestLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getMaxDraftCount();
 
 	/**
 	 * Returns the OSGi service identifier.

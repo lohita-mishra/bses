@@ -1205,6 +1205,35 @@ public interface ConnectionRequestModel
 	public void setEServiceMailValidated(boolean eServiceMailValidated);
 
 	/**
+	 * Returns the appointment date of this connection request.
+	 *
+	 * @return the appointment date of this connection request
+	 */
+	public Date getAppointmentDate();
+
+	/**
+	 * Sets the appointment date of this connection request.
+	 *
+	 * @param appointmentDate the appointment date of this connection request
+	 */
+	public void setAppointmentDate(Date appointmentDate);
+
+	/**
+	 * Returns the appointment time of this connection request.
+	 *
+	 * @return the appointment time of this connection request
+	 */
+	@AutoEscape
+	public String getAppointmentTime();
+
+	/**
+	 * Sets the appointment time of this connection request.
+	 *
+	 * @param appointmentTime the appointment time of this connection request
+	 */
+	public void setAppointmentTime(String appointmentTime);
+
+	/**
 	 * Returns the applicant photo of this connection request.
 	 *
 	 * @return the applicant photo of this connection request

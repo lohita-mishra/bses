@@ -894,9 +894,6 @@
 		}else{
 			alert("Please enter valid details...");
 		}
-		
-		
-	   
 	}
 	
 	function submitFormDetails(forms, currentIndex){
