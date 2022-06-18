@@ -170,6 +170,7 @@ public class BsesConnectionPortlet extends MVCPortlet {
 		PortletSession session = request.getPortletSession();
 		session.setAttribute("newConnectionMode", RequestTypeModeStatus.MODE_APPOINTMENT);
 		//session.setAttribute("newConnectioMode", "appointment");
+		SessionMessages.add(request, PortalUtil.getPortletId(request) + SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
 	}
 	
 	public void newConnectionLogin(ActionRequest request, ActionResponse response) {

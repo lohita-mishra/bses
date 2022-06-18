@@ -8,7 +8,7 @@
 <%
 //PortletSession portletSession = renderRequest.getPortletSession();
 String newConnectionMode=(String)portletSession.getAttribute("newConnectionMode");
-
+System.out.println("newConnectionMode >> "+newConnectionMode);
 if(newConnectionMode==null){
 	
 %>

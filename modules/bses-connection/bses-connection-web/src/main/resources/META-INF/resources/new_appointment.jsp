@@ -6,6 +6,13 @@
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
 <%@ include file="/init.jsp"%>
 <style>
+	.lexicon-icon-asterisk {
+		color:red;
+		width:5px !important;
+		height:5px !important;
+	    display: inline-block !important;
+	    vertical-align: top !important;
+	}
 	input[type="radio"] {
     	opacity: 1 !important;
     	margin-top: 0 !important;	
@@ -100,7 +107,11 @@
 	ConnectionRequest requestEntity=null;
 	
 	if(connectionRequestId==0){
-		requestEntity=ConnectionRequestLocalServiceUtil.createConnectionRequest(mobileNo, emailId, RequestTypeModeStatus.TYPE_NEW_CONNECTION, RequestTypeModeStatus.MODE_APPOINTMENT);
+		try{
+			requestEntity=ConnectionRequestLocalServiceUtil.createConnectionRequest(mobileNo, emailId, RequestTypeModeStatus.TYPE_NEW_CONNECTION, RequestTypeModeStatus.MODE_APPOINTMENT);
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
 		connectionRequestId=requestEntity.getConnectionRequestId();
 	}else{
 		requestEntity=ConnectionRequestLocalServiceUtil.getConnectionRequest(connectionRequestId);
