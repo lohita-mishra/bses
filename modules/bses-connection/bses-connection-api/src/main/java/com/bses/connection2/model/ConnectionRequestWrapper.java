@@ -125,6 +125,8 @@ public class ConnectionRequestWrapper
 		attributes.put("eServiceOnMail", isEServiceOnMail());
 		attributes.put("eServiceMailId", getEServiceMailId());
 		attributes.put("eServiceMailValidated", isEServiceMailValidated());
+		attributes.put("appointmentDate", getAppointmentDate());
+		attributes.put("appointmentTime", getAppointmentTime());
 		attributes.put("applicantPhoto", getApplicantPhoto());
 		attributes.put("applicantSignature", getApplicantSignature());
 		attributes.put("idProofType", getIdProofType());
@@ -565,6 +567,18 @@ public class ConnectionRequestWrapper
 			setEServiceMailValidated(eServiceMailValidated);
 		}
 
+		Date appointmentDate = (Date)attributes.get("appointmentDate");
+
+		if (appointmentDate != null) {
+			setAppointmentDate(appointmentDate);
+		}
+
+		String appointmentTime = (String)attributes.get("appointmentTime");
+
+		if (appointmentTime != null) {
+			setAppointmentTime(appointmentTime);
+		}
+
 		String applicantPhoto = (String)attributes.get("applicantPhoto");
 
 		if (applicantPhoto != null) {
@@ -685,6 +699,26 @@ public class ConnectionRequestWrapper
 	@Override
 	public long getApplicantSignature() {
 		return _connectionRequest.getApplicantSignature();
+	}
+
+	/**
+	 * Returns the appointment date of this connection request.
+	 *
+	 * @return the appointment date of this connection request
+	 */
+	@Override
+	public Date getAppointmentDate() {
+		return _connectionRequest.getAppointmentDate();
+	}
+
+	/**
+	 * Returns the appointment time of this connection request.
+	 *
+	 * @return the appointment time of this connection request
+	 */
+	@Override
+	public String getAppointmentTime() {
+		return _connectionRequest.getAppointmentTime();
 	}
 
 	/**
@@ -1710,6 +1744,26 @@ public class ConnectionRequestWrapper
 	@Override
 	public void setApplicantSignature(long applicantSignature) {
 		_connectionRequest.setApplicantSignature(applicantSignature);
+	}
+
+	/**
+	 * Sets the appointment date of this connection request.
+	 *
+	 * @param appointmentDate the appointment date of this connection request
+	 */
+	@Override
+	public void setAppointmentDate(Date appointmentDate) {
+		_connectionRequest.setAppointmentDate(appointmentDate);
+	}
+
+	/**
+	 * Sets the appointment time of this connection request.
+	 *
+	 * @param appointmentTime the appointment time of this connection request
+	 */
+	@Override
+	public void setAppointmentTime(String appointmentTime) {
+		_connectionRequest.setAppointmentTime(appointmentTime);
 	}
 
 	/**

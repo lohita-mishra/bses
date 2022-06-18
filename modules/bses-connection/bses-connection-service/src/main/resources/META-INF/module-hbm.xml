@@ -96,6 +96,8 @@
 		<property access="com.liferay.portal.dao.orm.hibernate.CamelCasePropertyAccessor" name="eServiceOnMail" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.CamelCasePropertyAccessor" name="eServiceMailId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.CamelCasePropertyAccessor" name="eServiceMailValidated" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="appointmentDate" type="org.hibernate.type.TimestampType" />
+		<property name="appointmentTime" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="applicantPhoto" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="applicantSignature" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="idProofType" type="com.liferay.portal.dao.orm.hibernate.StringType" />

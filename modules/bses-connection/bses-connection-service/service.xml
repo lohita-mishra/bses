@@ -95,6 +95,10 @@
 		<column name="eServiceMailId" type="String" />
 		<column name="eServiceMailValidated" type="boolean" />
 		
+		<!-- Appointment Schedule Information -->
+		<column name="appointmentDate" type="Date" />
+		<column name="appointmentTime" type="String" />
+		
 		<!-- Document Information -->
 		<column name="applicantPhoto" type="String" />
 		<column name="applicantSignature" type="long" />

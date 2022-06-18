@@ -95,8 +95,8 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	
 </div>
 <liferay-ui:upload-progress id="<%=progressBarId%>" message="uploading" height="0"/>
-<button type="button" class="btn btn-success btn-sx pl-2 pr-2" id="<portlet:namespace /><%=elementName+"_viewBtn"%>" style="font-size:1em; display:none; padding-left:12px !important; padding-right:12px !important;"><i class="fa fa-close"></i>View</button>
-<button type="button" class="btn btn-danger btn-sx ml-2 pl-2 pr-2" id="<portlet:namespace /><%=elementName+"_deleteBtn"%>" style="font-size:1em; display:none;  padding-left:12px !important; padding-right:12px !important;"><i class="fa fa-close"></i>Delete</button>
+<button type="button" class="btn btn-success btn-sx ml-2 pl-2 pr-2" id="<portlet:namespace /><%=elementName+"_viewBtn"%>" style="font-size:1em; display:none; padding-left:12px !important; padding-right:12px !important;"><i class="icon-eye-open"></i></button>
+<button type="button" class="btn btn-danger btn-sx ml-2 pl-2 pr-2" id="<portlet:namespace /><%=elementName+"_deleteBtn"%>" style="font-size:1em; display:none;  padding-left:12px !important; padding-right:12px !important;"><i class="icon-trash"></i></button>
 
 <portlet:resourceURL var="documentDownloadURL" id="documentDownload">
 	<portlet:param name="cmd" value="download"/>
@@ -170,12 +170,19 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	$('#<portlet:namespace /><%=elementName%>_viewBtn').on('click', function(event) {
 		<portlet:namespace /><%=elementName%>_downloadDocument($('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val());
 	});
+	
 	$(document).ready(function() {
 		$('#<portlet:namespace /><%=elementName%>_uploadBtn').on('click', function(event) {
 			$('#<portlet:namespace/><%=elementName%>_file').trigger('click');
 		});
+		
+		<portlet:namespace /><%=elementName%>_init();
+	});	
+		
+		
+	function <portlet:namespace /><%=elementName%>_init(){
 <%
-		if(StringUtils.isNotBlank(displayFileName)){
+		if(connectionDocumentId>0){
 %>
 			if(!thumbnail){
 				$('#<portlet:namespace/><%=elementName%>_displayFileName').show();
@@ -192,7 +199,7 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 			}
 		}
 %>
-	});
+	}
 
 	function <portlet:namespace /><%=elementName%>_downloadDocument(connectionDocumentId){
 		<%--

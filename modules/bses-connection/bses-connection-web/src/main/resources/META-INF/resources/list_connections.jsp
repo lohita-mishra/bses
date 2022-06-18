@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@page import="com.bses.connection2.util.RequestTypeModeStatus"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
@@ -10,6 +11,11 @@
 <%@page import="com.bses.connection2.service.ConnectionRequestLocalServiceUtil"%>
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
 <%@ include file="/init.jsp"%>
+<style>
+.modal{
+	display:none;
+}
+</style>
 <%
 	String mobileNo=ParamUtil.getString(request, "mobileNo", "");
 	String emailId=ParamUtil.getString(request, "emailId", "");
@@ -26,12 +32,14 @@
 	<portlet:param name="emailId" value="<%=emailId%>" />
 </portlet:renderURL>
 
-<portlet:renderURL var="deleteConnectionURL">
+<portlet:renderURL var="deleteConnectionURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="mvcPath" value="/delete_connection.jsp" />
+</portlet:renderURL>
+<portlet:renderURL var="listConnectionURL">
+	<portlet:param name="mvcPath" value="/list_connections.jsp" />
 	<portlet:param name="mobileNo" value="<%=mobileNo%>" />
 	<portlet:param name="emailId" value="<%=emailId%>" />
 </portlet:renderURL>
-
 <%
 	session.removeAttribute(ConnectionRequest.class.getName()+"#id");
 	List<ConnectionRequest> connectionRequestList=(List)request.getAttribute(ConnectionRequest.class.getName()+"#list");
@@ -60,7 +68,7 @@
 	<div class="card-body">
 		<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 text-center">
+			<div class="col-md-12 text-center font-weight-bold text-danger">
 <%
 	int count=5;
 	try{
@@ -106,13 +114,14 @@
 %>				
 					<tr>
 						<td class="d-flex align-items-center"><span class="text-primary"> <a href=""><%=r.getRequestNo() %></a></span> <span class="btn-group ml-2">
-								<button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="tooltip" data-placement="top" title="Edit" value="Edit" data-id-attr="<%=r.getConnectionRequestId()%>" data-rno-attr="<%=r.getRequestNo()%>">
+								<button type="button" class="btn btn-primary edit-connection-btn" data-toggle="tooltip" data-placement="top" title="Edit" value="Edit" data-id="<%=r.getConnectionRequestId()%>" data-rno="<%=r.getRequestNo()%>">
 									<%--<i class="fas fa-pencil-alt fa-sm text-primary"></i> --%>
-									Edit
+									<i class="icon-edit"></i>
 								</button>
-								<button type="button" class="btn btn-danger btn-sm delete-btn ml-1 " data-placement="top" data-toggle="tooltip" title="Delete" value="Delete" data-id-attr="<%=r.getConnectionRequestId()%>" data-rno-attr="<%=r.getRequestNo()%>">
+								
+								<button type="button" class="btn btn-danger delete-connection-btn ml-1 " data-placement="top" data-toggle="tooltip" title="Delete" value="Delete" data-id="<%=r.getConnectionRequestId()%>" data-rno="<%=r.getRequestNo()%>">
 									<%--<i class="far fa-trash-alt fa-sm text-danger"></i>--%>
-									Delete
+									<i class="icon-trash"></i>
 								</button>
 						</span></td>
 						<td>BRPL</td>
@@ -132,20 +141,31 @@
 	</div>
 </div>
 
-<div id="div-delete-confirmation" style="display:none;">
-	<div class="card card-primary mb-2">
-		<div class="card-header">
-			<h5>Delete Connection Request</h5>
-		</div>
-		<div class="card-body">
-			Are you sure to delete the request no <span class="font-weight-bold" id="span-display-request-no"></span> ?
-		</div>
-		<div class="card-footer">
-			<button type="button" class="btn btn-danger btn-sm" id="yes-btn" value="Yes">Yes</button>
-			<button type="button" class="btn btn-primary btn-sm" id="no-btn" value="No">No</button>
+<div class="modal" id="delete-connection-modal">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header" style="border-bottom: none;">
+				<h5 class="modal-title">Delete Connection Request?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body align-items-center justify-content-center" style="padding-top:25px; padding-bottom:25px;">
+				<div class="help-text text-danger text-center fs-18">
+					<!-- i class="far fa-paper-plane fa-fw text-danger"></i-->
+					Are you sure to delete the request no <span class="font-weight-bold" id="delete-connection-request-no"></span> ?
+				</div>
+			</div>
+			<div class="modal-footer align-items-center justify-content-center">
+				<div class="text-danger text-center">
+					<button type="button" class="btn btn-danger btn-sm" id="delete-connection-yes-btn" value="Yes" data-id="">Yes</button>
+					<button type="button" class="btn btn-primary btn-sm" id="delete-connection-no-btn" value="No">No</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
+
 
 <aui:script use="aui-modal,aui-overlay-manager">
 	$(document).ready(function() {
@@ -154,26 +174,68 @@
 			window.location.href='<%=newConnectionURL.toString()%>';	
 		});
 		
-		$(".edit-btn").click(function(){
-			window.location.href='<%=editConnectionURL.toString()%>&<portlet:namespace/>connectionRequestId='+$(this).attr("data-id-attr");
+		$(".edit-connection-btn").click(function(){
+			window.location.href='<%=editConnectionURL.toString()%>&<portlet:namespace/>connectionRequestId='+$(this).attr("data-id");
 		});
 		
-		$(".delete-btn").click(function(){
-			/*var dialog = new A.Modal({
-				title: "Delete Connection Request",
-				bodyContent: A.one("#div-delete-confirmation").html(),
-				headerContent: 'Delete Connection Request',
-				centered: true,
-				modal: true,
-				height: 200,
-				width:300,
-				render: '#div-delete-confirmation',
-				close: true
-			});
-			dialog.render();*/
-			if(confirm("Are you sure to delete the request?")){
-				window.location.href='<%=deleteConnectionURL.toString()%>&<portlet:namespace/>connectionRequestId='+$(this).attr("data-id-attr");
-			}
+		$(".delete-connection-btn").click(function(){
+			$('#delete-connection-yes-btn').attr('data-id', $(this).attr("data-id"));
+			$('#delete-connection-request-no').html($(this).attr("data-rno"));
+			$('#delete-connection-modal').modal('show');
 		});
+		
+		Liferay.provide(
+			window,
+			'<portlet:namespace />listConnections_closeDialog',
+			function(data) {
+				if(data){
+					console.log(data);	
+				}
+				var dialog = Liferay.Util.Window.getById('<portlet:namespace/>'+data.dialogId);
+				dialog.destroy();
+				if(data.refresh){
+					window.location.href='<%=listConnectionURL%>';
+				}
+			},
+			['liferay-util-window']
+		);
+		
+		$("#delete-connection-yes-btn").click(function(){
+			deleteConnection($(this).attr('data-id'));
+		});
+		$("#delete-connection-no-btn").click(function(){
+			$('#delete-connection-modal').modal('hide').data('bs.modal', null );
+		})
+		
+		blinkText();
 	});
+	
+	function deleteConnection(connectionRequestId){
+		Liferay.Service('/bsesconn.connectionrequest/delete-by-connection-request-id', 
+			{
+				"connectionRequestId" : connectionRequestId
+			},
+			function(response) {	
+				var message="Record deletion failed.";
+				if(response!=true){
+					message="Record deletion failed.";
+				}
+				$('#delete-connection-modal').modal('hide').data('bs.modal', null );
+				if(response==true){
+					window.location.href="<%=listConnectionURL.toString()%>";
+				}
+			}
+		);	
+	}
+	
+	function blinkText(){
+		setInterval(function () {
+			$(".blink").each(function( index ) {
+				console.log($(this).css("opacity"));
+	            $(this).css("opacity", 
+	            ($(this).css("opacity") == 0 ? 1 : 0));
+	       
+			});
+		}, 1000);
+	}
 </aui:script>

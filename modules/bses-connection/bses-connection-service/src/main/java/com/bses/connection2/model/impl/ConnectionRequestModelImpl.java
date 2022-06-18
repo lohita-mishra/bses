@@ -114,9 +114,10 @@ public class ConnectionRequestModelImpl
 		{"pollutionCertificate", Types.VARCHAR},
 		{"eServiceOnMail", Types.BOOLEAN}, {"eServiceMailId", Types.VARCHAR},
 		{"eServiceMailValidated", Types.BOOLEAN},
-		{"applicantPhoto", Types.VARCHAR}, {"applicantSignature", Types.BIGINT},
-		{"idProofType", Types.VARCHAR}, {"idProofNo", Types.VARCHAR},
-		{"idProofDocument", Types.VARCHAR},
+		{"appointmentDate", Types.TIMESTAMP},
+		{"appointmentTime", Types.VARCHAR}, {"applicantPhoto", Types.VARCHAR},
+		{"applicantSignature", Types.BIGINT}, {"idProofType", Types.VARCHAR},
+		{"idProofNo", Types.VARCHAR}, {"idProofDocument", Types.VARCHAR},
 		{"ownershipProofType", Types.VARCHAR},
 		{"ownershipProofDocument", Types.VARCHAR},
 		{"selfDeclaration", Types.BOOLEAN},
@@ -198,6 +199,8 @@ public class ConnectionRequestModelImpl
 		TABLE_COLUMNS_MAP.put("eServiceOnMail", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("eServiceMailId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("eServiceMailValidated", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("appointmentDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("appointmentTime", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("applicantPhoto", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("applicantSignature", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("idProofType", Types.VARCHAR);
@@ -214,7 +217,7 @@ public class ConnectionRequestModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table bsesconn_ConnectionRequest (uuid_ VARCHAR(75) null,connectionRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,requestNo VARCHAR(75) null,mobileNo VARCHAR(75) null,emailId VARCHAR(75) null,requestDate DATE null,requestType VARCHAR(75) null,requestStatus VARCHAR(75) null,requestMode VARCHAR(75) null,consumerType VARCHAR(75) null,title VARCHAR(75) null,firstName VARCHAR(75) null,middleName VARCHAR(75) null,lastName VARCHAR(75) null,sonDaughterWife VARCHAR(75) null,fatherOrHusbandName VARCHAR(75) null,firmName VARCHAR(75) null,signatoryName VARCHAR(75) null,signatoryDesignation VARCHAR(75) null,organizationType VARCHAR(75) null,incorporationDate DATE null,gstIn VARCHAR(75) null,panNo VARCHAR(75) null,locality VARCHAR(75) null,district VARCHAR(75) null,houseNo VARCHAR(75) null,floor VARCHAR(75) null,buildingName VARCHAR(75) null,street VARCHAR(75) null,colonyArea VARCHAR(75) null,landmark VARCHAR(75) null,landmarkDetails VARCHAR(75) null,pinCode VARCHAR(75) null,registeredAddress VARCHAR(75) null,connectionType VARCHAR(75) null,tariffCategory VARCHAR(75) null,loadKva DOUBLE,loadKw DOUBLE,areaType VARCHAR(75) null,premisesType VARCHAR(75) null,upicAvailable BOOLEAN,upic VARCHAR(75) null,wiringTest BOOLEAN,wiringCertificate VARCHAR(75) null,elcbInstalled BOOLEAN,elcbDocument VARCHAR(75) null,stiltParking BOOLEAN,height15Mtr BOOLEAN,height17Mtr BOOLEAN,fcc BOOLEAN,fccCertificate VARCHAR(75) null,lift BOOLEAN,liftCertificate VARCHAR(75) null,agriConsumer BOOLEAN,hasBdoCertificate BOOLEAN,bdoCertificate VARCHAR(75) null,hasDpccCertificate BOOLEAN,dpccCertificate VARCHAR(75) null,hasPollutionCertificate BOOLEAN,pollutionCertificate VARCHAR(75) null,eServiceOnMail BOOLEAN,eServiceMailId VARCHAR(75) null,eServiceMailValidated BOOLEAN,applicantPhoto VARCHAR(75) null,applicantSignature LONG,idProofType VARCHAR(75) null,idProofNo VARCHAR(75) null,idProofDocument VARCHAR(75) null,ownershipProofType VARCHAR(75) null,ownershipProofDocument VARCHAR(75) null,selfDeclaration BOOLEAN,selfDeclarationTime DATE null,bpNumber VARCHAR(75) null,orderNo VARCHAR(75) null,documentUploaded VARCHAR(75) null,sapOrderGenerated VARCHAR(75) null)";
+		"create table bsesconn_ConnectionRequest (uuid_ VARCHAR(75) null,connectionRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,requestNo VARCHAR(75) null,mobileNo VARCHAR(75) null,emailId VARCHAR(75) null,requestDate DATE null,requestType VARCHAR(75) null,requestStatus VARCHAR(75) null,requestMode VARCHAR(75) null,consumerType VARCHAR(75) null,title VARCHAR(75) null,firstName VARCHAR(75) null,middleName VARCHAR(75) null,lastName VARCHAR(75) null,sonDaughterWife VARCHAR(75) null,fatherOrHusbandName VARCHAR(75) null,firmName VARCHAR(75) null,signatoryName VARCHAR(75) null,signatoryDesignation VARCHAR(75) null,organizationType VARCHAR(75) null,incorporationDate DATE null,gstIn VARCHAR(75) null,panNo VARCHAR(75) null,locality VARCHAR(75) null,district VARCHAR(75) null,houseNo VARCHAR(75) null,floor VARCHAR(75) null,buildingName VARCHAR(75) null,street VARCHAR(75) null,colonyArea VARCHAR(75) null,landmark VARCHAR(75) null,landmarkDetails VARCHAR(75) null,pinCode VARCHAR(75) null,registeredAddress VARCHAR(75) null,connectionType VARCHAR(75) null,tariffCategory VARCHAR(75) null,loadKva DOUBLE,loadKw DOUBLE,areaType VARCHAR(75) null,premisesType VARCHAR(75) null,upicAvailable BOOLEAN,upic VARCHAR(75) null,wiringTest BOOLEAN,wiringCertificate VARCHAR(75) null,elcbInstalled BOOLEAN,elcbDocument VARCHAR(75) null,stiltParking BOOLEAN,height15Mtr BOOLEAN,height17Mtr BOOLEAN,fcc BOOLEAN,fccCertificate VARCHAR(75) null,lift BOOLEAN,liftCertificate VARCHAR(75) null,agriConsumer BOOLEAN,hasBdoCertificate BOOLEAN,bdoCertificate VARCHAR(75) null,hasDpccCertificate BOOLEAN,dpccCertificate VARCHAR(75) null,hasPollutionCertificate BOOLEAN,pollutionCertificate VARCHAR(75) null,eServiceOnMail BOOLEAN,eServiceMailId VARCHAR(75) null,eServiceMailValidated BOOLEAN,appointmentDate DATE null,appointmentTime VARCHAR(75) null,applicantPhoto VARCHAR(75) null,applicantSignature LONG,idProofType VARCHAR(75) null,idProofNo VARCHAR(75) null,idProofDocument VARCHAR(75) null,ownershipProofType VARCHAR(75) null,ownershipProofDocument VARCHAR(75) null,selfDeclaration BOOLEAN,selfDeclarationTime DATE null,bpNumber VARCHAR(75) null,orderNo VARCHAR(75) null,documentUploaded VARCHAR(75) null,sapOrderGenerated VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table bsesconn_ConnectionRequest";
@@ -342,6 +345,8 @@ public class ConnectionRequestModelImpl
 		model.setEServiceOnMail(soapModel.isEServiceOnMail());
 		model.setEServiceMailId(soapModel.getEServiceMailId());
 		model.setEServiceMailValidated(soapModel.isEServiceMailValidated());
+		model.setAppointmentDate(soapModel.getAppointmentDate());
+		model.setAppointmentTime(soapModel.getAppointmentTime());
 		model.setApplicantPhoto(soapModel.getApplicantPhoto());
 		model.setApplicantSignature(soapModel.getApplicantSignature());
 		model.setIdProofType(soapModel.getIdProofType());
@@ -2122,6 +2127,54 @@ public class ConnectionRequestModelImpl
 
 			});
 		attributeGetterFunctions.put(
+			"appointmentDate",
+			new Function<ConnectionRequest, Object>() {
+
+				@Override
+				public Object apply(ConnectionRequest connectionRequest) {
+					return connectionRequest.getAppointmentDate();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"appointmentDate",
+			new BiConsumer<ConnectionRequest, Object>() {
+
+				@Override
+				public void accept(
+					ConnectionRequest connectionRequest,
+					Object appointmentDateObject) {
+
+					connectionRequest.setAppointmentDate(
+						(Date)appointmentDateObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"appointmentTime",
+			new Function<ConnectionRequest, Object>() {
+
+				@Override
+				public Object apply(ConnectionRequest connectionRequest) {
+					return connectionRequest.getAppointmentTime();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"appointmentTime",
+			new BiConsumer<ConnectionRequest, Object>() {
+
+				@Override
+				public void accept(
+					ConnectionRequest connectionRequest,
+					Object appointmentTimeObject) {
+
+					connectionRequest.setAppointmentTime(
+						(String)appointmentTimeObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"applicantPhoto",
 			new Function<ConnectionRequest, Object>() {
 
@@ -3601,6 +3654,33 @@ public class ConnectionRequestModelImpl
 
 	@JSON
 	@Override
+	public Date getAppointmentDate() {
+		return _appointmentDate;
+	}
+
+	@Override
+	public void setAppointmentDate(Date appointmentDate) {
+		_appointmentDate = appointmentDate;
+	}
+
+	@JSON
+	@Override
+	public String getAppointmentTime() {
+		if (_appointmentTime == null) {
+			return "";
+		}
+		else {
+			return _appointmentTime;
+		}
+	}
+
+	@Override
+	public void setAppointmentTime(String appointmentTime) {
+		_appointmentTime = appointmentTime;
+	}
+
+	@JSON
+	@Override
 	public String getApplicantPhoto() {
 		if (_applicantPhoto == null) {
 			return "";
@@ -3914,6 +3994,8 @@ public class ConnectionRequestModelImpl
 		connectionRequestImpl.setEServiceMailId(getEServiceMailId());
 		connectionRequestImpl.setEServiceMailValidated(
 			isEServiceMailValidated());
+		connectionRequestImpl.setAppointmentDate(getAppointmentDate());
+		connectionRequestImpl.setAppointmentTime(getAppointmentTime());
 		connectionRequestImpl.setApplicantPhoto(getApplicantPhoto());
 		connectionRequestImpl.setApplicantSignature(getApplicantSignature());
 		connectionRequestImpl.setIdProofType(getIdProofType());
@@ -4467,6 +4549,24 @@ public class ConnectionRequestModelImpl
 		connectionRequestCacheModel.eServiceMailValidated =
 			isEServiceMailValidated();
 
+		Date appointmentDate = getAppointmentDate();
+
+		if (appointmentDate != null) {
+			connectionRequestCacheModel.appointmentDate =
+				appointmentDate.getTime();
+		}
+		else {
+			connectionRequestCacheModel.appointmentDate = Long.MIN_VALUE;
+		}
+
+		connectionRequestCacheModel.appointmentTime = getAppointmentTime();
+
+		String appointmentTime = connectionRequestCacheModel.appointmentTime;
+
+		if ((appointmentTime != null) && (appointmentTime.length() == 0)) {
+			connectionRequestCacheModel.appointmentTime = null;
+		}
+
 		connectionRequestCacheModel.applicantPhoto = getApplicantPhoto();
 
 		String applicantPhoto = connectionRequestCacheModel.applicantPhoto;
@@ -4723,6 +4823,8 @@ public class ConnectionRequestModelImpl
 	private boolean _eServiceOnMail;
 	private String _eServiceMailId;
 	private boolean _eServiceMailValidated;
+	private Date _appointmentDate;
+	private String _appointmentTime;
 	private String _applicantPhoto;
 	private long _applicantSignature;
 	private String _idProofType;

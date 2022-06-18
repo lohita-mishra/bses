@@ -36,11 +36,11 @@ String requestType=requestEntity.getRequestType();
 			<div class="col-sm-2">
 			
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="wiringTest" label="Yes" value="1" checked="<%=requestEntity.getWiringTest()%>" /> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" id ="wiringTest" name="wiringTest" label="Yes" value="1" checked="<%=requestEntity.getWiringTest()%>" /> <%--<label class="form-check-label font-weight-bold">
 						Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="wiringTest" label="No" value="0" checked="<%=!requestEntity.getWiringTest()%>"/> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
+					<aui:input class="form-check-input" type="radio" id="wiringTest" name="wiringTest" label="No" value="0" checked="<%=!requestEntity.getWiringTest()%>"/> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
 				</div>
 			</div>
 <%
@@ -371,3 +371,26 @@ String requestType=requestEntity.getRequestType();
 		</div>
 	</div>
 </aui:form>
+
+<aui:script>
+
+$("input[name=<portlet:namespace/>wiringTest]").change(function() {
+		
+		var wiring = $(this).val();
+		var documentId = $("#<portlet:namespace />wiringCertificate_connectionDocumentId").val();
+		
+		confirmDocument(wiring,documentId,"input[name=<portlet:namespace/>wiringTest]");
+	});
+	
+	function confirmDocument(checkListValue, documentId,checkInputName){
+		
+		if(checkListValue==0 && documentId!=null)
+		{
+				alert("Please delete the document than click no");	
+				$(checkInputName+"[value='1']").attr("checked",true);
+				
+		}
+	}
+	
+
+</aui:script>

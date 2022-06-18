@@ -19,6 +19,7 @@ import com.bses.connection2.helper.DigitalSevaKendraServiceHelper;
 import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionDocumentLocalService;
+import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
 import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
 import com.bses.connection2.util.NameUtil;
 import com.bses.connection2.util.RequestTypeModeStatus;
@@ -127,10 +128,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		String requestNo = "R-TMP-" + new Date().getTime();
 		LOGGER.info(mobileNo + " - " + emailId + " - " + requestNo);
 		int draftCount=connectionRequestPersistence.countByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);
-		int maxCount=5;
-		try{
-			maxCount=Integer.parseInt(PropsUtil.get("connection.request.draft.max.count").trim());
-		}catch(Exception e){}
+		int maxCount=getMaxDraftCount();
 		
 		if(draftCount>=maxCount) {
 			throw new PortalException("Maximum number of pending requests reached "+maxCount);
@@ -491,7 +489,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 				boolean boolValue="1".equals(value)|| "y".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value);
 				methodSet.invoke(obj, boolValue);
 			}else if(methodGet.getReturnType()==Date.class) {
-				methodSet.invoke(obj, dateFormat.parse(value));
+				methodSet.invoke(obj, getSourceDateFormat().parse(value));
 			}else {
 				methodSet.invoke(obj, value);
 			}
@@ -605,11 +603,15 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	}
 	
 	private boolean deleteConnectionRequestAndDocuments(ConnectionRequest connectionRequest) {
-		List<ConnectionDocument> documents=connectionDocumentLocalService.getConnectionDocumentByConnectionRequestId(connectionRequest.getConnectionRequestId());
-		for(ConnectionDocument d:documents) {
-			connectionDocumentLocalService.deleteConnectionDocument(d);
+		try {
+			List<ConnectionDocument> documents=ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestId(connectionRequest.getConnectionRequestId());
+			for(ConnectionDocument d:documents) {
+				ConnectionDocumentLocalServiceUtil.deleteConnectionDocument(d);
+			}
+			connectionRequestPersistence.remove(connectionRequest);
+		}catch(Exception e) {
+			LOGGER.error(e);
 		}
-		connectionRequestPersistence.remove(connectionRequest);
 		return true;
 	}
 	
@@ -641,5 +643,21 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			//log.debug("Formatted account number from  getValidAccountNumber method ::::::::  " + formattedNumber);
 		}
 		return formattedNumber;
+	}
+	
+	public int getCountByMobileNoAndRequestStatus(String mobileNo, String requestStatus){
+		return connectionRequestPersistence.countByMobileNoAndRequestStatus(mobileNo, requestStatus);
+	}
+	
+	public int getMaxDraftCount() {
+		int maxCount=5;
+		try{
+			maxCount=Integer.parseInt(PropsUtil.get("connection.request.draft.max.count").trim());
+		}catch(Exception e){}
+		return maxCount;
+	}
+	
+	public int getCurrentDraftCount(String mobileNo) {
+		return connectionRequestPersistence.countByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);
 	}
 }

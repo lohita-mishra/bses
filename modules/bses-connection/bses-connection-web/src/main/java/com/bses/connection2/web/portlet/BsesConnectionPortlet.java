@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.portlet.ActionRequest;
@@ -76,8 +75,8 @@ public class BsesConnectionPortlet extends MVCPortlet {
 		LOGGER.info("doView(RenderRequest renderRequest, RenderResponse renderResponse) is called : "+viewMode);
 		switch(viewMode){    
 		case "U01":    
-			 handleNewComnnectionView(renderRequest,renderResponse);
-			 break;  //optional  
+			handleNewConnectionView(renderRequest,renderResponse);
+			break;  //optional  
 		case "U02":    
 			 handleNameChangeView(renderRequest,renderResponse); 
 			 break;  //optional  
@@ -96,14 +95,21 @@ public class BsesConnectionPortlet extends MVCPortlet {
 	}    
 	}	
 	
-	private void handleNewComnnectionView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-		System.out.println("BsesConnectionPortlet:handleNewComnnectionView");
+	private void handleNewConnectionView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+		System.out.println("BsesConnectionPortlet:handleNewConnectionView");
 		String view = "/new_connection_view.jsp";
 		PortletSession session = renderRequest.getPortletSession();
 		String loginId=(String) session.getAttribute("mobileNo");
+		
 		System.out.println("loginId - "+loginId);
 		if(StringUtils.isBlank(loginId)) {
 			view = "/mobile_login.jsp";
+		}else {
+			int draftCount=ConnectionRequestLocalServiceUtil.getCurrentDraftCount(loginId);
+			int maxCount=ConnectionRequestLocalServiceUtil.getMaxDraftCount();
+			if(draftCount>=maxCount) {
+				view = "/list_connections.jsp";
+			}
 		}
 
 		include(view, renderRequest, renderResponse);

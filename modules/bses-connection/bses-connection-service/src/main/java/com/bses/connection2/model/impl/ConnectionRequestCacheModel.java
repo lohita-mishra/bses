@@ -65,7 +65,7 @@ public class ConnectionRequestCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(165);
+		StringBundler sb = new StringBundler(169);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -205,6 +205,10 @@ public class ConnectionRequestCacheModel
 		sb.append(eServiceMailId);
 		sb.append(", eServiceMailValidated=");
 		sb.append(eServiceMailValidated);
+		sb.append(", appointmentDate=");
+		sb.append(appointmentDate);
+		sb.append(", appointmentTime=");
+		sb.append(appointmentTime);
 		sb.append(", applicantPhoto=");
 		sb.append(applicantPhoto);
 		sb.append(", applicantSignature=");
@@ -618,6 +622,20 @@ public class ConnectionRequestCacheModel
 
 		connectionRequestImpl.setEServiceMailValidated(eServiceMailValidated);
 
+		if (appointmentDate == Long.MIN_VALUE) {
+			connectionRequestImpl.setAppointmentDate(null);
+		}
+		else {
+			connectionRequestImpl.setAppointmentDate(new Date(appointmentDate));
+		}
+
+		if (appointmentTime == null) {
+			connectionRequestImpl.setAppointmentTime("");
+		}
+		else {
+			connectionRequestImpl.setAppointmentTime(appointmentTime);
+		}
+
 		if (applicantPhoto == null) {
 			connectionRequestImpl.setApplicantPhoto("");
 		}
@@ -797,6 +815,8 @@ public class ConnectionRequestCacheModel
 		eServiceMailId = objectInput.readUTF();
 
 		eServiceMailValidated = objectInput.readBoolean();
+		appointmentDate = objectInput.readLong();
+		appointmentTime = objectInput.readUTF();
 		applicantPhoto = objectInput.readUTF();
 
 		applicantSignature = objectInput.readLong();
@@ -1177,6 +1197,14 @@ public class ConnectionRequestCacheModel
 		}
 
 		objectOutput.writeBoolean(eServiceMailValidated);
+		objectOutput.writeLong(appointmentDate);
+
+		if (appointmentTime == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(appointmentTime);
+		}
 
 		if (applicantPhoto == null) {
 			objectOutput.writeUTF("");
@@ -1323,6 +1351,8 @@ public class ConnectionRequestCacheModel
 	public boolean eServiceOnMail;
 	public String eServiceMailId;
 	public boolean eServiceMailValidated;
+	public long appointmentDate;
+	public String appointmentTime;
 	public String applicantPhoto;
 	public long applicantSignature;
 	public String idProofType;

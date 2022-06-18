@@ -48,14 +48,14 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 
 			<div class="form-group col-md-3" id="loadkvadiv">
 				<%--<label class="font-weight-bold">Load (KVA) </label>--%> 
-				<aui:input type="number" class="form-control" name="loadKva" label="connection-load-kva" value="<%=requestEntity.getLoadKva() %>"/>
+				<aui:input type="number" class="form-control" name="loadKva" label="connection-load-kva" value="<%=Math.round(requestEntity.getLoadKva()) %>"/>
 				<p class="help-text fs-13 mt-1 p-1 text-danger d-none" style="background: #ffff00;">Note: ELCB Bill copy is required for more then or equal to
 					2 KW.</p>
 			</div>
 
 			<div class="form-group  col-md-3">
 				<%--<label class="font-weight-bold">Load (KW) </label>--%> 
-				<aui:input type="number" class="form-control" name="loadKw" label="connection-load-kw" value="<%=requestEntity.getLoadKw() %>"/>
+				<aui:input type="number" class="form-control" name="loadKw" label="connection-load-kw" value="<%=Math.round(requestEntity.getLoadKw()) %>"/>
 				<p class="help-text fs-13 mt-1 p-1 text-danger d-none" style="background: #ffff00;">Note: ELCB Bill copy is required for more then or equal to
 					2 KW.</p>
 			</div>
