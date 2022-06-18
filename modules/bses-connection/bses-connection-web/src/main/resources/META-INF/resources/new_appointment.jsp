@@ -161,6 +161,9 @@
 		<liferay-util:include page="/connection.jsp" servletContext="<%=application%>">
 		</liferay-util:include>
  		
+ 		<liferay-util:include page="/appointment_schedule.jsp" servletContext="<%=application%>">
+		</liferay-util:include>
+		
 		<liferay-util:include page="/checklist.jsp" servletContext="<%=application%>">
 			<liferay-util:param name="requestMode" value="<%=RequestTypeModeStatus.MODE_APPOINTMENT%>" />
 		</liferay-util:include>

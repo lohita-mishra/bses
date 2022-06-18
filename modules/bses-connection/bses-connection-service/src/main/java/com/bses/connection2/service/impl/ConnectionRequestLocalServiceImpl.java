@@ -19,6 +19,7 @@ import com.bses.connection2.helper.DigitalSevaKendraServiceHelper;
 import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionDocumentLocalService;
+import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
 import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
 import com.bses.connection2.util.NameUtil;
 import com.bses.connection2.util.RequestTypeModeStatus;
@@ -481,7 +482,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 				boolean boolValue="1".equals(value)|| "y".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value);
 				methodSet.invoke(obj, boolValue);
 			}else if(methodGet.getReturnType()==Date.class) {
-				methodSet.invoke(obj, dateFormat.parse(value));
+				methodSet.invoke(obj, getSourceDateFormat().parse(value));
 			}else {
 				methodSet.invoke(obj, value);
 			}
@@ -595,11 +596,15 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	}
 	
 	private boolean deleteConnectionRequestAndDocuments(ConnectionRequest connectionRequest) {
-		List<ConnectionDocument> documents=connectionDocumentLocalService.getConnectionDocumentByConnectionRequestId(connectionRequest.getConnectionRequestId());
-		for(ConnectionDocument d:documents) {
-			connectionDocumentLocalService.deleteConnectionDocument(d);
+		try {
+			List<ConnectionDocument> documents=ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestId(connectionRequest.getConnectionRequestId());
+			for(ConnectionDocument d:documents) {
+				ConnectionDocumentLocalServiceUtil.deleteConnectionDocument(d);
+			}
+			connectionRequestPersistence.remove(connectionRequest);
+		}catch(Exception e) {
+			LOGGER.error(e);
 		}
-		connectionRequestPersistence.remove(connectionRequest);
 		return true;
 	}
 	
