@@ -31,6 +31,7 @@ long folderId = DLFolderConstants.DEFAULT_PARENT_FOLDER_ID;
 ServiceContext serviceContext = new ServiceContext();
 serviceContext.setScopeGroupId(groupId);
 
+long connectionDocumentId=ParamUtil.getLong(request, "connectionDocumentId", 0);
 String elementName=ParamUtil.getString(request, "elementName");
 String fileTypes=ParamUtil.getString(request, "fileTypes");
 String placeHolder=ParamUtil.getString(request, "placeHolder");
@@ -38,16 +39,21 @@ String savedValue=ParamUtil.getString(request, elementName);
 String documentType=ParamUtil.getString(request, "documentType");
 String documentName=ParamUtil.getString(request, "documentName");
 boolean thumbnail=ParamUtil.getBoolean(request, "thumbnail", false);
+boolean readOnly=ParamUtil.getBoolean(request, "readOnly", false);
 
 String displayFileName="";
 String fileName="";
-long connectionDocumentId=0;
+ConnectionDocument connectionDocument=null;
 ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
 long connectionRequestId=requestEntity.getConnectionRequestId();
 
 try{
-	ConnectionDocument connectionDocument=ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestIdAndDocumentType(requestEntity.getConnectionRequestId(), documentType);
-	connectionDocumentId=connectionDocument.getConnectionDocumentId();
+	if(connectionDocumentId>0){
+		connectionDocument=ConnectionDocumentLocalServiceUtil.getConnectionDocument(connectionDocumentId);
+	}else{
+		connectionDocument=ConnectionDocumentLocalServiceUtil.getConnectionDocumentByConnectionRequestIdAndDocumentType(requestEntity.getConnectionRequestId(), documentType);
+		connectionDocumentId=connectionDocument.getConnectionDocumentId();
+	}
 	fileName=connectionDocument.getClientFileName();
 	//displayFileName="<span class=\"text-primary\">"+fileName+"</span> uploaded successfully";
 	displayFileName="<span class=\"text-primary\">"+fileName+"</span>";
@@ -72,7 +78,7 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 	<input type="file" name="<portlet:namespace/><%=elementName+"_file"%>" id="<portlet:namespace/><%=elementName%>_file" style="width:0px;" <%=acceptTypes%>> 
 
 	<%--<label id="<portlet:namespace /><%=elementName+"_document"%>"> --%>
-		<button type="button" class="btn btn-primary btn-sx" id="<portlet:namespace /><%=elementName+"_uploadBtn"%>" style="font-size:1em;" value="Choose File" >Upload File</button>
+		<button type="button" class="btn btn-primary btn-sx" id="<portlet:namespace /><%=elementName+"_uploadBtn"%>" style="font-size:1em;<%=(readOnly?"display:none;":"")%>" value="Choose File" >Upload File</button>
 <%
 	if(!thumbnail){
 %>		
@@ -178,8 +184,12 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 				<portlet:namespace /><%=elementName%>_showThumbnail($('#<portlet:namespace/><%=elementName%>_connectionDocumentId').val())
 			}
 			$('#<portlet:namespace /><%=elementName%>_uploadBtn').hide();
-			$('#<portlet:namespace /><%=elementName%>_deleteBtn').show();
 <%
+			if(!readOnly){
+%>
+				$('#<portlet:namespace /><%=elementName%>_deleteBtn').show();
+<%
+			}
 		}
 %>
 	});
