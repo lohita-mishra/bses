@@ -59,7 +59,7 @@
 											<aui:validator name="minLength" errorMessage="Please enter 7 digit's valid OTP!" >7</aui:validator>
 											<aui:validator name="maxLength" errorMessage="Please enter 7 digit's valid OTP!" >7</aui:validator>
 										</aui:input>
-										<p id="wrontotp"
+										<p id="wrongotp"
 												class="far fa-paper-plane fa-fw text-danger">
 												<span>Invalid OTP.</span>
 											</p>
@@ -94,7 +94,7 @@
 $(document).ready(function(){
 	$("#<portlet:namespace/>mobileNo").focus();
 	$("#<portlet:namespace/>validateOtpForm").hide();
-	$("#wrontotp").hide();
+	$("#wrongotp").hide();
 	$("#expireotp").hide();
 });
 function validateForm(formId){
@@ -147,55 +147,49 @@ function generateOtp(){
 	console.log(mobNo+"--------------"+emailId);
 	if(!mobNo==""){
 	Liferay.Service(
-  '/bsesconn.otp/generate-otp',
-  {
-    mobileNo: mobNo,
-    email: emailId
-  },
-  function(obj) {
-    
-    if(obj != null){
-    	console.log("obj----"+obj)
-    	$("#<portlet:namespace/>generateOtpForm").hide();
-		
-		$("#<portlet:namespace/>validateOtpForm").show();
+		'/bsesconn.otp/generate-otp',
+	  	{
+	    	mobileNo: mobNo,
+	    	email: emailId
+	  	},
+  		function(obj) {
+			if(obj != null){
+				console.log("obj----"+obj)
+    			$("#<portlet:namespace/>generateOtpForm").hide();
+				$("#<portlet:namespace/>validateOtpForm").show();
     	
-$('#counter').runCounter({
-    start: 30,
-    end: 0,
-    duration: 30000
-});
-    	}
-  });
- }
+				$('#counter').runCounter({
+				    start: 30,
+				    end: 0,
+				    duration: 30000
+				});
+			}
+  		});
+ 	}
 }
-	
 
 function validateOtp(){
-
-	 let mobileNo = $('#<portlet:namespace />mobileNo').val();
+	let mobileNo = $('#<portlet:namespace />mobileNo').val();
 	var otpNumber = $('#<portlet:namespace />otp').val();
 	console.log(mobileNo+"--------------"+otpNumber);
 	Liferay.Service(
-  '/bsesconn.otp/validate-otp',
-  {
-    mobileNo: mobileNo,
-    otpNumber: otpNumber
-  },
-  function(obj) {
-    console.log(obj);
-    if(obj=="valid"){
-   		var detailsForm = $("#<portlet:namespace/>generateOtpForm");
-   		detailsForm.submit();
-   }
-   else if(obj=="invalid"){
-    	$("#wrontotp").show();
-    }
-    else{
-    		$("#expireotp").show();
-    }
-  }
-);
+		'/bsesconn.otp/validate-otp',
+  		{
+    		mobileNo: mobileNo,
+    		otpNumber: otpNumber
+  		},
+  		function(obj) {
+    		console.log(obj);
+    		if(obj=="valid"){
+   				var detailsForm = $("#<portlet:namespace/>generateOtpForm");
+   				detailsForm.submit();
+   			}else if(obj=="invalid"){
+    			$("#wrongotp").show();
+    		}else{
+    			$("#expireotp").show();
+    		}
+  		}
+	);
 }
 
 function reGenerateOtp(){
@@ -204,17 +198,17 @@ function reGenerateOtp(){
 	var emailId = $('#<portlet:namespace />emailId').val();
 	console.log(mobNo+"--------------"+emailId);
 	if(!mobNo==""){
-	Liferay.Service(
-  '/bsesconn.otp/resend-otp',
-  {
-    mobileNo: mobNo,
-    email: emailId
-  },
-  function(obj) {
-    console.log(obj);
-  }
-);
- }
+		Liferay.Service(
+  			'/bsesconn.otp/resend-otp',
+  			{
+    			mobileNo: mobNo,
+    			email: emailId
+  			},
+  			function(obj) {
+    			console.log(obj);
+  			}
+		);
+ 	}
 }
 	
 </aui:script>
