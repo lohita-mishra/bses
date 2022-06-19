@@ -2,6 +2,8 @@ create index IX_2333FCB2 on bsesconn_ConnectionDocument (connectionRequestId, do
 create index IX_83B5AA47 on bsesconn_ConnectionDocument (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_8D621689 on bsesconn_ConnectionDocument (uuid_[$COLUMN_LENGTH:75$], groupId);
 
+create index IX_7456660E on bsesconn_ConnectionRequest (bpNumber[$COLUMN_LENGTH:75$]);
+create index IX_B89D561E on bsesconn_ConnectionRequest (caNumber[$COLUMN_LENGTH:75$]);
 create index IX_ED89744 on bsesconn_ConnectionRequest (emailId[$COLUMN_LENGTH:75$]);
 create index IX_27014846 on bsesconn_ConnectionRequest (mobileNo[$COLUMN_LENGTH:75$], requestNo[$COLUMN_LENGTH:75$]);
 create index IX_2BC640B7 on bsesconn_ConnectionRequest (mobileNo[$COLUMN_LENGTH:75$], requestStatus[$COLUMN_LENGTH:75$]);

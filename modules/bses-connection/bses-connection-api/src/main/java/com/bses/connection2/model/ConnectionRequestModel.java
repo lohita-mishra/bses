@@ -1388,6 +1388,21 @@ public interface ConnectionRequestModel
 	public void setSelfDeclarationTime(Date selfDeclarationTime);
 
 	/**
+	 * Returns the order no of this connection request.
+	 *
+	 * @return the order no of this connection request
+	 */
+	@AutoEscape
+	public String getOrderNo();
+
+	/**
+	 * Sets the order no of this connection request.
+	 *
+	 * @param orderNo the order no of this connection request
+	 */
+	public void setOrderNo(String orderNo);
+
+	/**
 	 * Returns the bp number of this connection request.
 	 *
 	 * @return the bp number of this connection request
@@ -1403,19 +1418,19 @@ public interface ConnectionRequestModel
 	public void setBpNumber(String bpNumber);
 
 	/**
-	 * Returns the order no of this connection request.
+	 * Returns the ca number of this connection request.
 	 *
-	 * @return the order no of this connection request
+	 * @return the ca number of this connection request
 	 */
 	@AutoEscape
-	public String getOrderNo();
+	public String getCaNumber();
 
 	/**
-	 * Sets the order no of this connection request.
+	 * Sets the ca number of this connection request.
 	 *
-	 * @param orderNo the order no of this connection request
+	 * @param caNumber the ca number of this connection request
 	 */
-	public void setOrderNo(String orderNo);
+	public void setCaNumber(String caNumber);
 
 	/**
 	 * Returns the document uploaded of this connection request.

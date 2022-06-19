@@ -112,8 +112,9 @@ public class ConnectionRequestSoap implements Serializable {
 		soapModel.setOwnershipProofDocument(model.getOwnershipProofDocument());
 		soapModel.setSelfDeclaration(model.isSelfDeclaration());
 		soapModel.setSelfDeclarationTime(model.getSelfDeclarationTime());
-		soapModel.setBpNumber(model.getBpNumber());
 		soapModel.setOrderNo(model.getOrderNo());
+		soapModel.setBpNumber(model.getBpNumber());
+		soapModel.setCaNumber(model.getCaNumber());
 		soapModel.setDocumentUploaded(model.getDocumentUploaded());
 		soapModel.setSapOrderGenerated(model.getSapOrderGenerated());
 
@@ -885,6 +886,14 @@ public class ConnectionRequestSoap implements Serializable {
 		_selfDeclarationTime = selfDeclarationTime;
 	}
 
+	public String getOrderNo() {
+		return _orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		_orderNo = orderNo;
+	}
+
 	public String getBpNumber() {
 		return _bpNumber;
 	}
@@ -893,12 +902,12 @@ public class ConnectionRequestSoap implements Serializable {
 		_bpNumber = bpNumber;
 	}
 
-	public String getOrderNo() {
-		return _orderNo;
+	public String getCaNumber() {
+		return _caNumber;
 	}
 
-	public void setOrderNo(String orderNo) {
-		_orderNo = orderNo;
+	public void setCaNumber(String caNumber) {
+		_caNumber = caNumber;
 	}
 
 	public String getDocumentUploaded() {
@@ -998,8 +1007,9 @@ public class ConnectionRequestSoap implements Serializable {
 	private String _ownershipProofDocument;
 	private boolean _selfDeclaration;
 	private Date _selfDeclarationTime;
-	private String _bpNumber;
 	private String _orderNo;
+	private String _bpNumber;
+	private String _caNumber;
 	private String _documentUploaded;
 	private String _sapOrderGenerated;
 

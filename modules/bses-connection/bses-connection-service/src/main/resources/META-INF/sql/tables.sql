@@ -97,8 +97,9 @@ create table bsesconn_ConnectionRequest (
 	ownershipProofDocument VARCHAR(75) null,
 	selfDeclaration BOOLEAN,
 	selfDeclarationTime DATE null,
-	bpNumber VARCHAR(75) null,
 	orderNo VARCHAR(75) null,
+	bpNumber VARCHAR(75) null,
+	caNumber VARCHAR(75) null,
 	documentUploaded VARCHAR(75) null,
 	sapOrderGenerated VARCHAR(75) null
 );

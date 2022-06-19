@@ -108,8 +108,9 @@
 		<property name="ownershipProofDocument" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="selfDeclaration" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="selfDeclarationTime" type="org.hibernate.type.TimestampType" />
-		<property name="bpNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="orderNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="bpNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="caNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="documentUploaded" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="sapOrderGenerated" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>

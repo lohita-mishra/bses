@@ -713,6 +713,525 @@ public class ConnectionRequestUtil {
 	}
 
 	/**
+	 * Returns all the connection requests where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @return the matching connection requests
+	 */
+	public static List<ConnectionRequest> findByOrderNo(String requestNo) {
+		return getPersistence().findByOrderNo(requestNo);
+	}
+
+	/**
+	 * Returns a range of all the connection requests where requestNo = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param requestNo the request no
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @return the range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByOrderNo(
+		String requestNo, int start, int end) {
+
+		return getPersistence().findByOrderNo(requestNo, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where requestNo = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param requestNo the request no
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByOrderNo(
+		String requestNo, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().findByOrderNo(
+			requestNo, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where requestNo = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param requestNo the request no
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByOrderNo(
+		String requestNo, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByOrderNo(
+			requestNo, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public static ConnectionRequest findByOrderNo_First(
+			String requestNo,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByOrderNo_First(
+			requestNo, orderByComparator);
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public static ConnectionRequest fetchByOrderNo_First(
+		String requestNo,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().fetchByOrderNo_First(
+			requestNo, orderByComparator);
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public static ConnectionRequest findByOrderNo_Last(
+			String requestNo,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByOrderNo_Last(
+			requestNo, orderByComparator);
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public static ConnectionRequest fetchByOrderNo_Last(
+		String requestNo,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().fetchByOrderNo_Last(
+			requestNo, orderByComparator);
+	}
+
+	/**
+	 * Returns the connection requests before and after the current connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param connectionRequestId the primary key of the current connection request
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next connection request
+	 * @throws NoSuchConnectionRequestException if a connection request with the primary key could not be found
+	 */
+	public static ConnectionRequest[] findByOrderNo_PrevAndNext(
+			long connectionRequestId, String requestNo,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByOrderNo_PrevAndNext(
+			connectionRequestId, requestNo, orderByComparator);
+	}
+
+	/**
+	 * Removes all the connection requests where requestNo = &#63; from the database.
+	 *
+	 * @param requestNo the request no
+	 */
+	public static void removeByOrderNo(String requestNo) {
+		getPersistence().removeByOrderNo(requestNo);
+	}
+
+	/**
+	 * Returns the number of connection requests where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @return the number of matching connection requests
+	 */
+	public static int countByOrderNo(String requestNo) {
+		return getPersistence().countByOrderNo(requestNo);
+	}
+
+	/**
+	 * Returns all the connection requests where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @return the matching connection requests
+	 */
+	public static List<ConnectionRequest> findByCaNumber(String caNumber) {
+		return getPersistence().findByCaNumber(caNumber);
+	}
+
+	/**
+	 * Returns a range of all the connection requests where caNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param caNumber the ca number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @return the range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByCaNumber(
+		String caNumber, int start, int end) {
+
+		return getPersistence().findByCaNumber(caNumber, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where caNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param caNumber the ca number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByCaNumber(
+		String caNumber, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().findByCaNumber(
+			caNumber, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where caNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param caNumber the ca number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByCaNumber(
+		String caNumber, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByCaNumber(
+			caNumber, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public static ConnectionRequest findByCaNumber_First(
+			String caNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByCaNumber_First(
+			caNumber, orderByComparator);
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public static ConnectionRequest fetchByCaNumber_First(
+		String caNumber,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().fetchByCaNumber_First(
+			caNumber, orderByComparator);
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public static ConnectionRequest findByCaNumber_Last(
+			String caNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByCaNumber_Last(
+			caNumber, orderByComparator);
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public static ConnectionRequest fetchByCaNumber_Last(
+		String caNumber,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().fetchByCaNumber_Last(
+			caNumber, orderByComparator);
+	}
+
+	/**
+	 * Returns the connection requests before and after the current connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param connectionRequestId the primary key of the current connection request
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next connection request
+	 * @throws NoSuchConnectionRequestException if a connection request with the primary key could not be found
+	 */
+	public static ConnectionRequest[] findByCaNumber_PrevAndNext(
+			long connectionRequestId, String caNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByCaNumber_PrevAndNext(
+			connectionRequestId, caNumber, orderByComparator);
+	}
+
+	/**
+	 * Removes all the connection requests where caNumber = &#63; from the database.
+	 *
+	 * @param caNumber the ca number
+	 */
+	public static void removeByCaNumber(String caNumber) {
+		getPersistence().removeByCaNumber(caNumber);
+	}
+
+	/**
+	 * Returns the number of connection requests where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @return the number of matching connection requests
+	 */
+	public static int countByCaNumber(String caNumber) {
+		return getPersistence().countByCaNumber(caNumber);
+	}
+
+	/**
+	 * Returns all the connection requests where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @return the matching connection requests
+	 */
+	public static List<ConnectionRequest> findByBpNumber(String bpNumber) {
+		return getPersistence().findByBpNumber(bpNumber);
+	}
+
+	/**
+	 * Returns a range of all the connection requests where bpNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param bpNumber the bp number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @return the range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByBpNumber(
+		String bpNumber, int start, int end) {
+
+		return getPersistence().findByBpNumber(bpNumber, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where bpNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param bpNumber the bp number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByBpNumber(
+		String bpNumber, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().findByBpNumber(
+			bpNumber, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where bpNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param bpNumber the bp number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching connection requests
+	 */
+	public static List<ConnectionRequest> findByBpNumber(
+		String bpNumber, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByBpNumber(
+			bpNumber, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public static ConnectionRequest findByBpNumber_First(
+			String bpNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByBpNumber_First(
+			bpNumber, orderByComparator);
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public static ConnectionRequest fetchByBpNumber_First(
+		String bpNumber,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().fetchByBpNumber_First(
+			bpNumber, orderByComparator);
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public static ConnectionRequest findByBpNumber_Last(
+			String bpNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByBpNumber_Last(
+			bpNumber, orderByComparator);
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public static ConnectionRequest fetchByBpNumber_Last(
+		String bpNumber,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return getPersistence().fetchByBpNumber_Last(
+			bpNumber, orderByComparator);
+	}
+
+	/**
+	 * Returns the connection requests before and after the current connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param connectionRequestId the primary key of the current connection request
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next connection request
+	 * @throws NoSuchConnectionRequestException if a connection request with the primary key could not be found
+	 */
+	public static ConnectionRequest[] findByBpNumber_PrevAndNext(
+			long connectionRequestId, String bpNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws com.bses.connection2.exception.NoSuchConnectionRequestException {
+
+		return getPersistence().findByBpNumber_PrevAndNext(
+			connectionRequestId, bpNumber, orderByComparator);
+	}
+
+	/**
+	 * Removes all the connection requests where bpNumber = &#63; from the database.
+	 *
+	 * @param bpNumber the bp number
+	 */
+	public static void removeByBpNumber(String bpNumber) {
+		getPersistence().removeByBpNumber(bpNumber);
+	}
+
+	/**
+	 * Returns the number of connection requests where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @return the number of matching connection requests
+	 */
+	public static int countByBpNumber(String bpNumber) {
+		return getPersistence().countByBpNumber(bpNumber);
+	}
+
+	/**
 	 * Returns all the connection requests where mobileNo = &#63;.
 	 *
 	 * @param mobileNo the mobile no

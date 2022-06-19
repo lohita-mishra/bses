@@ -137,8 +137,9 @@ public class ConnectionRequestWrapper
 		attributes.put("ownershipProofDocument", getOwnershipProofDocument());
 		attributes.put("selfDeclaration", isSelfDeclaration());
 		attributes.put("selfDeclarationTime", getSelfDeclarationTime());
-		attributes.put("bpNumber", getBpNumber());
 		attributes.put("orderNo", getOrderNo());
+		attributes.put("bpNumber", getBpNumber());
+		attributes.put("caNumber", getCaNumber());
 		attributes.put("documentUploaded", getDocumentUploaded());
 		attributes.put("sapOrderGenerated", getSapOrderGenerated());
 
@@ -643,16 +644,22 @@ public class ConnectionRequestWrapper
 			setSelfDeclarationTime(selfDeclarationTime);
 		}
 
+		String orderNo = (String)attributes.get("orderNo");
+
+		if (orderNo != null) {
+			setOrderNo(orderNo);
+		}
+
 		String bpNumber = (String)attributes.get("bpNumber");
 
 		if (bpNumber != null) {
 			setBpNumber(bpNumber);
 		}
 
-		String orderNo = (String)attributes.get("orderNo");
+		String caNumber = (String)attributes.get("caNumber");
 
-		if (orderNo != null) {
-			setOrderNo(orderNo);
+		if (caNumber != null) {
+			setCaNumber(caNumber);
 		}
 
 		String documentUploaded = (String)attributes.get("documentUploaded");
@@ -777,6 +784,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public String getBuildingName() {
 		return _connectionRequest.getBuildingName();
+	}
+
+	/**
+	 * Returns the ca number of this connection request.
+	 *
+	 * @return the ca number of this connection request
+	 */
+	@Override
+	public String getCaNumber() {
+		return _connectionRequest.getCaNumber();
 	}
 
 	/**
@@ -1837,6 +1854,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_connectionRequest.setCachedModel(cachedModel);
+	}
+
+	/**
+	 * Sets the ca number of this connection request.
+	 *
+	 * @param caNumber the ca number of this connection request
+	 */
+	@Override
+	public void setCaNumber(String caNumber) {
+		_connectionRequest.setCaNumber(caNumber);
 	}
 
 	/**

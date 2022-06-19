@@ -114,8 +114,9 @@
 		<column name="selfDeclarationTime" type="Date" />
 		
 		<!-- SAP Information -->
-		<column name="bpNumber" type="String" />
 		<column name="orderNo" type="String" />
+		<column name="bpNumber" type="String" />
+		<column name="caNumber" type="String" />
 		<column name="documentUploaded" type="String" />
 		<column name="sapOrderGenerated" type="String" />
 		
@@ -130,7 +131,19 @@
 		<finder name="RequestNo" return-type="Collection">
 			<finder-column name="requestNo" />
 		</finder>
-
+		
+		<finder name="OrderNo" return-type="Collection">
+			<finder-column name="requestNo" />
+		</finder>
+		
+		<finder name="CaNumber" return-type="Collection">
+			<finder-column name="caNumber" />
+		</finder>
+		
+		<finder name="BpNumber" return-type="Collection">
+			<finder-column name="bpNumber" />
+		</finder>
+		
 		<finder name="MobileNo" return-type="Collection">
 			<finder-column name="mobileNo" />
 		</finder>

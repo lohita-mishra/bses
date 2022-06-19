@@ -2024,6 +2024,1656 @@ public class ConnectionRequestPersistenceImpl
 	private static final String _FINDER_COLUMN_REQUESTNO_REQUESTNO_3 =
 		"(connectionRequest.requestNo IS NULL OR connectionRequest.requestNo = '')";
 
+	private FinderPath _finderPathWithPaginationFindByOrderNo;
+	private FinderPath _finderPathWithoutPaginationFindByOrderNo;
+	private FinderPath _finderPathCountByOrderNo;
+
+	/**
+	 * Returns all the connection requests where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @return the matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByOrderNo(String requestNo) {
+		return findByOrderNo(
+			requestNo, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the connection requests where requestNo = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param requestNo the request no
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @return the range of matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByOrderNo(
+		String requestNo, int start, int end) {
+
+		return findByOrderNo(requestNo, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where requestNo = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param requestNo the request no
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByOrderNo(
+		String requestNo, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return findByOrderNo(requestNo, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where requestNo = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param requestNo the request no
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByOrderNo(
+		String requestNo, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator,
+		boolean useFinderCache) {
+
+		requestNo = Objects.toString(requestNo, "");
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByOrderNo;
+				finderArgs = new Object[] {requestNo};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByOrderNo;
+			finderArgs = new Object[] {
+				requestNo, start, end, orderByComparator
+			};
+		}
+
+		List<ConnectionRequest> list = null;
+
+		if (useFinderCache) {
+			list = (List<ConnectionRequest>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (ConnectionRequest connectionRequest : list) {
+					if (!requestNo.equals(connectionRequest.getRequestNo())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_CONNECTIONREQUEST_WHERE);
+
+			boolean bindRequestNo = false;
+
+			if (requestNo.isEmpty()) {
+				sb.append(_FINDER_COLUMN_ORDERNO_REQUESTNO_3);
+			}
+			else {
+				bindRequestNo = true;
+
+				sb.append(_FINDER_COLUMN_ORDERNO_REQUESTNO_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(ConnectionRequestModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindRequestNo) {
+					queryPos.add(requestNo);
+				}
+
+				list = (List<ConnectionRequest>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest findByOrderNo_First(
+			String requestNo,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws NoSuchConnectionRequestException {
+
+		ConnectionRequest connectionRequest = fetchByOrderNo_First(
+			requestNo, orderByComparator);
+
+		if (connectionRequest != null) {
+			return connectionRequest;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("requestNo=");
+		sb.append(requestNo);
+
+		sb.append("}");
+
+		throw new NoSuchConnectionRequestException(sb.toString());
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest fetchByOrderNo_First(
+		String requestNo,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		List<ConnectionRequest> list = findByOrderNo(
+			requestNo, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest findByOrderNo_Last(
+			String requestNo,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws NoSuchConnectionRequestException {
+
+		ConnectionRequest connectionRequest = fetchByOrderNo_Last(
+			requestNo, orderByComparator);
+
+		if (connectionRequest != null) {
+			return connectionRequest;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("requestNo=");
+		sb.append(requestNo);
+
+		sb.append("}");
+
+		throw new NoSuchConnectionRequestException(sb.toString());
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest fetchByOrderNo_Last(
+		String requestNo,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		int count = countByOrderNo(requestNo);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<ConnectionRequest> list = findByOrderNo(
+			requestNo, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the connection requests before and after the current connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param connectionRequestId the primary key of the current connection request
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next connection request
+	 * @throws NoSuchConnectionRequestException if a connection request with the primary key could not be found
+	 */
+	@Override
+	public ConnectionRequest[] findByOrderNo_PrevAndNext(
+			long connectionRequestId, String requestNo,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws NoSuchConnectionRequestException {
+
+		requestNo = Objects.toString(requestNo, "");
+
+		ConnectionRequest connectionRequest = findByPrimaryKey(
+			connectionRequestId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			ConnectionRequest[] array = new ConnectionRequestImpl[3];
+
+			array[0] = getByOrderNo_PrevAndNext(
+				session, connectionRequest, requestNo, orderByComparator, true);
+
+			array[1] = connectionRequest;
+
+			array[2] = getByOrderNo_PrevAndNext(
+				session, connectionRequest, requestNo, orderByComparator,
+				false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected ConnectionRequest getByOrderNo_PrevAndNext(
+		Session session, ConnectionRequest connectionRequest, String requestNo,
+		OrderByComparator<ConnectionRequest> orderByComparator,
+		boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_CONNECTIONREQUEST_WHERE);
+
+		boolean bindRequestNo = false;
+
+		if (requestNo.isEmpty()) {
+			sb.append(_FINDER_COLUMN_ORDERNO_REQUESTNO_3);
+		}
+		else {
+			bindRequestNo = true;
+
+			sb.append(_FINDER_COLUMN_ORDERNO_REQUESTNO_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(ConnectionRequestModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		if (bindRequestNo) {
+			queryPos.add(requestNo);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						connectionRequest)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<ConnectionRequest> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the connection requests where requestNo = &#63; from the database.
+	 *
+	 * @param requestNo the request no
+	 */
+	@Override
+	public void removeByOrderNo(String requestNo) {
+		for (ConnectionRequest connectionRequest :
+				findByOrderNo(
+					requestNo, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(connectionRequest);
+		}
+	}
+
+	/**
+	 * Returns the number of connection requests where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @return the number of matching connection requests
+	 */
+	@Override
+	public int countByOrderNo(String requestNo) {
+		requestNo = Objects.toString(requestNo, "");
+
+		FinderPath finderPath = _finderPathCountByOrderNo;
+
+		Object[] finderArgs = new Object[] {requestNo};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_CONNECTIONREQUEST_WHERE);
+
+			boolean bindRequestNo = false;
+
+			if (requestNo.isEmpty()) {
+				sb.append(_FINDER_COLUMN_ORDERNO_REQUESTNO_3);
+			}
+			else {
+				bindRequestNo = true;
+
+				sb.append(_FINDER_COLUMN_ORDERNO_REQUESTNO_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindRequestNo) {
+					queryPos.add(requestNo);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ORDERNO_REQUESTNO_2 =
+		"connectionRequest.requestNo = ?";
+
+	private static final String _FINDER_COLUMN_ORDERNO_REQUESTNO_3 =
+		"(connectionRequest.requestNo IS NULL OR connectionRequest.requestNo = '')";
+
+	private FinderPath _finderPathWithPaginationFindByCaNumber;
+	private FinderPath _finderPathWithoutPaginationFindByCaNumber;
+	private FinderPath _finderPathCountByCaNumber;
+
+	/**
+	 * Returns all the connection requests where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @return the matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByCaNumber(String caNumber) {
+		return findByCaNumber(
+			caNumber, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the connection requests where caNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param caNumber the ca number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @return the range of matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByCaNumber(
+		String caNumber, int start, int end) {
+
+		return findByCaNumber(caNumber, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where caNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param caNumber the ca number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByCaNumber(
+		String caNumber, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return findByCaNumber(caNumber, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where caNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param caNumber the ca number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByCaNumber(
+		String caNumber, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator,
+		boolean useFinderCache) {
+
+		caNumber = Objects.toString(caNumber, "");
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByCaNumber;
+				finderArgs = new Object[] {caNumber};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByCaNumber;
+			finderArgs = new Object[] {caNumber, start, end, orderByComparator};
+		}
+
+		List<ConnectionRequest> list = null;
+
+		if (useFinderCache) {
+			list = (List<ConnectionRequest>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (ConnectionRequest connectionRequest : list) {
+					if (!caNumber.equals(connectionRequest.getCaNumber())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_CONNECTIONREQUEST_WHERE);
+
+			boolean bindCaNumber = false;
+
+			if (caNumber.isEmpty()) {
+				sb.append(_FINDER_COLUMN_CANUMBER_CANUMBER_3);
+			}
+			else {
+				bindCaNumber = true;
+
+				sb.append(_FINDER_COLUMN_CANUMBER_CANUMBER_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(ConnectionRequestModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindCaNumber) {
+					queryPos.add(caNumber);
+				}
+
+				list = (List<ConnectionRequest>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest findByCaNumber_First(
+			String caNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws NoSuchConnectionRequestException {
+
+		ConnectionRequest connectionRequest = fetchByCaNumber_First(
+			caNumber, orderByComparator);
+
+		if (connectionRequest != null) {
+			return connectionRequest;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("caNumber=");
+		sb.append(caNumber);
+
+		sb.append("}");
+
+		throw new NoSuchConnectionRequestException(sb.toString());
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest fetchByCaNumber_First(
+		String caNumber,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		List<ConnectionRequest> list = findByCaNumber(
+			caNumber, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest findByCaNumber_Last(
+			String caNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws NoSuchConnectionRequestException {
+
+		ConnectionRequest connectionRequest = fetchByCaNumber_Last(
+			caNumber, orderByComparator);
+
+		if (connectionRequest != null) {
+			return connectionRequest;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("caNumber=");
+		sb.append(caNumber);
+
+		sb.append("}");
+
+		throw new NoSuchConnectionRequestException(sb.toString());
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest fetchByCaNumber_Last(
+		String caNumber,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		int count = countByCaNumber(caNumber);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<ConnectionRequest> list = findByCaNumber(
+			caNumber, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the connection requests before and after the current connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param connectionRequestId the primary key of the current connection request
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next connection request
+	 * @throws NoSuchConnectionRequestException if a connection request with the primary key could not be found
+	 */
+	@Override
+	public ConnectionRequest[] findByCaNumber_PrevAndNext(
+			long connectionRequestId, String caNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws NoSuchConnectionRequestException {
+
+		caNumber = Objects.toString(caNumber, "");
+
+		ConnectionRequest connectionRequest = findByPrimaryKey(
+			connectionRequestId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			ConnectionRequest[] array = new ConnectionRequestImpl[3];
+
+			array[0] = getByCaNumber_PrevAndNext(
+				session, connectionRequest, caNumber, orderByComparator, true);
+
+			array[1] = connectionRequest;
+
+			array[2] = getByCaNumber_PrevAndNext(
+				session, connectionRequest, caNumber, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected ConnectionRequest getByCaNumber_PrevAndNext(
+		Session session, ConnectionRequest connectionRequest, String caNumber,
+		OrderByComparator<ConnectionRequest> orderByComparator,
+		boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_CONNECTIONREQUEST_WHERE);
+
+		boolean bindCaNumber = false;
+
+		if (caNumber.isEmpty()) {
+			sb.append(_FINDER_COLUMN_CANUMBER_CANUMBER_3);
+		}
+		else {
+			bindCaNumber = true;
+
+			sb.append(_FINDER_COLUMN_CANUMBER_CANUMBER_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(ConnectionRequestModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		if (bindCaNumber) {
+			queryPos.add(caNumber);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						connectionRequest)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<ConnectionRequest> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the connection requests where caNumber = &#63; from the database.
+	 *
+	 * @param caNumber the ca number
+	 */
+	@Override
+	public void removeByCaNumber(String caNumber) {
+		for (ConnectionRequest connectionRequest :
+				findByCaNumber(
+					caNumber, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(connectionRequest);
+		}
+	}
+
+	/**
+	 * Returns the number of connection requests where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @return the number of matching connection requests
+	 */
+	@Override
+	public int countByCaNumber(String caNumber) {
+		caNumber = Objects.toString(caNumber, "");
+
+		FinderPath finderPath = _finderPathCountByCaNumber;
+
+		Object[] finderArgs = new Object[] {caNumber};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_CONNECTIONREQUEST_WHERE);
+
+			boolean bindCaNumber = false;
+
+			if (caNumber.isEmpty()) {
+				sb.append(_FINDER_COLUMN_CANUMBER_CANUMBER_3);
+			}
+			else {
+				bindCaNumber = true;
+
+				sb.append(_FINDER_COLUMN_CANUMBER_CANUMBER_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindCaNumber) {
+					queryPos.add(caNumber);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_CANUMBER_CANUMBER_2 =
+		"connectionRequest.caNumber = ?";
+
+	private static final String _FINDER_COLUMN_CANUMBER_CANUMBER_3 =
+		"(connectionRequest.caNumber IS NULL OR connectionRequest.caNumber = '')";
+
+	private FinderPath _finderPathWithPaginationFindByBpNumber;
+	private FinderPath _finderPathWithoutPaginationFindByBpNumber;
+	private FinderPath _finderPathCountByBpNumber;
+
+	/**
+	 * Returns all the connection requests where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @return the matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByBpNumber(String bpNumber) {
+		return findByBpNumber(
+			bpNumber, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the connection requests where bpNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param bpNumber the bp number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @return the range of matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByBpNumber(
+		String bpNumber, int start, int end) {
+
+		return findByBpNumber(bpNumber, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where bpNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param bpNumber the bp number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByBpNumber(
+		String bpNumber, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		return findByBpNumber(bpNumber, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the connection requests where bpNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param bpNumber the bp number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching connection requests
+	 */
+	@Override
+	public List<ConnectionRequest> findByBpNumber(
+		String bpNumber, int start, int end,
+		OrderByComparator<ConnectionRequest> orderByComparator,
+		boolean useFinderCache) {
+
+		bpNumber = Objects.toString(bpNumber, "");
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByBpNumber;
+				finderArgs = new Object[] {bpNumber};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByBpNumber;
+			finderArgs = new Object[] {bpNumber, start, end, orderByComparator};
+		}
+
+		List<ConnectionRequest> list = null;
+
+		if (useFinderCache) {
+			list = (List<ConnectionRequest>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (ConnectionRequest connectionRequest : list) {
+					if (!bpNumber.equals(connectionRequest.getBpNumber())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_CONNECTIONREQUEST_WHERE);
+
+			boolean bindBpNumber = false;
+
+			if (bpNumber.isEmpty()) {
+				sb.append(_FINDER_COLUMN_BPNUMBER_BPNUMBER_3);
+			}
+			else {
+				bindBpNumber = true;
+
+				sb.append(_FINDER_COLUMN_BPNUMBER_BPNUMBER_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(ConnectionRequestModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindBpNumber) {
+					queryPos.add(bpNumber);
+				}
+
+				list = (List<ConnectionRequest>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest findByBpNumber_First(
+			String bpNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws NoSuchConnectionRequestException {
+
+		ConnectionRequest connectionRequest = fetchByBpNumber_First(
+			bpNumber, orderByComparator);
+
+		if (connectionRequest != null) {
+			return connectionRequest;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("bpNumber=");
+		sb.append(bpNumber);
+
+		sb.append("}");
+
+		throw new NoSuchConnectionRequestException(sb.toString());
+	}
+
+	/**
+	 * Returns the first connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest fetchByBpNumber_First(
+		String bpNumber,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		List<ConnectionRequest> list = findByBpNumber(
+			bpNumber, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest findByBpNumber_Last(
+			String bpNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws NoSuchConnectionRequestException {
+
+		ConnectionRequest connectionRequest = fetchByBpNumber_Last(
+			bpNumber, orderByComparator);
+
+		if (connectionRequest != null) {
+			return connectionRequest;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("bpNumber=");
+		sb.append(bpNumber);
+
+		sb.append("}");
+
+		throw new NoSuchConnectionRequestException(sb.toString());
+	}
+
+	/**
+	 * Returns the last connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	@Override
+	public ConnectionRequest fetchByBpNumber_Last(
+		String bpNumber,
+		OrderByComparator<ConnectionRequest> orderByComparator) {
+
+		int count = countByBpNumber(bpNumber);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<ConnectionRequest> list = findByBpNumber(
+			bpNumber, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the connection requests before and after the current connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param connectionRequestId the primary key of the current connection request
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next connection request
+	 * @throws NoSuchConnectionRequestException if a connection request with the primary key could not be found
+	 */
+	@Override
+	public ConnectionRequest[] findByBpNumber_PrevAndNext(
+			long connectionRequestId, String bpNumber,
+			OrderByComparator<ConnectionRequest> orderByComparator)
+		throws NoSuchConnectionRequestException {
+
+		bpNumber = Objects.toString(bpNumber, "");
+
+		ConnectionRequest connectionRequest = findByPrimaryKey(
+			connectionRequestId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			ConnectionRequest[] array = new ConnectionRequestImpl[3];
+
+			array[0] = getByBpNumber_PrevAndNext(
+				session, connectionRequest, bpNumber, orderByComparator, true);
+
+			array[1] = connectionRequest;
+
+			array[2] = getByBpNumber_PrevAndNext(
+				session, connectionRequest, bpNumber, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected ConnectionRequest getByBpNumber_PrevAndNext(
+		Session session, ConnectionRequest connectionRequest, String bpNumber,
+		OrderByComparator<ConnectionRequest> orderByComparator,
+		boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_CONNECTIONREQUEST_WHERE);
+
+		boolean bindBpNumber = false;
+
+		if (bpNumber.isEmpty()) {
+			sb.append(_FINDER_COLUMN_BPNUMBER_BPNUMBER_3);
+		}
+		else {
+			bindBpNumber = true;
+
+			sb.append(_FINDER_COLUMN_BPNUMBER_BPNUMBER_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(ConnectionRequestModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		if (bindBpNumber) {
+			queryPos.add(bpNumber);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						connectionRequest)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<ConnectionRequest> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the connection requests where bpNumber = &#63; from the database.
+	 *
+	 * @param bpNumber the bp number
+	 */
+	@Override
+	public void removeByBpNumber(String bpNumber) {
+		for (ConnectionRequest connectionRequest :
+				findByBpNumber(
+					bpNumber, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(connectionRequest);
+		}
+	}
+
+	/**
+	 * Returns the number of connection requests where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @return the number of matching connection requests
+	 */
+	@Override
+	public int countByBpNumber(String bpNumber) {
+		bpNumber = Objects.toString(bpNumber, "");
+
+		FinderPath finderPath = _finderPathCountByBpNumber;
+
+		Object[] finderArgs = new Object[] {bpNumber};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_CONNECTIONREQUEST_WHERE);
+
+			boolean bindBpNumber = false;
+
+			if (bpNumber.isEmpty()) {
+				sb.append(_FINDER_COLUMN_BPNUMBER_BPNUMBER_3);
+			}
+			else {
+				bindBpNumber = true;
+
+				sb.append(_FINDER_COLUMN_BPNUMBER_BPNUMBER_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindBpNumber) {
+					queryPos.add(bpNumber);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_BPNUMBER_BPNUMBER_2 =
+		"connectionRequest.bpNumber = ?";
+
+	private static final String _FINDER_COLUMN_BPNUMBER_BPNUMBER_3 =
+		"(connectionRequest.bpNumber IS NULL OR connectionRequest.bpNumber = '')";
+
 	private FinderPath _finderPathWithPaginationFindByMobileNo;
 	private FinderPath _finderPathWithoutPaginationFindByMobileNo;
 	private FinderPath _finderPathCountByMobileNo;
@@ -4794,6 +6444,24 @@ public class ConnectionRequestPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByRequestNo, args);
 
+			args = new Object[] {connectionRequestModelImpl.getRequestNo()};
+
+			finderCache.removeResult(_finderPathCountByOrderNo, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByOrderNo, args);
+
+			args = new Object[] {connectionRequestModelImpl.getCaNumber()};
+
+			finderCache.removeResult(_finderPathCountByCaNumber, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByCaNumber, args);
+
+			args = new Object[] {connectionRequestModelImpl.getBpNumber()};
+
+			finderCache.removeResult(_finderPathCountByBpNumber, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByBpNumber, args);
+
 			args = new Object[] {connectionRequestModelImpl.getMobileNo()};
 
 			finderCache.removeResult(_finderPathCountByMobileNo, args);
@@ -4891,6 +6559,63 @@ public class ConnectionRequestPersistenceImpl
 				finderCache.removeResult(_finderPathCountByRequestNo, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByRequestNo, args);
+			}
+
+			if ((connectionRequestModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByOrderNo.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					connectionRequestModelImpl.getOriginalRequestNo()
+				};
+
+				finderCache.removeResult(_finderPathCountByOrderNo, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByOrderNo, args);
+
+				args = new Object[] {connectionRequestModelImpl.getRequestNo()};
+
+				finderCache.removeResult(_finderPathCountByOrderNo, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByOrderNo, args);
+			}
+
+			if ((connectionRequestModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByCaNumber.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					connectionRequestModelImpl.getOriginalCaNumber()
+				};
+
+				finderCache.removeResult(_finderPathCountByCaNumber, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCaNumber, args);
+
+				args = new Object[] {connectionRequestModelImpl.getCaNumber()};
+
+				finderCache.removeResult(_finderPathCountByCaNumber, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCaNumber, args);
+			}
+
+			if ((connectionRequestModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByBpNumber.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					connectionRequestModelImpl.getOriginalBpNumber()
+				};
+
+				finderCache.removeResult(_finderPathCountByBpNumber, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByBpNumber, args);
+
+				args = new Object[] {connectionRequestModelImpl.getBpNumber()};
+
+				finderCache.removeResult(_finderPathCountByBpNumber, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByBpNumber, args);
 			}
 
 			if ((connectionRequestModelImpl.getColumnBitmask() &
@@ -5512,6 +7237,80 @@ public class ConnectionRequestPersistenceImpl
 			ConnectionRequestModelImpl.ENTITY_CACHE_ENABLED,
 			ConnectionRequestModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRequestNo",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByOrderNo = new FinderPath(
+			ConnectionRequestModelImpl.ENTITY_CACHE_ENABLED,
+			ConnectionRequestModelImpl.FINDER_CACHE_ENABLED,
+			ConnectionRequestImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByOrderNo",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByOrderNo = new FinderPath(
+			ConnectionRequestModelImpl.ENTITY_CACHE_ENABLED,
+			ConnectionRequestModelImpl.FINDER_CACHE_ENABLED,
+			ConnectionRequestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOrderNo",
+			new String[] {String.class.getName()},
+			ConnectionRequestModelImpl.REQUESTNO_COLUMN_BITMASK);
+
+		_finderPathCountByOrderNo = new FinderPath(
+			ConnectionRequestModelImpl.ENTITY_CACHE_ENABLED,
+			ConnectionRequestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOrderNo",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByCaNumber = new FinderPath(
+			ConnectionRequestModelImpl.ENTITY_CACHE_ENABLED,
+			ConnectionRequestModelImpl.FINDER_CACHE_ENABLED,
+			ConnectionRequestImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCaNumber",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByCaNumber = new FinderPath(
+			ConnectionRequestModelImpl.ENTITY_CACHE_ENABLED,
+			ConnectionRequestModelImpl.FINDER_CACHE_ENABLED,
+			ConnectionRequestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCaNumber",
+			new String[] {String.class.getName()},
+			ConnectionRequestModelImpl.CANUMBER_COLUMN_BITMASK |
+			ConnectionRequestModelImpl.REQUESTNO_COLUMN_BITMASK);
+
+		_finderPathCountByCaNumber = new FinderPath(
+			ConnectionRequestModelImpl.ENTITY_CACHE_ENABLED,
+			ConnectionRequestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCaNumber",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByBpNumber = new FinderPath(
+			ConnectionRequestModelImpl.ENTITY_CACHE_ENABLED,
+			ConnectionRequestModelImpl.FINDER_CACHE_ENABLED,
+			ConnectionRequestImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByBpNumber",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByBpNumber = new FinderPath(
+			ConnectionRequestModelImpl.ENTITY_CACHE_ENABLED,
+			ConnectionRequestModelImpl.FINDER_CACHE_ENABLED,
+			ConnectionRequestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByBpNumber",
+			new String[] {String.class.getName()},
+			ConnectionRequestModelImpl.BPNUMBER_COLUMN_BITMASK |
+			ConnectionRequestModelImpl.REQUESTNO_COLUMN_BITMASK);
+
+		_finderPathCountByBpNumber = new FinderPath(
+			ConnectionRequestModelImpl.ENTITY_CACHE_ENABLED,
+			ConnectionRequestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByBpNumber",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByMobileNo = new FinderPath(

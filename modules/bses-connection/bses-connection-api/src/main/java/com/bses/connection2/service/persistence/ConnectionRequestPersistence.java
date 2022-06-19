@@ -542,6 +542,435 @@ public interface ConnectionRequestPersistence
 	public int countByRequestNo(String requestNo);
 
 	/**
+	 * Returns all the connection requests where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @return the matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByOrderNo(String requestNo);
+
+	/**
+	 * Returns a range of all the connection requests where requestNo = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param requestNo the request no
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @return the range of matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByOrderNo(
+		String requestNo, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the connection requests where requestNo = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param requestNo the request no
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByOrderNo(
+		String requestNo, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the connection requests where requestNo = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param requestNo the request no
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByOrderNo(
+		String requestNo, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public ConnectionRequest findByOrderNo_First(
+			String requestNo,
+			com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+				orderByComparator)
+		throws NoSuchConnectionRequestException;
+
+	/**
+	 * Returns the first connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public ConnectionRequest fetchByOrderNo_First(
+		String requestNo,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator);
+
+	/**
+	 * Returns the last connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public ConnectionRequest findByOrderNo_Last(
+			String requestNo,
+			com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+				orderByComparator)
+		throws NoSuchConnectionRequestException;
+
+	/**
+	 * Returns the last connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public ConnectionRequest fetchByOrderNo_Last(
+		String requestNo,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator);
+
+	/**
+	 * Returns the connection requests before and after the current connection request in the ordered set where requestNo = &#63;.
+	 *
+	 * @param connectionRequestId the primary key of the current connection request
+	 * @param requestNo the request no
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next connection request
+	 * @throws NoSuchConnectionRequestException if a connection request with the primary key could not be found
+	 */
+	public ConnectionRequest[] findByOrderNo_PrevAndNext(
+			long connectionRequestId, String requestNo,
+			com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+				orderByComparator)
+		throws NoSuchConnectionRequestException;
+
+	/**
+	 * Removes all the connection requests where requestNo = &#63; from the database.
+	 *
+	 * @param requestNo the request no
+	 */
+	public void removeByOrderNo(String requestNo);
+
+	/**
+	 * Returns the number of connection requests where requestNo = &#63;.
+	 *
+	 * @param requestNo the request no
+	 * @return the number of matching connection requests
+	 */
+	public int countByOrderNo(String requestNo);
+
+	/**
+	 * Returns all the connection requests where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @return the matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByCaNumber(String caNumber);
+
+	/**
+	 * Returns a range of all the connection requests where caNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param caNumber the ca number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @return the range of matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByCaNumber(
+		String caNumber, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the connection requests where caNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param caNumber the ca number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByCaNumber(
+		String caNumber, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the connection requests where caNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param caNumber the ca number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByCaNumber(
+		String caNumber, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public ConnectionRequest findByCaNumber_First(
+			String caNumber,
+			com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+				orderByComparator)
+		throws NoSuchConnectionRequestException;
+
+	/**
+	 * Returns the first connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public ConnectionRequest fetchByCaNumber_First(
+		String caNumber,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator);
+
+	/**
+	 * Returns the last connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public ConnectionRequest findByCaNumber_Last(
+			String caNumber,
+			com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+				orderByComparator)
+		throws NoSuchConnectionRequestException;
+
+	/**
+	 * Returns the last connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public ConnectionRequest fetchByCaNumber_Last(
+		String caNumber,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator);
+
+	/**
+	 * Returns the connection requests before and after the current connection request in the ordered set where caNumber = &#63;.
+	 *
+	 * @param connectionRequestId the primary key of the current connection request
+	 * @param caNumber the ca number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next connection request
+	 * @throws NoSuchConnectionRequestException if a connection request with the primary key could not be found
+	 */
+	public ConnectionRequest[] findByCaNumber_PrevAndNext(
+			long connectionRequestId, String caNumber,
+			com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+				orderByComparator)
+		throws NoSuchConnectionRequestException;
+
+	/**
+	 * Removes all the connection requests where caNumber = &#63; from the database.
+	 *
+	 * @param caNumber the ca number
+	 */
+	public void removeByCaNumber(String caNumber);
+
+	/**
+	 * Returns the number of connection requests where caNumber = &#63;.
+	 *
+	 * @param caNumber the ca number
+	 * @return the number of matching connection requests
+	 */
+	public int countByCaNumber(String caNumber);
+
+	/**
+	 * Returns all the connection requests where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @return the matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByBpNumber(String bpNumber);
+
+	/**
+	 * Returns a range of all the connection requests where bpNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param bpNumber the bp number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @return the range of matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByBpNumber(
+		String bpNumber, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the connection requests where bpNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param bpNumber the bp number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByBpNumber(
+		String bpNumber, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the connection requests where bpNumber = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ConnectionRequestModelImpl</code>.
+	 * </p>
+	 *
+	 * @param bpNumber the bp number
+	 * @param start the lower bound of the range of connection requests
+	 * @param end the upper bound of the range of connection requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching connection requests
+	 */
+	public java.util.List<ConnectionRequest> findByBpNumber(
+		String bpNumber, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public ConnectionRequest findByBpNumber_First(
+			String bpNumber,
+			com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+				orderByComparator)
+		throws NoSuchConnectionRequestException;
+
+	/**
+	 * Returns the first connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public ConnectionRequest fetchByBpNumber_First(
+		String bpNumber,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator);
+
+	/**
+	 * Returns the last connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request
+	 * @throws NoSuchConnectionRequestException if a matching connection request could not be found
+	 */
+	public ConnectionRequest findByBpNumber_Last(
+			String bpNumber,
+			com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+				orderByComparator)
+		throws NoSuchConnectionRequestException;
+
+	/**
+	 * Returns the last connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching connection request, or <code>null</code> if a matching connection request could not be found
+	 */
+	public ConnectionRequest fetchByBpNumber_Last(
+		String bpNumber,
+		com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+			orderByComparator);
+
+	/**
+	 * Returns the connection requests before and after the current connection request in the ordered set where bpNumber = &#63;.
+	 *
+	 * @param connectionRequestId the primary key of the current connection request
+	 * @param bpNumber the bp number
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next connection request
+	 * @throws NoSuchConnectionRequestException if a connection request with the primary key could not be found
+	 */
+	public ConnectionRequest[] findByBpNumber_PrevAndNext(
+			long connectionRequestId, String bpNumber,
+			com.liferay.portal.kernel.util.OrderByComparator<ConnectionRequest>
+				orderByComparator)
+		throws NoSuchConnectionRequestException;
+
+	/**
+	 * Removes all the connection requests where bpNumber = &#63; from the database.
+	 *
+	 * @param bpNumber the bp number
+	 */
+	public void removeByBpNumber(String bpNumber);
+
+	/**
+	 * Returns the number of connection requests where bpNumber = &#63;.
+	 *
+	 * @param bpNumber the bp number
+	 * @return the number of matching connection requests
+	 */
+	public int countByBpNumber(String bpNumber);
+
+	/**
 	 * Returns all the connection requests where mobileNo = &#63;.
 	 *
 	 * @param mobileNo the mobile no

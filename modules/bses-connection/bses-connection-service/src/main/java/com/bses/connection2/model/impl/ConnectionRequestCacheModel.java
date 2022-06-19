@@ -65,7 +65,7 @@ public class ConnectionRequestCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(171);
+		StringBundler sb = new StringBundler(173);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -229,10 +229,12 @@ public class ConnectionRequestCacheModel
 		sb.append(selfDeclaration);
 		sb.append(", selfDeclarationTime=");
 		sb.append(selfDeclarationTime);
-		sb.append(", bpNumber=");
-		sb.append(bpNumber);
 		sb.append(", orderNo=");
 		sb.append(orderNo);
+		sb.append(", bpNumber=");
+		sb.append(bpNumber);
+		sb.append(", caNumber=");
+		sb.append(caNumber);
 		sb.append(", documentUploaded=");
 		sb.append(documentUploaded);
 		sb.append(", sapOrderGenerated=");
@@ -700,6 +702,13 @@ public class ConnectionRequestCacheModel
 				new Date(selfDeclarationTime));
 		}
 
+		if (orderNo == null) {
+			connectionRequestImpl.setOrderNo("");
+		}
+		else {
+			connectionRequestImpl.setOrderNo(orderNo);
+		}
+
 		if (bpNumber == null) {
 			connectionRequestImpl.setBpNumber("");
 		}
@@ -707,11 +716,11 @@ public class ConnectionRequestCacheModel
 			connectionRequestImpl.setBpNumber(bpNumber);
 		}
 
-		if (orderNo == null) {
-			connectionRequestImpl.setOrderNo("");
+		if (caNumber == null) {
+			connectionRequestImpl.setCaNumber("");
 		}
 		else {
-			connectionRequestImpl.setOrderNo(orderNo);
+			connectionRequestImpl.setCaNumber(caNumber);
 		}
 
 		if (documentUploaded == null) {
@@ -838,8 +847,9 @@ public class ConnectionRequestCacheModel
 
 		selfDeclaration = objectInput.readBoolean();
 		selfDeclarationTime = objectInput.readLong();
-		bpNumber = objectInput.readUTF();
 		orderNo = objectInput.readUTF();
+		bpNumber = objectInput.readUTF();
+		caNumber = objectInput.readUTF();
 		documentUploaded = objectInput.readUTF();
 		sapOrderGenerated = objectInput.readUTF();
 	}
@@ -1270,6 +1280,13 @@ public class ConnectionRequestCacheModel
 		objectOutput.writeBoolean(selfDeclaration);
 		objectOutput.writeLong(selfDeclarationTime);
 
+		if (orderNo == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(orderNo);
+		}
+
 		if (bpNumber == null) {
 			objectOutput.writeUTF("");
 		}
@@ -1277,11 +1294,11 @@ public class ConnectionRequestCacheModel
 			objectOutput.writeUTF(bpNumber);
 		}
 
-		if (orderNo == null) {
+		if (caNumber == null) {
 			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeUTF(orderNo);
+			objectOutput.writeUTF(caNumber);
 		}
 
 		if (documentUploaded == null) {
@@ -1380,8 +1397,9 @@ public class ConnectionRequestCacheModel
 	public String ownershipProofDocument;
 	public boolean selfDeclaration;
 	public long selfDeclarationTime;
-	public String bpNumber;
 	public String orderNo;
+	public String bpNumber;
+	public String caNumber;
 	public String documentUploaded;
 	public String sapOrderGenerated;
 

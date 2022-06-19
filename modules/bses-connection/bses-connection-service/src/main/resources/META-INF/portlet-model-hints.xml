@@ -99,8 +99,9 @@
 		<field name="ownershipProofDocument" type="String" />
 		<field name="selfDeclaration" type="boolean" />
 		<field name="selfDeclarationTime" type="Date" />
-		<field name="bpNumber" type="String" />
 		<field name="orderNo" type="String" />
+		<field name="bpNumber" type="String" />
+		<field name="caNumber" type="String" />
 		<field name="documentUploaded" type="String" />
 		<field name="sapOrderGenerated" type="String" />
 	</model>
