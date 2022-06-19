@@ -119,6 +119,23 @@ public class ConnectionRequestServiceSoap {
 		}
 	}
 
+	public static String submitNameChangeRequestToSoap(long connectionRequestId)
+		throws RemoteException {
+
+		try {
+			String returnValue =
+				ConnectionRequestServiceUtil.submitNameChangeRequestToSoap(
+					connectionRequestId);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	public static com.bses.connection2.model.ConnectionRequestSoap
 			getConnectionRequest(String requestNo)
 		throws RemoteException {

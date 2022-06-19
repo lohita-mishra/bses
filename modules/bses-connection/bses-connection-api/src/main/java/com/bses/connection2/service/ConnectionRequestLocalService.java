@@ -353,6 +353,8 @@ public interface ConnectionRequestLocalService
 
 	public String submitConnectionRequestToSoap(long connectionRequestId);
 
+	public String submitNameChangeRequestToSoap(long connectionRequestId);
+
 	public String updateAddress(
 		long connectionRequestId, Map<String, String> params);
 

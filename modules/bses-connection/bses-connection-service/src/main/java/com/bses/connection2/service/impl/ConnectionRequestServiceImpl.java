@@ -85,6 +85,11 @@ public class ConnectionRequestServiceImpl extends ConnectionRequestServiceBaseIm
 		return connectionRequestLocalService.submitConnectionRequestToSoap(connectionRequestId);
 	}
 	
+	@AccessControlled(guestAccessEnabled=true)
+	public String submitNameChangeRequestToSoap(long connectionRequestId) {
+		return connectionRequestLocalService.submitNameChangeRequestToSoap(connectionRequestId);
+	}
+	
 	public String updateConsumerDetails(String requestNo, Map<String, String> params) {
 		LOGGER.info(params);
 		return connectionRequestLocalService.updateConsumerDetails(requestNo, params);

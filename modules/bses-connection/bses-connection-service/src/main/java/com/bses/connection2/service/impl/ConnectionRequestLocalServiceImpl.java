@@ -356,6 +356,27 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		}
 		return "failure";
 	}
+	
+	public String submitNameChangeRequestToSoap(long connectionRequestId) {
+		try {
+			ConnectionRequest connectionRequest= connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
+			
+			CmsISUCADisplayResponse cmsResponse = sapService.getCmsISUCADisplay("103012062");//
+			String serviceOrder=DigitalSevaKendraServiceHelper.submitNameChageRequest(connectionRequest,cmsResponse);//addNewConnectionRequestDetailSoapCall(connectionRequest);
+			LOGGER.info("Service Order generated : "+serviceOrder);
+			
+			if(StringUtils.isNotEmpty(serviceOrder)) {
+				connectionRequest.setOrderNo(serviceOrder);
+				connectionRequest.setSapOrderGenerated("Y");
+				connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_ORDER_GENERATED);
+				connectionRequestPersistence.update(connectionRequest);
+				return "success";
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return "failure";
+	}
 
 	private ConnectionRequest toConnectionRequest(ConnectionRequest source) {
 		ResourceBundle bundle = getResourceBundle();

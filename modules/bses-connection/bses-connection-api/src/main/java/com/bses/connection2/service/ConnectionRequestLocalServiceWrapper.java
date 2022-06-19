@@ -484,6 +484,12 @@ public class ConnectionRequestLocalServiceWrapper
 	}
 
 	@Override
+	public String submitNameChangeRequestToSoap(long connectionRequestId) {
+		return _connectionRequestLocalService.submitNameChangeRequestToSoap(
+			connectionRequestId);
+	}
+
+	@Override
 	public String updateAddress(
 		long connectionRequestId, java.util.Map<String, String> params) {
 

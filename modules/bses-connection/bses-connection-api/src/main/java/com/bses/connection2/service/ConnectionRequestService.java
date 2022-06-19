@@ -96,6 +96,9 @@ public interface ConnectionRequestService extends BaseService {
 	@AccessControlled(guestAccessEnabled = true)
 	public String submitConnectionRequestToSoap(long connectionRequestId);
 
+	@AccessControlled(guestAccessEnabled = true)
+	public String submitNameChangeRequestToSoap(long connectionRequestId);
+
 	public String updateAddress(String requestNo, Map<String, String> params);
 
 	public String updateChecklistDocuments(

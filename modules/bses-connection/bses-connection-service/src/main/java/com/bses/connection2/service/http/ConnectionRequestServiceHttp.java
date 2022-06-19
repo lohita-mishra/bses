@@ -201,6 +201,39 @@ public class ConnectionRequestServiceHttp {
 		}
 	}
 
+	public static String submitNameChangeRequestToSoap(
+		HttpPrincipal httpPrincipal, long connectionRequestId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ConnectionRequestServiceUtil.class,
+				"submitNameChangeRequestToSoap",
+				_submitNameChangeRequestToSoapParameterTypes4);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, connectionRequestId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (String)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static String updateConsumerDetails(
 		HttpPrincipal httpPrincipal, String requestNo,
 		java.util.Map<String, String> params) {
@@ -208,7 +241,7 @@ public class ConnectionRequestServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				ConnectionRequestServiceUtil.class, "updateConsumerDetails",
-				_updateConsumerDetailsParameterTypes4);
+				_updateConsumerDetailsParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, requestNo, params);
@@ -241,7 +274,7 @@ public class ConnectionRequestServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				ConnectionRequestServiceUtil.class, "updateAddress",
-				_updateAddressParameterTypes5);
+				_updateAddressParameterTypes6);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, requestNo, params);
@@ -274,7 +307,7 @@ public class ConnectionRequestServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				ConnectionRequestServiceUtil.class, "updateConnection",
-				_updateConnectionParameterTypes6);
+				_updateConnectionParameterTypes7);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, requestNo, params);
@@ -307,7 +340,7 @@ public class ConnectionRequestServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				ConnectionRequestServiceUtil.class, "updateChecklistDocuments",
-				_updateChecklistDocumentsParameterTypes7);
+				_updateChecklistDocumentsParameterTypes8);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, requestNo, params);
@@ -340,7 +373,7 @@ public class ConnectionRequestServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				ConnectionRequestServiceUtil.class, "updateImportantDocuments",
-				_updateImportantDocumentsParameterTypes8);
+				_updateImportantDocumentsParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, requestNo, params);
@@ -372,7 +405,7 @@ public class ConnectionRequestServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				ConnectionRequestServiceUtil.class, "getConnectionRequest",
-				_getConnectionRequestParameterTypes9);
+				_getConnectionRequestParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, requestNo);
@@ -406,7 +439,7 @@ public class ConnectionRequestServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				ConnectionRequestServiceUtil.class,
 				"getConnectionRequestByMobileNoAndRequestNo",
-				_getConnectionRequestByMobileNoAndRequestNoParameterTypes10);
+				_getConnectionRequestByMobileNoAndRequestNoParameterTypes11);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, mobileNo, requestNo);
@@ -440,7 +473,7 @@ public class ConnectionRequestServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				ConnectionRequestServiceUtil.class,
 				"getConnectionRequestsByMobileNo",
-				_getConnectionRequestsByMobileNoParameterTypes11);
+				_getConnectionRequestsByMobileNoParameterTypes12);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, mobileNo);
@@ -475,7 +508,7 @@ public class ConnectionRequestServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				ConnectionRequestServiceUtil.class,
 				"deleteByConnectionRequestId",
-				_deleteByConnectionRequestIdParameterTypes13);
+				_deleteByConnectionRequestIdParameterTypes14);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, connectionRequestId);
@@ -521,26 +554,30 @@ public class ConnectionRequestServiceHttp {
 		_submitConnectionRequestToSoapParameterTypes3 = new Class[] {
 			long.class
 		};
-	private static final Class<?>[] _updateConsumerDetailsParameterTypes4 =
+	private static final Class<?>[]
+		_submitNameChangeRequestToSoapParameterTypes4 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _updateConsumerDetailsParameterTypes5 =
 		new Class[] {String.class, java.util.Map.class};
-	private static final Class<?>[] _updateAddressParameterTypes5 =
+	private static final Class<?>[] _updateAddressParameterTypes6 =
 		new Class[] {String.class, java.util.Map.class};
-	private static final Class<?>[] _updateConnectionParameterTypes6 =
+	private static final Class<?>[] _updateConnectionParameterTypes7 =
 		new Class[] {String.class, java.util.Map.class};
-	private static final Class<?>[] _updateChecklistDocumentsParameterTypes7 =
+	private static final Class<?>[] _updateChecklistDocumentsParameterTypes8 =
 		new Class[] {String.class, java.util.Map.class};
-	private static final Class<?>[] _updateImportantDocumentsParameterTypes8 =
+	private static final Class<?>[] _updateImportantDocumentsParameterTypes9 =
 		new Class[] {String.class, java.util.Map.class};
-	private static final Class<?>[] _getConnectionRequestParameterTypes9 =
+	private static final Class<?>[] _getConnectionRequestParameterTypes10 =
 		new Class[] {String.class};
 	private static final Class<?>[]
-		_getConnectionRequestByMobileNoAndRequestNoParameterTypes10 =
+		_getConnectionRequestByMobileNoAndRequestNoParameterTypes11 =
 			new Class[] {String.class, String.class};
 	private static final Class<?>[]
-		_getConnectionRequestsByMobileNoParameterTypes11 = new Class[] {
+		_getConnectionRequestsByMobileNoParameterTypes12 = new Class[] {
 			String.class
 		};
 	private static final Class<?>[]
-		_deleteByConnectionRequestIdParameterTypes13 = new Class[] {long.class};
+		_deleteByConnectionRequestIdParameterTypes14 = new Class[] {long.class};
 
 }
