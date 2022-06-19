@@ -61,10 +61,10 @@ public class ConnectionRequestServiceWrapper
 	}
 
 	@Override
-	public java.util.List<String> getAvailableTimeSlotsByDateAndDivision(
+	public java.util.List<String> getAvailableTimeSlots(
 		java.util.Date appointmentDate, String appointmentDivision) {
 
-		return _connectionRequestService.getAvailableTimeSlotsByDateAndDivision(
+		return _connectionRequestService.getAvailableTimeSlots(
 			appointmentDate, appointmentDivision);
 	}
 
@@ -94,9 +94,9 @@ public class ConnectionRequestServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray
-		getDivisionWiseAvailableSlotsByDate(java.util.Date appointmentDate) {
+		getDivisionWiseAvailableSlots(java.util.Date appointmentDate) {
 
-		return _connectionRequestService.getDivisionWiseAvailableSlotsByDate(
+		return _connectionRequestService.getDivisionWiseAvailableSlots(
 			appointmentDate);
 	}
 

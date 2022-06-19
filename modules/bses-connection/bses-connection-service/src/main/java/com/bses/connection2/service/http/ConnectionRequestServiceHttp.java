@@ -541,15 +541,14 @@ public class ConnectionRequestServiceHttp {
 		}
 	}
 
-	public static java.util.List<String> getAvailableTimeSlotsByDateAndDivision(
+	public static java.util.List<String> getAvailableTimeSlots(
 		HttpPrincipal httpPrincipal, java.util.Date appointmentDate,
 		String appointmentDivision) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				ConnectionRequestServiceUtil.class,
-				"getAvailableTimeSlotsByDateAndDivision",
-				_getAvailableTimeSlotsByDateAndDivisionParameterTypes15);
+				ConnectionRequestServiceUtil.class, "getAvailableTimeSlots",
+				_getAvailableTimeSlotsParameterTypes15);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, appointmentDate, appointmentDivision);
@@ -576,14 +575,14 @@ public class ConnectionRequestServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
-		getDivisionWiseAvailableSlotsByDate(
+		getDivisionWiseAvailableSlots(
 			HttpPrincipal httpPrincipal, java.util.Date appointmentDate) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				ConnectionRequestServiceUtil.class,
-				"getDivisionWiseAvailableSlotsByDate",
-				_getDivisionWiseAvailableSlotsByDateParameterTypes16);
+				"getDivisionWiseAvailableSlots",
+				_getDivisionWiseAvailableSlotsParameterTypes16);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, appointmentDate);
@@ -647,12 +646,10 @@ public class ConnectionRequestServiceHttp {
 		};
 	private static final Class<?>[]
 		_deleteByConnectionRequestIdParameterTypes14 = new Class[] {long.class};
+	private static final Class<?>[] _getAvailableTimeSlotsParameterTypes15 =
+		new Class[] {java.util.Date.class, String.class};
 	private static final Class<?>[]
-		_getAvailableTimeSlotsByDateAndDivisionParameterTypes15 = new Class[] {
-			java.util.Date.class, String.class
-		};
-	private static final Class<?>[]
-		_getDivisionWiseAvailableSlotsByDateParameterTypes16 = new Class[] {
+		_getDivisionWiseAvailableSlotsParameterTypes16 = new Class[] {
 			java.util.Date.class
 		};
 

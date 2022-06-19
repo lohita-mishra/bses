@@ -139,11 +139,13 @@ public class ConnectionRequestServiceImpl extends ConnectionRequestServiceBaseIm
 		return true;
 	}
 	
-	public List<String> getAvailableTimeSlotsByDateAndDivision(Date appointmentDate, String appointmentDivision) {
+	@AccessControlled(guestAccessEnabled=true)
+	public List<String> getAvailableTimeSlots(Date appointmentDate, String appointmentDivision) {
 		return connectionRequestLocalService.getAvailableTimeSlotsByDateAndDivision(appointmentDate, appointmentDivision);
 	}
 	
-	public JSONArray getDivisionWiseAvailableSlotsByDate(Date appointmentDate) {
+	@AccessControlled(guestAccessEnabled=true)
+	public JSONArray getDivisionWiseAvailableSlots(Date appointmentDate) {
 		return connectionRequestLocalService.getDivisionWiseAvailableSlotsByDate(appointmentDate);
 	}
 }

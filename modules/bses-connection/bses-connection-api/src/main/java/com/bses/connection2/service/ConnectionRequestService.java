@@ -77,8 +77,9 @@ public interface ConnectionRequestService extends BaseService {
 	public boolean deleteByConnectionRequestId(long connectionRequestId)
 		throws PortalException;
 
+	@AccessControlled(guestAccessEnabled = true)
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<String> getAvailableTimeSlotsByDateAndDivision(
+	public List<String> getAvailableTimeSlots(
 		Date appointmentDate, String appointmentDivision);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -92,8 +93,9 @@ public interface ConnectionRequestService extends BaseService {
 	public List<ConnectionRequest> getConnectionRequestsByMobileNo(
 		String mobileNo);
 
+	@AccessControlled(guestAccessEnabled = true)
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getDivisionWiseAvailableSlotsByDate(Date appointmentDate);
+	public JSONArray getDivisionWiseAvailableSlots(Date appointmentDate);
 
 	/**
 	 * Returns the OSGi service identifier.

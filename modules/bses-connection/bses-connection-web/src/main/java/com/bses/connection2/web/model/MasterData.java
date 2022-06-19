@@ -17,6 +17,7 @@ public class MasterData {
 	static final Map<String, String> ownershipProofTypes=new LinkedHashMap<>();
 	static final Map<String, String> firmOwnershipProofTypes=new LinkedHashMap<>();
 	static final Map<String, String> requestTypes=new LinkedHashMap<>();
+	static final Map<String, String> timeSlots=new LinkedHashMap<>();
 	
 	public static Map<String, String> getRequestTypes(){
 		if(requestTypes.isEmpty()) {
@@ -190,6 +191,37 @@ public class MasterData {
 			getFirmOwnershipProofTypes();
 		}
 		return firmOwnershipProofTypes.get(key);
+	}
+	
+	public static Map<String, String> getTimeSlots(){
+		if(timeSlots.isEmpty()) {
+			timeSlots.put("09:30:00", "09:30 AM - 10:15 AM");
+			timeSlots.put("10:15:00", "10:15 AM - 11:00 AM");
+			timeSlots.put("11:00:00", "11:00 AM - 11:45 AM");
+			timeSlots.put("11:45:00", "11:45 AM - 12:30 PM");
+			timeSlots.put("12:30:00", "12:30 PM - 01:15 PM");
+			timeSlots.put("14:25:00", "02:25 PM - 03:10 PM");
+			timeSlots.put("15:10:00", "03:10 PM - 03:55 PM");
+		}
+		return timeSlots;
+	}
+	
+	public static String getTimeSlotValue(String key) {
+		if(timeSlots.isEmpty()) {
+			getTimeSlots();
+		}
+		return timeSlots.get(key);
+	}
+	
+	public static String getTimeSlotsString() {
+		if(timeSlots.isEmpty()) {
+			getTimeSlots();
+		}
+		StringBuilder str=new StringBuilder("");
+		for(String key:timeSlots.keySet()) {
+			str.append(key).append(",");
+		}
+		return str.substring(0, str.length()-1);
 	}
 	
 	public enum ConsumerTypes{

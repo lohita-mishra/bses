@@ -710,13 +710,9 @@
 	}
 
 	function initSelect2() {
-		alert("initSelect2 is called... ");
 		//This is for enabling select2 plugin for select/dropdown controls
 		$(".select2").each(function(index, item) {
-			alert(item);
-			alert(index);
 			var placeholdertext = $(item).find('option:first').html();
-			alert(placeholdertext);
 			var selectedVal = $(item).val();
 			var itemselect2 = $(item).select2({
 				placeholder : placeholdertext,

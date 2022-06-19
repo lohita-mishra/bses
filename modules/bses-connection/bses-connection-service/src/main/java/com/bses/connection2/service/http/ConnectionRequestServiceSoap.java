@@ -212,15 +212,14 @@ public class ConnectionRequestServiceSoap {
 		}
 	}
 
-	public static String[] getAvailableTimeSlotsByDateAndDivision(
+	public static String[] getAvailableTimeSlots(
 			java.util.Date appointmentDate, String appointmentDivision)
 		throws RemoteException {
 
 		try {
 			java.util.List<String> returnValue =
-				ConnectionRequestServiceUtil.
-					getAvailableTimeSlotsByDateAndDivision(
-						appointmentDate, appointmentDivision);
+				ConnectionRequestServiceUtil.getAvailableTimeSlots(
+					appointmentDate, appointmentDivision);
 
 			return returnValue.toArray(new String[returnValue.size()]);
 		}
@@ -231,14 +230,14 @@ public class ConnectionRequestServiceSoap {
 		}
 	}
 
-	public static String getDivisionWiseAvailableSlotsByDate(
+	public static String getDivisionWiseAvailableSlots(
 			java.util.Date appointmentDate)
 		throws RemoteException {
 
 		try {
 			com.liferay.portal.kernel.json.JSONArray returnValue =
-				ConnectionRequestServiceUtil.
-					getDivisionWiseAvailableSlotsByDate(appointmentDate);
+				ConnectionRequestServiceUtil.getDivisionWiseAvailableSlots(
+					appointmentDate);
 
 			return returnValue.toString();
 		}

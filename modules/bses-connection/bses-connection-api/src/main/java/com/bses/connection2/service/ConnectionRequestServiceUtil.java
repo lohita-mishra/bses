@@ -62,10 +62,10 @@ public class ConnectionRequestServiceUtil {
 		return getService().deleteByConnectionRequestId(connectionRequestId);
 	}
 
-	public static List<String> getAvailableTimeSlotsByDateAndDivision(
+	public static List<String> getAvailableTimeSlots(
 		java.util.Date appointmentDate, String appointmentDivision) {
 
-		return getService().getAvailableTimeSlotsByDateAndDivision(
+		return getService().getAvailableTimeSlots(
 			appointmentDate, appointmentDivision);
 	}
 
@@ -87,10 +87,9 @@ public class ConnectionRequestServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
-		getDivisionWiseAvailableSlotsByDate(java.util.Date appointmentDate) {
+		getDivisionWiseAvailableSlots(java.util.Date appointmentDate) {
 
-		return getService().getDivisionWiseAvailableSlotsByDate(
-			appointmentDate);
+		return getService().getDivisionWiseAvailableSlots(appointmentDate);
 	}
 
 	/**
