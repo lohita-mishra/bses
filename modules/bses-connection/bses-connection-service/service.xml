@@ -98,6 +98,7 @@
 		<!-- Appointment Schedule Information -->
 		<column name="appointmentDate" type="Date" />
 		<column name="appointmentTime" type="String" />
+		<column name="appointmentDistrict" type="String" />
 		
 		<!-- Document Information -->
 		<column name="applicantPhoto" type="String" />

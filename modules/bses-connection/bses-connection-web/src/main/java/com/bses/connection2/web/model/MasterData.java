@@ -12,7 +12,10 @@ public class MasterData {
 	static final Map<String, String> tariffCategories=new LinkedHashMap<>();
 	static final Map<String, String> premisesTypes=new LinkedHashMap<>();
 	static final Map<String, String> idProofTypes=new LinkedHashMap<>();
+	static final Map<String, String> firmIdProofTypes=new LinkedHashMap<>();
+	
 	static final Map<String, String> ownershipProofTypes=new LinkedHashMap<>();
+	static final Map<String, String> firmOwnershipProofTypes=new LinkedHashMap<>();
 	static final Map<String, String> requestTypes=new LinkedHashMap<>();
 	
 	public static Map<String, String> getRequestTypes(){
@@ -125,10 +128,13 @@ public class MasterData {
 	
 	public static Map<String, String> getIDProofTypes(){
 		if(idProofTypes.isEmpty()) {
-			idProofTypes.put("Passport", "Owned");
-			idProofTypes.put("Aadhaar Card", "Aadhaar Card");
-			idProofTypes.put("PAN Card", "PAN Card");
-			idProofTypes.put("Driving License", "Driving License");
+			idProofTypes.put("DL", "Driving License");
+			idProofTypes.put("Election", "Electoral Identity Card");
+			idProofTypes.put("Aadhaar", "Aadhaar Card");
+			idProofTypes.put("Govt Identity Card", "Photo Identity Card Issued By Any Govt. Agency");
+			idProofTypes.put("Passport", "Passport");
+			idProofTypes.put("PAN", "PAN Card");
+			idProofTypes.put("Ration Card", "Ration Card having Photograph");
 		}
 		return idProofTypes;
 	}
@@ -138,6 +144,22 @@ public class MasterData {
 			getIDProofTypes();
 		}
 		return idProofTypes.get(key);
+	}
+	
+	public static Map<String, String> getFirmIDProofTypes(){
+		if(firmIdProofTypes.isEmpty()) {
+			firmIdProofTypes.put("Authorization Letter", "Authorization Letter for Authorized Signatory");
+			firmIdProofTypes.put("Self Attested ID Proof", "Self Attested Authorized Signatory ID Proof");
+			firmIdProofTypes.put("Certificate of incorporation", "Certificate of incorporation / Registration issued by Registrar / Resolution of Board");
+		}
+		return firmIdProofTypes;
+	}
+	
+	public static String getFirmIDProofTypeValue(String key) {
+		if(firmIdProofTypes.isEmpty()) {
+			getFirmIDProofTypes();
+		}
+		return firmIdProofTypes.get(key);
 	}
 	
 	public static Map<String, String> getOwnershipProofTypes(){
@@ -154,6 +176,21 @@ public class MasterData {
 		return ownershipProofTypes.get(key);
 	}
 	
+	public static Map<String, String> getFirmOwnershipProofTypes(){
+		if(firmOwnershipProofTypes.isEmpty()) {
+			firmOwnershipProofTypes.put("GPA", "Board Resolution General Power of Attorney (GPA)");
+			firmOwnershipProofTypes.put("MOA", "Memorandum and Articles of Association");
+			firmOwnershipProofTypes.put("VIL/LDC", "Valid Industrial Certificate/Lal Dora Certificate ");
+		}
+		return firmOwnershipProofTypes;
+	}
+	
+	public static String getFirmOwnershipProofTypeValue(String key) {
+		if(firmOwnershipProofTypes.isEmpty()) {
+			getFirmOwnershipProofTypes();
+		}
+		return firmOwnershipProofTypes.get(key);
+	}
 	
 	public enum ConsumerTypes{
 		Individual, Firm

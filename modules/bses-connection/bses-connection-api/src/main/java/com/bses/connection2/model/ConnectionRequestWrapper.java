@@ -127,6 +127,7 @@ public class ConnectionRequestWrapper
 		attributes.put("eServiceMailValidated", isEServiceMailValidated());
 		attributes.put("appointmentDate", getAppointmentDate());
 		attributes.put("appointmentTime", getAppointmentTime());
+		attributes.put("appointmentDistrict", getAppointmentDistrict());
 		attributes.put("applicantPhoto", getApplicantPhoto());
 		attributes.put("applicantSignature", getApplicantSignature());
 		attributes.put("idProofType", getIdProofType());
@@ -579,6 +580,13 @@ public class ConnectionRequestWrapper
 			setAppointmentTime(appointmentTime);
 		}
 
+		String appointmentDistrict = (String)attributes.get(
+			"appointmentDistrict");
+
+		if (appointmentDistrict != null) {
+			setAppointmentDistrict(appointmentDistrict);
+		}
+
 		String applicantPhoto = (String)attributes.get("applicantPhoto");
 
 		if (applicantPhoto != null) {
@@ -709,6 +717,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public Date getAppointmentDate() {
 		return _connectionRequest.getAppointmentDate();
+	}
+
+	/**
+	 * Returns the appointment district of this connection request.
+	 *
+	 * @return the appointment district of this connection request
+	 */
+	@Override
+	public String getAppointmentDistrict() {
+		return _connectionRequest.getAppointmentDistrict();
 	}
 
 	/**
@@ -1754,6 +1772,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public void setAppointmentDate(Date appointmentDate) {
 		_connectionRequest.setAppointmentDate(appointmentDate);
+	}
+
+	/**
+	 * Sets the appointment district of this connection request.
+	 *
+	 * @param appointmentDistrict the appointment district of this connection request
+	 */
+	@Override
+	public void setAppointmentDistrict(String appointmentDistrict) {
+		_connectionRequest.setAppointmentDistrict(appointmentDistrict);
 	}
 
 	/**

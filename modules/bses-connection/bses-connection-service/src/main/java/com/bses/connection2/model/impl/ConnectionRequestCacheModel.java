@@ -65,7 +65,7 @@ public class ConnectionRequestCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(169);
+		StringBundler sb = new StringBundler(171);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -209,6 +209,8 @@ public class ConnectionRequestCacheModel
 		sb.append(appointmentDate);
 		sb.append(", appointmentTime=");
 		sb.append(appointmentTime);
+		sb.append(", appointmentDistrict=");
+		sb.append(appointmentDistrict);
 		sb.append(", applicantPhoto=");
 		sb.append(applicantPhoto);
 		sb.append(", applicantSignature=");
@@ -636,6 +638,13 @@ public class ConnectionRequestCacheModel
 			connectionRequestImpl.setAppointmentTime(appointmentTime);
 		}
 
+		if (appointmentDistrict == null) {
+			connectionRequestImpl.setAppointmentDistrict("");
+		}
+		else {
+			connectionRequestImpl.setAppointmentDistrict(appointmentDistrict);
+		}
+
 		if (applicantPhoto == null) {
 			connectionRequestImpl.setApplicantPhoto("");
 		}
@@ -817,6 +826,7 @@ public class ConnectionRequestCacheModel
 		eServiceMailValidated = objectInput.readBoolean();
 		appointmentDate = objectInput.readLong();
 		appointmentTime = objectInput.readUTF();
+		appointmentDistrict = objectInput.readUTF();
 		applicantPhoto = objectInput.readUTF();
 
 		applicantSignature = objectInput.readLong();
@@ -1206,6 +1216,13 @@ public class ConnectionRequestCacheModel
 			objectOutput.writeUTF(appointmentTime);
 		}
 
+		if (appointmentDistrict == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(appointmentDistrict);
+		}
+
 		if (applicantPhoto == null) {
 			objectOutput.writeUTF("");
 		}
@@ -1353,6 +1370,7 @@ public class ConnectionRequestCacheModel
 	public boolean eServiceMailValidated;
 	public long appointmentDate;
 	public String appointmentTime;
+	public String appointmentDistrict;
 	public String applicantPhoto;
 	public long applicantSignature;
 	public String idProofType;

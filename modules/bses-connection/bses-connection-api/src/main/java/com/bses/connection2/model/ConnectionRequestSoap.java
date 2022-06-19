@@ -102,6 +102,7 @@ public class ConnectionRequestSoap implements Serializable {
 		soapModel.setEServiceMailValidated(model.isEServiceMailValidated());
 		soapModel.setAppointmentDate(model.getAppointmentDate());
 		soapModel.setAppointmentTime(model.getAppointmentTime());
+		soapModel.setAppointmentDistrict(model.getAppointmentDistrict());
 		soapModel.setApplicantPhoto(model.getApplicantPhoto());
 		soapModel.setApplicantSignature(model.getApplicantSignature());
 		soapModel.setIdProofType(model.getIdProofType());
@@ -800,6 +801,14 @@ public class ConnectionRequestSoap implements Serializable {
 		_appointmentTime = appointmentTime;
 	}
 
+	public String getAppointmentDistrict() {
+		return _appointmentDistrict;
+	}
+
+	public void setAppointmentDistrict(String appointmentDistrict) {
+		_appointmentDistrict = appointmentDistrict;
+	}
+
 	public String getApplicantPhoto() {
 		return _applicantPhoto;
 	}
@@ -979,6 +988,7 @@ public class ConnectionRequestSoap implements Serializable {
 	private boolean _eServiceMailValidated;
 	private Date _appointmentDate;
 	private String _appointmentTime;
+	private String _appointmentDistrict;
 	private String _applicantPhoto;
 	private long _applicantSignature;
 	private String _idProofType;

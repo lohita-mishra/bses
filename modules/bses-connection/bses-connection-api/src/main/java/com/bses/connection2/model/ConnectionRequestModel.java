@@ -1234,6 +1234,21 @@ public interface ConnectionRequestModel
 	public void setAppointmentTime(String appointmentTime);
 
 	/**
+	 * Returns the appointment district of this connection request.
+	 *
+	 * @return the appointment district of this connection request
+	 */
+	@AutoEscape
+	public String getAppointmentDistrict();
+
+	/**
+	 * Sets the appointment district of this connection request.
+	 *
+	 * @param appointmentDistrict the appointment district of this connection request
+	 */
+	public void setAppointmentDistrict(String appointmentDistrict);
+
+	/**
 	 * Returns the applicant photo of this connection request.
 	 *
 	 * @return the applicant photo of this connection request
