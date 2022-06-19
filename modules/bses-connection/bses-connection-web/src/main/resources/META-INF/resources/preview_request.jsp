@@ -782,7 +782,7 @@ label {
 
 										</tr>
 									<% 
-										int i=0;
+										int i=1;
 										for(ConnectionDocument connectionDocument2:connectionDocumentList){
 											if(connectionDocument2.getDocumentType().equalsIgnoreCase("Applicant Photo")||connectionDocument2.getDocumentType().equalsIgnoreCase("Applicant Signature"))
 												continue;
