@@ -94,6 +94,12 @@ public class ConnectionRequestServiceUtil {
 		return getService().submitConnectionRequestToSoap(connectionRequestId);
 	}
 
+	public static String submitNameChangeRequestToSoap(
+		long connectionRequestId) {
+
+		return getService().submitNameChangeRequestToSoap(connectionRequestId);
+	}
+
 	public static String updateAddress(
 		String requestNo, Map<String, String> params) {
 

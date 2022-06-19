@@ -2,6 +2,7 @@ package com.bses.connection2.helper;
 
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionRequestLocalServiceUtil;
+import com.bses.sap.model.CmsISUCADisplayResponse;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -160,6 +161,102 @@ public class DigitalSevaKendraServiceHelper {
 	}
 	
 	
+	public static String submitNameChageRequest(ConnectionRequest connectionRequest, CmsISUCADisplayResponse cmsResponse) {
+		String serviceOrder = null;
+		LOGGER.info("submitNameChageRequest : connectionRequest number - " + connectionRequest.getRequestNo());
+		try {
+			String xmlString = generateNameChangeRequestXML(connectionRequest,cmsResponse);;
+		}catch(Exception ex) {
+			
+		}
+		
+		return serviceOrder;
+	}
+	
+	
+	private static String generateNameChangeRequestXML(ConnectionRequest connectionRequest, CmsISUCADisplayResponse cmsResponse) {
+		String titleKey = StringPool.BLANK;
+		String parentCategory = DigitalSevaKendraConstants.PARENT_CAT_1;
+		String male = DigitalSevaKendraConstants.MALE;
+		String female = StringPool.BLANK;
+		String appliedLoadDkva = StringPool.BLANK;
+		String appliedLoad = StringPool.BLANK;
+		
+		if (Validator.isNull(connectionRequest.getTitle()) || connectionRequest.getTitle().equals("")
+				|| connectionRequest.getTitle().equals("-1")) {
+			titleKey = "0001";
+		} else {
+			titleKey = connectionRequest.getTitle();
+		}
+		
+		if (Validator.isNotNull(connectionRequest.getTitle()) && connectionRequest.getTitle().equals(DigitalSevaKendraConstants.TITLE_PARAM)) {
+			parentCategory = DigitalSevaKendraConstants.PARENT_CAT_2;
+		}
+		
+		
+		SimpleDateFormat webServiceFormat1 = new SimpleDateFormat("yyyyMMdd");
+		
+		String iIlart="U02";
+		String planningPlant="D021";
+		
+		StringBuilder reqXML = new StringBuilder();
+		reqXML.append(
+		"<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema/\" 	xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">")
+		.append("<soap:Body>").append("<Z_BAPI_ZDSS_WEB_LINK xmlns=\"http://tempuri.org/\">")
+		.append("<I_ILART>").append(iIlart).append("</I_ILART>")
+		.append("<I_VKONT>").append(StringPool.BLANK).append("</I_VKONT>")
+		.append("<I_VKONA>").append(StringPool.BLANK).append("</I_VKONA>")
+		
+		.append("<PARTNERCATEGORY>").append(parentCategory).append("</PARTNERCATEGORY>")
+		.append("<PARTNERTYPE>").append(DigitalSevaKendraConstants.PARTNER_TYPE).append("</PARTNERTYPE>")
+		.append("<TITLE_KEY>").append(titleKey).append("</TITLE_KEY>")
+		.append("<FIRSTNAME>").append(StringUtils.defaultString(connectionRequest.getFirstName())).append("</FIRSTNAME>")
+		.append("<LASTNAME>").append(StringUtils.defaultString(connectionRequest.getLastName())).append("</LASTNAME>")
+		.append("<MIDDLENAME>").append(StringUtils.defaultString(connectionRequest.getMiddleName())).append("</MIDDLENAME>")
+		.append("<FATHERSNAME>").append(StringUtils.defaultString(connectionRequest.getFatherOrHusbandName())).append("</FATHERSNAME>")
+		.append("<HOUSE_NO>").append(StringUtils.defaultString(connectionRequest.getHouseNo())).append("</HOUSE_NO>")
+		.append("<BUILDING>").append(StringUtils.defaultString(connectionRequest.getBuildingName())).append("</BUILDING>")
+		.append("<STR_SUPPL1>").append(StringUtils.defaultString(connectionRequest.getStreet())).append("</STR_SUPPL1>")
+		.append("<STR_SUPPL2>").append(StringUtils.defaultString(connectionRequest.getColonyArea())).append("</STR_SUPPL2>")
+		.append("<STR_SUPPL3>").append(StringUtils.defaultString(connectionRequest.getLandmark())).append("</STR_SUPPL3>")
+		.append("<POSTL_COD1>").append(StringUtils.defaultString(connectionRequest.getPinCode())).append("</POSTL_COD1>")
+		.append("<CITY>").append(DigitalSevaKendraConstants.CITY).append("</CITY>")
+		.append("<E_MAIL>").append(StringUtils.defaultString(connectionRequest.getEmailId())).append("</E_MAIL>")
+		.append("<LANDLINE>").append(StringUtils.defaultString(connectionRequest.getMobileNo())).append("</LANDLINE>")
+		.append("<MOBILE>").append(connectionRequest.getMobileNo()).append("</MOBILE>")
+		.append("<FEMALE>").append(female).append("</FEMALE>")
+		.append("<MALE>").append(male).append("</MALE>")
+		//.append("<JOBGR>").append(StringUtils.defaultString(connectionRequest.getOccupation())).append("</JOBGR>")
+		.append("<JOBGR>").append("").append("</JOBGR>")
+		.append("<IDTYPE>").append(StringPool.BLANK).append("</IDTYPE>")
+		.append("<IDNUMBER>").append(StringPool.BLANK).append("</IDNUMBER>")
+		//.append("<PLANNINGPLANT>").append(dssNewConnRequest.getPlanningPlant()).append("</PLANNINGPLANT>")
+		.append("<PLANNINGPLANT>").append(planningPlant).append("</PLANNINGPLANT>")
+		.append("<WORKCENTRE>").append(StringUtils.defaultString(connectionRequest.getDistrict())).append("</WORKCENTRE>")
+		.append("<SYSTEMCOND>").append(DigitalSevaKendraConstants.SYSTEMCOND).append("</SYSTEMCOND>")
+		.append("<APPLIEDCAT>").append(StringUtils.defaultString(connectionRequest.getTariffCategory())).append("</APPLIEDCAT>")
+		.append("<APPLIEDLOAD>").append(appliedLoad).append("</APPLIEDLOAD>")
+		.append("<APPLIEDLOADKVA>").append(appliedLoadDkva).append("</APPLIEDLOADKVA>")
+		.append("<CONNECTIONTYPE>").append(StringUtils.defaultString(connectionRequest.getConnectionType())).append("</CONNECTIONTYPE>")
+		.append("<STATEMENT_CA>").append(StringPool.BLANK).append("</STATEMENT_CA>")
+		
+		/*
+		.append("<START_DATE>").append(webServiceFormat1.format(connectionRequest.getAppointmentStartDate())).append("</START_DATE>")
+		.append("<START_TIME>").append(StringUtils.defaultString(connectionRequest.getAppointmentStartTime())).append("</START_TIME>")
+		.append("<FINISH_DATE>").append(webServiceFormat1.format(connectionRequest.getAppointmentStartDate())).append("</FINISH_DATE>")
+		.append("<FINISH_TIME>").append(StringUtils.defaultString(connectionRequest.getAppointmentFinishTime())).append("</FINISH_TIME>")
+		*/
+		
+		.append("<SORTFIELD>").append(DigitalSevaKendraConstants.SORTFIELD).append("</SORTFIELD>")
+		.append("<ABKRS>").append(DigitalSevaKendraConstants.ABKRS).append("</ABKRS>")
+		.append("<LATITUDE>").append(StringPool.BLANK).append("</LATITUDE>")
+		.append("<LONGITUDE>").append(StringPool.BLANK).append("</LONGITUDE>")
+		.append("<GEOCOR_ADDRESS>").append(StringPool.BLANK).append("</GEOCOR_ADDRESS>")
+		.append("<APPOINT_DIV>").append(StringPool.BLANK).append("</APPOINT_DIV>")
+		.append("</Z_BAPI_ZDSS_WEB_LINK>").append("</soap:Body>").append("</soap:Envelope>");
+		
+		return reqXML.toString();
+	}
 	private static String callService(String requestXML) {
 		String xmlString = null;
 		String responseString = StringPool.BLANK;
@@ -261,4 +358,5 @@ public class DigitalSevaKendraServiceHelper {
 		}
 		return null;
 	}
+	
 }

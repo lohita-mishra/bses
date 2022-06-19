@@ -428,6 +428,12 @@ public class ConnectionRequestLocalServiceUtil {
 		return getService().submitConnectionRequestToSoap(connectionRequestId);
 	}
 
+	public static String submitNameChangeRequestToSoap(
+		long connectionRequestId) {
+
+		return getService().submitNameChangeRequestToSoap(connectionRequestId);
+	}
+
 	public static String updateAddress(
 		long connectionRequestId, Map<String, String> params) {
 
