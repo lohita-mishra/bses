@@ -20,6 +20,7 @@ import com.bses.connection2.model.ConnectionDocument;
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.ConnectionDocumentLocalService;
 import com.bses.connection2.service.ConnectionDocumentLocalServiceUtil;
+import com.bses.connection2.service.ConnectionRequestLocalServiceUtil;
 import com.bses.connection2.service.base.ConnectionRequestLocalServiceBaseImpl;
 import com.bses.connection2.util.NameUtil;
 import com.bses.connection2.util.RequestTypeModeStatus;
@@ -150,8 +151,8 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		LOGGER.info("caNumber - "+caNumber);
 		
 		DssISUCADisplayRequest request = new DssISUCADisplayRequest();
-		caNumber= generateTwelveDigitCANo(caNumber); //103012062
-		request.setCaNumber(caNumber);
+		String caNumberTD= generateTwelveDigitCANo(caNumber); //103012062
+		request.setCaNumber(caNumberTD);
 	//	http://125.22.84.50:7850/delhiv2/ISUService.asmx/Z_BAPI_CMS_ISU_CA_DISPLAY
 		//	Z_BAPI_DSS_ISU_CA_DISPLAY
 		
@@ -160,6 +161,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		CmsISUCADisplayResponse cmsRes = sapService.getCmsISUCADisplay(caNumber);
 		
 		ConnectionRequest connectionRequest = connectionRequestPersistence.create(CounterLocalServiceUtil.increment(ConnectionRequest.class.getName()));
+		connectionRequest.setCaNumber(caNumber);
 		connectionRequest.setMobileNo(res.getMobileNo());
 		connectionRequest.setBpNumber(res.getBpNumber());
 		
@@ -180,6 +182,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 			
 		connectionRequest.setHouseNo(cmsRes.getHouse_Number());
 		connectionRequest.setFloor(cmsRes.getFloor());
+	//	connectionRequest.setDistrict(cmsRes.get);res.get
 	/*	
 		connectionRequest.setLocality(cmsRes.get);
 		connectionRequest.setDistrict("");
@@ -350,6 +353,9 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 				connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_ORDER_GENERATED);
 				connectionRequestPersistence.update(connectionRequest);
 				return "success";
+			}else {
+				LOGGER.info("ServiceOrder is empty from SAP, record deleted from DSS_NEW_CON_REQUEST for req no - "
+						+ connectionRequest.getRequestNo());
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -361,9 +367,10 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		try {
 			ConnectionRequest connectionRequest= connectionRequestPersistence.findByPrimaryKey(connectionRequestId);
 			
-			CmsISUCADisplayResponse cmsResponse = sapService.getCmsISUCADisplay("103012062");//
+			CmsISUCADisplayResponse cmsResponse = sapService.getCmsISUCADisplay(connectionRequest.getCaNumber());//
 			String serviceOrder=DigitalSevaKendraServiceHelper.submitNameChageRequest(connectionRequest,cmsResponse);//addNewConnectionRequestDetailSoapCall(connectionRequest);
 			LOGGER.info("Service Order generated : "+serviceOrder);
+			
 			
 			if(StringUtils.isNotEmpty(serviceOrder)) {
 				connectionRequest.setOrderNo(serviceOrder);
@@ -371,7 +378,12 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 				connectionRequest.setRequestStatus(RequestTypeModeStatus.STATUS_ORDER_GENERATED);
 				connectionRequestPersistence.update(connectionRequest);
 				return "success";
+			}else {
+				LOGGER.info("ServiceOrder is empty from SAP, record deleted from DSS_NEW_CON_REQUEST for req no - "
+						+ connectionRequest.getRequestNo());
 			}
+			
+			
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}

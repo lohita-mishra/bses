@@ -32,22 +32,7 @@ public class NewConnectionWrapper {
 	private String lastName;
 	private String fatherName;
 	private String idType;
-	public String getIdType() {
-		return idType;
-	}
-
-	public void setIdType(String idType) {
-		this.idType = idType;
-	}
-
-	public String getIdNumber() {
-		return idNumber;
-	}
-
-	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
-	}
-
+	
 	private String idNumber;
 	private String houseNo;
 	private String buildingName;
@@ -74,6 +59,7 @@ public class NewConnectionWrapper {
 	private String iIlart;
 	private String appointmentStartTime;
 	private String appointmentFinishTime;
+	private String appointmentDistrict;
 	private String bankAccountNo;
 	private String bankName;
 	private String branchMicrCode;
@@ -1046,6 +1032,30 @@ public class NewConnectionWrapper {
 
 	public void setRegisteredOfficeAdd(String registeredOfficeAdd) {
 		this.registeredOfficeAdd = registeredOfficeAdd;
+	}
+	
+	public String getIdType() {
+		return idType;
+	}
+
+	public void setIdType(String idType) {
+		this.idType = idType;
+	}
+
+	public String getIdNumber() {
+		return idNumber;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+	
+	public String getAppointmentDistrict() {
+		return appointmentDistrict;
+	}
+
+	public void setAppointmentDistrict(String appointmentDistrict) {
+		this.appointmentDistrict = appointmentDistrict;
 	}
 
 	@Override
