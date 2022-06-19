@@ -87,6 +87,7 @@ create table bsesconn_ConnectionRequest (
 	eServiceMailValidated BOOLEAN,
 	appointmentDate DATE null,
 	appointmentTime VARCHAR(75) null,
+	appointmentFinishTime VARCHAR(75) null,
 	appointmentDistrict VARCHAR(75) null,
 	applicantPhoto VARCHAR(75) null,
 	applicantSignature LONG,

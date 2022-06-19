@@ -417,12 +417,11 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		for (Map.Entry<String, String> entry : params.entrySet()) {
 			String sourceKey = entry.getKey();
 			
-			if("namespace".equalsIgnoreCase(sourceKey)) {
+			if("namespace".equalsIgnoreCase(sourceKey) || sourceKey.endsWith("_formDate")) {
 				continue;
 			}
 			
 			System.out.println("source key ..." + sourceKey);
-
 			if (sourceKey.contains(namespace)) {
 				sourceKey = sourceKey.substring((namespace).length());
 			}

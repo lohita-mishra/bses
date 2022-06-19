@@ -1234,6 +1234,21 @@ public interface ConnectionRequestModel
 	public void setAppointmentTime(String appointmentTime);
 
 	/**
+	 * Returns the appointment finish time of this connection request.
+	 *
+	 * @return the appointment finish time of this connection request
+	 */
+	@AutoEscape
+	public String getAppointmentFinishTime();
+
+	/**
+	 * Sets the appointment finish time of this connection request.
+	 *
+	 * @param appointmentFinishTime the appointment finish time of this connection request
+	 */
+	public void setAppointmentFinishTime(String appointmentFinishTime);
+
+	/**
 	 * Returns the appointment district of this connection request.
 	 *
 	 * @return the appointment district of this connection request

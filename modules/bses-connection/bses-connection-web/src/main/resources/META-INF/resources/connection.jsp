@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.kernel.util.PropsUtil"%>
 <%@page import="com.bses.connection2.web.model.MasterData"%>
 <%@page import="java.util.Map"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
@@ -5,6 +6,10 @@
 <%@ include file="/init.jsp"%>
 <%
 ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(ConnectionRequest.class.getName());
+String kvaToKw = PropsUtil.get("connection.request.kva.to.kw");
+if(StringUtils.isBlank(kvaToKw)){
+	kvaToKw="0.93";
+}
 %>
 <portlet:actionURL name="saveForm" var="saveFormActionURL">
 	<portlet:param name="formAction" value="saveConnection" />
@@ -47,15 +52,32 @@ ConnectionRequest requestEntity=(ConnectionRequest)request.getAttribute(Connecti
 			</div>
 
 			<div class="form-group col-md-3" id="loadkvadiv">
-				<%--<label class="font-weight-bold">Load (KVA) </label>--%> 
-				<aui:input type="number" class="form-control" name="loadKva" label="connection-load-kva" value="<%=Math.round(requestEntity.getLoadKva()) %>"/>
+				<label class="control-label" for="<portlet:namespace/>loadKva">
+					<liferay-ui:message key="connection-load-kva" arguments="<%=kvaToKw%>"/>
+					<span class="hide-accessible">Required</span>
+				</label> 
+				<aui:input type="number" class="form-control" name="loadKva" label="" value="<%=Math.round(requestEntity.getLoadKva()) %>">
+					<aui:validator name="required">
+						function() {
+		                	return AUI.$('#<portlet:namespace />tariffCategory').val()!="0100";
+		                }
+					</aui:validator>
+					<aui:validator name="min">1</aui:validator>
+				</aui:input>
 				<p class="help-text fs-13 mt-1 p-1 text-danger d-none" style="background: #ffff00;">Note: ELCB Bill copy is required for more then or equal to
 					2 KW.</p>
 			</div>
 
 			<div class="form-group  col-md-3">
 				<%--<label class="font-weight-bold">Load (KW) </label>--%> 
-				<aui:input type="number" class="form-control" name="loadKw" label="connection-load-kw" value="<%=Math.round(requestEntity.getLoadKw()) %>"/>
+				<aui:input type="number" class="form-control" name="loadKw" label="connection-load-kw" value="<%=Math.round(requestEntity.getLoadKw()) %>">
+					<aui:validator name="required">
+						function() {
+		                	return AUI.$('#<portlet:namespace />tariffCategory').val()=="0100";
+		                }
+					</aui:validator>
+					<aui:validator name="min">1</aui:validator>
+				</aui:input>
 				<p class="help-text fs-13 mt-1 p-1 text-danger d-none" style="background: #ffff00;">Note: ELCB Bill copy is required for more then or equal to
 					2 KW.</p>
 			</div>

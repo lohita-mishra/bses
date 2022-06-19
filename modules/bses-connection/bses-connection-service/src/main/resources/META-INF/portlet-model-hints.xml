@@ -89,6 +89,7 @@
 		<field name="eServiceMailValidated" type="boolean" />
 		<field name="appointmentDate" type="Date" />
 		<field name="appointmentTime" type="String" />
+		<field name="appointmentFinishTime" type="String" />
 		<field name="appointmentDistrict" type="String" />
 		<field name="applicantPhoto" type="String" />
 		<field name="applicantSignature" type="long" />

@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
+<%@page import="com.liferay.portal.kernel.log.Log"%>
 <%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@page import="com.bses.connection2.util.RequestTypeModeStatus"%>
 <%@page import="com.liferay.portal.kernel.util.PropsUtil"%>
@@ -6,6 +8,9 @@
 <%@page import="com.bses.connection2.service.ConnectionRequestLocalServiceUtil"%>
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
 <%@ include file="/init.jsp"%>
+<%!
+	private static final Log LOGGER=LogFactoryUtil.getLog("new_connection.jsp");
+%>
 <style>
 	.lexicon-icon-asterisk {
 		color:red;
@@ -112,9 +117,13 @@
  --%>
 <%
 	long connectionRequestId=ParamUtil.getLong(request, "connectionRequestId", 0);
+	
+	LOGGER.info("connectionRequestId : "+connectionRequestId+", session.getAttribute(ConnectionRequest.class.getName()#id) :"+session.getAttribute(ConnectionRequest.class.getName()+"#id"));
+	
 	if(connectionRequestId==0 && session.getAttribute(ConnectionRequest.class.getName()+"#id")!=null){
 		connectionRequestId=(Long)session.getAttribute(ConnectionRequest.class.getName()+"#id");
 	}
+	
 	String mobileNo=ParamUtil.getString(request, "mobileNo", "");
 	String emailId=ParamUtil.getString(request, "emailId", "");
 	
@@ -148,7 +157,7 @@
 	}else{
 		autoSaveFlag="true";
 	}
-//	autoSaveFlag="false";
+	autoSaveFlag="false";
 %>
 
 <portlet:renderURL var="emailVerificationURL">
@@ -307,7 +316,13 @@
 		
 	function elcbOnChange() {
 		$("input[name=<portlet:namespace/>elcbInstalled]").change(function() {
-			showHideElcbUpload();
+			var elcb = $(this).val();
+			var documentId = $("#<portlet:namespace />elcbDocument_connectionDocumentId").val();
+			if(documentId!='' && documentId!='0'){
+				confirmDocument(elcb, documentId,"elcbInstalled", "ELCB certificate");
+			}else{
+				showHideElcbUpload();
+			}
 		});
 	}
 
@@ -384,7 +399,13 @@
 	
 	function fccOnChange() {
 		$("input[name=<portlet:namespace/>fcc]").change(function() {
-			showHideFccUpload();
+			var fcc = $(this).val();
+			var documentId = $("#<portlet:namespace />fccCertificate_connectionDocumentId").val();
+			if(documentId!='' && documentId!='0'){	
+				confirmDocument(fcc, documentId,"fcc", "FCC certificate");
+			}else{
+				showHideFccUpload();
+			}
 		});
 	}
 
@@ -402,12 +423,23 @@
 	
 	function liftOnChange() {
 		$("input[name=<portlet:namespace/>lift]").change(function() {
-			showHideLiftUpload();
+			
+			var lift = $(this).val();
+			var documentId = $("#<portlet:namespace />liftCertificate_connectionDocumentId").val();
+			
+			console.log("lift.lift == "+lift+",   lift.documentId == "+documentId);
+			
+			if(documentId!='' && documentId!='0'){
+				confirmDocument(lift, documentId,"lift", "LIFT certificate");
+			}else{
+				showHideLiftUpload();
+			}
 		});
 	}
 
 	function showHideLiftUpload(){
 		var lift = $("input[name=<portlet:namespace/>lift]:checked").val();
+
 		if (lift == "1") {
 			showLiftUpload(true);
 			$("#liftblink").show();
@@ -419,7 +451,13 @@
 	
 	function wiringOnChange() {
 		$("input[name=<portlet:namespace/>wiringTest]").change(function() {
-			showHideWiringUpload();
+			var wiring = $(this).val();
+			var documentId = $("#<portlet:namespace />wiringCertificate_connectionDocumentId").val();
+			if(documentId!='' && documentId!='0'){
+				confirmDocument(wiring, documentId, "wiringTest", "Wiring certificate");
+			}else{
+				showHideWiringUpload();
+			}
 		});
 	}
 
@@ -436,7 +474,13 @@
 	
 	function bdoCertOnChange() {
 		$("input[name=<portlet:namespace/>hasBdoCertificate]").change(function() {
-			showHideBDOCertUpload();
+			var bdo = $(this).val();
+			var documentId = $("#<portlet:namespace />bdoCertificate_connectionDocumentId").val();
+			if(bdo!=''){
+				confirmDocument(bdo,documentId,"hasBdoCertificate", "BDO certificate");
+			}else{
+				showHideBDOCertUpload();
+			}
 		});
 	}
 
@@ -730,7 +774,8 @@
 		autoSave();
 	}
 	
-	function uploadFile(connectionRequestId, connectionDocumentId, documentType, documentName, fileElement, acceptTypes, uploadProgressBar, callback){
+	Liferay.provide(window, 'uploadFile', function(connectionRequestId, connectionDocumentId, documentType, documentName, fileElement, acceptTypes, uploadProgressBar, callback) {
+	//function uploadFile(connectionRequestId, connectionDocumentId, documentType, documentName, fileElement, acceptTypes, uploadProgressBar, callback){
 		
 		var fileSelected=readFileUrl(fileElement);
 		
@@ -760,7 +805,7 @@
 		//});
 		
 		return fileSelected;
-	}
+	});
 
 	function readFileUrl(fileElement) {
 		
@@ -997,12 +1042,16 @@
 	            	connectionRequestId:<%=connectionRequestId%>
 	            },
 	            function(obj) {
+	            	console.log("in submitSoap ============ ");
+	            	console.log(obj)
 	                try{
 	                	if(obj=="success"){
 	                		
 	                	}
 	                    //onSuccess(obj);
-	                }catch(e){}
+	                }catch(e){
+	                	console.log(e);
+	                }
 	            }
 	        );
 	    });	
@@ -1118,4 +1167,19 @@
 			window.open('<%=documentDownloadURL%>&<portlet:namespace/>connectionDocumentId='+connectionDocumentId);
 		
 	}--%>
+	function confirmDocument(checkListValue, documentId, checkInputName, documentType){
+		
+		if(checkListValue==0 && documentId>0)
+		{
+			alert("You have already uploaded a "+documentType+". Please remove the document before selecting \"No\".");
+				//$('#checklist-option-no-alert-document-type-name').html(documentType);
+				//$('#checklist-option-no-alert-modal').modal('show');
+				$("#<portlet:namespace/>"+checkInputName).prop('checked',true);
+				
+		}
+	}
+	$("#checklist-option-no-alert-ok-btn").click(function() {
+		$('#checklist-option-no-alert-modal').modal('hide').data('bs.modal', null );
+	})
 </script>
+

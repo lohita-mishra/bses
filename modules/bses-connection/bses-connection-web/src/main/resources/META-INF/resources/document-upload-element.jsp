@@ -208,6 +208,7 @@ String acceptTypes=(StringUtils.isNotBlank(fileTypes)?"accept=\""+fileTypes+"\""
 		$('#document-viewer-iframe').attr("src", viewerUrl);
 		$('#document-viewer-modal').modal('show'); 
 		--%>
+		$('.modal').css('display:block;');
 		Liferay.Util.openWindow(
 				{
 					dialog: {

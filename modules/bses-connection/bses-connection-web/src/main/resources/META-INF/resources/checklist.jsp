@@ -5,6 +5,11 @@
 <%@page import="com.bses.connection2.model.ConnectionRequest"%>
 <%@page import="java.util.Calendar"%>
 <%@ include file="/init.jsp"%>
+<style>
+	#checklist-option-no-alert-modal{
+		display:none;
+	}
+</style>
 <%
 long connectionDocumentId=0;
 //Calendar calendar=Calendar.getInstance();
@@ -372,55 +377,27 @@ String requestType=requestEntity.getRequestType();
 	</div>
 </aui:form>
 
-<aui:script>
+<div class="modal" id="checklist-option-no-alert-modal">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header" style="border-bottom: none;">
+				<h5 class="modal-title">Change Action?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body align-items-center justify-content-center" style="padding-top:25px; padding-bottom:25px;">
+				<div class="help-text text-danger text-center fs-18">
+					<!-- i class="far fa-paper-plane fa-fw text-danger"></i-->
+					You have already uploaded the <span id="checklist-option-no-alert-document-type-name"></span>. Plese delete the document before selecting "NO".'
+				</div>
+			</div>
+			<div class="modal-footer align-items-center justify-content-center">
+				<div class="text-danger text-center">
+					<button type="button" class="btn btn-danger btn-sm" id="checklist-option-no-alert-ok-btn" value="Ok" data-id="">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-$("input[name=<portlet:namespace/>wiringTest]").change(function() {
-		
-		var wiring = $(this).val();
-		var documentId = $("#<portlet:namespace />wiringCertificate_connectionDocumentId").val();
-		
-		confirmDocument(wiring,documentId,"wiringTest");
-	});
-	
-$("input[name=<portlet:namespace/>elcbInstalled]").change(function() {
-		
-		var wiring = $(this).val();
-		var documentId = $("#<portlet:namespace />elcbDocument_connectionDocumentId").val();
-		
-		confirmDocument(wiring,documentId,"elcbInstalled");
-	});
-
-$("input[name=<portlet:namespace/>fcc]").change(function() {
-		
-		var wiring = $(this).val();
-		var documentId = $("#<portlet:namespace />fccCertificate_connectionDocumentId").val();
-		
-		confirmDocument(wiring,documentId,"fcc");
-	});
-$("input[name=<portlet:namespace/>lift]").change(function() {
-		
-		var wiring = $(this).val();
-		var documentId = $("#<portlet:namespace />liftCertificate_connectionDocumentId").val();
-		
-		confirmDocument(wiring,documentId,"lift");
-	});
-$("input[name=<portlet:namespace/>hasBdoCertificate]").change(function() {
-		
-		var wiring = $(this).val();
-		var documentId = $("#<portlet:namespace />bdoCertificate_connectionDocumentId").val();
-		
-		confirmDocument(wiring,documentId,"hasBdoCertificate");
-	});
-	
-	function confirmDocument(checkListValue, documentId,checkInputName){
-		
-		if(checkListValue==0 && documentId>0)
-		{
-				alert("Please delete the document than click no ");	
-				$("#<portlet:namespace/>"+checkInputName).prop('checked',true);
-				
-		}
-	}
-	
-
-</aui:script>

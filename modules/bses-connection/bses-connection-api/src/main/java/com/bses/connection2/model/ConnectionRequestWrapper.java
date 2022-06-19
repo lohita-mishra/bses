@@ -127,6 +127,7 @@ public class ConnectionRequestWrapper
 		attributes.put("eServiceMailValidated", isEServiceMailValidated());
 		attributes.put("appointmentDate", getAppointmentDate());
 		attributes.put("appointmentTime", getAppointmentTime());
+		attributes.put("appointmentFinishTime", getAppointmentFinishTime());
 		attributes.put("appointmentDistrict", getAppointmentDistrict());
 		attributes.put("applicantPhoto", getApplicantPhoto());
 		attributes.put("applicantSignature", getApplicantSignature());
@@ -581,6 +582,13 @@ public class ConnectionRequestWrapper
 			setAppointmentTime(appointmentTime);
 		}
 
+		String appointmentFinishTime = (String)attributes.get(
+			"appointmentFinishTime");
+
+		if (appointmentFinishTime != null) {
+			setAppointmentFinishTime(appointmentFinishTime);
+		}
+
 		String appointmentDistrict = (String)attributes.get(
 			"appointmentDistrict");
 
@@ -734,6 +742,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public String getAppointmentDistrict() {
 		return _connectionRequest.getAppointmentDistrict();
+	}
+
+	/**
+	 * Returns the appointment finish time of this connection request.
+	 *
+	 * @return the appointment finish time of this connection request
+	 */
+	@Override
+	public String getAppointmentFinishTime() {
+		return _connectionRequest.getAppointmentFinishTime();
 	}
 
 	/**
@@ -1799,6 +1817,16 @@ public class ConnectionRequestWrapper
 	@Override
 	public void setAppointmentDistrict(String appointmentDistrict) {
 		_connectionRequest.setAppointmentDistrict(appointmentDistrict);
+	}
+
+	/**
+	 * Sets the appointment finish time of this connection request.
+	 *
+	 * @param appointmentFinishTime the appointment finish time of this connection request
+	 */
+	@Override
+	public void setAppointmentFinishTime(String appointmentFinishTime) {
+		_connectionRequest.setAppointmentFinishTime(appointmentFinishTime);
 	}
 
 	/**
