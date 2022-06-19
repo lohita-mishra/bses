@@ -212,6 +212,43 @@ public class ConnectionRequestServiceSoap {
 		}
 	}
 
+	public static String getAvailableTimeSlotsByDateAndDivision(
+			java.util.Date appointmentDate, String appointmentDivision)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				ConnectionRequestServiceUtil.
+					getAvailableTimeSlotsByDateAndDivision(
+						appointmentDate, appointmentDivision);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getDivisionWiseAvailableSlotsByDate(
+			java.util.Date appointmentDate)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				ConnectionRequestServiceUtil.
+					getDivisionWiseAvailableSlotsByDate(appointmentDate);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		ConnectionRequestServiceSoap.class);
 

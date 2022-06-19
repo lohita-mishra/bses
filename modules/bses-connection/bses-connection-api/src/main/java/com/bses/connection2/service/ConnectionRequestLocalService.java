@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
@@ -40,6 +42,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -227,6 +230,10 @@ public interface ConnectionRequestLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getAvailableTimeSlotsByDateAndDivision(
+		Date appointmentDate, String appointmentDivision);
+
 	/**
 	 * Returns the connection request with the primary key.
 	 *
@@ -321,6 +328,9 @@ public interface ConnectionRequestLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCurrentDraftCount(String mobileNo);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getDivisionWiseAvailableSlotsByDate(Date appointmentDate);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean getEmailAndSendOTPNEW(

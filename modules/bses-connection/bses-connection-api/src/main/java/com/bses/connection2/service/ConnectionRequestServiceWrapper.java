@@ -61,6 +61,15 @@ public class ConnectionRequestServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject
+		getAvailableTimeSlotsByDateAndDivision(
+			java.util.Date appointmentDate, String appointmentDivision) {
+
+		return _connectionRequestService.getAvailableTimeSlotsByDateAndDivision(
+			appointmentDate, appointmentDivision);
+	}
+
+	@Override
 	public com.bses.connection2.model.ConnectionRequest getConnectionRequest(
 		String requestNo) {
 
@@ -82,6 +91,14 @@ public class ConnectionRequestServiceWrapper
 
 		return _connectionRequestService.getConnectionRequestsByMobileNo(
 			mobileNo);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray
+		getDivisionWiseAvailableSlotsByDate(java.util.Date appointmentDate) {
+
+		return _connectionRequestService.getDivisionWiseAvailableSlotsByDate(
+			appointmentDate);
 	}
 
 	/**

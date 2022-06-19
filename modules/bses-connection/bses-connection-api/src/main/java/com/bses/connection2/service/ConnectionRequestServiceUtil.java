@@ -62,6 +62,14 @@ public class ConnectionRequestServiceUtil {
 		return getService().deleteByConnectionRequestId(connectionRequestId);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject
+		getAvailableTimeSlotsByDateAndDivision(
+			java.util.Date appointmentDate, String appointmentDivision) {
+
+		return getService().getAvailableTimeSlotsByDateAndDivision(
+			appointmentDate, appointmentDivision);
+	}
+
 	public static ConnectionRequest getConnectionRequest(String requestNo) {
 		return getService().getConnectionRequest(requestNo);
 	}
@@ -77,6 +85,13 @@ public class ConnectionRequestServiceUtil {
 		String mobileNo) {
 
 		return getService().getConnectionRequestsByMobileNo(mobileNo);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
+		getDivisionWiseAvailableSlotsByDate(java.util.Date appointmentDate) {
+
+		return getService().getDivisionWiseAvailableSlotsByDate(
+			appointmentDate);
 	}
 
 	/**

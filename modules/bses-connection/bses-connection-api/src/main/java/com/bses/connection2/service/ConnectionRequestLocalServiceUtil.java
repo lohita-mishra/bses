@@ -254,6 +254,14 @@ public class ConnectionRequestLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject
+		getAvailableTimeSlotsByDateAndDivision(
+			java.util.Date appointmentDate, String appointmentDivision) {
+
+		return getService().getAvailableTimeSlotsByDateAndDivision(
+			appointmentDate, appointmentDivision);
+	}
+
 	/**
 	 * Returns the connection request with the primary key.
 	 *
@@ -376,6 +384,13 @@ public class ConnectionRequestLocalServiceUtil {
 
 	public static int getCurrentDraftCount(String mobileNo) {
 		return getService().getCurrentDraftCount(mobileNo);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
+		getDivisionWiseAvailableSlotsByDate(java.util.Date appointmentDate) {
+
+		return getService().getDivisionWiseAvailableSlotsByDate(
+			appointmentDate);
 	}
 
 	public static boolean getEmailAndSendOTPNEW(

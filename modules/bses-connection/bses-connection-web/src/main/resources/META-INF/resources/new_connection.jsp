@@ -11,6 +11,7 @@
 <%!
 	private static final Log LOGGER=LogFactoryUtil.getLog("new_connection.jsp");
 %>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
 	.lexicon-icon-asterisk {
 		color:red;
@@ -221,6 +222,8 @@
 	</div>
 </div>
  --%>
+
+<%--script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --%>
 <script>
 	//To add aui support
 
@@ -231,6 +234,7 @@
 	$(document).ready(function() {
 		//$('[data-toggle="tooltip"]').tooltip();
 		documentOnload();
+		//$("#<portlet:namespace/>locality").select2();
 		initSelect2();
 		showHideComponents();
 	});
@@ -706,9 +710,13 @@
 	}
 
 	function initSelect2() {
+		alert("initSelect2 is called... ");
 		//This is for enabling select2 plugin for select/dropdown controls
 		$(".select2").each(function(index, item) {
+			alert(item);
+			alert(index);
 			var placeholdertext = $(item).find('option:first').html();
+			alert(placeholdertext);
 			var selectedVal = $(item).val();
 			var itemselect2 = $(item).select2({
 				placeholder : placeholdertext,

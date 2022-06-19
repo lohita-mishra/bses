@@ -14,6 +14,8 @@
 
 package com.bses.connection2.service.impl;
 
+import com.bses.connection2.exception.NoSuchLocalityDivisionException;
+import com.bses.connection2.model.LocalityDivision;
 import com.bses.connection2.service.base.LocalityDivisionLocalServiceBaseImpl;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -40,6 +42,13 @@ public class LocalityDivisionLocalServiceImpl
 	 * Never reference this class directly. Always use {@link com.bses.connection2.service.LocalityDivisionLocalServiceUtil} to access the locality division local service.
 	 */
 	private static final Log LOGGER = LogFactoryUtil.getLog(LocalityDivisionLocalServiceImpl.class);
-
+	public LocalityDivision getLocalityDivisionByDivisionCode(String divisionCode) {
+		try {
+			return localityDivisionPersistence.findByDivisionCode(divisionCode);
+		} catch (NoSuchLocalityDivisionException e) {
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
 
 }

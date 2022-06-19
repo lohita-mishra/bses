@@ -25,6 +25,8 @@ import org.apache.commons.lang3.StringUtils;
 
 public class DigitalSevaKendraServiceHelper {
 	private static final Log LOGGER=LogFactoryUtil.getLog(DigitalSevaKendraServiceHelper.class);
+	private static final String STR_DOT=".";
+	private static final String STR_OTHER="OTHR";
 	public static String addNewConnectionRequestDetailSoapCall(long connectionRequestId) {
 		try {
 			ConnectionRequest connectionRequest=ConnectionRequestLocalServiceUtil.getConnectionRequest(connectionRequestId);
@@ -85,8 +87,8 @@ public class DigitalSevaKendraServiceHelper {
 			.append("<LASTNAME>").append(StringUtils.defaultString(connectionRequest.getLastName())).append("</LASTNAME>")
 			.append("<MIDDLENAME>").append(StringUtils.defaultString(connectionRequest.getMiddleName())).append("</MIDDLENAME>")
 			.append("<FATHERSNAME>").append(StringUtils.defaultString(connectionRequest.getFatherOrHusbandName())).append("</FATHERSNAME>")
-			.append("<HOUSE_NO>").append(StringUtils.defaultString(connectionRequest.getHouseNo())).append("</HOUSE_NO>")
-			.append("<BUILDING>").append(StringUtils.defaultString(connectionRequest.getBuildingName())).append("</BUILDING>")
+			.append("<HOUSE_NO>").append((StringUtils.isNotBlank(connectionRequest.getHouseNo())?connectionRequest.getHouseNo():STR_DOT)).append("</HOUSE_NO>")
+			.append("<BUILDING>").append((StringUtils.isNotBlank(connectionRequest.getBuildingName())?connectionRequest.getBuildingName():STR_DOT)).append("</BUILDING>")
 			.append("<STR_SUPPL1>").append(StringUtils.defaultString(connectionRequest.getStreet())).append("</STR_SUPPL1>")
 			.append("<STR_SUPPL2>").append(StringUtils.defaultString(connectionRequest.getColonyArea())).append("</STR_SUPPL2>")
 			.append("<STR_SUPPL3>").append(StringUtils.defaultString(connectionRequest.getLandmark())).append("</STR_SUPPL3>")
@@ -98,7 +100,7 @@ public class DigitalSevaKendraServiceHelper {
 			.append("<FEMALE>").append(female).append("</FEMALE>")
 			.append("<MALE>").append(male).append("</MALE>")
 			//.append("<JOBGR>").append(StringUtils.defaultString(connectionRequest.getOccupation())).append("</JOBGR>")
-			.append("<JOBGR>").append("").append("</JOBGR>")
+			.append("<JOBGR>").append(StringPool.BLANK).append("</JOBGR>")
 			.append("<IDTYPE>").append(StringPool.BLANK).append("</IDTYPE>")
 			.append("<IDNUMBER>").append(StringPool.BLANK).append("</IDNUMBER>")
 			//.append("<PLANNINGPLANT>").append(dssNewConnRequest.getPlanningPlant()).append("</PLANNINGPLANT>")
@@ -108,7 +110,7 @@ public class DigitalSevaKendraServiceHelper {
 			.append("<APPLIEDCAT>").append(StringUtils.defaultString(connectionRequest.getTariffCategory())).append("</APPLIEDCAT>")
 			.append("<APPLIEDLOAD>").append(appliedLoad).append("</APPLIEDLOAD>")
 			.append("<APPLIEDLOADKVA>").append(appliedLoadDkva).append("</APPLIEDLOADKVA>")
-			.append("<CONNECTIONTYPE>").append(StringUtils.defaultString(connectionRequest.getConnectionType())).append("</CONNECTIONTYPE>")
+			.append("<CONNECTIONTYPE>").append((StringUtils.isNotBlank(connectionRequest.getConnectionType())?connectionRequest.getConnectionType():STR_OTHER)).append("</CONNECTIONTYPE>")
 			.append("<STATEMENT_CA>").append(StringPool.BLANK).append("</STATEMENT_CA>")
 			
 			/*

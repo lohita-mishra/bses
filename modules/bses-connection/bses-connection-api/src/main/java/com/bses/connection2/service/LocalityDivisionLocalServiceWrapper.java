@@ -270,6 +270,14 @@ public class LocalityDivisionLocalServiceWrapper
 			localityDivisionId);
 	}
 
+	@Override
+	public com.bses.connection2.model.LocalityDivision
+		getLocalityDivisionByDivisionCode(String divisionCode) {
+
+		return _localityDivisionLocalService.getLocalityDivisionByDivisionCode(
+			divisionCode);
+	}
+
 	/**
 	 * Returns the locality division matching the UUID and group.
 	 *

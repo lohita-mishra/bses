@@ -278,6 +278,16 @@ public class ConnectionRequestLocalServiceWrapper
 		return _connectionRequestLocalService.getActionableDynamicQuery();
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject
+		getAvailableTimeSlotsByDateAndDivision(
+			java.util.Date appointmentDate, String appointmentDivision) {
+
+		return _connectionRequestLocalService.
+			getAvailableTimeSlotsByDateAndDivision(
+				appointmentDate, appointmentDivision);
+	}
+
 	/**
 	 * Returns the connection request with the primary key.
 	 *
@@ -422,6 +432,14 @@ public class ConnectionRequestLocalServiceWrapper
 	@Override
 	public int getCurrentDraftCount(String mobileNo) {
 		return _connectionRequestLocalService.getCurrentDraftCount(mobileNo);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray
+		getDivisionWiseAvailableSlotsByDate(java.util.Date appointmentDate) {
+
+		return _connectionRequestLocalService.
+			getDivisionWiseAvailableSlotsByDate(appointmentDate);
 	}
 
 	@Override

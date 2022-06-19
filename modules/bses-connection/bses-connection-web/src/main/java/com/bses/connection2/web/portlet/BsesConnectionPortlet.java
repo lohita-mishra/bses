@@ -61,7 +61,7 @@ import org.osgi.service.component.annotations.Component;
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.min-3.6.0.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/bootstrap.bundle.min-4.6.1.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/custom.js",
-		//"com.liferay.portlet.header-portlet-javascript=/js/select2.min.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/select2.min.js",
 	},
 	service = Portlet.class
 )

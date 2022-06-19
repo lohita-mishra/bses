@@ -224,6 +224,10 @@ public interface LocalityDivisionLocalService
 	public LocalityDivision getLocalityDivision(long localityDivisionId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public LocalityDivision getLocalityDivisionByDivisionCode(
+		String divisionCode);
+
 	/**
 	 * Returns the locality division matching the UUID and group.
 	 *

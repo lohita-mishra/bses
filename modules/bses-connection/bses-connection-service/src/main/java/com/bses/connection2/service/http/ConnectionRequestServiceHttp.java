@@ -541,6 +541,75 @@ public class ConnectionRequestServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject
+		getAvailableTimeSlotsByDateAndDivision(
+			HttpPrincipal httpPrincipal, java.util.Date appointmentDate,
+			String appointmentDivision) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ConnectionRequestServiceUtil.class,
+				"getAvailableTimeSlotsByDateAndDivision",
+				_getAvailableTimeSlotsByDateAndDivisionParameterTypes15);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, appointmentDate, appointmentDivision);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
+		getDivisionWiseAvailableSlotsByDate(
+			HttpPrincipal httpPrincipal, java.util.Date appointmentDate) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ConnectionRequestServiceUtil.class,
+				"getDivisionWiseAvailableSlotsByDate",
+				_getDivisionWiseAvailableSlotsByDateParameterTypes16);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, appointmentDate);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		ConnectionRequestServiceHttp.class);
 
@@ -579,5 +648,13 @@ public class ConnectionRequestServiceHttp {
 		};
 	private static final Class<?>[]
 		_deleteByConnectionRequestIdParameterTypes14 = new Class[] {long.class};
+	private static final Class<?>[]
+		_getAvailableTimeSlotsByDateAndDivisionParameterTypes15 = new Class[] {
+			java.util.Date.class, String.class
+		};
+	private static final Class<?>[]
+		_getDivisionWiseAvailableSlotsByDateParameterTypes16 = new Class[] {
+			java.util.Date.class
+		};
 
 }

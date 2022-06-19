@@ -30,7 +30,7 @@
 		<div class="row">
 			<div class="form-group col-md-6">
 				<%--<label class="font-weight-bold">Locailty<span class="text-danger">*</span></label>--%> 
-				<aui:select class="form-control select2" name="locality" label="address-locality">
+				<aui:select cssClass="select2" name="locality" label="address-locality">
 					<aui:option value="" label="-Select-" />
 <%
 				for(LocalityDivision ld:localityList){
@@ -60,13 +60,13 @@
 					<option>West Delhi</option>
 					<aui:validator name="required"/>
 				</aui:select> --%>
-				<aui:input type="hidden" class="form-control" name="district" label="" value="<%=(localityDistrict!=null?localityDistrict.getDivisionCode():"")%>" />
-				<aui:input type="text" class="form-control" name="districtName" label="address-district" value="<%=(localityDistrict!=null?localityDistrict.getDivisionName():"")%>" readonly="true" />
+				<aui:input type="hidden" name="district" label="" value="<%=(localityDistrict!=null?localityDistrict.getDivisionCode():"")%>" />
+				<aui:input type="text" name="districtName" label="address-district" value="<%=(localityDistrict!=null?localityDistrict.getDivisionName():"")%>" readonly="true" />
 			</div>
 
 			<div class="form-group col-md-3">
 				<%--<label>House No. <span class="text-danger">*</span></label>--%> 
-				<aui:input type="text" class="form-control" name="houseNo" label="address-house-no" value="<%=requestEntity.getHouseNo()%>">
+				<aui:input type="text" name="houseNo" label="address-house-no" value="<%=requestEntity.getHouseNo()%>">
 					<aui:validator name="required"/>
 				</aui:input>
 			</div>

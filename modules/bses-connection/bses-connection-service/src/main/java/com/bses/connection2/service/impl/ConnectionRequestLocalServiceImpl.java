@@ -32,6 +32,8 @@ import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -692,4 +694,13 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	public int getCurrentDraftCount(String mobileNo) {
 		return connectionRequestPersistence.countByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);
 	}
+	
+	public JSONObject getAvailableTimeSlotsByDateAndDivision(Date appointmentDate, String appointmentDivision) {
+		return null;
+	}
+	
+	public JSONArray getDivisionWiseAvailableSlotsByDate(Date appointmentDate) {
+		return null;
+	}
+	
 }

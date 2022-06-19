@@ -248,6 +248,12 @@ public class LocalityDivisionLocalServiceUtil {
 		return getService().getLocalityDivision(localityDivisionId);
 	}
 
+	public static LocalityDivision getLocalityDivisionByDivisionCode(
+		String divisionCode) {
+
+		return getService().getLocalityDivisionByDivisionCode(divisionCode);
+	}
+
 	/**
 	 * Returns the locality division matching the UUID and group.
 	 *

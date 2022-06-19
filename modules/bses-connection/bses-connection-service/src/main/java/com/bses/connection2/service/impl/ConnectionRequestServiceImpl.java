@@ -17,11 +17,14 @@ package com.bses.connection2.service.impl;
 import com.bses.connection2.model.ConnectionRequest;
 import com.bses.connection2.service.base.ConnectionRequestServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -134,5 +137,13 @@ public class ConnectionRequestServiceImpl extends ConnectionRequestServiceBaseIm
 	public boolean deleteByConnectionRequestId(long connectionRequestId) throws PortalException {
 		connectionRequestLocalService.deleteByConnectionRequestId(connectionRequestId);
 		return true;
+	}
+	
+	public JSONObject getAvailableTimeSlotsByDateAndDivision(Date appointmentDate, String appointmentDivision) {
+		return connectionRequestLocalService.getAvailableTimeSlotsByDateAndDivision(appointmentDate, appointmentDivision);
+	}
+	
+	public JSONArray getDivisionWiseAvailableSlotsByDate(Date appointmentDate) {
+		return connectionRequestLocalService.getDivisionWiseAvailableSlotsByDate(appointmentDate);
 	}
 }
