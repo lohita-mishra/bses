@@ -62,9 +62,8 @@ public class ConnectionRequestServiceUtil {
 		return getService().deleteByConnectionRequestId(connectionRequestId);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject
-		getAvailableTimeSlotsByDateAndDivision(
-			java.util.Date appointmentDate, String appointmentDivision) {
+	public static List<String> getAvailableTimeSlotsByDateAndDivision(
+		java.util.Date appointmentDate, String appointmentDivision) {
 
 		return getService().getAvailableTimeSlotsByDateAndDivision(
 			appointmentDate, appointmentDivision);

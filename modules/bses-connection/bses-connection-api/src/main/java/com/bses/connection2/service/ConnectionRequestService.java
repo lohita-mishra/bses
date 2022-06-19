@@ -21,7 +21,6 @@ import com.bses.connection2.model.ConnectionRequest;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
@@ -79,7 +78,7 @@ public interface ConnectionRequestService extends BaseService {
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getAvailableTimeSlotsByDateAndDivision(
+	public List<String> getAvailableTimeSlotsByDateAndDivision(
 		Date appointmentDate, String appointmentDivision);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

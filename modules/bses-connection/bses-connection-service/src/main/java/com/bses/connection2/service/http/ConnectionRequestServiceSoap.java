@@ -212,17 +212,17 @@ public class ConnectionRequestServiceSoap {
 		}
 	}
 
-	public static String getAvailableTimeSlotsByDateAndDivision(
+	public static String[] getAvailableTimeSlotsByDateAndDivision(
 			java.util.Date appointmentDate, String appointmentDivision)
 		throws RemoteException {
 
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
+			java.util.List<String> returnValue =
 				ConnectionRequestServiceUtil.
 					getAvailableTimeSlotsByDateAndDivision(
 						appointmentDate, appointmentDivision);
 
-			return returnValue.toString();
+			return returnValue.toArray(new String[returnValue.size()]);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);

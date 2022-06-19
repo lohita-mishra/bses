@@ -541,10 +541,9 @@ public class ConnectionRequestServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject
-		getAvailableTimeSlotsByDateAndDivision(
-			HttpPrincipal httpPrincipal, java.util.Date appointmentDate,
-			String appointmentDivision) {
+	public static java.util.List<String> getAvailableTimeSlotsByDateAndDivision(
+		HttpPrincipal httpPrincipal, java.util.Date appointmentDate,
+		String appointmentDivision) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -565,7 +564,7 @@ public class ConnectionRequestServiceHttp {
 					exception);
 			}
 
-			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+			return (java.util.List<String>)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {

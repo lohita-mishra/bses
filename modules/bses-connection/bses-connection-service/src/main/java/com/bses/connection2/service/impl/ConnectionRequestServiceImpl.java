@@ -139,7 +139,7 @@ public class ConnectionRequestServiceImpl extends ConnectionRequestServiceBaseIm
 		return true;
 	}
 	
-	public JSONObject getAvailableTimeSlotsByDateAndDivision(Date appointmentDate, String appointmentDivision) {
+	public List<String> getAvailableTimeSlotsByDateAndDivision(Date appointmentDate, String appointmentDivision) {
 		return connectionRequestLocalService.getAvailableTimeSlotsByDateAndDivision(appointmentDate, appointmentDivision);
 	}
 	

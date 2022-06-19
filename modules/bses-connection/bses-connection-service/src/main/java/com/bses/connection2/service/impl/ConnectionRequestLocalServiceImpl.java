@@ -695,8 +695,8 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 		return connectionRequestPersistence.countByMobileNoAndRequestStatus(mobileNo, RequestTypeModeStatus.STATUS_DRAFT);
 	}
 	
-	public JSONObject getAvailableTimeSlotsByDateAndDivision(Date appointmentDate, String appointmentDivision) {
-		return null;
+	public List<String> getAvailableTimeSlotsByDateAndDivision(Date appointmentDate, String appointmentDivision) {
+		return new ArrayList<String>();
 	}
 	
 	public JSONArray getDivisionWiseAvailableSlotsByDate(Date appointmentDate) {
