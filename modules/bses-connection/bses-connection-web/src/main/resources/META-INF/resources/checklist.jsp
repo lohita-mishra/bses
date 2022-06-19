@@ -74,11 +74,11 @@ String requestType=requestEntity.getRequestType();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="elcbInstalled" value="1" label="Yes" checked="<%=requestEntity.getElcbInstalled() %>"  /> <%--<label class="form-check-label font-weight-bold"> Yes
+					<aui:input class="form-check-input" type="radio" id="elcbInstalled" name="elcbInstalled" value="1" label="Yes" checked="<%=requestEntity.getElcbInstalled() %>"  /> <%--<label class="form-check-label font-weight-bold"> Yes
 					</label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="elcbInstalled" value="0" label="No" checked="<%=!requestEntity.getElcbInstalled() %>"/> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
+					<aui:input class="form-check-input" type="radio" id="elcbInstalled" name="elcbInstalled" value="0" label="No" checked="<%=!requestEntity.getElcbInstalled() %>"/> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
 				</div>
 			</div>
 <%
@@ -161,11 +161,11 @@ String requestType=requestEntity.getRequestType();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="fcc" value="1" label="Yes" checked="<%=requestEntity.getFcc() %>" /> <%--<label class="form-check-label font-weight-bold"> Yes
+					<aui:input class="form-check-input" type="radio" id="fcc"  name="fcc" value="1" label="Yes" checked="<%=requestEntity.getFcc() %>" /> <%--<label class="form-check-label font-weight-bold"> Yes
 					</label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="fcc" value="0" label="No" checked="<%=!requestEntity.getFcc() %>" /> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
+					<aui:input class="form-check-input" type="radio" id="fcc" name="fcc" value="0" label="No" checked="<%=!requestEntity.getFcc() %>" /> <%--<label class="form-check-label font-weight-bold"> No </label>--%>
 				</div>
 				<p></p>
 			</div>
@@ -199,10 +199,10 @@ String requestType=requestEntity.getRequestType();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="lift" value="1" label="Yes" checked="<%=requestEntity.getLift() %>" /> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
+					<aui:input class="form-check-input" type="radio" id="lift" name="lift" value="1" label="Yes" checked="<%=requestEntity.getLift() %>" /> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="lift" value="0" label="No" checked="<%=!requestEntity.getLift() %>"/> <%--<label class="form-check-label font-weight-bold"> No
+					<aui:input class="form-check-input" type="radio" id="lift" name="lift" value="0" label="No" checked="<%=!requestEntity.getLift() %>"/> <%--<label class="form-check-label font-weight-bold"> No
 					</label>--%>
 				</div>
 
@@ -238,10 +238,10 @@ String requestType=requestEntity.getRequestType();
 			</div>
 			<div class="col-sm-2">
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="hasBdoCertificate" value="1" label="Yes" checked="<%=requestEntity.getHasBdoCertificate() %>"/> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
+					<aui:input class="form-check-input" type="radio" id="hasBdoCertificate" name="hasBdoCertificate" value="1" label="Yes" checked="<%=requestEntity.getHasBdoCertificate() %>"/> <%--<label class="form-check-label font-weight-bold"> Yes </label>--%>
 				</div>
 				<div class="form-check-inline">
-					<aui:input class="form-check-input" type="radio" name="hasBdoCertificate" value="0" label="No" checked="<%=!requestEntity.getHasBdoCertificate() %>"/> <%--<label class="form-check-label font-weight-bold">
+					<aui:input class="form-check-input" type="radio" id="hasBdoCertificate" name="hasBdoCertificate" value="0" label="No" checked="<%=!requestEntity.getHasBdoCertificate() %>"/> <%--<label class="form-check-label font-weight-bold">
 						No </label>--%>
 				</div>
 
@@ -379,15 +379,45 @@ $("input[name=<portlet:namespace/>wiringTest]").change(function() {
 		var wiring = $(this).val();
 		var documentId = $("#<portlet:namespace />wiringCertificate_connectionDocumentId").val();
 		
-		confirmDocument(wiring,documentId,"input[name=<portlet:namespace/>wiringTest]");
+		confirmDocument(wiring,documentId,"wiringTest");
+	});
+	
+$("input[name=<portlet:namespace/>elcbInstalled]").change(function() {
+		
+		var wiring = $(this).val();
+		var documentId = $("#<portlet:namespace />elcbDocument_connectionDocumentId").val();
+		
+		confirmDocument(wiring,documentId,"elcbInstalled");
+	});
+
+$("input[name=<portlet:namespace/>fcc]").change(function() {
+		
+		var wiring = $(this).val();
+		var documentId = $("#<portlet:namespace />fccCertificate_connectionDocumentId").val();
+		
+		confirmDocument(wiring,documentId,"fcc");
+	});
+$("input[name=<portlet:namespace/>lift]").change(function() {
+		
+		var wiring = $(this).val();
+		var documentId = $("#<portlet:namespace />liftCertificate_connectionDocumentId").val();
+		
+		confirmDocument(wiring,documentId,"lift");
+	});
+$("input[name=<portlet:namespace/>hasBdoCertificate]").change(function() {
+		
+		var wiring = $(this).val();
+		var documentId = $("#<portlet:namespace />bdoCertificate_connectionDocumentId").val();
+		
+		confirmDocument(wiring,documentId,"hasBdoCertificate");
 	});
 	
 	function confirmDocument(checkListValue, documentId,checkInputName){
 		
-		if(checkListValue==0 && documentId!=null)
+		if(checkListValue==0 && documentId>0)
 		{
-				alert("Please delete the document than click no");	
-				$(checkInputName+"[value='1']").attr("checked",true);
+				alert("Please delete the document than click no ");	
+				$("#<portlet:namespace/>"+checkInputName).prop('checked',true);
 				
 		}
 	}
