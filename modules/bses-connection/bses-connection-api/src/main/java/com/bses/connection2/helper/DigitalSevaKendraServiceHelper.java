@@ -127,7 +127,7 @@ public class DigitalSevaKendraServiceHelper {
 			.append("</Z_BAPI_ZDSS_WEB_LINK>").append("</soap:Body>").append("</soap:Envelope>");
 			
 			String requestXML = reqXML.toString();			
-	// _log.info("requestXML----"+requestXML);
+			LOGGER.info("requestXML----"+requestXML);
 
 			serviceOrder = callService(requestXML);
 			
@@ -156,6 +156,7 @@ public class DigitalSevaKendraServiceHelper {
 			}
 
 		} catch (Exception e) {
+			LOGGER.error(e);
 			LOGGER.error(" Error occuired while creating new connection request :- " + e);
 		}
 		return serviceOrder;
@@ -401,6 +402,7 @@ public class DigitalSevaKendraServiceHelper {
 				}
 			
 			} catch (Exception e) {
+				LOGGER.error(e);
 				LOGGER.error("Error occured while calling ZBAPI_CS_ORD_STAT with JAVA API : " + e);
 			} finally {
 				if (Validator.isNotNull(isr)) {

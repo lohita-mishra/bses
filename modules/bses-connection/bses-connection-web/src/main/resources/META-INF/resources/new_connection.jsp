@@ -913,10 +913,17 @@
 		
 	function handleSubmitBtnClick(){
 		$("#<portlet:namespace/>submitBtn").click(function() {
-			console.log("submitBtn clicked");
-			
-			submitForms();
+			alert("submitBtn clicked");
+			submitRequest();
 		});
+	}
+	
+	function submitRequest(){
+		alert("submitRequest called")
+		//if(submitForms()){
+			submitSoap();
+			//handleSubmitSuccess();
+		//}
 	}
 	
 	function submitForms(validate){
@@ -936,8 +943,10 @@
 			submitFormDetails(forms,0);
 			saveChecklistForm();
 			saveDocumentForm();
+			return true;
 		}else{
 			alert("Please enter valid details...");
+			return false;
 		}
 	}
 	
@@ -964,9 +973,10 @@
 			            }
 			        );
 			    });	
-		}else{
-			handleSubmitSuccess();
 		}
+		//else{
+		//	handleSubmitSuccess();
+		//}
 	}
 	
 	function saveChecklistForm(){
@@ -1030,8 +1040,6 @@
 			<%-- //window.location = "<%=connectionRequestSuccessURL.toString()%>"; --%>
 			window.location.href="<%=acknowledgementURL.toString() %>";
 		}
-		
-
 	}
 
 	function submitSoap(){
@@ -1042,6 +1050,7 @@
 	            	connectionRequestId:<%=connectionRequestId%>
 	            },
 	            function(obj) {
+	            	alert("Submitted to soap...."+obj);
 	            	console.log("in submitSoap ============ ");
 	            	console.log(obj)
 	                try{
