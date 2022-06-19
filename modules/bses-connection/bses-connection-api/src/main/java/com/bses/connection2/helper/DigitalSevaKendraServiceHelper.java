@@ -19,7 +19,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -454,5 +456,95 @@ public class DigitalSevaKendraServiceHelper {
 		}
 		return null;
 	}
+	
+	
+	public static List<String> getAppointmentTimeSlots(Date appointmentDate, String division){
+		List<String> appointmentTimeSlots = new ArrayList<String>();
+		String xmlString = "";
+		SimpleDateFormat formattter = new SimpleDateFormat("yyyyMMdd");
+		String timeSlots = "09:30:00,10:15:00,11:00:00,11:45:00,12:30:00,14:25:00,15:10:00";
+		
+		StringBuilder reqXML = new StringBuilder();
+		reqXML.append(
+		"<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema/\" 	xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">")
+		.append("<soap:Body>")
+		
+		.append("<ZBAPI_CNTAPP_DETAILMOB xmlns=\"http://tempuri.org/\">")
+		.append("<strOrderType>").append("ZDSS").append("</strOrderType>")
+		.append("<strDiv>").append(division).append("</strDiv>")
+		.append("<strApp_DT>").append(formattter.format(appointmentDate)).append("</strApp_DT>")
+		.append("<strAPPTM>").append(timeSlots).append("</strAPPTM>")
+		.append("<strCount>").append(StringPool.BLANK).append("</strCount>")
+		.append("</ZBAPI_CNTAPP_DETAILMOB>")
+		
+		.append("</soap:Body>")
+		.append("</soap:Envelope>");
+							
+		String requestXML = reqXML.toString();
+		
+		String resXML = callService(requestXML,"http://125.22.84.50:7850/delhiv2/ISUService.asmx","http://tempuri.org/Z_BAPI_DSS_ISU_CA_DISPLAY","GET");
+	
+		System.out.println("Z_BAPI_DSS_ISU_CA_DISPLAY >>> response >>>> ");
+		System.out.println(resXML);
+		
+		xmlString = substringBetween(resXML, "</xs:schema>", "</ZBAPI_CNTAPP_DETAILMOBResult>");
+		//TODO parse xml 
+		return appointmentTimeSlots;
+	}
+	
+	private static String callService(String requestXML,String serviceURL, String actionURL,String method) {
+		String xmlString = null;
+		String responseString = StringPool.BLANK;
+		StringBuffer outputSb = new StringBuffer();
+		
+		String wsURL=serviceURL;
+		String SOAPAction=actionURL;
+		
+		if (Validator.isNotNull(wsURL)) {
+			Date startDate = new Date();
+			InputStreamReader isr = null;
+			try {
+				URL url = new URL(wsURL);
+				URLConnection connection = url.openConnection();
+				HttpURLConnection httpConn = (HttpURLConnection) connection;
+				ByteArrayOutputStream bout = new ByteArrayOutputStream();
+				byte[] buffer = new byte[requestXML.length()];
+				buffer = requestXML.getBytes();
+				bout.write(buffer);
+				byte[] b = bout.toByteArray();
+
+				httpConn.setRequestProperty("Content-Length", String.valueOf(b.length));
+				httpConn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+				httpConn.setRequestProperty("SOAPAction", SOAPAction);
+				httpConn.setRequestMethod(method);
+				httpConn.setDoOutput(true);
+				httpConn.setDoInput(true);
+				
+				OutputStream out = httpConn.getOutputStream();
+
+				out.write(b);
+				out.close();
+				isr = new InputStreamReader(httpConn.getInputStream());
+				BufferedReader in = new BufferedReader(isr);
+				while ((responseString = in.readLine()) != null) {
+					outputSb.append(responseString);
+				}
+			
+			} catch (Exception e) {
+				System.out.println("Error occured while calling ZBAPI_CS_ORD_STAT with JAVA API : " + e);
+			} finally {
+				if (Validator.isNotNull(isr)) {
+					try {
+						isr.close();
+					} catch (IOException e) {
+						e.printStackTrace();;
+					}
+				}
+			}
+		}
+		xmlString = outputSb.toString();
+		return xmlString;
+	}
+	
 	
 }

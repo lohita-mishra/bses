@@ -696,7 +696,7 @@ public class ConnectionRequestLocalServiceImpl extends ConnectionRequestLocalSer
 	}
 	
 	public List<String> getAvailableTimeSlotsByDateAndDivision(Date appointmentDate, String appointmentDivision) {
-		return new ArrayList<String>();
+		return DigitalSevaKendraServiceHelper.getAppointmentTimeSlots(appointmentDate, division);
 	}
 	
 	public JSONArray getDivisionWiseAvailableSlotsByDate(Date appointmentDate) {
