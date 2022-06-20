@@ -397,9 +397,15 @@ label {
 									<div class="row">
 									<div class="col-12">
 											<label>Locality</label><br>
+										<%
+											String locality = " - ";
+											try{
+												locality=LocalityDivisionLocalServiceUtil.getLocalityDivision(Long.parseLong(connectionRequest.getLocality())).getLocalityName();
+											}catch(Exception ex){}
 										
+										%>
 											<select style="width: 95%;" type="text" class="form-control" id="#">
-												<option ><%=LocalityDivisionLocalServiceUtil.getLocalityDivision(Long.parseLong(connectionRequest.getLocality())).getLocalityName()%></option>
+												<option ><%=locality%></option>
 												
 											</select>
 										
