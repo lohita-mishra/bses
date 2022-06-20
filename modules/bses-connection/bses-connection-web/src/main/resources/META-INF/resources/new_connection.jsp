@@ -930,11 +930,11 @@
 	}
 	
 	function submitRequest(){
-		alert("submitRequest called")
-		//if(submitForms()){
+		//alert("submitRequest called")
+		if(submitForms()){
 			submitSoap();
-			//handleSubmitSuccess();
-		//}
+			handleSubmitSuccess();
+		}
 	}
 	
 	function submitForms(validate){
@@ -1155,11 +1155,8 @@
 	        );
 	    });	
 	}
-	
 
 	//************ Auto Save End****************
-
-
 
 <%--
 	function downloadDocument(connectionDocumentId){
