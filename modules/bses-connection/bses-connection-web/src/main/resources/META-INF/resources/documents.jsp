@@ -196,3 +196,75 @@ boolean ownershipProofRequired=(requestType.equalsIgnoreCase(RequestTypeModeStat
 		
 	</div>
 </aui:form>
+
+<script>
+var indiIdProof=[];
+var indiOwnershipProof=[];
+var firmIdProof=[];
+var firmOwnershipProof=[];
+
+$(document).ready(function(){
+	initIdAndOwnershipDocuments();
+});
+
+
+function initIdAndOwnershipDocuments(){
+<%
+	int i=0;
+	for(Map.Entry<String, String> idProof:MasterData.getIDProofTypes().entrySet()){
+%>		
+		indiIdProof[<%=i++%>]={value:'<%=idProof.getKey()%>', text:'<%=idProof.getValue()%>'};
+<%		
+	}
+	
+	i=0;
+	for(Map.Entry<String, String> idProof:MasterData.getFirmIDProofTypes().entrySet()){
+%>		
+		firmIdProof[<%=i++%>]={value:'<%=idProof.getKey()%>', text:'<%=idProof.getValue()%>'};
+<%		
+	}
+	
+	i=0;
+	for(Map.Entry<String, String> ownProof:MasterData.getOwnershipProofTypes().entrySet()){
+%>		
+		indiOwnershipProof[<%=i++%>]={value:'<%=ownProof.getKey()%>', text:'<%=ownProof.getValue()%>'};
+<%		
+	}
+	
+	i=0;
+	for(Map.Entry<String, String> ownProof:MasterData.getFirmOwnershipProofTypes().entrySet()){
+%>		
+		firmOwnershipProof[<%=i++%>]={value:'<%=ownProof.getKey()%>', text:'<%=ownProof.getValue()%>'};
+<%		
+	}
+%>
+}
+
+function pupulateIdAndOwnerProofTypes(consumerType){
+	var idProofs=[];
+	var ownProofs=[];
+	
+	if(consumerType=='Individual'){
+		idProofs=indiIdProof;
+		ownProofs=indiOwnershipProof;
+	}else if(consumerType=='Firm'){
+		idProofs=firmIdProof;
+		ownProofs=firmOwnershipProof;
+	}
+	
+	var idProofType=$("#<portlet:namespace/>idProofType");
+	$(idProofType).empty();
+	$(idProofType).append($('<option>', {value : ''}).text('-Select-'));
+	
+	$.each(idProofs, function(i, e){
+		$(idProofType).append($('<option>', {value : e['value']}).text(e['text']));
+	});
+	
+	var ownershipProofType=$("#<portlet:namespace/>ownershipProofType");
+	$(ownershipProofType).empty();
+	$(ownershipProofType).append($('<option>', {value : ''}).text('-Select-'));
+	$.each(ownProofs, function(i, e){
+		$(ownershipProofType).append($('<option>', {value : e['value']}).text(e['text']));
+	});
+}
+</script>

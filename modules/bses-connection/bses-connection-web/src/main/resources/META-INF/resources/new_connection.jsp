@@ -1,3 +1,5 @@
+<%@page import="java.util.Map"%>
+<%@page import="com.bses.connection2.web.model.MasterData"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
 <%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
@@ -231,8 +233,10 @@
 	var autoSaveFlag = <%=autoSaveFlag%>;
 	var autoSaveFrequency= <%=autoSaveFrequency%>;
 	var maxDocumentSize = <%=maxDocumentSize%>;
+	
 	$(document).ready(function() {
 		//$('[data-toggle="tooltip"]').tooltip();
+		
 		documentOnload();
 		//$("#<portlet:namespace/>locality").select2();
 		initSelect2();
@@ -260,11 +264,14 @@
 			$('#indvDiv').hide();
 			$('#firmDiv').show();
 			$('#registered-address-row').show();
+			
 		} else if (consumerType == 'Individual') {
 			$('#indvDiv').show();
 			$('#firmDiv').hide();
 			$('#registered-address-row').hide();
 		}
+		//pupulateIdAndOwnerProofTypes defined in documents.jsp
+		pupulateIdAndOwnerProofTypes(consumerType);
 	}
 	
 	function handleConsumerTypeChange() {
@@ -1194,5 +1201,6 @@
 	$("#checklist-option-no-alert-ok-btn").click(function() {
 		$('#checklist-option-no-alert-modal').modal('hide').data('bs.modal', null );
 	})
+
 </script>
 

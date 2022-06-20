@@ -58,6 +58,7 @@ body{font:500 16px 'Helvetica', sans-serif;}
 .select2-container .select2-selection--single {
     height: calc(1.5em + .75rem + 2px);
     border: 1px solid #ced4da;
+    height:33px !important;
 }
 .select2-container .select2-selection--single .select2-selection__rendered {
     margin-top: 5px;
