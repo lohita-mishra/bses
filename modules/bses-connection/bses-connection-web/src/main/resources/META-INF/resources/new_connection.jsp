@@ -160,7 +160,7 @@
 	}else{
 		autoSaveFlag="true";
 	}
-	autoSaveFlag="false";
+//	autoSaveFlag="false";
 %>
 
 <portlet:renderURL var="emailVerificationURL">
@@ -924,7 +924,7 @@
 		
 	function handleSubmitBtnClick(){
 		$("#<portlet:namespace/>submitBtn").click(function() {
-			alert("submitBtn clicked");
+			//alert("submitBtn clicked");
 			submitRequest();
 		});
 	}
@@ -1061,7 +1061,7 @@
 	            	connectionRequestId:<%=connectionRequestId%>
 	            },
 	            function(obj) {
-	            	alert("Submitted to soap...."+obj);
+	            	//alert("Submitted to soap...."+obj);
 	            	console.log("in submitSoap ============ ");
 	            	console.log(obj)
 	                try{
